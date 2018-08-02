@@ -21,7 +21,8 @@
         "max-statements": [1, 15],
         "no-use-before-define": [2, "nofunc"],
         "object-curly-spacing": [2, "never"],
-        "quotes": [2, "single", "avoid-escape"],
+        "ordered-imports": false,
+        "quotemark": [true, "single", "avoid-escape", "avoid-template"],
         "semi": [2, "always"],
         "keyword-spacing": [2, {"before": true, "after": true}]
     },

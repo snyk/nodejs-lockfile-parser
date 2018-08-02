@@ -1,9 +1,9 @@
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from 'fs';
+import * as path from 'path';
 
-export function parseLockFile(root, targetFilePath, lockFilePath, options) {
+export default function parseLockFile(root, targetFilePath, lockFilePath, options) {
   if (!root || !lockFilePath || !lockFilePath) {
-    throw new Error("Missing required parameters for parseLockFile()");
+    throw new Error('Missing required parameters for parseLockFile()');
   }
   // TODO: validate only valid options were passed in
 
@@ -29,10 +29,10 @@ function buildDepTree(targetFileRaw, lockFileRaw, options) {
   const targetFile = JSON.parse(targetFileRaw);
 
   if (!targetFile.dependencies) {
-    throw new Error(`No 'dependencies' property in package.json`);
+    throw new Error("No 'dependencies' property in package.json");
   }
   if (!lockFile.dependencies) {
-    throw new Error(`No 'dependencies' property in package-lock.json`);
+    throw new Error("No 'dependencies' property in package-lock.json");
   }
 
   const depTree = {
@@ -62,7 +62,7 @@ function buildDepTree(targetFileRaw, lockFileRaw, options) {
 
   for (const dep in depsMap) {
     if (depsMap.hasOwnProperty(dep)) {
-      const subTree = buildSubTreeRecursive(depsMap[dep], new Set(), depsMap);
+      const subTree = buildSubTreeRecursive(dep, new Set(), depsMap);
 
       if (subTree) {
         depTree.dependencies[subTree.name] = subTree;

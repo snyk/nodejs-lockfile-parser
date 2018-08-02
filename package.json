@@ -4,7 +4,8 @@
   "description": "Generate a dep tree given a lockfile",
   "main": "dist/lib/index.js",
   "scripts": {
-    "test": "npm run lint && tap --node-arg=--no-deprecation --timeout=150 --jobs=4 $(find tests -name *.test.js) -Rdot --timeout=150",
+    "test": "npm run lint && npm run unit-test",
+    "unit-test": "tap test/lib -R=spec --timeout=300 --node-path ts-node --test-file-pattern '/\\.[tj]s$/'",
     "lint": "tslint lib/**/*.ts",
     "build": "tsc",
     "build-watch": "tsc -w",
@@ -22,7 +23,12 @@
     "path": "0.12.7"
   },
   "devDependencies": {
-    "typescript": "3.0.1",
-    "@types/node": "10.5.5"
+    "@types/node": "10.5.5",
+    "@types/sinon": "5.0.1",
+    "sinon": "6.1.4",
+    "tap": "github:snyk/node-tap#alternative-runtimes",
+    "ts-node": "7.0.0",
+    "tslint": "5.11.0",
+    "typescript": "3.0.1"
   }
 }
