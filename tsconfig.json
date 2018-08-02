@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "pretty": true,
+        "target": "es2017",
+        "lib": [
+          "es2017"
+        ],
+        "module": "commonjs",
+        "sourceMap": true,
+        "allowJs": true,
+    },
+    "include": [
+        "./lib/**/*",
+        "./newrelic.ts"
+    ]
+}
