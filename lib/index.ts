@@ -1,5 +1,6 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
+import * as _ from "lodash";
 
 export default function parseLockFile(root, targetFilePath, lockFilePath, options) {
   if (!root || !lockFilePath || !lockFilePath) {
@@ -54,32 +55,56 @@ function buildDepTree(targetFileRaw, lockFileRaw, options) {
   }, {});
 
   const depsMap = Object.keys(fullDepList).reduce((acc, dep) => {
-    const version = fullDepList[dep];
+    const version = fullDepList[dep].version;
     const name = `${dep}@${version}`;
     acc[name] = dep;
     return acc;
   }, {});
 
-  for (const dep in depsMap) {
-    if (depsMap.hasOwnProperty(dep)) {
-      const subTree = buildSubTreeRecursive(dep, new Set(), depsMap);
+  for (const dep in parentDepsMap) {
+    const subTree = buildSubTreeRecursive(depsMap[dep], [depsMap[dep]], lockFile);
 
-      if (subTree) {
-        depTree.dependencies[subTree.name] = subTree;
-      }
+    if (subTree) {
+      depTree.dependencies[subTree.name] = subTree;
     }
   }
 
   return depTree;
 }
 
-function buildSubTreeRecursive(dep, ancestors, depsMap) {
-  const newAncestors = (new Set(ancestors)).add(dep);
-  // TODO
-  const tree = {
-    name: depsMap[dep].name,
-    version: depsMap[dep].version,
+function buildSubTreeRecursive(dep: string, depKeys: Array<string>, depsMap: Object) {
+  let depsPath = ['dependencies'];
+  if (depKeys.length > 1) {
+    const depsPath = _.flattenDeep(depKeys.map((key) => {
+      return [key, 'dependencies']
+    })
+  )}
+
+  const depTree = {
+    dependencies: {},
+    name: dep || undefined,
+    version: undefined,
   };
 
-  return tree;
+  const deps = _.get(depsMap, depsPath);
+
+  if (deps && deps[dep]) {
+    depTree.version = deps[dep].version
+    if (deps[dep].requires) {
+      const newDepKeys = depKeys.slice();
+      newDepKeys.push(dep);
+      Object.keys(deps[dep].requires).forEach((dep) => {
+        depTree.dependencies[dep] = buildSubTreeRecursive(dep, newDepKeys, depsMap);
+      });
+      return depTree;
+    } else {
+      return depTree;
+    }
+  } else {
+    if (!depKeys.length) {
+      throw new Error(`Dependency ${dep} was not found in package-lock.json.`);
+    }
+    depKeys = depKeys.slice(0, -1);
+    depTree.dependencies[dep] = buildSubTreeRecursive(dep, depKeys, depsMap);
+  }
 }
