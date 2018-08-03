@@ -1,7 +1,7 @@
 import 'source-map-support/register';
-import * as fs from "fs";
-import * as path from "path";
-import * as _ from "lodash";
+import * as fs from 'fs';
+import * as path from 'path';
+import * as _ from 'lodash';
 
 export default function parseLockFile(root, targetFilePath, lockFilePath, options) {
   if (!root || !lockFilePath || !lockFilePath) {
@@ -54,7 +54,7 @@ async function buildDepTree(targetFileRaw, lockFileRaw, options) {
 
   async function buildSubTreeRecursive(dep: string, depKeys: string[]) {
 
-    const depTree = {
+    const depSubTree = {
       dependencies: {},
       name: dep,
       version: undefined,
@@ -69,16 +69,17 @@ async function buildDepTree(targetFileRaw, lockFileRaw, options) {
     // If exists and looked-up dep is there
     if (deps && deps[dep]) {
       // update the tree
-      depTree.version = deps[dep].version
+      depSubTree.version = deps[dep].version;
       // repeat the process for dependencies of looked-up dep
       if (deps[dep].requires) {
-        Object.keys(deps[dep].requires).forEach(async (dep) => {
-          depTree.dependencies[dep] = await buildSubTreeRecursive(dep, [...depKeys, dep]);
+        Object.keys(deps[dep].requires).forEach(async (subDep) => {
+          depSubTree.dependencies[subDep] = await buildSubTreeRecursive(subDep, [...depKeys, subDep]);
+
         });
-        return depTree;
+        return depSubTree;
       } else {
         // no more deps, return tree
-        return depTree;
+        return depSubTree;
       }
     } else {
       // tree was walked to the root and dependency was not found
