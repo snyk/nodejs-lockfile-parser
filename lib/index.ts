@@ -84,7 +84,9 @@ async function buildDepTree(targetFileRaw, lockFileRaw, options) {
     } else {
       // tree was walked to the root and dependency was not found
       if (!depKeys.length) {
-        throw new Error(`Dependency ${dep} was not found in package-lock.json.`);
+        throw new Error(`Dependency ${dep} was not found in package-lock.json.
+          Your package.json and package-lock.json are probably out of sync.
+          Please run npm install and try to parse the log again.`);
       }
       // dependency was not found on a current path, remove last key (move closer to the root) and try again
       return buildSubTreeRecursive(dep, depKeys.slice(0, -1));
@@ -93,12 +95,9 @@ async function buildDepTree(targetFileRaw, lockFileRaw, options) {
 }
 
 function getDepPath(depKeys: string[]) {
-  let depPath = ['dependencies'];
-  if (depKeys.length > 1) {
-    depPath = depKeys.reduce((acc, key) => {
-      return acc.concat([key, 'dependencies']);
-    }, depPath);
-  }
+  const depPath = depKeys.reduce((acc, key) => {
+        return acc.concat([key, 'dependencies']);
+      }, ['dependencies']);
 
   return depPath;
 }
