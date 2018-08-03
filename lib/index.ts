@@ -1,3 +1,4 @@
+import 'source-map-support/register';
 import * as fs from "fs";
 import * as path from "path";
 import * as _ from "lodash";
@@ -24,7 +25,7 @@ export default function parseLockFile(root, targetFilePath, lockFilePath, option
   return buildDepTree(targetFile, lockFile, options);
 }
 
-function buildDepTree(targetFileRaw, lockFileRaw, options) {
+async function buildDepTree(targetFileRaw, lockFileRaw, options) {
 
   const lockFile = JSON.parse(lockFileRaw);
   const targetFile = JSON.parse(targetFileRaw);
@@ -41,70 +42,62 @@ function buildDepTree(targetFileRaw, lockFileRaw, options) {
     name: targetFile.name || undefined,
     version: targetFile.version || undefined,
   };
-  const parentDepList = targetFile.dependencies;
+
   const fullDepList = lockFile.dependencies;
+  const topLevelDeps = Object.keys(targetFile.dependencies);
 
-  const parentDepsMap = Object.keys(parentDepList).reduce((acc, depName) => {
-    const version = parentDepList[depName];
-    const name = `${depName}@${version}`;
-    acc[name] =  {
-      name: depName,
-      version,
-    };
-    return acc;
-  }, {});
-
-  const depsMap = Object.keys(fullDepList).reduce((acc, dep) => {
-    const version = fullDepList[dep].version;
-    const name = `${dep}@${version}`;
-    acc[name] = dep;
-    return acc;
-  }, {});
-
-  for (const dep in parentDepsMap) {
-    const subTree = buildSubTreeRecursive(depsMap[dep], [depsMap[dep]], lockFile);
-
-    if (subTree) {
-      depTree.dependencies[subTree.name] = subTree;
-    }
+  for (const dep of topLevelDeps) {
+    depTree.dependencies[dep] = await buildSubTreeRecursive(dep, []);
   }
 
   return depTree;
+
+  async function buildSubTreeRecursive(dep: string, depKeys: string[]) {
+
+    const depTree = {
+      dependencies: {},
+      name: dep,
+      version: undefined,
+    };
+
+    // Get path to the nested dependencies from list ['package1', 'package2']
+    // to ['dependencies', 'package1', 'dependencies', 'package2', 'dependencies']
+    const depPath = getDepPath(depKeys);
+    // try to get list of deps on the path
+    const deps = _.get(lockFile, depPath);
+
+    // If exists and looked-up dep is there
+    if (deps && deps[dep]) {
+      // update the tree
+      depTree.version = deps[dep].version
+      // repeat the process for dependencies of looked-up dep
+      if (deps[dep].requires) {
+        Object.keys(deps[dep].requires).forEach(async (dep) => {
+          depTree.dependencies[dep] = await buildSubTreeRecursive(dep, [...depKeys, dep]);
+        });
+        return depTree;
+      } else {
+        // no more deps, return tree
+        return depTree;
+      }
+    } else {
+      // tree was walked to the root and dependency was not found
+      if (!depKeys.length) {
+        throw new Error(`Dependency ${dep} was not found in package-lock.json.`);
+      }
+      // dependency was not found on a current path, remove last key (move closer to the root) and try again
+      return buildSubTreeRecursive(dep, depKeys.slice(0, -1));
+    }
+  }
 }
 
-function buildSubTreeRecursive(dep: string, depKeys: Array<string>, depsMap: Object) {
-  let depsPath = ['dependencies'];
+function getDepPath(depKeys: string[]) {
+  let depPath = ['dependencies'];
   if (depKeys.length > 1) {
-    const depsPath = _.flattenDeep(depKeys.map((key) => {
-      return [key, 'dependencies']
-    })
-  )}
-
-  const depTree = {
-    dependencies: {},
-    name: dep || undefined,
-    version: undefined,
-  };
-
-  const deps = _.get(depsMap, depsPath);
-
-  if (deps && deps[dep]) {
-    depTree.version = deps[dep].version
-    if (deps[dep].requires) {
-      const newDepKeys = depKeys.slice();
-      newDepKeys.push(dep);
-      Object.keys(deps[dep].requires).forEach((dep) => {
-        depTree.dependencies[dep] = buildSubTreeRecursive(dep, newDepKeys, depsMap);
-      });
-      return depTree;
-    } else {
-      return depTree;
-    }
-  } else {
-    if (!depKeys.length) {
-      throw new Error(`Dependency ${dep} was not found in package-lock.json.`);
-    }
-    depKeys = depKeys.slice(0, -1);
-    depTree.dependencies[dep] = buildSubTreeRecursive(dep, depKeys, depsMap);
+    depPath = depKeys.reduce((acc, key) => {
+      return acc.concat([key, 'dependencies']);
+    }, depPath);
   }
+
+  return depPath;
 }
