@@ -2,7 +2,7 @@
     "compilerOptions": {
         "outDir": "./dist",
         "pretty": true,
-        "target": "es2017",
+        "target": "es5",
         "lib": [
           "es2017"
         ],
