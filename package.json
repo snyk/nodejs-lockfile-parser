@@ -9,7 +9,7 @@
     "build": "tsc",
     "build-watch": "tsc -w",
     "prepare": "npm run build",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,6 @@
     "ts-node": "7.0.0",
     "tslint": "5.11.0",
     "typescript": "3.0.1",
-    "semantic-release": "^8.2.0"
+    "semantic-release": "^15.9.3"
   }
 }
