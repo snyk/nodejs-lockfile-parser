@@ -12,14 +12,14 @@ const load = (filename) => fs.readFileSync(
   `${__dirname}/fixtures/${filename}`, 'utf8');
 
 test('Parse npm package-lock.json', async (t) => {
-  const expectedDepTree = load('goof/dep-tree.json');
+  const expectedDepTree = load('goof/dep-tree_small.json');
 
-  const depTree = parseLockFile(
-    './',
+  const depTree = await parseLockFile(
+    `${__dirname}/fixtures/goof/`,
     'package.json',
     'package-lock.json',
     null,
   );
-  // t.equal(expectedDepTree, depTree, 'Tree generated as expected');
-  t.pass('Pass for now');
+
+  t.deepEqual(depTree, JSON.parse(expectedDepTree), 'Tree generated as expected');
 });

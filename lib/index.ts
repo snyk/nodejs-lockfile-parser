@@ -19,8 +19,8 @@ export default function parseLockFile(root, targetFilePath, lockFilePath, option
     throw new Error(`LockFile package-lock.json not found at location: ${lockFileFullPath}`);
   }
 
-  const targetFile = fs.readFileSync(targetFilePath);
-  const lockFile = fs.readFileSync(lockFilePath);
+  const targetFile = fs.readFileSync(targetFileFullPath);
+  const lockFile = fs.readFileSync(lockFileFullPath);
 
   return buildDepTree(targetFile, lockFile, options);
 }
@@ -46,9 +46,9 @@ async function buildDepTree(targetFileRaw, lockFileRaw, options) {
   const fullDepList = lockFile.dependencies;
   const topLevelDeps = Object.keys(targetFile.dependencies);
 
-  for (const dep of topLevelDeps) {
+  await Promise.all(topLevelDeps.map(async (dep) => {
     depTree.dependencies[dep] = await buildSubTreeRecursive(dep, []);
-  }
+  }));
 
   return depTree;
 
@@ -71,16 +71,11 @@ async function buildDepTree(targetFileRaw, lockFileRaw, options) {
       // update the tree
       depSubTree.version = deps[dep].version;
       // repeat the process for dependencies of looked-up dep
-      if (deps[dep].requires) {
-        Object.keys(deps[dep].requires).forEach(async (subDep) => {
-          depSubTree.dependencies[subDep] = await buildSubTreeRecursive(subDep, [...depKeys, subDep]);
-
-        });
-        return depSubTree;
-      } else {
-        // no more deps, return tree
-        return depSubTree;
-      }
+      const newDeps = deps[dep].requires && Object.keys(deps[dep].requires) || [];
+      await Promise.all(newDeps.map(async (subDep) => {
+        depSubTree.dependencies[subDep] = await buildSubTreeRecursive(subDep, [...depKeys, dep]);
+      }));
+      return depSubTree;
     } else {
       // tree was walked to the root and dependency was not found
       if (!depKeys.length) {
