@@ -1,0 +1,25 @@
+dist: trusty
+sudo: false
+notifications:
+  email: false
+language: node_js
+node_js:
+  - "8"
+  # - "6" # enable once tests are typescriptified
+  # - "4" # enable once tests are typescriptified
+cache:
+  directories:
+    - node_modules
+script:
+  - "npm run lint"
+  - "npm test"
+jobs:
+  include:
+    - stage: npm release
+      node_js: "8"
+      script: skip
+      after_success:
+        - npm run semantic-release
+branches:
+  only:
+    - master
