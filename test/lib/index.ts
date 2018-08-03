@@ -5,7 +5,7 @@
 // tslint:disable:object-literal-key-quotes
 import { test } from 'tap';
 import * as sinon from 'sinon';
-import parseLockFile from '../../lib';
+import buildDepTree from '../../lib';
 import * as fs from 'fs';
 
 const load = (filename) => fs.readFileSync(
@@ -13,13 +13,10 @@ const load = (filename) => fs.readFileSync(
 
 test('Parse npm package-lock.json', async (t) => {
   const expectedDepTree = load('goof/dep-tree.json');
+  const targetFile = load('goof/package.json');
+  const lockFile = load('goof/package-lock.json');
 
-  const depTree = parseLockFile(
-    './',
-    'package.json',
-    'package-lock.json',
-    null,
-  );
+  const depTree = buildDepTree(targetFile, lockFile, null);
   // t.equal(expectedDepTree, depTree, 'Tree generated as expected');
   t.pass('Pass for now');
 });
