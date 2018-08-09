@@ -78,7 +78,6 @@ export function buildDepTreeFromFiles(root, targetFilePath, lockFilePath, option
   if (!root || !lockFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for parseLockFile()');
   }
-  // TODO: validate only valid options were passed in
 
   const targetFileFullPath = path.resolve(root, targetFilePath);
   const lockFileFullPath = path.resolve(root, lockFilePath);

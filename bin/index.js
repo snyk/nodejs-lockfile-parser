@@ -5,6 +5,4 @@ inspect.buildDepTreeFromFiles('./', 'package.json', 'package-lock.json')
   .then((tree) => {
     console.log(JSON.stringify(tree));
   })
-  .catch((e) => {
-    console.log(e);
-  });
+  .catch(console.error);
