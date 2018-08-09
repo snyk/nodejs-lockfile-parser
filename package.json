@@ -2,6 +2,9 @@
   "name": "snyk-nodejs-lockfile-parser",
   "description": "Generate a dep tree given a lockfile",
   "main": "dist/lib/index.js",
+  "bin": {
+    "parse": "./bin/index.js"
+  },
   "scripts": {
     "test": "npm run lint && npm run unit-test",
     "unit-test": "tap test/lib -R=spec --timeout=300 --node-path ts-node --test-file-pattern '/\\.[tj]s$/'",
