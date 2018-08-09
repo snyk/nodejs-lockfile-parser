@@ -3,23 +3,23 @@
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
  // tslint:disable:max-line-length
 // tslint:disable:object-literal-key-quotes
-import { test } from 'tap';
+import {test} from 'tap';
 import * as sinon from 'sinon';
-import parseLockFile from '../../lib';
+import {buildDepTreeFromFiles} from '../../lib';
 import * as fs from 'fs';
 
 const load = (filename) => fs.readFileSync(
   `${__dirname}/fixtures/${filename}`, 'utf8');
 
 test('Parse npm package-lock.json', async (t) => {
-  const expectedDepTree = load('goof/dep-tree.json');
+  const expectedDepTree = load('goof/dep-tree_small.json');
 
-  const depTree = parseLockFile(
-    './',
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/goof/`,
     'package.json',
     'package-lock.json',
     null,
   );
-  // t.equal(expectedDepTree, depTree, 'Tree generated as expected');
-  t.pass('Pass for now');
+
+  t.deepEqual(depTree, JSON.parse(expectedDepTree), 'Tree generated as expected');
 });
