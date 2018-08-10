@@ -8,10 +8,9 @@
         ],
         "module": "commonjs",
         "sourceMap": true,
-        "allowJs": true,
+        "declaration": true,
     },
     "include": [
         "./lib/**/*",
-        "./newrelic.ts"
     ]
 }
