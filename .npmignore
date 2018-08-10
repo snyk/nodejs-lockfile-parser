@@ -1,9 +1,0 @@
-.gitignore
-.npmrc
-.travis.yml
-appveyor.yml
-npm-debug.log
-tsconfig.json
-tslint.json
-lib
-test

@@ -1,7 +1,7 @@
 {
   "name": "snyk-nodejs-lockfile-parser",
   "description": "Generate a dep tree given a lockfile",
-  "main": "dist/lib/index.js",
+  "main": "dist/index.js",
   "bin": {
     "parse-nodejs-lockfile": "./bin/index.js"
   },
@@ -21,6 +21,8 @@
   },
   "author": "snyk.io",
   "license": "Apache-2.0",
+  "engines": { "node" : ">=4" },
+  "files": ["bin", "dist"],
   "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
   "dependencies": {
     "lodash": "4.17.10",
