@@ -82,10 +82,10 @@ export function buildDepTreeFromFiles(root, targetFilePath, lockFilePath, option
   const targetFileFullPath = path.resolve(root, targetFilePath);
   const lockFileFullPath = path.resolve(root, lockFilePath);
 
-  if (!fs.existsSync(targetFilePath)) {
+  if (!fs.existsSync(targetFileFullPath)) {
     throw new Error(`Target file package.json not found at location: ${targetFileFullPath}`);
   }
-  if (!fs.existsSync(lockFilePath)) {
+  if (!fs.existsSync(lockFileFullPath)) {
     throw new Error(`LockFile package-lock.json not found at location: ${lockFileFullPath}`);
   }
 
