@@ -3,7 +3,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 
-export async function buildDepTree(targetFileRaw, lockFileRaw, options) {
+export {
+  buildDepTree,
+  buildDepTreeFromFiles,
+};
+
+async function buildDepTree(targetFileRaw, lockFileRaw, options) {
 
   const lockFile = JSON.parse(lockFileRaw);
   const targetFile = JSON.parse(targetFileRaw);
@@ -74,7 +79,7 @@ function getDepPath(depKeys: string[]) {
   return depPath;
 }
 
-export function buildDepTreeFromFiles(root, targetFilePath, lockFilePath, options) {
+function buildDepTreeFromFiles(root, targetFilePath, lockFilePath, options) {
   if (!root || !lockFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for parseLockFile()');
   }
