@@ -8,7 +8,7 @@
   "scripts": {
     "test": "npm run lint && npm run unit-test",
     "unit-test": "tap test/lib -R=spec --timeout=300 --node-path ts-node --test-file-pattern '/\\.[tj]s$/'",
-    "lint": "tslint lib/**/*.ts",
+    "lint": "tslint -p tsconfig.json",
     "build": "tsc",
     "build-watch": "tsc -w",
     "prepare": "npm run build",
@@ -21,8 +21,13 @@
   },
   "author": "snyk.io",
   "license": "Apache-2.0",
-  "engines": { "node" : ">=4" },
-  "files": ["bin", "dist"],
+  "engines": {
+    "node": ">=4"
+  },
+  "files": [
+    "bin",
+    "dist"
+  ],
   "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
   "dependencies": {
     "lodash": "4.17.10",
