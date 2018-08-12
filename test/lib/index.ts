@@ -4,7 +4,6 @@
  // tslint:disable:max-line-length
 // tslint:disable:object-literal-key-quotes
 import {test} from 'tap';
-import * as sinon from 'sinon';
 import {buildDepTreeFromFiles} from '../../lib';
 import * as fs from 'fs';
 
@@ -18,7 +17,6 @@ test('Parse npm package-lock.json', async (t) => {
     `${__dirname}/fixtures/goof/`,
     'package.json',
     'package-lock.json',
-    null,
   );
 
   t.deepEqual(depTree, JSON.parse(expectedDepTree), 'Tree generated as expected');
@@ -29,6 +27,5 @@ test('Parse npm package-lock.json with missing dependency', async (t) => {
       `${__dirname}/fixtures/goof/`,
       'package.json',
       'package-lock_missing_dep.json',
-      null,
     ), null, 'Error is thrown');
 });

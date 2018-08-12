@@ -8,7 +8,7 @@ export {
   buildDepTreeFromFiles,
 };
 
-async function buildDepTree(targetFileRaw, lockFileRaw, options) {
+async function buildDepTree(targetFileRaw, lockFileRaw) {
 
   const lockFile = JSON.parse(lockFileRaw);
   const targetFile = JSON.parse(targetFileRaw);
@@ -79,7 +79,7 @@ function getDepPath(depKeys: string[]) {
   return depPath;
 }
 
-function buildDepTreeFromFiles(root, targetFilePath, lockFilePath, options) {
+function buildDepTreeFromFiles(root, targetFilePath, lockFilePath) {
   if (!root || !lockFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for parseLockFile()');
   }
@@ -97,5 +97,5 @@ function buildDepTreeFromFiles(root, targetFilePath, lockFilePath, options) {
   const targetFile = fs.readFileSync(targetFileFullPath);
   const lockFile = fs.readFileSync(lockFileFullPath);
 
-  return buildDepTree(targetFile, lockFile, options);
+  return buildDepTree(targetFile, lockFile);
 }
