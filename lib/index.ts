@@ -8,7 +8,15 @@ export {
   buildDepTreeFromFiles,
 };
 
-async function buildDepTree(targetFileRaw, lockFileRaw) {
+interface PkgTree {
+  name: string;
+  version: string;
+  dependencies?: {
+    [dep: string]: PkgTree;
+  };
+}
+
+async function buildDepTree(targetFileRaw: string, lockFileRaw: string): Promise<PkgTree> {
 
   const lockFile = JSON.parse(lockFileRaw);
   const targetFile = JSON.parse(targetFileRaw);
@@ -20,10 +28,10 @@ async function buildDepTree(targetFileRaw, lockFileRaw) {
     throw new Error("No 'dependencies' property in package-lock.json");
   }
 
-  const depTree = {
+  const depTree: PkgTree = {
     dependencies: {},
-    name: targetFile.name || undefined,
-    version: targetFile.version || undefined,
+    name: targetFile.name,
+    version: targetFile.version,
   };
 
   const topLevelDeps = Object.keys(targetFile.dependencies);
@@ -35,9 +43,9 @@ async function buildDepTree(targetFileRaw, lockFileRaw) {
   return depTree;
 }
 
-async function buildSubTreeRecursive(dep: string, depKeys: string[], lockFile: object) {
+async function buildSubTreeRecursive(dep: string, depKeys: string[], lockFile: object): Promise<PkgTree> {
 
-  const depSubTree = {
+  const depSubTree: PkgTree = {
     dependencies: {},
     name: dep,
     version: undefined,
@@ -79,7 +87,7 @@ function getDepPath(depKeys: string[]) {
   return depPath;
 }
 
-function buildDepTreeFromFiles(root, targetFilePath, lockFilePath) {
+async function buildDepTreeFromFiles(root: string, targetFilePath: string, lockFilePath: string): Promise<PkgTree> {
   if (!root || !lockFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for parseLockFile()');
   }
@@ -94,8 +102,8 @@ function buildDepTreeFromFiles(root, targetFilePath, lockFilePath) {
     throw new Error(`LockFile package-lock.json not found at location: ${lockFileFullPath}`);
   }
 
-  const targetFile = fs.readFileSync(targetFileFullPath);
-  const lockFile = fs.readFileSync(lockFileFullPath);
+  const targetFile = fs.readFileSync(targetFileFullPath, 'utf-8');
+  const lockFile = fs.readFileSync(lockFileFullPath, 'utf-8');
 
-  return buildDepTree(targetFile, lockFile);
+  return await buildDepTree(targetFile, lockFile);
 }
