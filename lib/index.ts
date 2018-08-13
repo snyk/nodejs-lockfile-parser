@@ -1,4 +1,5 @@
 import 'source-map-support/register';
+import * as util from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
@@ -95,15 +96,17 @@ async function buildDepTreeFromFiles(root: string, targetFilePath: string, lockF
   const targetFileFullPath = path.resolve(root, targetFilePath);
   const lockFileFullPath = path.resolve(root, lockFilePath);
 
-  if (!fs.existsSync(targetFileFullPath)) {
+  const asyncExists = util.promisify(fs.exists);
+  if (!(await asyncExists(targetFileFullPath))) {
     throw new Error(`Target file package.json not found at location: ${targetFileFullPath}`);
   }
-  if (!fs.existsSync(lockFileFullPath)) {
+  if (!(await asyncExists(lockFileFullPath))) {
     throw new Error(`LockFile package-lock.json not found at location: ${lockFileFullPath}`);
   }
 
-  const targetFile = fs.readFileSync(targetFileFullPath, 'utf-8');
-  const lockFile = fs.readFileSync(lockFileFullPath, 'utf-8');
+  const asyncReadFile = util.promisify(fs.readFile);
+  const targetFile = await asyncReadFile(targetFileFullPath, 'utf-8');
+  const lockFile = await asyncReadFile(lockFileFullPath, 'utf-8');
 
   return await buildDepTree(targetFile, lockFile);
 }
