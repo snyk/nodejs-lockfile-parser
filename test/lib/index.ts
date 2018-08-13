@@ -22,6 +22,19 @@ test('Parse npm package-lock.json', async (t) => {
   t.deepEqual(depTree, JSON.parse(expectedDepTree), 'Tree generated as expected');
 });
 
+test('Parse npm package-lock.json with devDependencies', async (t) => {
+  const expectedDepTree = load('goof/dep-tree_small_dev.json');
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/goof/`,
+    'package.json',
+    'package-lock.json',
+    true,
+  );
+
+  t.deepEqual(depTree, JSON.parse(expectedDepTree), 'Tree generated as expected');
+});
+
 test('Parse npm package-lock.json with missing dependency', async (t) => {
     t.rejects(buildDepTreeFromFiles(
       `${__dirname}/fixtures/goof/`,
