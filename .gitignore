@@ -3,3 +3,5 @@ npm-debug.log
 .npmrc
 # output
 dist
+.DS_Store
+*.log
