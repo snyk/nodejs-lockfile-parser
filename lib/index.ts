@@ -3,7 +3,20 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 
-export async function buildDepTree(targetFileRaw, lockFileRaw, options) {
+export {
+  buildDepTree,
+  buildDepTreeFromFiles,
+};
+
+interface PkgTree {
+  name: string;
+  version: string;
+  dependencies?: {
+    [dep: string]: PkgTree;
+  };
+}
+
+async function buildDepTree(targetFileRaw: string, lockFileRaw: string): Promise<PkgTree> {
 
   const lockFile = JSON.parse(lockFileRaw);
   const targetFile = JSON.parse(targetFileRaw);
@@ -15,10 +28,10 @@ export async function buildDepTree(targetFileRaw, lockFileRaw, options) {
     throw new Error("No 'dependencies' property in package-lock.json");
   }
 
-  const depTree = {
+  const depTree: PkgTree = {
     dependencies: {},
-    name: targetFile.name || undefined,
-    version: targetFile.version || undefined,
+    name: targetFile.name,
+    version: targetFile.version,
   };
 
   const topLevelDeps = Object.keys(targetFile.dependencies);
@@ -30,9 +43,9 @@ export async function buildDepTree(targetFileRaw, lockFileRaw, options) {
   return depTree;
 }
 
-async function buildSubTreeRecursive(dep: string, depKeys: string[], lockFile: object) {
+async function buildSubTreeRecursive(dep: string, depKeys: string[], lockFile: object): Promise<PkgTree> {
 
-  const depSubTree = {
+  const depSubTree: PkgTree = {
     dependencies: {},
     name: dep,
     version: undefined,
@@ -74,7 +87,7 @@ function getDepPath(depKeys: string[]) {
   return depPath;
 }
 
-export function buildDepTreeFromFiles(root, targetFilePath, lockFilePath, options) {
+async function buildDepTreeFromFiles(root: string, targetFilePath: string, lockFilePath: string): Promise<PkgTree> {
   if (!root || !lockFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for parseLockFile()');
   }
@@ -89,8 +102,8 @@ export function buildDepTreeFromFiles(root, targetFilePath, lockFilePath, option
     throw new Error(`LockFile package-lock.json not found at location: ${lockFileFullPath}`);
   }
 
-  const targetFile = fs.readFileSync(targetFileFullPath);
-  const lockFile = fs.readFileSync(lockFileFullPath);
+  const targetFile = fs.readFileSync(targetFileFullPath, 'utf-8');
+  const lockFile = fs.readFileSync(lockFileFullPath, 'utf-8');
 
-  return buildDepTree(targetFile, lockFile, options);
+  return await buildDepTree(targetFile, lockFile);
 }
