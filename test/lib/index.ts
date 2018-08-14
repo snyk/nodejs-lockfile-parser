@@ -11,7 +11,7 @@ const load = (filename) => fs.readFileSync(
   `${__dirname}/fixtures/${filename}`, 'utf8');
 
 test('Parse npm package-lock.json', async (t) => {
-  const expectedDepTree = load('goof/dep-tree_small.json');
+  const expectedDepTree = load('goof/dep-tree-no-dev-deps.json');
 
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/goof/`,
@@ -23,7 +23,7 @@ test('Parse npm package-lock.json', async (t) => {
 });
 
 test('Parse npm package-lock.json with devDependencies', async (t) => {
-  const expectedDepTree = load('goof/dep-tree_small_dev.json');
+  const expectedDepTree = load('goof/dep-tree-with-dev-deps.json');
 
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/goof/`,
