@@ -35,6 +35,18 @@ test('Parse npm package-lock.json with devDependencies', async (t) => {
   t.deepEqual(depTree, JSON.parse(expectedDepTree), 'Tree generated as expected');
 });
 
+test('Parse npm package.json with empty devDependencies', async (t) => {
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/empty-dev-deps/`,
+    'package.json',
+    'package-lock.json',
+    true,
+  );
+
+  t.false(depTree.hasDevDependencies, 'Package doesn\'t have devDependencies');
+  t.ok(depTree.dependencies['adm-zip'], 'Dependencies are reported correctly');
+});
+
 test('Parse npm package-lock.json with missing dependency', async (t) => {
     t.rejects(buildDepTreeFromFiles(
       `${__dirname}/fixtures/goof/`,

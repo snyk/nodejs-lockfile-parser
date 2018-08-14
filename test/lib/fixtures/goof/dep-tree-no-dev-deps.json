@@ -1,7 +1,7 @@
 {
   "name": "goof",
   "version": "0.0.3",
-  "hasDevDependencies": false,
+  "hasDevDependencies": true,
   "dependencies": {
     "adm-zip": {
       "name": "adm-zip",

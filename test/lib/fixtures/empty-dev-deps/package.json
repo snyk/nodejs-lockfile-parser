@@ -1,0 +1,22 @@
+{
+  "name": "goof",
+  "version": "0.0.3",
+  "description": "A vulnerable todo demo application",
+  "homepage": "https://snyk.io/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Snyk/snyk-todo-list-demo-app/"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "build": "browserify -r jquery > public/js/bundle.js",
+    "cleanup": "mongo express-todo --eval 'db.todos.remove({});'"
+  },
+  "engines": {
+    "node": "6.14.1"
+  },
+  "dependencies": {
+    "adm-zip": "0.4.7"
+  },
+  "devDependencies": {}
+}

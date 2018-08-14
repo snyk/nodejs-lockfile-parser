@@ -39,7 +39,7 @@ async function buildDepTree(targetFileRaw: string, lockFileRaw: string, includeD
 
   const depTree: PkgTree = {
     dependencies: {},
-    hasDevDependencies: false,
+    hasDevDependencies: !!targetFile.devDependencies && Object.keys(targetFile.devDependencies).length > 0,
     name: targetFile.name,
     version: targetFile.version,
   };
@@ -52,7 +52,6 @@ async function buildDepTree(targetFileRaw: string, lockFileRaw: string, includeD
 
   if (includeDev && targetFile.devDependencies) {
     const topLevelDevDeps = Object.keys(targetFile.devDependencies);
-    depTree.hasDevDependencies = true;
     await Promise.all(topLevelDevDeps.map(async (dep) => {
       depTree.dependencies[dep] = await buildSubTreeRecursive(dep, [], lockFile);
     }));
