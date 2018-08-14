@@ -1,5 +1,4 @@
 import 'source-map-support/register';
-import * as util from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
@@ -96,17 +95,35 @@ async function buildDepTreeFromFiles(root: string, targetFilePath: string, lockF
   const targetFileFullPath = path.resolve(root, targetFilePath);
   const lockFileFullPath = path.resolve(root, lockFilePath);
 
-  const asyncExists = util.promisify(fs.exists);
-  if (!(await asyncExists(targetFileFullPath))) {
+  const asyncExists = promisify(fs.stat);
+  try {
+    await asyncExists(targetFileFullPath);
+  } catch (e) {
     throw new Error(`Target file package.json not found at location: ${targetFileFullPath}`);
   }
-  if (!(await asyncExists(lockFileFullPath))) {
+
+  try {
+    await asyncExists(lockFileFullPath);
+  } catch (e) {
     throw new Error(`LockFile package-lock.json not found at location: ${lockFileFullPath}`);
   }
 
-  const asyncReadFile = util.promisify(fs.readFile);
+  const asyncReadFile = promisify(fs.readFile);
   const targetFile = await asyncReadFile(targetFileFullPath, 'utf-8');
   const lockFile = await asyncReadFile(lockFileFullPath, 'utf-8');
 
   return await buildDepTree(targetFile, lockFile);
+}
+
+function promisify(func): any {
+  return (...args: any[]) => {
+    return new Promise((resolve, reject) => {
+      return func(...args, (err, data) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(data);
+      });
+    });
+  };
 }
