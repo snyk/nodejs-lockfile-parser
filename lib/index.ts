@@ -95,15 +95,35 @@ async function buildDepTreeFromFiles(root: string, targetFilePath: string, lockF
   const targetFileFullPath = path.resolve(root, targetFilePath);
   const lockFileFullPath = path.resolve(root, lockFilePath);
 
-  if (!fs.existsSync(targetFileFullPath)) {
+  const asyncExists = promisify(fs.stat);
+  try {
+    await asyncExists(targetFileFullPath);
+  } catch (e) {
     throw new Error(`Target file package.json not found at location: ${targetFileFullPath}`);
   }
-  if (!fs.existsSync(lockFileFullPath)) {
+
+  try {
+    await asyncExists(lockFileFullPath);
+  } catch (e) {
     throw new Error(`LockFile package-lock.json not found at location: ${lockFileFullPath}`);
   }
 
-  const targetFile = fs.readFileSync(targetFileFullPath, 'utf-8');
-  const lockFile = fs.readFileSync(lockFileFullPath, 'utf-8');
+  const asyncReadFile = promisify(fs.readFile);
+  const targetFile = await asyncReadFile(targetFileFullPath, 'utf-8');
+  const lockFile = await asyncReadFile(lockFileFullPath, 'utf-8');
 
   return await buildDepTree(targetFile, lockFile);
+}
+
+function promisify(func): any {
+  return (...args: any[]) => {
+    return new Promise((resolve, reject) => {
+      return func(...args, (err, data) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(data);
+      });
+    });
+  };
 }

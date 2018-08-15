@@ -29,3 +29,11 @@ test('Parse npm package-lock.json with missing dependency', async (t) => {
       'package-lock_missing_dep.json',
     ), null, 'Error is thrown');
 });
+
+test('Missing package-lock.json', async (t) => {
+    t.rejects(buildDepTreeFromFiles(
+      `${__dirname}/fixtures/goof/`,
+      'package.json',
+      'package-lock_missing.json',
+    ), null, 'Error is thrown');
+});
