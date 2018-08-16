@@ -3,10 +3,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 
-export {
-  buildDepTree,
-  buildDepTreeFromFiles,
-};
+enum DepType {
+  prod = 'prod',
+  dev = 'dev',
+}
 
 interface PkgTree {
   name: string;
@@ -14,9 +14,18 @@ interface PkgTree {
   dependencies?: {
     [dep: string]: PkgTree;
   };
+  depType?: DepType;
+  hasDevDependencies?: boolean;
 }
 
-async function buildDepTree(targetFileRaw: string, lockFileRaw: string): Promise<PkgTree> {
+export {
+  buildDepTree,
+  buildDepTreeFromFiles,
+  PkgTree,
+  DepType,
+};
+
+async function buildDepTree(targetFileRaw: string, lockFileRaw: string, includeDev = false): Promise<PkgTree> {
 
   const lockFile = JSON.parse(lockFileRaw);
   const targetFile = JSON.parse(targetFileRaw);
@@ -30,6 +39,7 @@ async function buildDepTree(targetFileRaw: string, lockFileRaw: string): Promise
 
   const depTree: PkgTree = {
     dependencies: {},
+    hasDevDependencies: !!targetFile.devDependencies && Object.keys(targetFile.devDependencies).length > 0,
     name: targetFile.name,
     version: targetFile.version,
   };
@@ -40,12 +50,20 @@ async function buildDepTree(targetFileRaw: string, lockFileRaw: string): Promise
     depTree.dependencies[dep] = await buildSubTreeRecursive(dep, [], lockFile);
   }));
 
+  if (includeDev && targetFile.devDependencies) {
+    const topLevelDevDeps = Object.keys(targetFile.devDependencies);
+    await Promise.all(topLevelDevDeps.map(async (dep) => {
+      depTree.dependencies[dep] = await buildSubTreeRecursive(dep, [], lockFile);
+    }));
+  }
+
   return depTree;
 }
 
 async function buildSubTreeRecursive(dep: string, depKeys: string[], lockFile: object): Promise<PkgTree> {
 
   const depSubTree: PkgTree = {
+    depType: undefined,
     dependencies: {},
     name: dep,
     version: undefined,
@@ -61,6 +79,7 @@ async function buildSubTreeRecursive(dep: string, depKeys: string[], lockFile: o
   if (deps && deps[dep]) {
     // update the tree
     depSubTree.version = deps[dep].version;
+    depSubTree.depType = deps[dep].dev ? DepType.dev : DepType.prod;
     // repeat the process for dependencies of looked-up dep
     const newDeps = deps[dep].requires ? Object.keys(deps[dep].requires) : [];
     await Promise.all(newDeps.map(async (subDep) => {
@@ -87,7 +106,8 @@ function getDepPath(depKeys: string[]) {
   return depPath;
 }
 
-async function buildDepTreeFromFiles(root: string, targetFilePath: string, lockFilePath: string): Promise<PkgTree> {
+async function buildDepTreeFromFiles(
+  root: string, targetFilePath: string, lockFilePath: string, includeDev = false): Promise<PkgTree> {
   if (!root || !lockFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for parseLockFile()');
   }
@@ -105,5 +125,5 @@ async function buildDepTreeFromFiles(root: string, targetFilePath: string, lockF
   const targetFile = fs.readFileSync(targetFileFullPath, 'utf-8');
   const lockFile = fs.readFileSync(lockFileFullPath, 'utf-8');
 
-  return await buildDepTree(targetFile, lockFile);
+  return await buildDepTree(targetFile, lockFile, includeDev);
 }

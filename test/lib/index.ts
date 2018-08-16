@@ -11,7 +11,7 @@ const load = (filename) => fs.readFileSync(
   `${__dirname}/fixtures/${filename}`, 'utf8');
 
 test('Parse npm package-lock.json', async (t) => {
-  const expectedDepTree = load('goof/dep-tree_small.json');
+  const expectedDepTree = load('goof/dep-tree-no-dev-deps.json');
 
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/goof/`,
@@ -20,6 +20,31 @@ test('Parse npm package-lock.json', async (t) => {
   );
 
   t.deepEqual(depTree, JSON.parse(expectedDepTree), 'Tree generated as expected');
+});
+
+test('Parse npm package-lock.json with devDependencies', async (t) => {
+  const expectedDepTree = load('goof/dep-tree-with-dev-deps.json');
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/goof/`,
+    'package.json',
+    'package-lock.json',
+    true,
+  );
+
+  t.deepEqual(depTree, JSON.parse(expectedDepTree), 'Tree generated as expected');
+});
+
+test('Parse npm package.json with empty devDependencies', async (t) => {
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/empty-dev-deps/`,
+    'package.json',
+    'package-lock.json',
+    true,
+  );
+
+  t.false(depTree.hasDevDependencies, 'Package doesn\'t have devDependencies');
+  t.ok(depTree.dependencies['adm-zip'], 'Dependencies are reported correctly');
 });
 
 test('Parse npm package-lock.json with missing dependency', async (t) => {
