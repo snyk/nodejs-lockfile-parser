@@ -63,7 +63,7 @@ async function buildDepTree(targetFileRaw: string, lockFileRaw: string, includeD
   const topLevelDeps = getTopLevelDeps(targetFile, includeDev);
 
   await Promise.all(topLevelDeps.map(async (dep) => {
-    depTree.dependencies[dep] = await buildSubTreeRecursive(dep, [], lockFile, []);
+    depTree.dependencies[dep] = await buildSubTreeRecursive(dep, ['dependencies'], lockFile, []);
   }));
 
   return depTree;
@@ -83,61 +83,50 @@ function getTopLevelDeps(targetFile: TargetFile, includeDev: boolean): string[] 
 }
 
 async function buildSubTreeRecursive(
-  dep: string, lockfileKeys: string[], lockFile: object, depPath: string[]): Promise<PkgTree> {
+  depName: string, lockfilePath: string[], lockFile: object, depPath: string[]): Promise<PkgTree> {
 
   const depSubTree: PkgTree = {
     depType: undefined,
     dependencies: {},
-    name: dep,
+    name: depName,
     version: undefined,
   };
 
-  // Get path to the nested dependencies from list ['package1', 'package2']
-  // to ['dependencies', 'package1', 'dependencies', 'package2', 'dependencies']
-  const lockfilePath = getDepPath(lockfileKeys);
   // try to get list of deps on the path
   const deps = _.get(lockFile, lockfilePath);
-
+  const dep = _.get(deps, depName);
   // If exists and looked-up dep is there
-  if (deps && deps[dep]) {
+  if (dep) {
     // update the tree
-    depSubTree.version = deps[dep].version;
-    depSubTree.depType = deps[dep].dev ? DepType.dev : DepType.prod;
-    const depKey = `${dep}@${deps[dep].version}`;
+    depSubTree.version = dep.version;
+    depSubTree.depType = dep.dev ? DepType.dev : DepType.prod;
     // check if we already have a package at particular version in the traversed path
+    const depKey = `${depName}@${dep.version}`;
     if (depPath.includes(depKey)) {
       depSubTree.cyclic = true;
     } else {
       // if not, add it
       depPath.push(depKey);
       // repeat the process for dependencies of looked-up dep
-      const newDeps = deps[dep].requires ? Object.keys(deps[dep].requires) : [];
+      const newDeps = dep.requires ? Object.keys(dep.requires) : [];
 
       await Promise.all(newDeps.map(async (subDep) => {
         depSubTree.dependencies[subDep] = await buildSubTreeRecursive(
-          subDep, [...lockfileKeys, dep], lockFile, depPath.slice());
+          subDep, [...lockfilePath, depName, 'dependencies'], lockFile, depPath.slice());
       }));
     }
     return depSubTree;
   } else {
     // tree was walked to the root and dependency was not found
-    if (!lockfileKeys.length) {
-      throw new Error(`Dependency ${dep} was not found in package-lock.json.
+    if (!lockfilePath.length) {
+      throw new Error(`Dependency ${depName} was not found in package-lock.json.
         Your package.json and package-lock.json are probably out of sync.
         Please run npm install and try to parse the log again.`);
     }
     // dependency was not found on a current path, remove last key (move closer to the root) and try again
     // visitedDepPaths can be passed by a reference, because traversing up doesn't update it
-    return buildSubTreeRecursive(dep, lockfileKeys.slice(0, -1), lockFile, depPath);
+    return buildSubTreeRecursive(depName, lockfilePath.slice(0, -1), lockFile, depPath);
   }
-}
-
-function getDepPath(depKeys: string[]) {
-  const depPath = depKeys.reduce((acc, key) => {
-        return acc.concat([key, 'dependencies']);
-      }, ['dependencies']);
-
-  return depPath;
 }
 
 async function buildDepTreeFromFiles(
