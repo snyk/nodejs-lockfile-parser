@@ -1,0 +1,6 @@
+{
+  "name": "pkg-missing-deps",
+  "version": "1.0.0",
+  "hasDevDependencies": false,
+  "dependencies": {}
+}

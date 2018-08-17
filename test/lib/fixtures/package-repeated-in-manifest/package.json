@@ -1,0 +1,16 @@
+{
+  "name": "goof",
+  "version": "0.0.3",
+  "description": "Example application",
+  "engines": {
+    "node": "10.8.0"
+  },
+  "dependencies": {
+    "body-parser": "1.9.0",
+    "file-type": "^8.1.0"
+  },
+  "devDependencies": {
+    "body-parser": "1.9.0",
+    "undefsafe": "^1.0.0"
+  }
+}
