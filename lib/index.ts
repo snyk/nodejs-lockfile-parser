@@ -36,31 +36,32 @@ export {
   DepType,
 };
 
-async function buildDepTree(targetFileRaw: string, lockFileRaw: string, includeDev = false): Promise<PkgTree> {
+async function buildDepTree(
+  manifestFileContents: string, lockFileContents: string, includeDev = false): Promise<PkgTree> {
 
-  const lockFile = JSON.parse(lockFileRaw);
-  const targetFile = JSON.parse(targetFileRaw);
+  const lockFile = JSON.parse(lockFileContents);
+  const manifestFile = JSON.parse(manifestFileContents);
 
-  if (!targetFile.dependencies && !includeDev) {
+  if (!manifestFile.dependencies && !includeDev) {
     throw new Error("No 'dependencies' property in package.json");
   }
 
   const depTree: PkgTree = {
     dependencies: {},
-    hasDevDependencies: !!targetFile.devDependencies && Object.keys(targetFile.devDependencies).length > 0,
-    name: targetFile.name,
-    version: targetFile.version,
+    hasDevDependencies: !!manifestFile.devDependencies && Object.keys(manifestFile.devDependencies).length > 0,
+    name: manifestFile.name,
+    version: manifestFile.version,
   };
 
   // asked to process empty deps
-  if (_.isEmpty(targetFile.dependencies) && !includeDev) {
+  if (_.isEmpty(manifestFile.dependencies) && !includeDev) {
     return depTree;
   }
 
   if (!lockFile.dependencies && !includeDev) {
     throw new Error("No 'dependencies' property in package-lock.json");
   }
-  const topLevelDeps = getTopLevelDeps(targetFile, includeDev);
+  const topLevelDeps = getTopLevelDeps(manifestFile, includeDev);
 
   await Promise.all(topLevelDeps.map(async (dep) => {
     depTree.dependencies[dep] = await buildSubTreeRecursive(dep, ['dependencies'], lockFile, []);
@@ -124,23 +125,23 @@ async function buildSubTreeRecursive(
 }
 
 async function buildDepTreeFromFiles(
-  root: string, targetFilePath: string, lockFilePath: string, includeDev = false): Promise<PkgTree> {
+  root: string, manifestFilePath: string, lockFilePath: string, includeDev = false): Promise<PkgTree> {
   if (!root || !lockFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for buildDepTreeFromFiles()');
   }
 
-  const targetFileFullPath = path.resolve(root, targetFilePath);
+  const manifestFileFullPath = path.resolve(root, manifestFilePath);
   const lockFileFullPath = path.resolve(root, lockFilePath);
 
-  if (!fs.existsSync(targetFileFullPath)) {
-    throw new Error(`Target file package.json not found at location: ${targetFileFullPath}`);
+  if (!fs.existsSync(manifestFileFullPath)) {
+    throw new Error(`Target file package.json not found at location: ${manifestFileFullPath}`);
   }
   if (!fs.existsSync(lockFileFullPath)) {
     throw new Error(`Lockfile package-lock.json not found at location: ${lockFileFullPath}`);
   }
 
-  const targetFile = fs.readFileSync(targetFileFullPath, 'utf-8');
-  const lockFile = fs.readFileSync(lockFileFullPath, 'utf-8');
+  const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');
+  const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
 
-  return await buildDepTree(targetFile, lockFile, includeDev);
+  return await buildDepTree(manifestFileContents, lockFileContents, includeDev);
 }
