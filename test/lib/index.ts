@@ -127,3 +127,22 @@ test('Parse npm package-lock.json with dev deps only', async (t) => {
   );
   t.deepEqual(depTree, expectedDepTree, 'Tree is created with dev deps only');
 });
+
+test('Parse npm package-lock.json with cyclic deps', async (t) => {
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/cyclic-dep-simple/`,
+    'package.json',
+    'package-lock.json',
+  );
+  t.strictEqual(depTree.dependencies.debug.dependencies.ms.dependencies.debug.cyclic, true, 'Cyclic dependency is found correctly');
+});
+
+test('Performance: Parse big npm package-lock.json with cyclic deps and dev-deps', async (t) => {
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/cyclic-dep/`,
+    'package.json',
+    'package-lock.json',
+    true,
+  );
+  t.deepEqual(depTree.name, 'trucolor', 'Tree is created correctly');
+});

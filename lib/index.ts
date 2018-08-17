@@ -16,16 +16,37 @@ interface PkgTree {
   };
   depType?: DepType;
   hasDevDependencies?: boolean;
+  cyclic?: boolean;
 }
 
-interface TargetFile {
+interface ManifestFile {
   name?: string;
   dependencies?: {
-    [dep: string]: object;
+    [dep: string]: string;
   };
   devDependencies?: {
-    [dep: string]: object;
+    [dep: string]: string;
   };
+  version?: string;
+}
+
+interface Lockfile {
+  name: string;
+  version: string;
+  dependencies?: LockfileDeps;
+}
+
+interface LockfileDeps {
+  [depName: string]: LockfileDep;
+}
+
+interface LockfileDep {
+  version: string;
+  requires?: {
+    [depName: string]: string;
+  };
+  dependencies?: LockfileDeps;
+  dev?: boolean;
 }
 
 export {
@@ -35,120 +56,112 @@ export {
   DepType,
 };
 
-async function buildDepTree(targetFileRaw: string, lockFileRaw: string, includeDev = false): Promise<PkgTree> {
+async function buildDepTree(
+  manifestFileContents: string, lockFileContents: string, includeDev = false): Promise<PkgTree> {
 
-  const lockFile = JSON.parse(lockFileRaw);
-  const targetFile = JSON.parse(targetFileRaw);
+  const lockFile: Lockfile = JSON.parse(lockFileContents);
+  const manifestFile: ManifestFile = JSON.parse(manifestFileContents);
 
-  if (!targetFile.dependencies && !includeDev) {
+  if (!manifestFile.dependencies && !includeDev) {
     throw new Error("No 'dependencies' property in package.json");
   }
 
   const depTree: PkgTree = {
     dependencies: {},
-    hasDevDependencies: !!targetFile.devDependencies && Object.keys(targetFile.devDependencies).length > 0,
-    name: targetFile.name,
-    version: targetFile.version,
+    hasDevDependencies: !_.isEmpty(manifestFile.devDependencies),
+    name: manifestFile.name,
+    version: manifestFile.version,
   };
 
   // asked to process empty deps
-  if (_.isEmpty(targetFile.dependencies) && !includeDev) {
+  if (_.isEmpty(manifestFile.dependencies) && !includeDev) {
     return depTree;
   }
 
   if (!lockFile.dependencies && !includeDev) {
     throw new Error("No 'dependencies' property in package-lock.json");
   }
-  const topLevelDeps = getTopLevelDeps(targetFile, includeDev);
+  const topLevelDeps = getTopLevelDeps(manifestFile, includeDev);
 
   await Promise.all(topLevelDeps.map(async (dep) => {
-    depTree.dependencies[dep] = await buildSubTreeRecursive(dep, [], lockFile);
+    depTree.dependencies[dep] = await buildSubTreeRecursive(dep, ['dependencies'], lockFile, []);
   }));
 
   return depTree;
 }
 
-function getTopLevelDeps(targetFile: TargetFile, includeDev: boolean): string[] {
-  let topLevelDeps = targetFile.dependencies;
-
-  if (includeDev && targetFile.devDependencies) {
-    topLevelDeps = {
-      ...topLevelDeps,
-      ...targetFile.devDependencies,
-    };
-  }
-
-  return _.uniq(Object.keys(topLevelDeps));
+function getTopLevelDeps(targetFile: ManifestFile, includeDev: boolean): string[] {
+  return Object.keys({
+    ...targetFile.dependencies,
+    ...(includeDev ? targetFile.devDependencies : null),
+  });
 }
 
 async function buildSubTreeRecursive(
-  dep: string, depKeys: string[], lockFile: object): Promise<PkgTree> {
+  depName: string, lockfilePath: string[], lockFile: Lockfile, depPath: string[]): Promise<PkgTree> {
 
   const depSubTree: PkgTree = {
     depType: undefined,
     dependencies: {},
-    name: dep,
+    name: depName,
     version: undefined,
   };
 
-  // Get path to the nested dependencies from list ['package1', 'package2']
-  // to ['dependencies', 'package1', 'dependencies', 'package2', 'dependencies']
-  const depPath = getDepPath(depKeys);
   // try to get list of deps on the path
-  const deps = _.get(lockFile, depPath);
-
+  const deps: LockfileDeps = _.get(lockFile, lockfilePath);
+  const dep: LockfileDep = _.get(deps, depName);
   // If exists and looked-up dep is there
-  if (deps && deps[dep]) {
+  if (dep) {
     // update the tree
-    depSubTree.version = deps[dep].version;
-    depSubTree.depType = deps[dep].dev ? DepType.dev : DepType.prod;
-    // repeat the process for dependencies of looked-up dep
-    const newDeps = deps[dep].requires ? Object.keys(deps[dep].requires) : [];
+    depSubTree.version = dep.version;
+    depSubTree.depType = dep.dev ? DepType.dev : DepType.prod;
+    // check if we already have a package at particular version in the traversed path
+    const depKey = `${depName}@${dep.version}`;
+    if (depPath.indexOf(depKey) >= 0) {
+      depSubTree.cyclic = true;
+    } else {
+      // if not, add it
+      depPath.push(depKey);
+      // repeat the process for dependencies of looked-up dep
+      const newDeps = dep.requires ? Object.keys(dep.requires) : [];
 
-    await Promise.all(newDeps.map(async (subDep) => {
-      depSubTree.dependencies[subDep] = await buildSubTreeRecursive(subDep,
-          [...depKeys, dep], lockFile);
-      }),
-    );
+      await Promise.all(newDeps.map(async (subDep) => {
+        depSubTree.dependencies[subDep] = await buildSubTreeRecursive(
+          subDep, [...lockfilePath, depName, 'dependencies'], lockFile, depPath.slice());
+      }));
+    }
     return depSubTree;
   } else {
     // tree was walked to the root and dependency was not found
-    if (!depKeys.length) {
-      throw new Error(`Dependency ${dep} was not found in package-lock.json.
+    if (!lockfilePath.length) {
+      throw new Error(`Dependency ${depName} was not found in package-lock.json.
         Your package.json and package-lock.json are probably out of sync.
         Please run npm install and try to parse the log again.`);
     }
     // dependency was not found on a current path, remove last key (move closer to the root) and try again
-    return buildSubTreeRecursive(dep, depKeys.slice(0, -1), lockFile);
+    // visitedDepPaths can be passed by a reference, because traversing up doesn't update it
+    return buildSubTreeRecursive(depName, lockfilePath.slice(0, -1), lockFile, depPath);
   }
 }
 
-function getDepPath(depKeys: string[]) {
-  const depPath = depKeys.reduce((acc, key) => {
-        return acc.concat([key, 'dependencies']);
-      }, ['dependencies']);
-
-  return depPath;
-}
-
 async function buildDepTreeFromFiles(
-  root: string, targetFilePath: string, lockFilePath: string, includeDev = false): Promise<PkgTree> {
+  root: string, manifestFilePath: string, lockFilePath: string, includeDev = false): Promise<PkgTree> {
   if (!root || !lockFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for buildDepTreeFromFiles()');
   }
 
-  const targetFileFullPath = path.resolve(root, targetFilePath);
+  const manifestFileFullPath = path.resolve(root, manifestFilePath);
   const lockFileFullPath = path.resolve(root, lockFilePath);
 
-  if (!fs.existsSync(targetFileFullPath)) {
-    throw new Error(`Target file package.json not found at location: ${targetFileFullPath}`);
+  if (!fs.existsSync(manifestFileFullPath)) {
+    throw new Error(`Target file package.json not found at location: ${manifestFileFullPath}`);
   }
   if (!fs.existsSync(lockFileFullPath)) {
     throw new Error(`Lockfile package-lock.json not found at location: ${lockFileFullPath}`);
   }
 
-  const targetFile = fs.readFileSync(targetFileFullPath, 'utf-8');
-  const lockFile = fs.readFileSync(lockFileFullPath, 'utf-8');
+  const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');
+  const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
 
-  return await buildDepTree(targetFile, lockFile, includeDev);
+  return await buildDepTree(manifestFileContents, lockFileContents, includeDev);
 }
