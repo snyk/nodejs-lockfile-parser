@@ -16,6 +16,7 @@ interface PkgTree {
   };
   depType?: DepType;
   hasDevDependencies?: boolean;
+  cyclic?: boolean;
 }
 
 interface TargetFile {
@@ -62,7 +63,7 @@ async function buildDepTree(targetFileRaw: string, lockFileRaw: string, includeD
   const topLevelDeps = getTopLevelDeps(targetFile, includeDev);
 
   await Promise.all(topLevelDeps.map(async (dep) => {
-    depTree.dependencies[dep] = await buildSubTreeRecursive(dep, [], lockFile);
+    depTree.dependencies[dep] = await buildSubTreeRecursive(dep, [], lockFile, new Set());
   }));
 
   return depTree;
@@ -82,7 +83,7 @@ function getTopLevelDeps(targetFile: TargetFile, includeDev: boolean): string[] 
 }
 
 async function buildSubTreeRecursive(
-  dep: string, depKeys: string[], lockFile: object): Promise<PkgTree> {
+  dep: string, depKeys: string[], lockFile: object, visitedDepPaths: Set<string>): Promise<PkgTree> {
 
   const depSubTree: PkgTree = {
     depType: undefined,
@@ -94,6 +95,17 @@ async function buildSubTreeRecursive(
   // Get path to the nested dependencies from list ['package1', 'package2']
   // to ['dependencies', 'package1', 'dependencies', 'package2', 'dependencies']
   const depPath = getDepPath(depKeys);
+  // storing looked up paths to catch cyclic reference,
+  // i.e. 'dependencies-package1-dependencies-package2-dependencies-${currentDep}
+  const depPathString = depPath.join('-') + `-${dep}`;
+  // if we already tried to look up the path and error about the not found dependency was not thrown,
+  // it means dependency was already found either on the path or upwards, therefore current one is cyclic
+  if (visitedDepPaths.has(depPathString)) {
+    depSubTree.cyclic = true;
+    return depSubTree;
+  }
+  // if path is new, store it in the visited ones
+  visitedDepPaths.add(depPathString);
   // try to get list of deps on the path
   const deps = _.get(lockFile, depPath);
 
@@ -106,10 +118,9 @@ async function buildSubTreeRecursive(
     const newDeps = deps[dep].requires ? Object.keys(deps[dep].requires) : [];
 
     await Promise.all(newDeps.map(async (subDep) => {
-      depSubTree.dependencies[subDep] = await buildSubTreeRecursive(subDep,
-          [...depKeys, dep], lockFile);
-      }),
-    );
+      depSubTree.dependencies[subDep] = await buildSubTreeRecursive(
+        subDep, [...depKeys, dep], lockFile, new Set(visitedDepPaths));
+    }));
     return depSubTree;
   } else {
     // tree was walked to the root and dependency was not found
@@ -119,7 +130,8 @@ async function buildSubTreeRecursive(
         Please run npm install and try to parse the log again.`);
     }
     // dependency was not found on a current path, remove last key (move closer to the root) and try again
-    return buildSubTreeRecursive(dep, depKeys.slice(0, -1), lockFile);
+    // visitedDepPaths can be passed by a reference, because traversing up doesn't update it
+    return buildSubTreeRecursive(dep, depKeys.slice(0, -1), lockFile, visitedDepPaths);
   }
 }
 
