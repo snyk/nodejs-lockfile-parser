@@ -36,6 +36,9 @@ export {
 };
 
 async function buildDepTree(targetFileRaw: string, lockFileRaw: string, includeDev = false): Promise<PkgTree> {
+  /* tslint: disable*/
+  console.log('LOCKFILE: lockFile ===> ', lockFileRaw)
+  console.log('LOCKFILE: targetFileRaw: lockFile ===> ', targetFileRaw)
 
   const lockFile = JSON.parse(lockFileRaw);
   const targetFile = JSON.parse(targetFileRaw);
