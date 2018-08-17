@@ -70,16 +70,10 @@ async function buildDepTree(targetFileRaw: string, lockFileRaw: string, includeD
 }
 
 function getTopLevelDeps(targetFile: TargetFile, includeDev: boolean): string[] {
-  let topLevelDeps = targetFile.dependencies;
-
-  if (includeDev && targetFile.devDependencies) {
-    topLevelDeps = {
-      ...topLevelDeps,
-      ...targetFile.devDependencies,
-    };
-  }
-
-  return _.uniq(Object.keys(topLevelDeps));
+  return Object.keys({
+    ...targetFile.dependencies,
+    ...(includeDev ? targetFile.devDependencies : null),
+  });
 }
 
 async function buildSubTreeRecursive(
