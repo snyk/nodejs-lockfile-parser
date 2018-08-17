@@ -19,14 +19,34 @@ interface PkgTree {
   cyclic?: boolean;
 }
 
-interface TargetFile {
+interface ManifestFile {
   name?: string;
   dependencies?: {
-    [dep: string]: object;
+    [dep: string]: string;
   };
   devDependencies?: {
-    [dep: string]: object;
+    [dep: string]: string;
   };
+  version?: string;
+}
+
+interface Lockfile {
+  name: string;
+  version: string;
+  dependencies?: LockfileDeps;
+}
+
+interface LockfileDeps {
+  [depName: string]: LockfileDep;
+}
+
+interface LockfileDep {
+  version: string;
+  requires?: {
+    [depName: string]: string;
+  };
+  dependencies?: LockfileDeps;
+  dev?: boolean;
 }
 
 export {
@@ -39,8 +59,8 @@ export {
 async function buildDepTree(
   manifestFileContents: string, lockFileContents: string, includeDev = false): Promise<PkgTree> {
 
-  const lockFile = JSON.parse(lockFileContents);
-  const manifestFile = JSON.parse(manifestFileContents);
+  const lockFile: Lockfile = JSON.parse(lockFileContents);
+  const manifestFile: ManifestFile = JSON.parse(manifestFileContents);
 
   if (!manifestFile.dependencies && !includeDev) {
     throw new Error("No 'dependencies' property in package.json");
@@ -48,7 +68,7 @@ async function buildDepTree(
 
   const depTree: PkgTree = {
     dependencies: {},
-    hasDevDependencies: !!manifestFile.devDependencies && Object.keys(manifestFile.devDependencies).length > 0,
+    hasDevDependencies: !_.isEmpty(manifestFile.devDependencies),
     name: manifestFile.name,
     version: manifestFile.version,
   };
@@ -70,7 +90,7 @@ async function buildDepTree(
   return depTree;
 }
 
-function getTopLevelDeps(targetFile: TargetFile, includeDev: boolean): string[] {
+function getTopLevelDeps(targetFile: ManifestFile, includeDev: boolean): string[] {
   return Object.keys({
     ...targetFile.dependencies,
     ...(includeDev ? targetFile.devDependencies : null),
@@ -78,7 +98,7 @@ function getTopLevelDeps(targetFile: TargetFile, includeDev: boolean): string[] 
 }
 
 async function buildSubTreeRecursive(
-  depName: string, lockfilePath: string[], lockFile: object, depPath: string[]): Promise<PkgTree> {
+  depName: string, lockfilePath: string[], lockFile: Lockfile, depPath: string[]): Promise<PkgTree> {
 
   const depSubTree: PkgTree = {
     depType: undefined,
@@ -88,8 +108,8 @@ async function buildSubTreeRecursive(
   };
 
   // try to get list of deps on the path
-  const deps = _.get(lockFile, lockfilePath);
-  const dep = _.get(deps, depName);
+  const deps: LockfileDeps = _.get(lockFile, lockfilePath);
+  const dep: LockfileDep = _.get(deps, depName);
   // If exists and looked-up dep is there
   if (dep) {
     // update the tree
@@ -97,7 +117,7 @@ async function buildSubTreeRecursive(
     depSubTree.depType = dep.dev ? DepType.dev : DepType.prod;
     // check if we already have a package at particular version in the traversed path
     const depKey = `${depName}@${dep.version}`;
-    if (depPath.includes(depKey)) {
+    if (depPath.indexOf(depKey) >= 0) {
       depSubTree.cyclic = true;
     } else {
       // if not, add it
