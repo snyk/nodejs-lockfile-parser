@@ -146,3 +146,15 @@ test('Performance: Parse big npm package-lock.json with cyclic deps and dev-deps
   );
   t.deepEqual(depTree.name, 'trucolor', 'Tree is created correctly');
 });
+
+test('Parse yarn yarn.lock', async (t) => {
+  const expectedDepTree = load('goof/dep-tree-no-dev-deps-yarn.json');
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/goof/`,
+    'package.json',
+    'yarn.lock',
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
