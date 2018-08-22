@@ -56,6 +56,19 @@ test('Parse yarn.lock with empty devDependencies', async (t) => {
   t.ok(depTree.dependencies['adm-zip'], 'Dependencies are reported correctly');
 });
 
+test('Parse yarn.lock with devDependencies', async (t) => {
+  const expectedDepTree = load('goof/dep-tree-with-dev-deps-yarn.json');
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/goof/`,
+    'package.json',
+    'yarn.lock',
+    true,
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
 test('Parse yarn.lock with missing dependency', async (t) => {
     t.rejects(buildDepTreeFromFiles(
       `${__dirname}/fixtures/goof/`,

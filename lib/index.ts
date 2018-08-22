@@ -116,7 +116,7 @@ async function buildDepTree(
     case LockfileType.npm:
       await Promise.all(topLevelDeps.map(async (dep) => {
         depTree.dependencies[dep.name] = await buildSubTreeRecursiveFromPackageLock(
-          dep.name, ['dependencies'], lockFile as PackageLock, []);
+          dep.name, ['dependencies'], lockFile as PackageLock, [], dep.dev);
       }));
       break;
     case LockfileType.yarn:
@@ -151,7 +151,7 @@ function getTopLevelDeps(targetFile: ManifestFile, includeDev: boolean): Dep[] {
 }
 
 async function buildSubTreeRecursiveFromPackageLock(
-  depName: string, lockfilePath: string[], lockFile: PackageLock, depPath: string[]): Promise<PkgTree> {
+  depName: string, lockfilePath: string[], lockFile: PackageLock, depPath: string[], isDev = false): Promise<PkgTree> {
 
   const depSubTree: PkgTree = {
     depType: undefined,
@@ -167,7 +167,7 @@ async function buildSubTreeRecursiveFromPackageLock(
   if (dep) {
     // update the tree
     depSubTree.version = dep.version;
-    depSubTree.depType = dep.dev ? DepType.dev : DepType.prod;
+    depSubTree.depType = (isDev || dep.dev) ? DepType.dev : DepType.prod;
     // check if we already have a package at particular version in the traversed path
     const depKey = `${depName}@${dep.version}`;
     if (depPath.indexOf(depKey) >= 0) {
@@ -180,7 +180,7 @@ async function buildSubTreeRecursiveFromPackageLock(
 
       await Promise.all(newDeps.map(async (subDep) => {
         depSubTree.dependencies[subDep] = await buildSubTreeRecursiveFromPackageLock(
-          subDep, [...lockfilePath, depName, 'dependencies'], lockFile, depPath.slice());
+          subDep, [...lockfilePath, depName, 'dependencies'], lockFile, depPath.slice(), isDev);
       }));
     }
     return depSubTree;
@@ -193,7 +193,7 @@ async function buildSubTreeRecursiveFromPackageLock(
     }
     // dependency was not found on a current path, remove last key (move closer to the root) and try again
     // visitedDepPaths can be passed by a reference, because traversing up doesn't update it
-    return buildSubTreeRecursiveFromPackageLock(depName, lockfilePath.slice(0, -1), lockFile, depPath);
+    return buildSubTreeRecursiveFromPackageLock(depName, lockfilePath.slice(0, -1), lockFile, depPath, isDev);
   }
 }
 
