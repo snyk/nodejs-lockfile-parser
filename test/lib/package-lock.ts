@@ -133,3 +133,11 @@ test('Performance: Parse big npm package-lock.json with cyclic deps and dev-deps
   );
   t.deepEqual(depTree.name, 'trucolor', 'Tree is created correctly');
 });
+
+test('Parse invalid npm package-lock.json', async (t) => {
+    t.rejects(buildDepTreeFromFiles(
+      `${__dirname}/fixtures/invalid-files/`,
+      'package.json',
+      'package-lock.json',
+    ), new Error('package-lock.json parsing failed with error'), 'Expected error is thrown');
+});

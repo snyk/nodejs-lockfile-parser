@@ -241,13 +241,21 @@ function parseLockFile(lockFileRaw: string, lockfileType: LockfileType, includeD
   let lockfile: PackageLock | YarnLock ;
   switch (lockfileType) {
     case LockfileType.npm:
-      lockfile = JSON.parse(lockFileRaw);
+      try {
+        lockfile = JSON.parse(lockFileRaw);
+      } catch (e) {
+        throw new Error(`package-lock.json parsing failed with error ${e.message}`);
+      }
       if (!(lockfile as PackageLock).dependencies && !includeDev) {
         throw new Error("No 'dependencies' property in package-lock.json");
       }
       break;
     case LockfileType.yarn:
-    lockfile = yarnLockfile.parse(lockFileRaw);
+    try {
+      lockfile = yarnLockfile.parse(lockFileRaw);
+    } catch (e) {
+      throw new Error(`yarn.lock parsing failed with an error: ${e.message}`);
+    }
     if ((lockfile as YarnLock).type !== 'success') {
       throw new Error('yarn.lock file parsing failed.');
     }
@@ -259,12 +267,19 @@ function parseLockFile(lockFileRaw: string, lockfileType: LockfileType, includeD
 
 async function buildDepTreeFromFiles(
   root: string, manifestFilePath: string, lockFilePath: string, includeDev = false): Promise<PkgTree> {
-  if (!root || !lockFilePath || !lockFilePath) {
+  if (!root || !manifestFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for buildDepTreeFromFiles()');
   }
 
-  const lockFileType = lockFilePath.endsWith('package-lock.json') ?
-    LockfileType.npm : LockfileType.yarn;
+  let lockFileType: LockfileType;
+  if (lockFilePath.endsWith('package-lock.json')) {
+    lockFileType = LockfileType.npm;
+  } else if (lockFilePath.endsWith('yarn.lock')) {
+    lockFileType = LockfileType.yarn;
+  } else {
+    throw new Error(`Unknown lockfile ${lockFilePath}.
+      Please provide either package-lock.json or yarn.lock.`);
+  }
 
   const manifestFileFullPath = path.resolve(root, manifestFilePath);
   const lockFileFullPath = path.resolve(root, lockFilePath);
@@ -273,7 +288,7 @@ async function buildDepTreeFromFiles(
     throw new Error(`Target file package.json not found at location: ${manifestFileFullPath}`);
   }
   if (!fs.existsSync(lockFileFullPath)) {
-    throw new Error(`Lockfile package-lock.json not found at location: ${lockFileFullPath}`);
+    throw new Error(`Lockfile not found at location: ${lockFileFullPath}`);
   }
 
   const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');

@@ -123,3 +123,11 @@ test('Parse yarn.lock with empty dependencies and includeDev = true', async (t) 
   );
   t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
 });
+
+test('Parse invalid yarn.lock', async (t) => {
+  t.rejects(buildDepTreeFromFiles(
+      `${__dirname}/fixtures/invalid-files/`,
+      'package.json',
+      'yarn.lock',
+    ), new Error('yarn.lock parsing failed with an error'), 'Expected error is thrown');
+});
