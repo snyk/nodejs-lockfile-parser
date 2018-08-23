@@ -189,7 +189,7 @@ async function buildSubTreeRecursiveFromPackageLock(
     if (!lockfilePath.length) {
       throw new Error(`Dependency ${depName} was not found in package-lock.json.
         Your package.json and package-lock.json are probably out of sync.
-        Please run npm install and try to parse the log again.`);
+        Please run "npm install" and try again.`);
     }
     // dependency was not found on a current path, remove last key (move closer to the root) and try again
     // visitedDepPaths can be passed by a reference, because traversing up doesn't update it
@@ -213,7 +213,7 @@ async function buildSubTreeRecursiveFromYarnLock(
   if (!dep) {
     throw new Error(`Dependency ${depKey} was not found in yarn.lock.
       Your package.json and yarn.lock are probably out of sync.
-      Please run npm install and try to parse the log again.`);
+      Please run "yarn install" and try again.`);
   }
 
   if (depPath.indexOf(depKey) >= 0) {
