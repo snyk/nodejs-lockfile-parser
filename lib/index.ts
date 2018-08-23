@@ -2,7 +2,20 @@ import 'source-map-support/register';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
-import * as yarnLockfile from '@yarnpkg/lockfile';
+import {getRuntimeVersion} from './utils';
+let yarnLockfile = {
+  parse: ((param?) => {
+    const unsupportedRuntimeError = new Error();
+    unsupportedRuntimeError.name = 'UnsupportedRuntimeError';
+    // tslint:disable:max-line-length
+    unsupportedRuntimeError.message = 'Parsing `yarn.lock` is not supported on Node.js version less than 6. Please upgrade your Node.js environment or use `package-lock.json`';
+    throw unsupportedRuntimeError;
+  }),
+};
+if (getRuntimeVersion() >= 6) {
+  // tslint:disable:no-var-requires
+  yarnLockfile = require('@yarnpkg/lockfile');
+}
 
 enum DepType {
   prod = 'prod',
@@ -251,15 +264,18 @@ function parseLockFile(lockFileRaw: string, lockfileType: LockfileType, includeD
       }
       break;
     case LockfileType.yarn:
-    try {
-      lockfile = yarnLockfile.parse(lockFileRaw);
-    } catch (e) {
-      throw new Error(`yarn.lock parsing failed with an error: ${e.message}`);
-    }
-    if ((lockfile as YarnLock).type !== 'success') {
-      throw new Error('yarn.lock file parsing failed.');
-    }
-    break;
+      try {
+        lockfile = yarnLockfile.parse(lockFileRaw);
+      } catch (e) {
+        if (e.name === 'UnsupportedRuntimeError') {
+          throw e;
+        }
+        throw new Error(`yarn.lock parsing failed with an error: ${e.message}`);
+      }
+      if ((lockfile as YarnLock).type !== 'success') {
+        throw new Error('yarn.lock file parsing failed.');
+      }
+      break;
   }
 
   return lockfile;
