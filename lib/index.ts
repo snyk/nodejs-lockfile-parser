@@ -133,7 +133,7 @@ async function buildDepTree(
 function getTopLevelDeps(targetFile: ManifestFile, includeDev: boolean): Dep[] {
   const dependencies: Dep[] = [];
 
-  const dependenciesIterator = Object.entries({
+  const dependenciesIterator = _.entries({
     ...targetFile.dependencies,
     ...(includeDev ? targetFile.devDependencies : null),
   });
@@ -221,7 +221,7 @@ async function buildSubTreeRecursiveFromYarnLock(
   } else {
     depPath.push(depKey);
     depSubTree.version = dep.version;
-    const newDeps = Object.entries({...dep.dependencies, ...dep.optionalDependencies});
+    const newDeps = _.entries({...dep.dependencies, ...dep.optionalDependencies});
 
     await Promise.all(newDeps.map(async ([name, version]) => {
       const newDep: Dep = {
