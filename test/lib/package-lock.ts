@@ -141,3 +141,11 @@ test('Parse invalid npm package-lock.json', async (t) => {
       'package-lock.json',
     ), new Error('package-lock.json parsing failed with error'), 'Expected error is thrown');
 });
+
+test('Parse invalid package.json', async (t) => {
+    t.rejects(buildDepTreeFromFiles(
+      `${__dirname}/fixtures/invalid-files/`,
+      'package.json_invalid',
+      'package-lock.json',
+    ), new Error('package.json parsing failed with error'), 'Expected error is thrown');
+});

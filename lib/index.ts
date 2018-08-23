@@ -104,7 +104,12 @@ async function buildDepTree(
   manifestFileContents: string, lockFileContents: string,
   includeDev = false, lockfileType?: LockfileType): Promise<PkgTree> {
 
-  const manifestFile: ManifestFile = JSON.parse(manifestFileContents);
+  let manifestFile: ManifestFile;
+  try {
+    manifestFile = JSON.parse(manifestFileContents);
+  } catch (e) {
+    throw new Error(`package.json parsing failed with error ${e.message}`);
+  }
 
   if (!manifestFile.dependencies && !includeDev) {
     throw new Error("No 'dependencies' property in package.json");
