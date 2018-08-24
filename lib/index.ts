@@ -2,10 +2,10 @@ import 'source-map-support/register';
 import * as fs from 'fs';
 import * as path from 'path';
 import {LockfileParser, Lockfile, ManifestFile, PkgTree,
-  DepType, parseManifestFile} from './parsers/parser';
+  DepType, parseManifestFile} from './parsers';
 import {PackageLockParser} from './parsers/package-lock-parser';
 import {YarnLockParser} from './parsers/yarn-lock-parse';
-import {getRuntimeVersion} from './utils';
+import getRuntimeVersion from './get-node-runtime-version';
 
 enum LockfileType {
   npm = 'npm',

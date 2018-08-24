@@ -36,15 +36,11 @@ export enum DepType {
 }
 
 export interface LockfileParser {
-  parseLockFile: parseLockFile;
-  getDependencyTree: getDependencyTree;
+  parseLockFile: (lockFileContents: string)
+      => Lockfile;
+  getDependencyTree: (manifestFile: ManifestFile, lockfile: Lockfile, includeDev?: boolean)
+      => Promise<PkgTree>;
 }
-
-export type parseLockFile = (lockFileContents: string)
-    => Lockfile;
-
-export type getDependencyTree = (manifestFile: ManifestFile, lockfile: Lockfile, includeDev?: boolean)
-    => Promise<PkgTree>;
 
 export type Lockfile = PackageLock | YarnLock;
 

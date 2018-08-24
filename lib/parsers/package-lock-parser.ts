@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
-  getTopLevelDeps} from './parser';
+  getTopLevelDeps} from './';
 
 export interface PackageLock {
   name: string;

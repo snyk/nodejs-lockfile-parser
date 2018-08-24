@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
-  getTopLevelDeps} from './parser';
+  getTopLevelDeps} from './';
 import getRuntimeVersion from '../get-node-runtime-version';
 
 export interface YarnLock {

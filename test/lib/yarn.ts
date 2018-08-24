@@ -5,7 +5,7 @@
 // tslint:disable:object-literal-key-quotes
 import {test} from 'tap';
 import {buildDepTreeFromFiles} from '../../lib';
-import {getRuntimeVersion} from '../../lib/utils';
+import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import * as fs from 'fs';
 import * as _ from 'lodash';
 
