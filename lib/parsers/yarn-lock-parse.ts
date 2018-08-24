@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
-import {LockfileParser, PkgTree, Dep, DepType, ManifestFile} from './parser';
-import { getRuntimeVersion } from '../utils';
+import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
+  getTopLevelDeps} from './parser';
+import getRuntimeVersion from '../get-node-runtime-version';
 
 export interface YarnLock {
   type: string;
@@ -22,7 +23,7 @@ export interface YarnLockDep {
   };
 }
 
-export class YarnLockParser extends LockfileParser {
+export class YarnLockParser implements LockfileParser {
 
   private yarnLockfileParser;
 
@@ -33,7 +34,6 @@ export class YarnLockParser extends LockfileParser {
     if (getRuntimeVersion() < 6) {
       throw new Error('yarn.lock parsing is supported for Node.js v6 and higher.');
     }
-    super();
     this.yarnLockfileParser = require('@yarnpkg/lockfile');
   }
 
@@ -56,7 +56,7 @@ export class YarnLockParser extends LockfileParser {
       version: manifestFile.version,
     };
 
-    const topLevelDeps: Dep[] = this.getTopLevelDeps(manifestFile, includeDev);
+    const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
 
     // asked to process empty deps
     if (_.isEmpty(manifestFile.dependencies) && !includeDev) {

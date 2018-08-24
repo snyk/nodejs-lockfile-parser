@@ -1,7 +1,8 @@
 import 'source-map-support/register';
 import * as fs from 'fs';
 import * as path from 'path';
-import {LockfileParser, Lockfile, ManifestFile, PkgTree, DepType} from './parsers/parser';
+import {LockfileParser, Lockfile, ManifestFile, PkgTree,
+  DepType, parseManifestFile} from './parsers/parser';
 import {PackageLockParser} from './parsers/package-lock-parser';
 import {YarnLockParser} from './parsers/yarn-lock-parse';
 import {getRuntimeVersion} from './utils';
@@ -49,7 +50,7 @@ async function buildDepTree(
         Only 'npm' or 'yarn' is currently supported.`);
   }
 
-  const manifestFile: ManifestFile = lockfileParser.parseManifestFile(manifestFileContents);
+  const manifestFile: ManifestFile = parseManifestFile(manifestFileContents);
   if (!manifestFile.dependencies && !includeDev) {
     throw new Error("No 'dependencies' property in package.json");
   }

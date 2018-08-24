@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
-import {LockfileParser, PkgTree, Dep, DepType, ManifestFile} from './parser';
+import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
+  getTopLevelDeps} from './parser';
 
 export interface PackageLock {
   name: string;
@@ -21,7 +22,7 @@ export interface PackageLockDep {
   dev?: boolean;
 }
 
-export class PackageLockParser extends LockfileParser {
+export class PackageLockParser implements LockfileParser {
 
   public parseLockFile(lockFileContents: string): PackageLock {
     try {
@@ -40,7 +41,7 @@ export class PackageLockParser extends LockfileParser {
       version: manifestFile.version,
     };
 
-    const topLevelDeps: Dep[] = this.getTopLevelDeps(manifestFile, includeDev);
+    const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
 
     // asked to process empty deps
     if (_.isEmpty(manifestFile.dependencies) && !includeDev) {
