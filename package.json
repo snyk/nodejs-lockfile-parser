@@ -11,8 +11,7 @@
     "lint": "tslint -p tsconfig.json",
     "build": "tsc",
     "build-watch": "tsc -w",
-    "prepare": "npm run build",
-    "semantic-release": "semantic-release"
+    "prepare": "npm run build"
   },
   "types": "./dist/index.d.ts",
   "repository": {
@@ -30,6 +29,7 @@
   ],
   "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
   "dependencies": {
+    "@yarnpkg/lockfile": "^1.0.2",
     "lodash": "4.17.10",
     "path": "0.12.7",
     "source-map-support": "^0.5.7"
@@ -37,7 +37,6 @@
   "devDependencies": {
     "@types/lodash": "^4.14.116",
     "@types/node": "10.5.5",
-    "semantic-release": "^15.9.3",
     "tap": "github:snyk/node-tap#alternative-runtimes",
     "ts-node": "7.0.0",
     "tslint": "5.11.0",

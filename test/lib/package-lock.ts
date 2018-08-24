@@ -37,19 +37,6 @@ test('Parse npm package-lock.json with devDependencies', async (t) => {
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });
 
-test('Parse npm package-lock.json with devDependencies', async (t) => {
-  const expectedDepTree = load('goof/dep-tree-with-dev-deps.json');
-
-  const depTree = await buildDepTreeFromFiles(
-    `${__dirname}/fixtures/goof/`,
-    'package.json',
-    'package-lock.json',
-    true,
-  );
-
-  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
-});
-
 test('Parse npm package.json with empty devDependencies', async (t) => {
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/empty-dev-deps/`,
@@ -106,7 +93,7 @@ test('Parse npm package-lock.json with empty dependencies and includeDev = false
   t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
 });
 
-test('Parse npm package-lock.json with empty dependencies and includeDev = false', async (t) => {
+test('Parse npm package-lock.json with empty dependencies and includeDev = true', async (t) => {
   const expectedDepTree = load('missing-deps/expected-tree.json');
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/missing-deps/`,
@@ -145,4 +132,20 @@ test('Performance: Parse big npm package-lock.json with cyclic deps and dev-deps
     true,
   );
   t.deepEqual(depTree.name, 'trucolor', 'Tree is created correctly');
+});
+
+test('Parse invalid npm package-lock.json', async (t) => {
+    t.rejects(buildDepTreeFromFiles(
+      `${__dirname}/fixtures/invalid-files/`,
+      'package.json',
+      'package-lock.json',
+    ), new Error('package-lock.json parsing failed with error'), 'Expected error is thrown');
+});
+
+test('Parse invalid package.json', async (t) => {
+    t.rejects(buildDepTreeFromFiles(
+      `${__dirname}/fixtures/invalid-files/`,
+      'package.json_invalid',
+      'package-lock.json',
+    ), new Error('package.json parsing failed with error'), 'Expected error is thrown');
 });
