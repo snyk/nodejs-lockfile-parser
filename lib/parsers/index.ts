@@ -9,7 +9,7 @@ export interface Dep {
 }
 
 export interface ManifestFile {
-  name?: string;
+  name: string;
   dependencies?: {
     [dep: string]: string;
   };
@@ -22,7 +22,7 @@ export interface ManifestFile {
 export interface PkgTree {
   name: string;
   version: string;
-  dependencies?: {
+  dependencies: {
     [dep: string]: PkgTree;
   };
   depType?: DepType;
@@ -33,6 +33,11 @@ export interface PkgTree {
 export enum DepType {
   prod = 'prod',
   dev = 'dev',
+}
+
+export enum LockfileType {
+  npm = 'npm',
+  yarn = 'yarn',
 }
 
 export interface LockfileParser {
