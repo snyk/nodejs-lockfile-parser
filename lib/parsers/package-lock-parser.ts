@@ -1,12 +1,13 @@
 import * as _ from 'lodash';
 import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
-  getTopLevelDeps} from './';
+  getTopLevelDeps, Lockfile, LockfileType} from './';
 
 export interface PackageLock {
   name: string;
   version: string;
   dependencies?: PackageLockDeps;
   lockfileVersion: number;
+  type: LockfileType.npm;
 }
 
 export interface PackageLockDeps {
@@ -26,19 +27,26 @@ export class PackageLockParser implements LockfileParser {
 
   public parseLockFile(lockFileContents: string): PackageLock {
     try {
-      return JSON.parse(lockFileContents);
+      const packageLock: PackageLock = JSON.parse(lockFileContents);
+      packageLock.type = LockfileType.npm;
+      return packageLock;
     } catch (e) {
       throw new Error(`package-lock.json parsing failed with error ${e.message}`);
     }
   }
 
   public async getDependencyTree(
-    manifestFile: ManifestFile, lockfile: PackageLock, includeDev = false): Promise<PkgTree> {
+    manifestFile: ManifestFile, lockfile: Lockfile, includeDev = false): Promise<PkgTree> {
+    if (lockfile.type !== LockfileType.npm) {
+      throw new Error('Unsupported lockfile provided. Please provide `package-lock.json`.');
+    }
+    const packageLock = lockfile as PackageLock;
+
     const depTree: PkgTree = {
       dependencies: {},
       hasDevDependencies: !_.isEmpty(manifestFile.devDependencies),
       name: manifestFile.name,
-      version: manifestFile.version,
+      version: manifestFile.version || '',
     };
 
     const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
@@ -50,7 +58,7 @@ export class PackageLockParser implements LockfileParser {
 
     await Promise.all(topLevelDeps.map(async (dep) => {
       depTree.dependencies[dep.name] = await this.buildSubTreeRecursiveFromPackageLock(
-        dep.name, ['dependencies'], lockfile as PackageLock, [], dep.dev);
+        dep.name, ['dependencies'], packageLock, [], dep.dev);
     }));
 
     return depTree;
@@ -64,7 +72,7 @@ export class PackageLockParser implements LockfileParser {
       depType: undefined,
       dependencies: {},
       name: depName,
-      version: undefined,
+      version: '', // will be set later or error will be thrown
     };
 
     // try to get list of deps on the path

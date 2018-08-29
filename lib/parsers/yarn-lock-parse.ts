@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
-  getTopLevelDeps} from './';
+  getTopLevelDeps, Lockfile, LockfileType} from './';
 import getRuntimeVersion from '../get-node-runtime-version';
 
 export interface YarnLock {
@@ -11,6 +11,7 @@ export interface YarnLock {
   dependencies?: {
     [depName: string]: YarnLockDep;
   };
+  lockfileType: LockfileType.yarn;
 }
 
 export interface YarnLockDep {
@@ -41,6 +42,7 @@ export class YarnLockParser implements LockfileParser {
     try {
       const yarnLock: YarnLock = this.yarnLockfileParser.parse(lockFileContents);
       yarnLock.dependencies = yarnLock.object;
+      yarnLock.type = LockfileType.yarn;
       return yarnLock;
     } catch (e) {
       throw new Error(`yarn.lock parsing failed with an error: ${e.message}`);
@@ -48,12 +50,17 @@ export class YarnLockParser implements LockfileParser {
   }
 
   public async getDependencyTree(
-    manifestFile: ManifestFile, lockfile: YarnLock, includeDev = false): Promise<PkgTree> {
+    manifestFile: ManifestFile, lockfile: Lockfile, includeDev = false): Promise<PkgTree> {
+    if (lockfile.type !== LockfileType.yarn) {
+      throw new Error('Unsupported lockfile provided. Please provide `package-lock.json`.');
+    }
+    const yarnLock = lockfile as YarnLock;
+
     const depTree: PkgTree = {
       dependencies: {},
       hasDevDependencies: !_.isEmpty(manifestFile.devDependencies),
       name: manifestFile.name,
-      version: manifestFile.version,
+      version: manifestFile.version || '',
     };
 
     const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
@@ -65,7 +72,7 @@ export class YarnLockParser implements LockfileParser {
 
     await Promise.all(topLevelDeps.map(async (dep) => {
       depTree.dependencies[dep.name] = await this.buildSubTreeRecursiveFromYarnLock(
-        dep, lockfile, []);
+        dep, yarnLock, []);
     }));
 
     return depTree;
@@ -77,7 +84,7 @@ export class YarnLockParser implements LockfileParser {
       depType: searchedDep.dev ? DepType.dev : DepType.prod,
       dependencies: {},
       name: searchedDep.name,
-      version: undefined,
+      version: '', // will be set later or error will be thrown
     };
 
     const depKey = `${searchedDep.name}@${searchedDep.version}`;
