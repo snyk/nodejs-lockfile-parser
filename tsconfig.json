@@ -1,18 +1,17 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist",
-        "pretty": true,
-        "target": "es5",
-        "lib": [
-          "es2017"
-        ],
-        "module": "commonjs",
-        "sourceMap": true,
-        "declaration": true,
-        "strict": true,
-        "noImplicitAny": false // Needed to compile tap
-    },
-    "include": [
-        "./lib/**/*",
-    ]
+  "compilerOptions": {
+    "outDir": "./dist",
+    "pretty": true,
+    "target": "es5",
+    "lib": [
+      "es2017"
+    ],
+    "module": "commonjs",
+    "sourceMap": true,
+    "declaration": true,
+    "strict": true
+  },
+  "include": [
+    "./lib/**/*"
+  ]
 }

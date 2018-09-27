@@ -6,8 +6,7 @@
     "parse-nodejs-lockfile": "./bin/index.js"
   },
   "scripts": {
-    "test": "npm run lint && npm run unit-test",
-    "unit-test": "tap test/lib -R=spec --timeout=300 --node-path ts-node --test-file-pattern '/\\.[tj]s$/'",
+    "test": "npm run lint && jest",
     "lint": "tslint -p tsconfig.json",
     "build": "tsc",
     "build-watch": "tsc -w",
@@ -35,10 +34,11 @@
     "source-map-support": "^0.5.7"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.2",
     "@types/lodash": "^4.14.116",
     "@types/node": "10.5.5",
-    "tap": "github:snyk/node-tap#alternative-runtimes",
-    "ts-node": "7.0.0",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.2",
     "tslint": "5.11.0",
     "typescript": "3.0.1"
   }

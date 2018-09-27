@@ -26,7 +26,7 @@ export interface YarnLockDep {
 
 export class YarnLockParser implements LockfileParser {
 
-  private yarnLockfileParser;
+  private yarnLockfileParser: any;
 
   constructor() {
     // @yarnpkg/lockfile doesn't work with Node.js < 6 and crashes just after
