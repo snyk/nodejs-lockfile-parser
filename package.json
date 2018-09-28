@@ -31,7 +31,6 @@
   "dependencies": {
     "@yarnpkg/lockfile": "^1.0.2",
     "lodash": "4.17.10",
-    "path": "0.12.7",
     "source-map-support": "^0.5.7"
   },
   "devDependencies": {
