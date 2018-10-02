@@ -1,6 +1,7 @@
 import 'source-map-support/register';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as _ from 'lodash';
 import {LockfileParser, Lockfile, ManifestFile, PkgTree,
   DepType, parseManifestFile, LockfileType} from './parsers';
 import {PackageLockParser} from './parsers/package-lock-parser';
@@ -60,9 +61,9 @@ async function buildDepTreeFromFiles(
   }
 
   let lockFileType: LockfileType;
-  if (lockFilePath.endsWith('package-lock.json')) {
+  if (_.endsWith(lockFilePath, 'package-lock.json')) {
     lockFileType = LockfileType.npm;
-  } else if (lockFilePath.endsWith('yarn.lock')) {
+  } else if (_.endsWith(lockFilePath, 'yarn.lock')) {
     lockFileType = LockfileType.yarn;
   } else {
     throw new Error(`Unknown lockfile ${lockFilePath}.
