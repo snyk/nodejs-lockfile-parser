@@ -31,11 +31,12 @@
   "dependencies": {
     "@yarnpkg/lockfile": "^1.0.2",
     "lodash": "4.17.10",
-    "source-map-support": "^0.5.7"
+    "source-map-support": "^0.5.7",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.116",
-    "@types/node": "10.5.5",
+    "@types/node": "^4.0.47",
     "tap": "github:snyk/node-tap#alternative-runtimes",
     "ts-node": "7.0.0",
     "tslint": "5.11.0",

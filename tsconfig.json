@@ -3,16 +3,15 @@
         "outDir": "./dist",
         "pretty": true,
         "target": "es5",
-        "lib": [
-          "es2017"
-        ],
+        "lib": ["es5", "es2015.promise"],
         "module": "commonjs",
         "sourceMap": true,
         "declaration": true,
+        "importHelpers": true,
         "strict": true,
         "noImplicitAny": false // Needed to compile tap
     },
     "include": [
-        "./lib/**/*",
+        "./lib/**/*"
     ]
 }
