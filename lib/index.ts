@@ -47,9 +47,7 @@ async function buildDepTree(
   }
 
   const manifestFile: ManifestFile = parseManifestFile(manifestFileContents);
-  if (!manifestFile.dependencies && !includeDev) {
-    throw new Error("No 'dependencies' property in package.json");
-  }
+
   const lockFile: Lockfile = lockfileParser.parseLockFile(lockFileContents);
   return lockfileParser.getDependencyTree(manifestFile, lockFile, includeDev);
 }

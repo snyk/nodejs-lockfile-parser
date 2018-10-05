@@ -115,6 +115,17 @@ test('Parse npm package-lock.json with dev deps only', async (t) => {
   t.deepEqual(depTree, expectedDepTree, 'Tree is created with dev deps only');
 });
 
+test('Parse npm package-lock.json with dev deps only', async (t) => {
+  const expectedDepTreeEmpty = load('dev-deps-only/expected-tree-empty.json');
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/dev-deps-only/`,
+    'package.json',
+    'package-lock.json',
+    false,
+  );
+  t.deepEqual(depTree, expectedDepTreeEmpty, 'Tree is created empty');
+});
+
 test('Parse npm package-lock.json with cyclic deps', async (t) => {
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/cyclic-dep-simple/`,
