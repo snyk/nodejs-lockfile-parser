@@ -32,12 +32,14 @@ interface DepMap {
 }
 
 interface DepMapItem extends PkgTree {
-  dependenciesPathsToProcess: string[];
+  requires: string[];
 }
 
 export class PackageLockParser implements LockfileParser {
 
-  private pathDelimiter = ',';
+  // package names must not contain URI unsafe characters, so one of them is
+  // a good delimiter (https://www.ietf.org/rfc/rfc1738.txt)
+  private pathDelimiter = '|';
 
   public parseLockFile(lockFileContents: string): PackageLock {
     try {
@@ -75,88 +77,76 @@ export class PackageLockParser implements LockfileParser {
     // relative path on disc
     const depMap: DepMap = await this.flattenLockfile(packageLock);
 
-    // all paths are identified, we can create a graph of their dependency
-    const depGraph = this.createGraphOfDependencies(depMap);
+    // all paths are identified, we can create a graph representing what depends on what
+    const depGraph: graphlib.Graph = this.createGraphOfDependencies(depMap);
 
-    // topological sort will be applied and it requires acyclic graphs, so we
-    // have to remove cycles
-    const cycleStarts = {};
+    // topological sort will be applied and it requires acyclic graphs
+    let cycleStarts = {}; // cycle starts are need for top level dependencies
     if (!graphlib.alg.isAcyclic(depGraph)) {
-      const cycles = graphlib.alg.findCycles(depGraph);
+      const cycles: string[][] = graphlib.alg.findCycles(depGraph);
       for (const cycle of cycles) {
-        removeCycle(cycle);
+        cycleStarts = {...cycleStarts, ...this.removeCycle(cycle, depMap, depGraph)};
       }
     }
 
-    /* Algorithm for cycle removal:
-      For every node in a cycle:
-        1. Create a duplicate of entry node (without edges)
-        2. For every cyclic dependency of entry node, create a duplicate of
-            the dependency and connect it with the duplicated entry node
-        3.a If edge goes to already-visited dependency, end of cycle is found;
-            update metadata and do not continue traversing
-        3.b Follow the edge and repeat the process, storing visited dependency-paths.
-            All non-cyclic dependencies of duplicated node need to be updated.
-        4. All non-cyclic dependencies or dependants of original node need to be
-          updated to be connected with the duplicated one
+    // transform depMap to a map of PkgTrees
+    const depTrees: {[depPath: string]: PkgTree} = await this.createDepTrees(depMap, depGraph);
 
-      Once completed for all nodes in a cycle, original cyclic nodes can
-      be removed.
-    */
-
-    function removeCycle(cycle) {
-      // For every node in a cycle:
-      for (const start of cycle) {
-        // 1. Create a duplicate of entry node (without edges)
-        const newNode = start + uuid();
-        cycleStarts[start] = newNode;
-        depMap[newNode] = depMap[start];
-        depGraph.setNode(newNode);
-        walkCycleRec(start, [], cycle, newNode);
-        // 4. All non-cyclic dependencies or dependants of original node need to be
-        //   updated to be connected with the duplicated one
-        // dependats
-        const entryEdges = depGraph.outEdges(start).filter((e) => !cycle.includes(e.w));
-        for (const edge of entryEdges) {
-          depGraph.setEdge(newNode, edge.w);
-        }
-        // dependencies
-        const outEdges = depGraph.inEdges(start).filter((e) => !cycle.includes(e.v));
-        for (const edge of outEdges) {
-          depGraph.setEdge(edge.v, newNode);
-        }
+    // get trees for dependencies from manifest file
+    const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
+    await Promise.all(topLevelDeps.map(async (dep) => {
+      // if any of top level dependencies is a part of cycle
+      // it now has a different item in the map
+      const depName = cycleStarts[dep.name] ? cycleStarts[dep.name] : dep.name;
+      if (depTrees[depName]) {
+        depTree.dependencies[dep.name] = depTrees[depName];
       }
+    }));
 
-      // Once completed for all nodes in a cycle, original cyclic nodes can
-      // be removed.
-      for (const start of cycle) {
-        depGraph.removeNode(start);
-      }
-    }
+    return depTree;
+  }
 
-    function walkCycleRec(node, traversed, cycle, nodeCopy) {
-      // 2. For every cyclic dependency of entry node, create a duplicate of
-      // the dependency and connect it with the duplicated entry node
-      const edges = depGraph.inEdges(node).filter((e) => cycle.includes(e.v));
-      for (const edge of edges) {
-        let copyName;
+  /* Algorithm for cycle removal:
+    For every node in a cycle:
+      1. Create a duplicate of entry node (without edges)
+      2. For every cyclic dependency of entry node, create a duplicate of
+          the dependency and connect it with the duplicated entry node
+      3.a If edge goes to already-visited dependency, end of cycle is found;
+          update metadata and do not continue traversing
+      3.b Follow the edge and repeat the process, storing visited dependency-paths.
+          All non-cyclic dependencies of duplicated node need to be updated.
+      4. All non-cyclic dependencies or dependants of original node need to be
+        updated to be connected with the duplicated one
+
+    Once completed for all nodes in a cycle, original cyclic nodes can
+    be removed.
+  */
+
+  private removeCycle(
+    cycle: string[], depMap: DepMap, depGraph: graphlib.Graph): {[cycleStart: string]: string} {
+
+    function walkCycleRec(node, traversed, currentCycle, nodeCopy) {
+      // 2. For every cyclic dependency of entry node...
+      const edgesToProcess = (depGraph.inEdges(node) as graphlib.Edge[])
+        .filter((e) => currentCycle.includes(e.v));
+      for (const edge of edgesToProcess) {
+      // ... create a duplicate of the dependency...
+        const copyName = edge.v + uuid();
+      // ...and connect it with the duplicated entry node
+        depGraph.setEdge(copyName, nodeCopy);
+        // metadata update
+        depMap[copyName] = _.cloneDeep(depMap[edge.v]);
         if (traversed.includes(edge.v)) {
           // 3.a If edge goes to already-visited dependency, end of cycle is found;
           // update metadata and do not continue traversing
-          copyName = edge.v + uuid();
-          depGraph.setEdge(copyName, nodeCopy);
-          // metadata update
-          depMap[copyName] = _.cloneDeep(depMap[edge.v]);
           depMap[copyName].cyclic = true;
         } else {
           // 3.b Follow the edge and repeat the process, storing visited dependency-paths
-          copyName = edge.v + uuid();
           // metadata update
-          depMap[copyName] = _.cloneDeep(depMap[edge.v]);
-          depGraph.setEdge(copyName, nodeCopy);
-          walkCycleRec(edge.v, [...traversed, node], cycle, copyName);
+          walkCycleRec(edge.v, [...traversed, node], currentCycle, copyName);
           // All non-cyclic dependencies of duplicated node need to be updated.
-          const edgesToCopy = depGraph.inEdges(edge.v).filter((e) => !cycle.includes(e.v));
+          const edgesToCopy = (depGraph.inEdges(edge.v) as graphlib.Edge[])
+            .filter((e) => !currentCycle.includes(e.v));
           for (const edgeToCopy of edgesToCopy) {
             depGraph.setEdge(edgeToCopy.v, copyName);
           }
@@ -164,28 +154,48 @@ export class PackageLockParser implements LockfileParser {
       }
     }
 
-    // transform depMap to a map of PkgTrees
-    const depTreesCache: {[depPath: string]: PkgTree} = await this.createDepTrees(depMap, depGraph);
+    const cycleStarts = {};
+    // For every node in a cycle:
+    for (const start of cycle) {
+      // 1. Create a uniqe duplicate of entry node (without edges)
+      const newNode = start + uuid();
+      cycleStarts[start] = newNode;
+      depMap[newNode] = depMap[start];
+      // update depMap with new node
+      depGraph.setNode(newNode);
+      walkCycleRec(start, [], cycle, newNode);
+      // 4. All non-cyclic dependencies or dependants of original node need to be
+      //   updated to be connected with the duplicated one
 
-    // get trees for dependencies from manifest file
-    const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
-    await Promise.all(topLevelDeps.map(async (dep) => {
-      const depName = cycleStarts[dep.name] ? cycleStarts[dep.name] : dep.name;
-      if (depTreesCache[depName]) {
-        depTree.dependencies[dep.name] = depTreesCache[depName];
+      // dependants
+      const edges = depGraph.nodeEdges(start) as graphlib.Edge[]; // node has to have edges
+      const entryEdges = edges.filter((e) => !_.includes(cycle, e.w));
+      for (const edge of entryEdges) {
+        depGraph.setEdge(newNode, edge.w);
       }
-    }));
+      // dependencies
+      const outEdges = edges.filter((e) => !_.includes(cycle, e.v));
+      for (const edge of outEdges) {
+        depGraph.setEdge(edge.v, newNode);
+      }
+    }
 
-    return depTree;
+    // Once completed for all nodes in a cycle, original cyclic nodes can
+    // be removed.
+    for (const start of cycle) {
+      depGraph.removeNode(start);
+    }
+
+    return cycleStarts;
   }
 
-  private createGraphOfDependencies(depMap: DepMap): any {
+  private createGraphOfDependencies(depMap: DepMap): graphlib.Graph {
     const depGraph = new graphlib.Graph();
     for (const depName of Object.keys(depMap)) {
       depGraph.setNode(depName, depName);
     }
     for (const [depPath, dep] of _.entries(depMap)) {
-      for (const depName of dep.dependenciesPathsToProcess) {
+      for (const depName of dep.requires) {
         const subDepPath = this.findDepsPath(depPath, depName, depMap);
         // direction is from the dependency to the package requiring it
         depGraph.setEdge(subDepPath, depPath);
@@ -200,12 +210,13 @@ export class PackageLockParser implements LockfileParser {
   private findDepsPath(startPath: string, depName: string, depMap: DepMap): string {
     const depPath = startPath.split(this.pathDelimiter);
     while (depPath.length) {
-      const currentPath = depPath.concat(depName).toString();
+      const currentPath = depPath.concat(depName).join(this.pathDelimiter);
       if (depMap[currentPath]) {
         return currentPath;
       }
       depPath.pop();
     }
+
     if (!depMap[depName]) {
       throw new OutOfSyncError(depName, 'npm');
     }
@@ -215,7 +226,7 @@ export class PackageLockParser implements LockfileParser {
 
   // Algorithm is based on dynamic programming technique and tries to build
   // "more simple" trees and compose them into bigger ones.
-  private async createDepTrees(depMap: any, depGraph): Promise<{[depPath: string]: PkgTree}> {
+  private async createDepTrees(depMap: DepMap, depGraph): Promise<{[depPath: string]: PkgTree}> {
 
     // Graph has to be acyclic
     if (!graphlib.alg.isAcyclic(depGraph)) {
@@ -237,34 +248,32 @@ export class PackageLockParser implements LockfileParser {
         const subDep = depTrees[subDepPath];
         dep.dependencies[subDep.name] = subDep;
       }
-      delete dep.dependenciesPathsToProcess;
+      delete dep.requires;
       depTrees[depKey] = {...dep as PkgTree};
     }
-
-    // console.log(depTrees);
 
     return depTrees;
   }
 
   private async flattenLockfile(lockfile: PackageLock): Promise<DepMap> {
-    const depQueue: DepMap = {};
+    const depMap: DepMap = {};
 
     const flattenLockfileRec = async (lockfileDeps: PackageLockDeps, path: string[]) => {
       await Promise.all(_.entries(lockfileDeps).map(async ([depName, dep]) => {
         const depNode: DepMapItem = {
           depType: dep.dev ? DepType.dev : DepType.prod,
           dependencies: {},
-          dependenciesPathsToProcess: [],
           name: depName,
+          requires: [],
           version: dep.version,
         };
 
         if (dep.requires) {
-          depNode.dependenciesPathsToProcess = Object.keys(dep.requires);
+          depNode.requires = Object.keys(dep.requires);
         }
 
         const depKey: string[] = [...path, depName];
-        depQueue[depKey.join(this.pathDelimiter)] = depNode;
+        depMap[depKey.join(this.pathDelimiter)] = depNode;
         if (dep.dependencies) {
           await flattenLockfileRec(dep.dependencies, depKey);
         }
@@ -273,6 +282,6 @@ export class PackageLockParser implements LockfileParser {
 
     await flattenLockfileRec(lockfile.dependencies || {}, []);
 
-    return depQueue;
+    return depMap;
   }
 }

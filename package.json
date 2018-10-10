@@ -37,8 +37,10 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/graphlib": "^2.1.4",
     "@types/lodash": "^4.14.116",
     "@types/node": "^4.0.47",
+    "@types/uuid": "^3.4.4",
     "tap": "github:snyk/node-tap#alternative-runtimes",
     "ts-node": "7.0.0",
     "tslint": "5.11.0",
