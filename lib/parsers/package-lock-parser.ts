@@ -75,7 +75,7 @@ export class PackageLockParser implements LockfileParser {
     // prepare a flat map, where dependency path is a key to dependency object
     // path is an unique identifier for each dependency and corresponds to the
     // relative path on disc
-    const depMap: DepMap = await this.flattenLockfile(packageLock);
+    const depMap: DepMap = this.flattenLockfile(packageLock);
 
     // all paths are identified, we can create a graph representing what depends on what
     const depGraph: graphlib.Graph = this.createGraphOfDependencies(depMap);
@@ -94,15 +94,14 @@ export class PackageLockParser implements LockfileParser {
 
     // get trees for dependencies from manifest file
     const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
-    await Promise.all(topLevelDeps.map(async (dep) => {
+    for (const dep of topLevelDeps) {
       // if any of top level dependencies is a part of cycle
       // it now has a different item in the map
       const depName = cycleStarts[dep.name] ? cycleStarts[dep.name] : dep.name;
       if (depTrees[depName]) {
         depTree.dependencies[dep.name] = depTrees[depName];
       }
-    }));
-
+    }
     return depTree;
   }
 
@@ -228,6 +227,17 @@ export class PackageLockParser implements LockfileParser {
   // "more simple" trees and compose them into bigger ones.
   private async createDepTrees(depMap: DepMap, depGraph): Promise<{[depPath: string]: PkgTree}> {
 
+    function setImmediatePromise() {
+      return new Promise((resolve, reject) => {
+        return setImmediate((err) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve();
+        });
+      });
+    }
+
     // Graph has to be acyclic
     if (!graphlib.alg.isAcyclic(depGraph)) {
       throw new Error('Cycles were not removed from graph.');
@@ -250,16 +260,17 @@ export class PackageLockParser implements LockfileParser {
       }
       delete dep.requires;
       depTrees[depKey] = {...dep as PkgTree};
+      await setImmediatePromise();
     }
 
     return depTrees;
   }
 
-  private async flattenLockfile(lockfile: PackageLock): Promise<DepMap> {
+  private flattenLockfile(lockfile: PackageLock): DepMap {
     const depMap: DepMap = {};
 
-    const flattenLockfileRec = async (lockfileDeps: PackageLockDeps, path: string[]) => {
-      await Promise.all(_.entries(lockfileDeps).map(async ([depName, dep]) => {
+    const flattenLockfileRec = (lockfileDeps: PackageLockDeps, path: string[]) => {
+      for (const [depName, dep] of _.entries(lockfileDeps)) {
         const depNode: DepMapItem = {
           depType: dep.dev ? DepType.dev : DepType.prod,
           dependencies: {},
@@ -275,12 +286,12 @@ export class PackageLockParser implements LockfileParser {
         const depKey: string[] = [...path, depName];
         depMap[depKey.join(this.pathDelimiter)] = depNode;
         if (dep.dependencies) {
-          await flattenLockfileRec(dep.dependencies, depKey);
+          flattenLockfileRec(dep.dependencies, depKey);
         }
-      }));
+      }
     };
 
-    await flattenLockfileRec(lockfile.dependencies || {}, []);
+    flattenLockfileRec(lockfile.dependencies || {}, []);
 
     return depMap;
   }
