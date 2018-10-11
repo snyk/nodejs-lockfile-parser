@@ -99,10 +99,21 @@ export class PackageLockParser implements LockfileParser {
       // it now has a different item in the map
       const depName = cycleStarts[dep.name] ? cycleStarts[dep.name] : dep.name;
       if (depTrees[depName]) {
-        depTree.dependencies[dep.name] = depTrees[depName];
+        // if the top level dependency is dev, all children are dev
+        depTree.dependencies[dep.name] = dep.dev ?
+          this.setDevDepRec(_.cloneDeep(depTrees[depName])) : depTrees[depName];
       }
     }
     return depTree;
+  }
+
+  private setDevDepRec(pkgTree: PkgTree) {
+    for (const [name, subTree] of _.entries(pkgTree.dependencies)) {
+      pkgTree.dependencies[name] = this.setDevDepRec(subTree);
+    }
+    pkgTree.depType = DepType.dev;
+
+    return pkgTree;
   }
 
   /* Algorithm for cycle removal:
