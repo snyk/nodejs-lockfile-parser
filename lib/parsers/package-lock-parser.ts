@@ -228,14 +228,7 @@ export class PackageLockParser implements LockfileParser {
   private async createDepTrees(depMap: DepMap, depGraph): Promise<{[depPath: string]: PkgTree}> {
 
     function setImmediatePromise() {
-      return new Promise((resolve, reject) => {
-        return setImmediate((err) => {
-          if (err) {
-            return reject(err);
-          }
-          resolve();
-        });
-      });
+      return new Promise((resolve) => setImmediate(resolve));
     }
 
     // Graph has to be acyclic
@@ -260,6 +253,8 @@ export class PackageLockParser implements LockfileParser {
       }
       delete dep.requires;
       depTrees[depKey] = {...dep as PkgTree};
+      // Since this code doesn't handle any I/O or network, we need to force
+      // event loop to tick while being used in server for request processing
       await setImmediatePromise();
     }
 
