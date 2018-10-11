@@ -138,7 +138,7 @@ export class PackageLockParser implements LockfileParser {
     function walkCycleRec(node, traversed, currentCycle, nodeCopy) {
       // 2. For every cyclic dependency of entry node...
       const edgesToProcess = (depGraph.inEdges(node) as graphlib.Edge[])
-        .filter((e) => currentCycle.includes(e.v));
+        .filter((e) => _.includes(currentCycle, e.v));
       for (const edge of edgesToProcess) {
       // ... create a duplicate of the dependency...
         const copyName = edge.v + uuid();
@@ -146,7 +146,7 @@ export class PackageLockParser implements LockfileParser {
         depGraph.setEdge(copyName, nodeCopy);
         // metadata update
         depMap[copyName] = _.cloneDeep(depMap[edge.v]);
-        if (traversed.includes(edge.v)) {
+        if (_.includes(traversed, edge.v)) {
           // 3.a If edge goes to already-visited dependency, end of cycle is found;
           // update metadata and do not continue traversing
           depMap[copyName].cyclic = true;
@@ -156,7 +156,7 @@ export class PackageLockParser implements LockfileParser {
           walkCycleRec(edge.v, [...traversed, node], currentCycle, copyName);
           // All non-cyclic dependencies of duplicated node need to be updated.
           const edgesToCopy = (depGraph.inEdges(edge.v) as graphlib.Edge[])
-            .filter((e) => !currentCycle.includes(e.v));
+            .filter((e) => !_.includes(currentCycle, e.v));
           for (const edgeToCopy of edgesToCopy) {
             depGraph.setEdge(edgeToCopy.v, copyName);
           }
