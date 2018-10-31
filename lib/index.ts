@@ -7,6 +7,7 @@ import {LockfileParser, Lockfile, ManifestFile, PkgTree,
 import {PackageLockParser} from './parsers/package-lock-parser';
 import {YarnLockParser} from './parsers/yarn-lock-parse';
 import getRuntimeVersion from './get-node-runtime-version';
+import {UnsupportedRuntimeError, InvalidUserInputError} from './errors';
 
 export {
   buildDepTree,
@@ -34,16 +35,15 @@ async function buildDepTree(
       if (getRuntimeVersion() >= 6) {
         lockfileParser = new YarnLockParser();
       } else {
-        const unsupportedRuntimeError = new Error();
-        unsupportedRuntimeError.name = 'UnsupportedRuntimeError';
-        // tslint:disable:max-line-length
-        unsupportedRuntimeError.message = 'Parsing `yarn.lock` is not supported on Node.js version less than 6. Please upgrade your Node.js environment or use `package-lock.json`';
-        throw unsupportedRuntimeError;
+        throw new UnsupportedRuntimeError('Parsing `yarn.lock` is not ' +
+          'supported on Node.js version less than 6. Please upgrade your ' +
+          'Node.js environment or use `package-lock.json`');
       }
       break;
     default:
-      throw new Error(`Unsupported lockfile type ${lockfileType} provided.
-        Only 'npm' or 'yarn' is currently supported.`);
+      throw new InvalidUserInputError('Unsupported lockfile type ' +
+        `${lockfileType} provided. Only 'npm' or 'yarn' is currently ` +
+        'supported.');
   }
 
   const manifestFile: ManifestFile = parseManifestFile(manifestFileContents);
@@ -64,18 +64,20 @@ async function buildDepTreeFromFiles(
   } else if (_.endsWith(lockFilePath, 'yarn.lock')) {
     lockFileType = LockfileType.yarn;
   } else {
-    throw new Error(`Unknown lockfile ${lockFilePath}.
-      Please provide either package-lock.json or yarn.lock.`);
+    throw new InvalidUserInputError(`Unknown lockfile ${lockFilePath}. ` +
+      'Please provide either package-lock.json or yarn.lock.');
   }
 
   const manifestFileFullPath = path.resolve(root, manifestFilePath);
   const lockFileFullPath = path.resolve(root, lockFilePath);
 
   if (!fs.existsSync(manifestFileFullPath)) {
-    throw new Error(`Target file package.json not found at location: ${manifestFileFullPath}`);
+    throw new InvalidUserInputError('Target file package.json not found at ' +
+      `location: ${manifestFileFullPath}`);
   }
   if (!fs.existsSync(lockFileFullPath)) {
-    throw new Error(`Lockfile not found at location: ${lockFileFullPath}`);
+    throw new InvalidUserInputError('Lockfile not found at location: ' +
+      lockFileFullPath);
   }
 
   const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');

@@ -7,6 +7,7 @@ import {test} from 'tap';
 import {buildDepTreeFromFiles} from '../../lib';
 import * as fs from 'fs';
 import * as _ from 'lodash';
+import {InvalidUserInputError, OutOfSyncError} from '../../lib/errors';
 
 const load = (filename) => JSON.parse(
   fs.readFileSync(`${__dirname}/fixtures/${filename}`, 'utf8'),
@@ -146,17 +147,36 @@ test('Performance: Parse big npm package-lock.json with cyclic deps and dev-deps
 });
 
 test('Parse invalid npm package-lock.json', async (t) => {
-    t.rejects(buildDepTreeFromFiles(
+  t.rejects(
+    buildDepTreeFromFiles(
       `${__dirname}/fixtures/invalid-files/`,
       'package.json',
       'package-lock.json',
-    ), new Error('package-lock.json parsing failed with error'), 'Expected error is thrown');
+    ),
+    new InvalidUserInputError('package-lock.json parsing failed with error'),
+    'Expected error is thrown',
+  );
 });
 
 test('Parse invalid package.json', async (t) => {
-    t.rejects(buildDepTreeFromFiles(
+  t.rejects(
+    buildDepTreeFromFiles(
       `${__dirname}/fixtures/invalid-files/`,
       'package.json_invalid',
       'package-lock.json',
-    ), new Error('package.json parsing failed with error'), 'Expected error is thrown');
+    ),
+    new InvalidUserInputError('package.json parsing failed with error'),
+    'Expected error is thrown',
+  );
+});
+
+test('Out of sync package-lock.json', async (t) => {
+  t.rejects(
+    buildDepTreeFromFiles(
+      `${__dirname}/fixtures/out-of-sync/`,
+      'package.json',
+      'package-lock.json',
+    ),
+    new OutOfSyncError('lodash', 'npm'),
+  );
 });

@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
   getTopLevelDeps, Lockfile, LockfileType} from './';
+import {InvalidUserInputError, OutOfSyncError} from '../errors';
 
 export interface PackageLock {
   name: string;
@@ -31,14 +32,16 @@ export class PackageLockParser implements LockfileParser {
       packageLock.type = LockfileType.npm;
       return packageLock;
     } catch (e) {
-      throw new Error(`package-lock.json parsing failed with error ${e.message}`);
+      throw new InvalidUserInputError('package-lock.json parsing failed with ' +
+        `error ${e.message}`);
     }
   }
 
   public async getDependencyTree(
     manifestFile: ManifestFile, lockfile: Lockfile, includeDev = false): Promise<PkgTree> {
     if (lockfile.type !== LockfileType.npm) {
-      throw new Error('Unsupported lockfile provided. Please provide `package-lock.json`.');
+      throw new InvalidUserInputError('Unsupported lockfile provided. Please ' +
+        'provide `package-lock.json`.');
     }
     const packageLock = lockfile as PackageLock;
 
@@ -102,9 +105,7 @@ export class PackageLockParser implements LockfileParser {
     } else {
       // tree was walked to the root and dependency was not found
       if (!lockfilePath.length) {
-        throw new Error(`Dependency ${depName} was not found in package-lock.json.
-          Your package.json and package-lock.json are probably out of sync.
-          Please run "npm install" and try again.`);
+        throw new OutOfSyncError(depName, 'npm');
       }
       // dependency was not found on a current path, remove last key (move closer to the root) and try again
       // visitedDepPaths can be passed by a reference, because traversing up doesn't update it

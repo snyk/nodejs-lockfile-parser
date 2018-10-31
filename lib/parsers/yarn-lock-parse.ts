@@ -2,6 +2,11 @@ import * as _ from 'lodash';
 import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
   getTopLevelDeps, Lockfile, LockfileType} from './';
 import getRuntimeVersion from '../get-node-runtime-version';
+import {
+  InvalidUserInputError,
+  UnsupportedRuntimeError,
+  OutOfSyncError,
+} from '../errors';
 
 export interface YarnLock {
   type: string;
@@ -33,7 +38,8 @@ export class YarnLockParser implements LockfileParser {
     // the import, so it has to be required conditionally
     // more details at https://github.com/yarnpkg/yarn/issues/6304
     if (getRuntimeVersion() < 6) {
-      throw new Error('yarn.lock parsing is supported for Node.js v6 and higher.');
+      throw new UnsupportedRuntimeError('yarn.lock parsing is supported for ' +
+        'Node.js v6 and higher.');
     }
     this.yarnLockfileParser = require('@yarnpkg/lockfile');
   }
@@ -45,14 +51,16 @@ export class YarnLockParser implements LockfileParser {
       yarnLock.type = LockfileType.yarn;
       return yarnLock;
     } catch (e) {
-      throw new Error(`yarn.lock parsing failed with an error: ${e.message}`);
+      throw new InvalidUserInputError('yarn.lock parsing failed with an ' +
+        `error: ${e.message}`);
     }
   }
 
   public async getDependencyTree(
     manifestFile: ManifestFile, lockfile: Lockfile, includeDev = false): Promise<PkgTree> {
     if (lockfile.type !== LockfileType.yarn) {
-      throw new Error('Unsupported lockfile provided. Please provide `package-lock.json`.');
+      throw new InvalidUserInputError('Unsupported lockfile provided. ' +
+        'Please provide `package-lock.json`.');
     }
     const yarnLock = lockfile as YarnLock;
 
@@ -92,9 +100,7 @@ export class YarnLockParser implements LockfileParser {
     const dep = _.get(lockFile.object, depKey);
 
     if (!dep) {
-      throw new Error(`Dependency ${depKey} was not found in yarn.lock.
-        Your package.json and yarn.lock are probably out of sync.
-        Please run "yarn install" and try again.`);
+      throw new OutOfSyncError(searchedDep.name, 'yarn');
     }
 
     if (depPath.indexOf(depKey) >= 0) {

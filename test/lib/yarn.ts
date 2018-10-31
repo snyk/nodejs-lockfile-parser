@@ -8,17 +8,25 @@ import {buildDepTreeFromFiles} from '../../lib';
 import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import * as fs from 'fs';
 import * as _ from 'lodash';
+import {
+  UnsupportedRuntimeError,
+  InvalidUserInputError,
+  OutOfSyncError,
+} from '../../lib/errors';
 
 if (getRuntimeVersion() < 6) {
   test('Parse yarn.lock', async (t) => {
-    const expectedError = new Error();
-    expectedError.name = 'UnsupportedRuntimeError';
-    expectedError.message = 'Parsing `yarn.lock` is not supported on Node.js version less than 6. Please upgrade your Node.js environment or use `package-lock.json`';
-    t.rejects(buildDepTreeFromFiles(
-      `${__dirname}/fixtures/goof/`,
-      'package.json',
-      'yarn.lock',
-    ), expectedError, 'Information about non-supported environment is shown');
+    t.rejects(
+      buildDepTreeFromFiles(
+        `${__dirname}/fixtures/goof/`,
+        'package.json',
+        'yarn.lock',
+      ),
+      new UnsupportedRuntimeError('Parsing `yarn.lock` is not supported on ' +
+        'Node.js version less than 6. Please upgrade your Node.js environment ' +
+        'or use `package-lock.json`'),
+      'Information about non-supported environment is shown',
+    );
   });
 } else {
   const load = (filename) => JSON.parse(
@@ -138,10 +146,25 @@ if (getRuntimeVersion() < 6) {
   });
 
   test('Parse invalid yarn.lock', async (t) => {
-    t.rejects(buildDepTreeFromFiles(
+    t.rejects(
+      buildDepTreeFromFiles(
         `${__dirname}/fixtures/invalid-files/`,
         'package.json',
         'yarn.lock',
-      ), new Error('yarn.lock parsing failed with an error'), 'Expected error is thrown');
+      ),
+      new InvalidUserInputError('yarn.lock parsing failed with an error'),
+      'Expected error is thrown',
+    );
+  });
+
+  test('Out of sync yarn.lock', async (t) => {
+    t.rejects(
+      buildDepTreeFromFiles(
+        `${__dirname}/fixtures/out-of-sync/`,
+        'package.json',
+        'yarn.lock',
+      ),
+      new OutOfSyncError('lodash', 'yarn'),
+    );
   });
 }

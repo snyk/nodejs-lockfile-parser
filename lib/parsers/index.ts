@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import {PackageLock} from './package-lock-parser';
 import {YarnLock} from './yarn-lock-parse';
+import {InvalidUserInputError} from '../errors';
 
 export interface Dep {
   name: string;
@@ -53,7 +54,8 @@ export function parseManifestFile(manifestFileContents: string): ManifestFile {
   try {
     return JSON.parse(manifestFileContents);
   } catch (e) {
-    throw new Error(`package.json parsing failed with error ${e.message}`);
+    throw new InvalidUserInputError('package.json parsing failed with error ' +
+      e.message);
   }
 }
 
