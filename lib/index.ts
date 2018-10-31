@@ -7,7 +7,7 @@ import {LockfileParser, Lockfile, ManifestFile, PkgTree,
 import {PackageLockParser} from './parsers/package-lock-parser';
 import {YarnLockParser} from './parsers/yarn-lock-parse';
 import getRuntimeVersion from './get-node-runtime-version';
-import {UnsupportedRuntimeError, InvalidUserInputError} from './errors';
+import {UnsupportedRuntimeError, InvalidUserInputError, OutOfSyncError} from './errors';
 
 export {
   buildDepTree,
@@ -15,6 +15,9 @@ export {
   PkgTree,
   DepType,
   LockfileType,
+  UnsupportedRuntimeError,
+  InvalidUserInputError,
+  OutOfSyncError,
 };
 
 async function buildDepTree(
