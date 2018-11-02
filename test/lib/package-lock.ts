@@ -136,6 +136,15 @@ test('Parse npm package-lock.json with cyclic deps', async (t) => {
   t.strictEqual(depTree.dependencies.debug.dependencies.ms.dependencies.debug.cyclic, true, 'Cyclic dependency is found correctly');
 });
 
+test('Parse npm package-lock.json with self-reference cyclic deps', async (t) => {
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/cyclic-dep-self-reference/`,
+    'package.json',
+    'package-lock.json',
+  );
+  t.ok(depTree.dependencies, 'Tree is created');
+});
+
 test('Performance: Parse big npm package-lock.json with cyclic deps and dev-deps', async (t) => {
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/cyclic-dep/`,
