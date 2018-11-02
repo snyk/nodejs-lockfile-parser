@@ -116,6 +116,8 @@ export class PackageLockParser implements LockfileParser {
         depTree.dependencies[dep.name] = dep.dev ?
           this.setDevDepRec(_.cloneDeep(depTrees[depName])) : depTrees[depName];
         await setImmediatePromise();
+      } else {
+        throw new OutOfSyncError(depName, 'npm');
       }
     }
     return depTree;
