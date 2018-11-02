@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import * as graphlib from 'graphlib';
 import * as uuid from 'uuid/v4';
+import {setImmediatePromise} from '../set-immediate-promise';
 
 import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
   getTopLevelDeps, Lockfile, LockfileType} from './';
@@ -114,7 +115,7 @@ export class PackageLockParser implements LockfileParser {
         // if the top level dependency is dev, all children are dev
         depTree.dependencies[dep.name] = dep.dev ?
           this.setDevDepRec(_.cloneDeep(depTrees[depName])) : depTrees[depName];
-        await this.setImmediatePromise();
+        await setImmediatePromise();
       }
     }
     return depTree;
@@ -147,40 +148,40 @@ export class PackageLockParser implements LockfileParser {
   private removeCycle(
     cycle: string[], depMap: DepMap, depGraph: graphlib.Graph): CycleStartMap {
 
+    /* FUNCTION DEFINITION
+    To keep an order of algorithm steps readable, function is defined on-the-fly
+    Arrow function is used for calling `this` without .bind(this) in the end
+    */
+    const acyclicDuplicationRec = (node, traversed, currentCycle, nodeCopy) => {
+      // 2. For every cyclic dependency of entry node...
+      const edgesToProcess = (depGraph.inEdges(node) as graphlib.Edge[])
+      .filter((e) => _.includes(currentCycle, e.v));
+      for (const edge of edgesToProcess) {
+        // ... create a duplicate of the dependency...
+        const child = edge.v;
+        const dependencyCopy = this.cloneNodeWithoutEdges(child, depMap, depGraph);
+        // ...and connect it with the duplicated entry node
+        depGraph.setEdge(dependencyCopy, nodeCopy);
+        // 3.a If edge goes to already-visited dependency, end of cycle is found;
+        if (_.includes(traversed, child)) {
+          // update metadata and do not continue traversing
+          depMap[dependencyCopy].cyclic = true;
+        } else {
+          // 3.b Follow the edge and repeat the process, storing visited dependency-paths
+          acyclicDuplicationRec(child, [...traversed, node], currentCycle, dependencyCopy);
+          // All non-cyclic dependencies of duplicated node need to be updated.
+          this.cloneAcyclicNodeEdges(child, dependencyCopy, cycle, depGraph,
+          {inEdges: true, outEdges: false});
+        }
+      }
+    };
+
     const cycleStarts: CycleStartMap = {};
     // For every node in a cycle:
     for (const start of cycle) {
       // 1. Create a uniqe duplicate of entry node (without edges)
       const clonedNode = this.cloneNodeWithoutEdges(start, depMap, depGraph);
       cycleStarts[start] = clonedNode;
-
-      /* FUNCTION DEFINITION
-        To keep an order of algorithm steps readable, function is defined on-the-fly
-        Arrow function is used for calling `this` without .bind(this) in the end
-      */
-      const acyclicDuplicationRec = (node, traversed, currentCycle, nodeCopy) => {
-        // 2. For every cyclic dependency of entry node...
-        const edgesToProcess = (depGraph.inEdges(node) as graphlib.Edge[])
-          .filter((e) => _.includes(currentCycle, e.v));
-        for (const edge of edgesToProcess) {
-          // ... create a duplicate of the dependency...
-          const child = edge.v;
-          const dependencyCopy = this.cloneNodeWithoutEdges(child, depMap, depGraph);
-          // ...and connect it with the duplicated entry node
-          depGraph.setEdge(dependencyCopy, nodeCopy);
-          // 3.a If edge goes to already-visited dependency, end of cycle is found;
-          if (_.includes(traversed, child)) {
-            // update metadata and do not continue traversing
-            depMap[dependencyCopy].cyclic = true;
-          } else {
-            // 3.b Follow the edge and repeat the process, storing visited dependency-paths
-            acyclicDuplicationRec(child, [...traversed, node], currentCycle, dependencyCopy);
-            // All non-cyclic dependencies of duplicated node need to be updated.
-            this.cloneAcyclicNodeEdges(child, dependencyCopy, cycle, depGraph,
-              {inEdges: true, outEdges: false});
-          }
-        }
-      };
 
       // CALL of previously defined function
       acyclicDuplicationRec(start, [], cycle, clonedNode);
@@ -266,10 +267,6 @@ export class PackageLockParser implements LockfileParser {
     return depName;
   }
 
-  private setImmediatePromise() {
-    return new Promise((resolve) => setImmediate(resolve));
-  }
-
   // Algorithm is based on dynamic programming technique and tries to build
   // "more simple" trees and compose them into bigger ones.
   private async createDepTrees(depMap: DepMap, depGraph): Promise<{[depPath: string]: PkgTree}> {
@@ -296,17 +293,21 @@ export class PackageLockParser implements LockfileParser {
         dep.dependencies[subDep.name] = subDep;
       }
       const pkgTree: PkgTree = {
-        cyclic: dep.cyclic,
         depType: dep.depType,
         dependencies: dep.dependencies,
-        hasDevDependencies: dep.hasDevDependencies,
         name: dep.name,
         version: dep.version,
       };
+      if (dep.cyclic) {
+        pkgTree.cyclic = dep.cyclic;
+      }
+      if (dep.hasDevDependencies) {
+        pkgTree.hasDevDependencies = dep.hasDevDependencies;
+      }
       depTrees[depKey] = pkgTree;
       // Since this code doesn't handle any I/O or network, we need to force
       // event loop to tick while being used in server for request processing
-      await this.setImmediatePromise();
+      await setImmediatePromise();
     }
 
     return depTrees;
