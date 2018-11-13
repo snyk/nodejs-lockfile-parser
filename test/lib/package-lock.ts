@@ -189,3 +189,15 @@ test('Out of sync package-lock.json', async (t) => {
     new OutOfSyncError('lodash', 'npm'),
   );
 });
+
+test('`package.json` with file as version', async (t) => {
+  const expectedDepTree = load('file-as-version/expected-tree.json');
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/file-as-version/`,
+    'package.json',
+    'package-lock.json',
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});

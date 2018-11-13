@@ -78,3 +78,14 @@ export function getTopLevelDeps(targetFile: ManifestFile, includeDev: boolean): 
 
   return dependencies;
 }
+
+export function createPkgTreeFromDep(dep: Dep): PkgTree {
+  const pkgTree: PkgTree = {
+    depType: dep.dev ? DepType.dev : DepType.prod,
+    dependencies: {},
+    name: dep.name,
+    version: dep.version,
+  };
+
+  return pkgTree;
+}
