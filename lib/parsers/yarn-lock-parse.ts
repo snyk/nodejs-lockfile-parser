@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
-  getTopLevelDeps, Lockfile, LockfileType} from './';
+  getTopLevelDeps, Lockfile, LockfileType, createPkgTreeFromDep} from './';
 import getRuntimeVersion from '../get-node-runtime-version';
 import {
   InvalidUserInputError,
@@ -79,8 +79,12 @@ export class YarnLockParser implements LockfileParser {
     }
 
     await Promise.all(topLevelDeps.map(async (dep) => {
+    if (/^file:/.test(dep.version)) {
+      depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
+    } else {
       depTree.dependencies[dep.name] = await this.buildSubTreeRecursiveFromYarnLock(
         dep, yarnLock, []);
+      }
     }));
 
     return depTree;

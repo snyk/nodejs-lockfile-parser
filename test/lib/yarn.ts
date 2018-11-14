@@ -167,4 +167,16 @@ if (getRuntimeVersion() < 6) {
       new OutOfSyncError('lodash', 'yarn'),
     );
   });
+
+  test('`package.json` with file as version', async (t) => {
+    const expectedDepTree = load('file-as-version/expected-tree.json');
+
+    const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/fixtures/file-as-version/`,
+      'package.json',
+      'yarn.lock',
+    );
+
+    t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+  });
 }

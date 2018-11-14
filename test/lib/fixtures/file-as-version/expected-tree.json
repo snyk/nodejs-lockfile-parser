@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "debug": {
+      "depType": "prod",
+      "dependencies": {
+        "ms": {
+          "depType": "prod",
+          "dependencies": {},
+          "name": "ms",
+          "version": "2.0.0"
+        }
+      },
+      "name": "debug",
+      "version": "2.6.9"
+    },
+    "shared": {
+      "depType": "prod",
+      "dependencies": {},
+      "name": "shared",
+      "version": "file:./some-file"
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "pkg-dev-deps-only",
+  "version": "0.0.1"
+}

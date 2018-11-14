@@ -4,7 +4,7 @@ import * as uuid from 'uuid/v4';
 import {setImmediatePromise} from '../set-immediate-promise';
 
 import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
-  getTopLevelDeps, Lockfile, LockfileType} from './';
+  getTopLevelDeps, Lockfile, LockfileType, createPkgTreeFromDep} from './';
 import {InvalidUserInputError, OutOfSyncError} from '../errors';
 
 export interface PackageLock {
@@ -116,6 +116,8 @@ export class PackageLockParser implements LockfileParser {
         depTree.dependencies[dep.name] = dep.dev ?
           this.setDevDepRec(_.cloneDeep(depTrees[depName])) : depTrees[depName];
         await setImmediatePromise();
+      } else if (/^file:/.test(dep.version)) {
+        depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
       } else {
         throw new OutOfSyncError(depName, 'npm');
       }
