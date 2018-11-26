@@ -57,7 +57,8 @@ export class YarnLockParser implements LockfileParser {
   }
 
   public async getDependencyTree(
-    manifestFile: ManifestFile, lockfile: Lockfile, includeDev = false): Promise<PkgTree> {
+    manifestFile: ManifestFile, lockfile: Lockfile, includeDev = false,
+    strict = true ): Promise<PkgTree> {
     if (lockfile.type !== LockfileType.yarn) {
       throw new InvalidUserInputError('Unsupported lockfile provided. ' +
         'Please provide `package-lock.json`.');
@@ -83,7 +84,7 @@ export class YarnLockParser implements LockfileParser {
       depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
     } else {
       depTree.dependencies[dep.name] = await this.buildSubTreeRecursiveFromYarnLock(
-        dep, yarnLock, []);
+        dep, yarnLock, [], strict);
       }
     }));
 
@@ -91,7 +92,8 @@ export class YarnLockParser implements LockfileParser {
   }
 
   private async buildSubTreeRecursiveFromYarnLock(
-    searchedDep: Dep, lockFile: YarnLock, depPath: string[] ): Promise<PkgTree> {
+    searchedDep: Dep, lockFile: YarnLock, depPath: string[],
+    strict = true): Promise<PkgTree> {
     const depSubTree: PkgTree = {
       depType: searchedDep.dev ? DepType.dev : DepType.prod,
       dependencies: {},
@@ -100,18 +102,25 @@ export class YarnLockParser implements LockfileParser {
     };
 
     const depKey = `${searchedDep.name}@${searchedDep.version}`;
-
     const dep = _.get(lockFile.object, depKey);
 
     if (!dep) {
-      throw new OutOfSyncError(searchedDep.name, 'yarn');
+
+      if (strict) {
+        throw new OutOfSyncError(searchedDep.name, 'yarn');
+      }
+
+      depSubTree.version = searchedDep.version;
+      depSubTree.missingLockFileEntry = true;
+      return depSubTree;
     }
+
+    depSubTree.version = dep.version;
 
     if (depPath.indexOf(depKey) >= 0) {
       depSubTree.cyclic = true;
     } else {
       depPath.push(depKey);
-      depSubTree.version = dep.version;
       const newDeps = _.entries({...dep.dependencies, ...dep.optionalDependencies});
 
       await Promise.all(newDeps.map(async ([name, version]) => {

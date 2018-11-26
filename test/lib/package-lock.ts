@@ -192,13 +192,15 @@ test('Small Out of sync project package-lock.json generates tree', async (t) => 
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });
 
-test('Out of sync package-lock.json stict', async (t) => {
+test('Out of sync package-lock.json strict', async (t) => {
   t.rejects(
     buildDepTreeFromFiles(
       `${__dirname}/fixtures/out-of-sync/`,
       'package.json',
       'package-lock.json',
-    ));
+      ),
+    new OutOfSyncError('lodash', 'npm'),
+  );
 });
 
 test('Out of sync package-lock.json generates tree', async (t) => {

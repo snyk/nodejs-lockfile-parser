@@ -1,1 +1,42 @@
-{"dependencies":{"debug":{"depType":"prod","dependencies":{"ms":{"depType":"prod","dependencies":{"debug":{"depType":"prod","dependencies":{},"name":"debug","version":"2.0.0","cyclic":true}},"name":"ms","version":"0.6.2"}},"name":"debug","version":"2.0.0"},"lodash":{"depType":"prod","dependencies":{},"name":"lodash","version":"4.17.11","missingLockFileEntry":true},"body-parser":{"depType":"prod","dependencies":{},"name":"body-parser","version":"^1.18.2","missingLockFileEntry":true}},"hasDevDependencies":true,"name":"trucolor","version":"0.7.1"}
+{
+  "dependencies": {
+    "debug": {
+      "depType": "prod",
+      "dependencies": {
+        "ms": {
+          "depType": "prod",
+          "dependencies": {
+            "debug": {
+              "depType": "prod",
+              "dependencies": {},
+              "name": "debug",
+              "version": "2.0.0",
+              "cyclic": true
+            }
+          },
+          "name": "ms",
+          "version": "0.6.2"
+        }
+      },
+      "name": "debug",
+      "version": "2.0.0"
+    },
+    "lodash": {
+      "depType": "prod",
+      "dependencies": {},
+      "name": "lodash",
+      "version": "4.17.11",
+      "missingLockFileEntry": true
+    },
+    "body-parser": {
+      "depType": "prod",
+      "dependencies": {},
+      "name": "body-parser",
+      "version": "^1.18.2",
+      "missingLockFileEntry": true
+    }
+  },
+  "hasDevDependencies": true,
+  "name": "trucolor",
+  "version": "0.7.1"
+}

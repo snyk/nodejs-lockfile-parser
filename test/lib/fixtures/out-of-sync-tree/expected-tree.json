@@ -144,7 +144,7 @@
         }
       },
       "name": "aws-sdk",
-      "version": "2.361.0"
+      "version": "2.362.0"
     },
     "axios": {
       "depType": "prod",

@@ -157,7 +157,7 @@ if (getRuntimeVersion() < 6) {
     );
   });
 
-  test('Out of sync yarn.lock', async (t) => {
+  test('Out of sync yarn.lock strict mode', async (t) => {
     t.rejects(
       buildDepTreeFromFiles(
         `${__dirname}/fixtures/out-of-sync/`,
@@ -166,6 +166,18 @@ if (getRuntimeVersion() < 6) {
       ),
       new OutOfSyncError('lodash', 'yarn'),
     );
+  });
+
+  test('Out of sync yarn.lock generates tree', async (t) => {
+    const expectedDepTree = load('out-of-sync/expected-tree.json');
+    const depTree = await buildDepTreeFromFiles(
+        `${__dirname}/fixtures/out-of-sync/`,
+        'package.json',
+        'yarn.lock',
+        false,
+        false,
+      );
+    t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 
   test('`package.json` with file as version', async (t) => {
