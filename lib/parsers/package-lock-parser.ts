@@ -63,7 +63,8 @@ export class PackageLockParser implements LockfileParser {
   }
 
   public async getDependencyTree(
-    manifestFile: ManifestFile, lockfile: Lockfile, includeDev = false): Promise<PkgTree> {
+    manifestFile: ManifestFile, lockfile: Lockfile, includeDev = false,
+    strict = true): Promise<PkgTree> {
     if (lockfile.type !== LockfileType.npm) {
       throw new InvalidUserInputError('Unsupported lockfile provided. Please ' +
         'provide `package-lock.json`.');
@@ -119,7 +120,13 @@ export class PackageLockParser implements LockfileParser {
       } else if (/^file:/.test(dep.version)) {
         depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
       } else {
-        throw new OutOfSyncError(depName, 'npm');
+        // TODO: also check the package version
+        // for a stricter check
+        if (strict) {
+          throw new OutOfSyncError(depName, 'npm');
+        }
+        depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
+        depTree.dependencies[dep.name].missingLockFileEntry = true;
       }
     }
     return depTree;

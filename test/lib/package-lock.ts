@@ -179,15 +179,40 @@ test('Parse invalid package.json', async (t) => {
   );
 });
 
-test('Out of sync package-lock.json', async (t) => {
+test('Small Out of sync project package-lock.json generates tree', async (t) => {
+  const expectedDepTree = load('out-of-sync-tree/expected-tree.json');
+
+  const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/fixtures/out-of-sync-tree/`,
+      'package.json',
+      'package-lock.json',
+      false,
+      false,
+  );
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
+test('Out of sync package-lock.json strict', async (t) => {
   t.rejects(
     buildDepTreeFromFiles(
       `${__dirname}/fixtures/out-of-sync/`,
       'package.json',
       'package-lock.json',
-    ),
+      ),
     new OutOfSyncError('lodash', 'npm'),
   );
+});
+
+test('Out of sync package-lock.json generates tree', async (t) => {
+  const expectedDepTree = load('out-of-sync/expected-tree.json');
+  const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/fixtures/out-of-sync/`,
+      'package.json',
+      'package-lock.json',
+      false,
+      false,
+    );
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });
 
 test('`package.json` with file as version', async (t) => {

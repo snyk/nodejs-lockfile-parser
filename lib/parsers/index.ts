@@ -29,6 +29,7 @@ export interface PkgTree {
   depType?: DepType;
   hasDevDependencies?: boolean;
   cyclic?: boolean;
+  missingLockFileEntry?: boolean;
 }
 
 export enum DepType {
@@ -44,7 +45,8 @@ export enum LockfileType {
 export interface LockfileParser {
   parseLockFile: (lockFileContents: string)
       => Lockfile;
-  getDependencyTree: (manifestFile: ManifestFile, lockfile: Lockfile, includeDev?: boolean)
+  getDependencyTree: (manifestFile: ManifestFile, lockfile: Lockfile,
+                      includeDev?: boolean, strict?: boolean)
       => Promise<PkgTree>;
 }
 

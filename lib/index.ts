@@ -22,7 +22,8 @@ export {
 
 async function buildDepTree(
   manifestFileContents: string, lockFileContents: string,
-  includeDev = false, lockfileType?: LockfileType): Promise<PkgTree> {
+  includeDev = false, lockfileType?: LockfileType,
+  strict: boolean = true): Promise<PkgTree> {
 
   if (!lockfileType) {
     lockfileType = LockfileType.npm;
@@ -52,11 +53,12 @@ async function buildDepTree(
   const manifestFile: ManifestFile = parseManifestFile(manifestFileContents);
 
   const lockFile: Lockfile = lockfileParser.parseLockFile(lockFileContents);
-  return lockfileParser.getDependencyTree(manifestFile, lockFile, includeDev);
+  return lockfileParser.getDependencyTree(manifestFile, lockFile, includeDev, strict);
 }
 
 async function buildDepTreeFromFiles(
-  root: string, manifestFilePath: string, lockFilePath: string, includeDev = false): Promise<PkgTree> {
+  root: string, manifestFilePath: string, lockFilePath: string, includeDev = false,
+  strict = true): Promise<PkgTree> {
   if (!root || !manifestFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for buildDepTreeFromFiles()');
   }
@@ -86,5 +88,6 @@ async function buildDepTreeFromFiles(
   const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');
   const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
 
-  return await buildDepTree(manifestFileContents, lockFileContents, includeDev, lockFileType);
+  return await buildDepTree(manifestFileContents, lockFileContents, includeDev,
+    lockFileType, strict);
 }
