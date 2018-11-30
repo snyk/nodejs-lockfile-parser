@@ -79,14 +79,14 @@ export class YarnLockParser implements LockfileParser {
       return depTree;
     }
 
-    await Promise.all(topLevelDeps.map(async (dep) => {
-    if (/^file:/.test(dep.version)) {
-      depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
-    } else {
-      depTree.dependencies[dep.name] = await this.buildSubTreeRecursiveFromYarnLock(
-        dep, yarnLock, [], strict);
+    for (const dep of topLevelDeps) {
+      if (/^file:/.test(dep.version)) {
+        depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
+      } else {
+        depTree.dependencies[dep.name] = await this.buildSubTreeRecursiveFromYarnLock(
+          dep, yarnLock, [], strict);
       }
-    }));
+    }
 
     return depTree;
   }
@@ -123,7 +123,7 @@ export class YarnLockParser implements LockfileParser {
       depPath.push(depKey);
       const newDeps = _.entries({...dep.dependencies, ...dep.optionalDependencies});
 
-      await Promise.all(newDeps.map(async ([name, version]) => {
+      for (const [name, version] of newDeps) {
         const newDep: Dep = {
           dev: searchedDep.dev,
           name,
@@ -131,7 +131,7 @@ export class YarnLockParser implements LockfileParser {
         };
         depSubTree.dependencies[name] = await this.buildSubTreeRecursiveFromYarnLock(
           newDep, lockFile, [...depPath]);
-      }));
+      }
     }
 
     return depSubTree;
