@@ -2,6 +2,8 @@ import * as _ from 'lodash';
 import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
   getTopLevelDeps, Lockfile, LockfileType, createPkgTreeFromDep} from './';
 import getRuntimeVersion from '../get-node-runtime-version';
+import {setImmediatePromise} from '../set-immediate-promise';
+import { EventLoopSpinner } from '../event-loop-spinner';
 import {
   InvalidUserInputError,
   UnsupportedRuntimeError,
@@ -32,6 +34,7 @@ export interface YarnLockDep {
 export class YarnLockParser implements LockfileParser {
 
   private yarnLockfileParser;
+  private eventLoop: EventLoopSpinner;
 
   constructor() {
     // @yarnpkg/lockfile doesn't work with Node.js < 6 and crashes just after
@@ -42,6 +45,10 @@ export class YarnLockParser implements LockfileParser {
         'Node.js v6 and higher.');
     }
     this.yarnLockfileParser = require('@yarnpkg/lockfile');
+    // 200ms is an arbitrary value based on on testing "average request", which is
+    // processed in ~150ms. Idea is to let those average requests through in one
+    // tick and split only bigger ones.
+    this.eventLoop = new EventLoopSpinner(200);
   }
 
   public parseLockFile(lockFileContents: string): YarnLock {
@@ -79,14 +86,14 @@ export class YarnLockParser implements LockfileParser {
       return depTree;
     }
 
-    await Promise.all(topLevelDeps.map(async (dep) => {
-    if (/^file:/.test(dep.version)) {
-      depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
-    } else {
-      depTree.dependencies[dep.name] = await this.buildSubTreeRecursiveFromYarnLock(
-        dep, yarnLock, [], strict);
+    for (const dep of topLevelDeps) {
+      if (/^file:/.test(dep.version)) {
+        depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
+      } else {
+        depTree.dependencies[dep.name] = await this.buildSubTreeRecursiveFromYarnLock(
+          dep, yarnLock, [], strict);
       }
-    }));
+    }
 
     return depTree;
   }
@@ -123,7 +130,7 @@ export class YarnLockParser implements LockfileParser {
       depPath.push(depKey);
       const newDeps = _.entries({...dep.dependencies, ...dep.optionalDependencies});
 
-      await Promise.all(newDeps.map(async ([name, version]) => {
+      for (const [name, version] of newDeps) {
         const newDep: Dep = {
           dev: searchedDep.dev,
           name,
@@ -131,9 +138,12 @@ export class YarnLockParser implements LockfileParser {
         };
         depSubTree.dependencies[name] = await this.buildSubTreeRecursiveFromYarnLock(
           newDep, lockFile, [...depPath]);
-      }));
+      }
     }
 
+    if (this.eventLoop.isStarving()) {
+        await this.eventLoop.spin();
+    }
     return depSubTree;
   }
 }
