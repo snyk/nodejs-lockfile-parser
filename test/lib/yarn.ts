@@ -191,4 +191,16 @@ if (getRuntimeVersion() < 6) {
 
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
+
+  test('succeeds with `git url` + `ssh`', async (t) => {
+    const expectedDepTree = load('git-ssh-url-deps/expected-tree.json');
+
+    const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/fixtures/git-ssh-url-deps/`,
+      'package.json',
+      'yarn.lock',
+    );
+
+    t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+  });
 }

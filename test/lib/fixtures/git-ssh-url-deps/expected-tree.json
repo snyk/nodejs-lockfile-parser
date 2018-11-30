@@ -1,0 +1,102 @@
+{
+  "dependencies": {
+    "body-parser": {
+      "depType": "prod",
+      "dependencies": {
+        "bytes": {
+          "depType": "prod",
+          "dependencies": {},
+          "name": "bytes",
+          "version": "1.0.0"
+        },
+        "depd": {
+          "depType": "prod",
+          "dependencies": {},
+          "name": "depd",
+          "version": "1.0.1"
+        },
+        "iconv-lite": {
+          "depType": "prod",
+          "dependencies": {},
+          "name": "iconv-lite",
+          "version": "0.4.4"
+        },
+        "media-typer": {
+          "depType": "prod",
+          "dependencies": {},
+          "name": "media-typer",
+          "version": "0.3.0"
+        },
+        "qs": {
+          "depType": "prod",
+          "dependencies": {},
+          "name": "qs",
+          "version": "2.2.4"
+        },
+        "on-finished": {
+          "depType": "prod",
+          "dependencies": {
+            "ee-first": {
+              "depType": "prod",
+              "dependencies": {},
+              "name": "ee-first",
+              "version": "1.0.5"
+            }
+          },
+          "name": "on-finished",
+          "version": "2.1.0"
+        },
+        "raw-body": {
+          "depType": "prod",
+          "dependencies": {
+            "bytes": {
+              "depType": "prod",
+              "dependencies": {},
+              "name": "bytes",
+              "version": "1.0.0"
+            },
+            "iconv-lite": {
+              "depType": "prod",
+              "dependencies": {},
+              "name": "iconv-lite",
+              "version": "0.4.4"
+            }
+          },
+          "name": "raw-body",
+          "version": "1.3.0"
+        },
+        "type-is": {
+          "depType": "prod",
+          "dependencies": {
+            "media-typer": {
+              "depType": "prod",
+              "dependencies": {},
+              "name": "media-typer",
+              "version": "0.3.0"
+            },
+            "mime-types": {
+              "depType": "prod",
+              "dependencies": {
+                "mime-db": {
+                  "depType": "prod",
+                  "dependencies": {},
+                  "name": "mime-db",
+                  "version": "1.12.0"
+                }
+              },
+              "name": "mime-types",
+              "version": "2.0.14"
+            }
+          },
+          "name": "type-is",
+          "version": "1.5.7"
+        }
+      },
+      "name": "body-parser",
+      "version": "1.9.0"
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "git-ssh-url-deps",
+  "version": ""
+}
