@@ -120,7 +120,7 @@ if (getRuntimeVersion() < 6) {
     );
 
     t.false(_.isEmpty(depTree.dependencies));
-    t.equals(depTree.name, undefined);
+    t.equals(depTree.name, 'package.json');
   });
 
   test('Parse yarn.lock with empty dependencies and includeDev = false', async (t) => {
