@@ -80,7 +80,7 @@ test('Parse npm package-lock.json with missing package name', async (t) => {
   );
 
   t.false(_.isEmpty(depTree.dependencies));
-  t.equals(depTree.name, 'package.json');
+  t.equals(depTree.name, undefined);
 });
 
 test('Parse npm package-lock.json with empty dependencies and includeDev = false', async (t) => {
