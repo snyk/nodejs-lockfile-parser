@@ -203,4 +203,16 @@ if (getRuntimeVersion() < 6) {
 
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
+
+  test('succeeds with external tarball url', async (t) => {
+    const expectedDepTree = load('external-tarball/expected-tree.json');
+
+    const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/fixtures/external-tarball/`,
+      'package.json',
+      'yarn.lock',
+    );
+
+    t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+  });
 }
