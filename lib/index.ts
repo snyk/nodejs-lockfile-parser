@@ -23,7 +23,7 @@ export {
 async function buildDepTree(
   manifestFileContents: string, lockFileContents: string,
   includeDev = false, lockfileType?: LockfileType,
-  strict: boolean = true, manifestFilePath: string = 'package.json'): Promise<PkgTree> {
+  strict: boolean = true, defaultManifestFileName: string = 'package.json'): Promise<PkgTree> {
 
   if (!lockfileType) {
     lockfileType = LockfileType.npm;
@@ -52,7 +52,7 @@ async function buildDepTree(
 
   const manifestFile: ManifestFile = parseManifestFile(manifestFileContents);
   if (!manifestFile.name) {
-      manifestFile.name = manifestFilePath;
+      manifestFile.name = defaultManifestFileName;
   }
 
   const lockFile: Lockfile = lockfileParser.parseLockFile(lockFileContents);
@@ -91,7 +91,6 @@ async function buildDepTreeFromFiles(
   const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');
   const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
 
-  // note: currenty we path manifestFilePath just a file name, so we can use the param as is
   return await buildDepTree(manifestFileContents, lockFileContents, includeDev,
     lockFileType, strict, manifestFilePath);
 }
