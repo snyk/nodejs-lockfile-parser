@@ -22,5 +22,6 @@
   },
   "hasDevDependencies": false,
   "name": "pkg-dev-deps-only",
+  "size": 4,
   "version": "0.0.1"
 }

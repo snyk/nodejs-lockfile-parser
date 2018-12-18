@@ -1,5 +1,6 @@
 {
   "name": "goof",
+  "size": 17,
   "version": "0.0.3",
   "hasDevDependencies": true,
   "dependencies": {

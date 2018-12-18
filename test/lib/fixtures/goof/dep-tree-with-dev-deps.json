@@ -11425,5 +11425,6 @@
   },
   "hasDevDependencies": true,
   "name": "goof",
-  "version": "0.0.3"
+  "version": "0.0.3",
+  "size": 1791
 }

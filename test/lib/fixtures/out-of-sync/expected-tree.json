@@ -38,5 +38,6 @@
   },
   "hasDevDependencies": true,
   "name": "trucolor",
+  "size": 6,
   "version": "0.7.1"
 }

@@ -188,5 +188,6 @@
   },
   "hasDevDependencies": true,
   "name": "out-of-sync-small",
+  "size": 30,
   "version": "1.0.0"
 }
