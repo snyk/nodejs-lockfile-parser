@@ -35,6 +35,7 @@ export class YarnLockParser implements LockfileParser {
 
   private yarnLockfileParser;
   private eventLoop: EventLoopSpinner;
+  private treeSize: number;
 
   constructor() {
     // @yarnpkg/lockfile doesn't work with Node.js < 6 and crashes just after
@@ -49,6 +50,9 @@ export class YarnLockParser implements LockfileParser {
     // processed in ~150ms. Idea is to let those average requests through in one
     // tick and split only bigger ones.
     this.eventLoop = new EventLoopSpinner(200);
+
+    // Number of dependencies including root one.
+    this.treeSize = 1;
   }
 
   public parseLockFile(lockFileContents: string): YarnLock {
@@ -76,6 +80,7 @@ export class YarnLockParser implements LockfileParser {
       dependencies: {},
       hasDevDependencies: !_.isEmpty(manifestFile.devDependencies),
       name: manifestFile.name,
+      size: 1,
       version: manifestFile.version || '',
     };
 
@@ -93,8 +98,10 @@ export class YarnLockParser implements LockfileParser {
         depTree.dependencies[dep.name] = await this.buildSubTreeRecursiveFromYarnLock(
           dep, yarnLock, [], strict);
       }
+      this.treeSize++;
     }
 
+    depTree.size = this.treeSize;
     return depTree;
   }
 
@@ -138,6 +145,7 @@ export class YarnLockParser implements LockfileParser {
         };
         depSubTree.dependencies[name] = await this.buildSubTreeRecursiveFromYarnLock(
           newDep, lockFile, [...depPath]);
+        this.treeSize++;
       }
     }
 

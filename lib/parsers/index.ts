@@ -30,6 +30,7 @@ export interface PkgTree {
   hasDevDependencies?: boolean;
   cyclic?: boolean;
   missingLockFileEntry?: boolean;
+  size?: number;
 }
 
 export enum DepType {

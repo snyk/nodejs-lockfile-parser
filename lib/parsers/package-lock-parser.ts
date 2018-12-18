@@ -75,6 +75,7 @@ export class PackageLockParser implements LockfileParser {
       dependencies: {},
       hasDevDependencies: !_.isEmpty(manifestFile.devDependencies),
       name: manifestFile.name,
+      size: 1,
       version: manifestFile.version || '',
     };
 
@@ -104,10 +105,14 @@ export class PackageLockParser implements LockfileParser {
     }
 
     // transform depMap to a map of PkgTrees
-    const depTrees: {[depPath: string]: PkgTree} = await this.createDepTrees(depMap, depGraph);
+    const {depTrees, depTreesSizes} = await this.createDepTrees(depMap, depGraph);
 
     // get trees for dependencies from manifest file
     const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
+
+    // number of dependencies including root one
+    let treeSize = 1;
+
     for (const dep of topLevelDeps) {
       // if any of top level dependencies is a part of cycle
       // it now has a different item in the map
@@ -116,9 +121,11 @@ export class PackageLockParser implements LockfileParser {
         // if the top level dependency is dev, all children are dev
         depTree.dependencies[dep.name] = dep.dev ?
           this.setDevDepRec(_.cloneDeep(depTrees[depName])) : depTrees[depName];
+        treeSize += depTreesSizes[depName];
         await setImmediatePromise();
       } else if (/^file:/.test(dep.version)) {
         depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
+        treeSize++;
       } else {
         // TODO: also check the package version
         // for a stricter check
@@ -127,8 +134,11 @@ export class PackageLockParser implements LockfileParser {
         }
         depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
         depTree.dependencies[dep.name].missingLockFileEntry = true;
+        treeSize++;
       }
     }
+
+    depTree.size = treeSize;
     return depTree;
   }
 
@@ -280,7 +290,8 @@ export class PackageLockParser implements LockfileParser {
 
   // Algorithm is based on dynamic programming technique and tries to build
   // "more simple" trees and compose them into bigger ones.
-  private async createDepTrees(depMap: DepMap, depGraph): Promise<{[depPath: string]: PkgTree}> {
+  private async createDepTrees(depMap: DepMap, depGraph):
+    Promise<{depTrees: {[depPath: string]: PkgTree}, depTreesSizes: {[depPath: string]: number}}> {
 
     // Graph has to be acyclic
     if (!graphlib.alg.isAcyclic(depGraph)) {
@@ -288,6 +299,7 @@ export class PackageLockParser implements LockfileParser {
     }
 
     const depTrees: {[depPath: string]: PkgTree} = {};
+    const depTreesSizes: {[depPath: string]: number} = {};
     // topological sort guarantees that when we create a pkg-tree for a dep,
     // all it's sub-trees were already created. This also implies that leaf
     // packages will be processed first as they have no sub-trees.
@@ -296,12 +308,14 @@ export class PackageLockParser implements LockfileParser {
     while (depOrder.length) {
       const depKey = depOrder.shift() as string;
       const dep = depMap[depKey];
+      let treeSize = 1;
 
       // direction is from the dependency to the package requiring it, so we are
       // looking for predecessors
       for (const subDepPath of depGraph.predecessors(depKey)) {
         const subDep = depTrees[subDepPath];
         dep.dependencies[subDep.name] = subDep;
+        treeSize += depTreesSizes[subDepPath];
       }
       const pkgTree: PkgTree = {
         depType: dep.depType,
@@ -316,12 +330,13 @@ export class PackageLockParser implements LockfileParser {
         pkgTree.hasDevDependencies = dep.hasDevDependencies;
       }
       depTrees[depKey] = pkgTree;
+      depTreesSizes[depKey] = treeSize;
       // Since this code doesn't handle any I/O or network, we need to force
       // event loop to tick while being used in server for request processing
       await setImmediatePromise();
     }
 
-    return depTrees;
+    return {depTrees, depTreesSizes};
   }
 
   private flattenLockfile(lockfile: PackageLock): DepMap {
