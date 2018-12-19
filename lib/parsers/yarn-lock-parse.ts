@@ -3,7 +3,6 @@ import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
   getTopLevelDeps, Lockfile, LockfileType, createPkgTreeFromDep} from './';
 import getRuntimeVersion from '../get-node-runtime-version';
 import {setImmediatePromise} from '../set-immediate-promise';
-import { EventLoopSpinner } from '../event-loop-spinner';
 import {
   InvalidUserInputError,
   UnsupportedRuntimeError,
@@ -34,8 +33,8 @@ export interface YarnLockDep {
 export class YarnLockParser implements LockfileParser {
 
   private yarnLockfileParser;
-  private eventLoop: EventLoopSpinner;
   private treeSize: number;
+  private eventLoopSpinRate = 100;
 
   constructor() {
     // @yarnpkg/lockfile doesn't work with Node.js < 6 and crashes just after
@@ -46,10 +45,6 @@ export class YarnLockParser implements LockfileParser {
         'Node.js v6 and higher.');
     }
     this.yarnLockfileParser = require('@yarnpkg/lockfile');
-    // 200ms is an arbitrary value based on on testing "average request", which is
-    // processed in ~150ms. Idea is to let those average requests through in one
-    // tick and split only bigger ones.
-    this.eventLoop = new EventLoopSpinner(200);
 
     // Number of dependencies including root one.
     this.treeSize = 1;
@@ -95,63 +90,73 @@ export class YarnLockParser implements LockfileParser {
       if (/^file:/.test(dep.version)) {
         depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
       } else {
-        depTree.dependencies[dep.name] = await this.buildSubTreeRecursiveFromYarnLock(
-          dep, yarnLock, [], strict);
+        depTree.dependencies[dep.name] = await this.buildSubTree(yarnLock, createPkgTreeFromDep(dep), strict);
       }
       this.treeSize++;
+
+      if (this.treeSize % this.eventLoopSpinRate === 0) {
+        // Spin event loop every X dependencies.
+        await setImmediatePromise();
+      }
     }
 
     depTree.size = this.treeSize;
     return depTree;
   }
 
-  private async buildSubTreeRecursiveFromYarnLock(
-    searchedDep: Dep, lockFile: YarnLock, depPath: string[],
-    strict = true): Promise<PkgTree> {
-    const depSubTree: PkgTree = {
-      depType: searchedDep.dev ? DepType.dev : DepType.prod,
-      dependencies: {},
-      name: searchedDep.name,
-      version: '', // will be set later or error will be thrown
-    };
+  private async buildSubTree(lockFile: YarnLock, tree: PkgTree, strict: boolean): Promise<PkgTree> {
+    const queue = [{path: [] as string[], tree}];
 
-    const depKey = `${searchedDep.name}@${searchedDep.version}`;
-    const dep = _.get(lockFile.object, depKey);
+    while (queue.length > 0) {
+      const queueItem = queue.pop()!;
+      const depKey = `${queueItem.tree.name}@${queueItem.tree.version}`;
+      const dependency = lockFile.object[depKey];
 
-    if (!dep) {
-
-      if (strict) {
-        throw new OutOfSyncError(searchedDep.name, 'yarn');
+      if (!dependency) {
+        if (strict) {
+          throw new OutOfSyncError(queueItem.tree.name, 'yarn');
+        }
+        queueItem.tree.missingLockFileEntry = true;
+        continue;
       }
 
-      depSubTree.version = searchedDep.version;
-      depSubTree.missingLockFileEntry = true;
-      return depSubTree;
-    }
+      // Overwrite version pattern with exact version.
+      queueItem.tree.version = dependency.version;
 
-    depSubTree.version = dep.version;
+      if (queueItem.path.indexOf(depKey) >= 0) {
+        queueItem.tree.cyclic = true;
+        continue;
+      }
 
-    if (depPath.indexOf(depKey) >= 0) {
-      depSubTree.cyclic = true;
-    } else {
-      depPath.push(depKey);
-      const newDeps = _.entries({...dep.dependencies, ...dep.optionalDependencies});
+      const subDependencies = _.entries({
+        ...dependency.dependencies,
+        ...dependency.optionalDependencies,
+      });
 
-      for (const [name, version] of newDeps) {
-        const newDep: Dep = {
-          dev: searchedDep.dev,
-          name,
-          version,
+      for (const [subName, subVersion] of subDependencies) {
+        const subDependency: PkgTree = {
+          depType: tree.depType,
+          dependencies: {},
+          name: subName,
+          version: subVersion,
         };
-        depSubTree.dependencies[name] = await this.buildSubTreeRecursiveFromYarnLock(
-          newDep, lockFile, [...depPath]);
+
+        queueItem.tree.dependencies[subName] = subDependency;
+
+        queue.push({
+          path: [...queueItem.path, depKey],
+          tree: subDependency,
+        });
+
         this.treeSize++;
+
+        if (this.treeSize % this.eventLoopSpinRate === 0) {
+          // Spin event loop every X dependencies.
+          await setImmediatePromise();
+        }
       }
     }
 
-    if (this.eventLoop.isStarving()) {
-        await this.eventLoop.spin();
-    }
-    return depSubTree;
+    return tree;
   }
 }
