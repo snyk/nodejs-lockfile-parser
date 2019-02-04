@@ -2,8 +2,16 @@ import 'source-map-support/register';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
-import {LockfileParser, Lockfile, ManifestFile, PkgTree,
-  DepType, parseManifestFile, LockfileType} from './parsers';
+import {
+  LockfileParser,
+  Lockfile,
+  ManifestFile,
+  PkgTree,
+  DepType,
+  parseManifestFile,
+  LockfileType,
+  getYarnWorkspaces,
+} from './parsers';
 import {PackageLockParser} from './parsers/package-lock-parser';
 import {YarnLockParser} from './parsers/yarn-lock-parse';
 import getRuntimeVersion from './get-node-runtime-version';
@@ -12,6 +20,8 @@ import {UnsupportedRuntimeError, InvalidUserInputError, OutOfSyncError} from './
 export {
   buildDepTree,
   buildDepTreeFromFiles,
+  getYarnWorkspacesFromFiles,
+  getYarnWorkspaces,
   PkgTree,
   DepType,
   LockfileType,
@@ -93,4 +103,18 @@ async function buildDepTreeFromFiles(
 
   return await buildDepTree(manifestFileContents, lockFileContents, includeDev,
     lockFileType, strict, manifestFilePath);
+}
+
+function getYarnWorkspacesFromFiles(root, manifestFilePath: string): string [] | false {
+  if (!root || !manifestFilePath) {
+    throw new Error('Missing required parameters for getYarnWorkspacesFromFiles()');
+  }
+  const manifestFileFullPath = path.resolve(root, manifestFilePath);
+  if (!fs.existsSync(manifestFileFullPath)) {
+    throw new InvalidUserInputError('Target file package.json not found at ' +
+      `location: ${manifestFileFullPath}`);
+  }
+  const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');
+
+  return getYarnWorkspaces(manifestFileContents);
 }
