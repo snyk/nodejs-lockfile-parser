@@ -1,6 +1,8 @@
-- [ ] Tests written and linted [ℹ︎]()
-- [ ] Documentation written [ℹ︎]()
-- [ ] Commit history is tidy [ℹ︎]()
+- [ ] Tests written and linted
+- [ ] Documentation written / README.md updated [https://snyk.io/docs/snyk-for-dotnet/](i)
+- [ ] Follows [CONTRIBUTING agreement](CONTRIBUTING.md)
+- [ ] Commit history is tidy [https://git-scm.com/book/en/v2/Git-Branching-Rebasing](i)
+- [ ] Reviewed by Snyk team
 
 ### What this does
 
