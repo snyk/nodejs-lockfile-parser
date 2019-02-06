@@ -11,6 +11,8 @@ export interface Dep {
 
 export interface ManifestFile {
   name: string;
+  private?: string;
+  workspaces?: string[];
   dependencies?: {
     [dep: string]: string;
   };
@@ -91,4 +93,17 @@ export function createPkgTreeFromDep(dep: Dep): PkgTree {
   };
 
   return pkgTree;
+}
+
+export function getYarnWorkspaces(targetFile: string): string [] | false {
+  try {
+    const packageJson: ManifestFile = parseManifestFile(targetFile);
+    if (!!packageJson.workspaces && !!packageJson.private) {
+      return [...packageJson.workspaces];
+    }
+    return false;
+  } catch (e) {
+    throw new InvalidUserInputError('package.json parsing failed with ' +
+      `error ${e.message}`);
+  }
 }
