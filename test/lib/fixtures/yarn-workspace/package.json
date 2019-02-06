@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "jest",
+  "devDependencies": {
+    "chalk": "^2.0.1"
+  },
+  "workspaces": [
+    "packages/*",
+    "libs/*"
+  ]
+}

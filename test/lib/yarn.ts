@@ -4,7 +4,7 @@
 // tslint:disable:max-line-length
 // tslint:disable:object-literal-key-quotes
 import {test} from 'tap';
-import {buildDepTreeFromFiles} from '../../lib';
+import {buildDepTreeFromFiles, getYarnWorkspacesFromFiles} from '../../lib';
 import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import * as fs from 'fs';
 import * as _ from 'lodash';
@@ -216,3 +216,19 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 }
+
+test('Identify package.json as a yarn workspace', async (t) => {
+  const workspaces = getYarnWorkspacesFromFiles(
+    `${__dirname}/fixtures/yarn-workspace/`,
+    'package.json',
+  );
+  t.deepEqual(workspaces, [ 'packages/*', 'libs/*' ], 'Workspaces identified as expected');
+});
+
+test('identify package.json as Not a workspace project', async (t) => {
+  const workspaces = getYarnWorkspacesFromFiles(
+    `${__dirname}/fixtures/external-tarball/`,
+    'package.json',
+  );
+  t.is(workspaces, false, 'Not a yarn workspace');
+});
