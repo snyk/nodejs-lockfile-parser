@@ -34,7 +34,6 @@ async function buildDepTree(
   manifestFileContents: string, lockFileContents: string,
   includeDev = false, lockfileType?: LockfileType,
   strict: boolean = true, defaultManifestFileName: string = 'package.json'): Promise<PkgTree> {
-
   if (!lockfileType) {
     lockfileType = LockfileType.npm;
   }

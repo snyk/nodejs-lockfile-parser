@@ -111,7 +111,6 @@ export class YarnLockParser implements LockfileParser {
       const queueItem = queue.pop()!;
       const depKey = `${queueItem.tree.name}@${queueItem.tree.version}`;
       const dependency = lockFile.object[depKey];
-
       if (!dependency) {
         if (strict) {
           throw new OutOfSyncError(queueItem.tree.name, 'yarn');
