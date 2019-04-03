@@ -4,6 +4,7 @@
   "license": "none",
   "depType": "extraneous",
   "hasDevDependencies": true,
+  "targetRuntime": "6.14.1",
   "full": "goof@0.0.3",
   "__filename": "/Users/mila/dev/snyk/goof/package.json",
   "dependencies": {

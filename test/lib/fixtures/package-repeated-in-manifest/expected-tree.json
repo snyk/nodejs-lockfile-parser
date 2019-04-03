@@ -3,6 +3,7 @@
   "size": 17,
   "version": "0.0.3",
   "hasDevDependencies": true,
+  "targetRuntime": "10.8.0",
   "dependencies": {
     "body-parser": {
       "name": "body-parser",
