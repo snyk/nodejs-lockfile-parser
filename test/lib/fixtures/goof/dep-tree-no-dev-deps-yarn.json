@@ -5856,5 +5856,7 @@
   "name": "goof",
   "version": "0.0.3",
   "size": 914,
-  "targetRuntime": "6.14.1"
+  "meta": {
+    "nodeVersion": "6.14.1"
+  }
 }

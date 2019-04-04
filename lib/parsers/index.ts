@@ -31,8 +31,10 @@ export interface PkgTree {
   dependencies: {
     [dep: string]: PkgTree;
   };
+  meta?: {
+    nodeVersion: string;
+  };
   depType?: DepType;
-  targetRuntime?: string;
   hasDevDependencies?: boolean;
   cyclic?: boolean;
   missingLockFileEntry?: boolean;

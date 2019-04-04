@@ -40,5 +40,7 @@
   "name": "trucolor",
   "size": 6,
   "version": "0.7.1",
-  "targetRuntime": ">=8.0"
+  "meta": {
+    "nodeVersion": ">=8.0"
+  }
 }

@@ -79,10 +79,10 @@ export class PackageLockParser implements LockfileParser {
       version: manifestFile.version || '',
     };
 
-    const targetRuntime = _.get(manifestFile, 'engines.node');
+    const nodeVersion = _.get(manifestFile, 'engines.node');
 
-    if (targetRuntime) {
-      depTree.targetRuntime = targetRuntime;
+    if (nodeVersion) {
+      _.set(depTree, 'meta.nodeVersion', nodeVersion);
     }
 
     // asked to process empty deps
