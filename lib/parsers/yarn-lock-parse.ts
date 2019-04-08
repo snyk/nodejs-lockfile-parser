@@ -79,6 +79,11 @@ export class YarnLockParser implements LockfileParser {
       version: manifestFile.version || '',
     };
 
+    const nodeVersion = _.get(manifestFile, 'engines.node');
+    if (nodeVersion) {
+      _.set(depTree, 'meta.nodeVersion', nodeVersion);
+    }
+
     const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
 
     // asked to process empty deps

@@ -2,6 +2,9 @@
   "name": "goof",
   "version": "0.0.3",
   "size": 910,
+  "meta": {
+    "nodeVersion": "6.14.1"
+  },
   "hasDevDependencies": true,
   "dependencies": {
     "adm-zip": {

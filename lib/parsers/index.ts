@@ -12,6 +12,9 @@ export interface Dep {
 export interface ManifestFile {
   name: string;
   private?: string;
+  engines?: {
+    node?: string;
+  };
   workspaces?: string[];
   dependencies?: {
     [dep: string]: string;
@@ -27,6 +30,9 @@ export interface PkgTree {
   version: string;
   dependencies: {
     [dep: string]: PkgTree;
+  };
+  meta?: {
+    nodeVersion: string;
   };
   depType?: DepType;
   hasDevDependencies?: boolean;

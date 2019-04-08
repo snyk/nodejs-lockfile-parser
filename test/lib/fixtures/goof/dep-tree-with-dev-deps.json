@@ -11426,5 +11426,8 @@
   "hasDevDependencies": true,
   "name": "goof",
   "version": "0.0.3",
-  "size": 1791
+  "size": 1791,
+  "meta": {
+    "nodeVersion": "6.14.1"
+  }
 }
