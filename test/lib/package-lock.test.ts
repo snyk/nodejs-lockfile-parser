@@ -116,6 +116,19 @@ test('Parse npm package-lock.json with dev deps only', async (t) => {
   t.deepEqual(depTree, expectedDepTree, 'Tree is created with dev deps only');
 });
 
+test('Parse npm simple package-lock.json dev and prod deps', async (t) => {
+  const expectedDepTree = load('simple-test/expected-tree.json');
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/simple-test/`,
+    'package.json',
+    'package-lock.json',
+    true,
+  );
+  //tslint:disable
+  console.log(JSON.stringify(depTree));
+  t.deepEqual(depTree, expectedDepTree, 'Tree is created with dev deps only');
+});
+
 test('Parse npm package-lock.json with dev deps only', async (t) => {
   const expectedDepTreeEmpty = load('dev-deps-only/expected-tree-empty.json');
   const depTree = await buildDepTreeFromFiles(

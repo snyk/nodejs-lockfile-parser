@@ -34,7 +34,9 @@ export interface PkgTree {
   meta?: {
     nodeVersion: string;
   };
-  depType?: DepType;
+  labels?: {
+    depType: DepType;
+  };
   hasDevDependencies?: boolean;
   cyclic?: boolean;
   missingLockFileEntry?: boolean;
@@ -92,8 +94,10 @@ export function getTopLevelDeps(targetFile: ManifestFile, includeDev: boolean): 
 
 export function createPkgTreeFromDep(dep: Dep): PkgTree {
   const pkgTree: PkgTree = {
-    depType: dep.dev ? DepType.dev : DepType.prod,
     dependencies: {},
+    labels: {
+      depType: dep.dev ? DepType.dev : DepType.prod,
+    },
     name: dep.name,
     version: dep.version,
   };

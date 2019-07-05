@@ -152,7 +152,9 @@ export class PackageLockParser implements LockfileParser {
     for (const [name, subTree] of _.entries(pkgTree.dependencies)) {
       pkgTree.dependencies[name] = this.setDevDepRec(subTree);
     }
-    pkgTree.depType = DepType.dev;
+    pkgTree.labels = {
+      depType: DepType.dev,
+    };
 
     return pkgTree;
   }
@@ -324,8 +326,10 @@ export class PackageLockParser implements LockfileParser {
         treeSize += depTreesSizes[subDepPath];
       }
       const pkgTree: PkgTree = {
-        depType: dep.depType,
         dependencies: dep.dependencies,
+        labels: {
+          depType: DepType.prod,
+        },
         name: dep.name,
         version: dep.version,
       };
@@ -351,8 +355,10 @@ export class PackageLockParser implements LockfileParser {
     const flattenLockfileRec = (lockfileDeps: PackageLockDeps, path: string[]) => {
       for (const [depName, dep] of _.entries(lockfileDeps)) {
         const depNode: DepMapItem = {
-          depType: dep.dev ? DepType.dev : DepType.prod,
           dependencies: {},
+          labels: {
+            depType: dep.dev ? DepType.dev : DepType.prod,
+          },
           name: depName,
           requires: [],
           version: dep.version,

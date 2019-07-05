@@ -139,8 +139,10 @@ export class YarnLockParser implements LockfileParser {
 
       for (const [subName, subVersion] of subDependencies) {
         const subDependency: PkgTree = {
-          depType: tree.depType,
           dependencies: {},
+          labels: {
+            depType: DepType.prod,
+          },
           name: subName,
           version: subVersion,
         };
