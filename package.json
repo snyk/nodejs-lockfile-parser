@@ -31,14 +31,14 @@
   "dependencies": {
     "@yarnpkg/lockfile": "^1.0.2",
     "graphlib": "^2.1.5",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.14",
     "source-map-support": "^0.5.7",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@types/graphlib": "^2.1.4",
-    "@types/lodash": "^4.14.116",
+    "@types/lodash": "^4.14.136",
     "@types/node": "^4.0.47",
     "@types/uuid": "^3.4.4",
     "tap": "^12.6.1",
