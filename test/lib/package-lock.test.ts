@@ -124,9 +124,8 @@ test('Parse npm simple package-lock.json dev and prod deps', async (t) => {
     'package-lock.json',
     true,
   );
-  //tslint:disable
-  console.log(JSON.stringify(depTree));
-  t.deepEqual(depTree, expectedDepTree, 'Tree is created with dev deps only');
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree is created with dev and prod deps');
 });
 
 test('Parse npm package-lock.json with dev deps only', async (t) => {

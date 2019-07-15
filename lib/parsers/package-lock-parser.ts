@@ -327,9 +327,7 @@ export class PackageLockParser implements LockfileParser {
       }
       const pkgTree: PkgTree = {
         dependencies: dep.dependencies,
-        labels: {
-          depType: DepType.prod,
-        },
+        labels: dep.labels,
         name: dep.name,
         version: dep.version,
       };

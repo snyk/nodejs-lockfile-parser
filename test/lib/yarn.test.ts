@@ -62,6 +62,7 @@ if (getRuntimeVersion() < 6) {
       'yarn.lock',
       true,
     );
+
     t.deepEqual(depTree, expectedDepTree, 'Tree is created with dev deps only');
   });
 
