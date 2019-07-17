@@ -1,43 +1,59 @@
 {
   "dependencies": {
     "body-parser": {
-      "depType": "prod",
+      "labels": {
+        "depType": "prod"
+      },
       "dependencies": {
         "bytes": {
-          "depType": "prod",
+          "labels": {
+            "depType": "prod"
+          },
           "dependencies": {},
           "name": "bytes",
           "version": "1.0.0"
         },
         "depd": {
-          "depType": "prod",
+          "labels": {
+            "depType": "prod"
+          },
           "dependencies": {},
           "name": "depd",
           "version": "1.0.1"
         },
         "iconv-lite": {
-          "depType": "prod",
+          "labels": {
+            "depType": "prod"
+          },
           "dependencies": {},
           "name": "iconv-lite",
           "version": "0.4.4"
         },
         "media-typer": {
-          "depType": "prod",
+          "labels": {
+            "depType": "prod"
+          },
           "dependencies": {},
           "name": "media-typer",
           "version": "0.3.0"
         },
         "qs": {
-          "depType": "prod",
+          "labels": {
+            "depType": "prod"
+          },
           "dependencies": {},
           "name": "qs",
           "version": "2.2.4"
         },
         "on-finished": {
-          "depType": "prod",
+          "labels": {
+            "depType": "prod"
+          },
           "dependencies": {
             "ee-first": {
-              "depType": "prod",
+              "labels": {
+                "depType": "prod"
+              },
               "dependencies": {},
               "name": "ee-first",
               "version": "1.0.5"
@@ -47,16 +63,22 @@
           "version": "2.1.0"
         },
         "raw-body": {
-          "depType": "prod",
+          "labels": {
+            "depType": "prod"
+          },
           "dependencies": {
             "bytes": {
-              "depType": "prod",
+              "labels": {
+                "depType": "prod"
+              },
               "dependencies": {},
               "name": "bytes",
               "version": "1.0.0"
             },
             "iconv-lite": {
-              "depType": "prod",
+              "labels": {
+                "depType": "prod"
+              },
               "dependencies": {},
               "name": "iconv-lite",
               "version": "0.4.4"
@@ -66,19 +88,27 @@
           "version": "1.3.0"
         },
         "type-is": {
-          "depType": "prod",
+          "labels": {
+            "depType": "prod"
+          },
           "dependencies": {
             "media-typer": {
-              "depType": "prod",
+              "labels": {
+                "depType": "prod"
+              },
               "dependencies": {},
               "name": "media-typer",
               "version": "0.3.0"
             },
             "mime-types": {
-              "depType": "prod",
+              "labels": {
+                "depType": "prod"
+              },
               "dependencies": {
                 "mime-db": {
-                  "depType": "prod",
+                  "labels": {
+                    "depType": "prod"
+                  },
                   "dependencies": {},
                   "name": "mime-db",
                   "version": "1.12.0"

@@ -1,13 +1,19 @@
 {
   "dependencies": {
     "debug": {
-      "depType": "prod",
+      "labels": {
+        "depType": "prod"
+      },
       "dependencies": {
         "ms": {
-          "depType": "prod",
+          "labels": {
+            "depType": "prod"
+          },
           "dependencies": {
             "debug": {
-              "depType": "prod",
+              "labels": {
+                "depType": "prod"
+              },
               "dependencies": {},
               "name": "debug",
               "version": "2.0.0",
@@ -22,14 +28,18 @@
       "version": "2.0.0"
     },
     "lodash": {
-      "depType": "prod",
+      "labels": {
+        "depType": "prod"
+      },
       "dependencies": {},
       "name": "lodash",
       "version": "4.17.11",
       "missingLockFileEntry": true
     },
     "body-parser": {
-      "depType": "prod",
+      "labels": {
+        "depType": "prod"
+      },
       "dependencies": {},
       "name": "body-parser",
       "version": "^1.18.2",
