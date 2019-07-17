@@ -35,7 +35,7 @@ export interface PkgTree {
     nodeVersion: string;
   };
   labels?: {
-    depType: DepType;
+     scope: Scope;
   };
   hasDevDependencies?: boolean;
   cyclic?: boolean;
@@ -43,7 +43,7 @@ export interface PkgTree {
   size?: number;
 }
 
-export enum DepType {
+export enum Scope {
   prod = 'prod',
   dev = 'dev',
 }
@@ -96,7 +96,7 @@ export function createPkgTreeFromDep(dep: Dep): PkgTree {
   const pkgTree: PkgTree = {
     dependencies: {},
     labels: {
-      depType: dep.dev ? DepType.dev : DepType.prod,
+       scope: dep.dev ? Scope.dev : Scope.prod,
     },
     name: dep.name,
     version: dep.version,
