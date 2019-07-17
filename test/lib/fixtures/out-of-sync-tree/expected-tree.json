@@ -2,12 +2,12 @@
   "dependencies": {
     "debug": {
       "labels": {
-        "depType": "prod"
+        "scope": "prod"
       },
       "dependencies": {
         "ms": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {},
           "name": "ms",
@@ -19,7 +19,7 @@
     },
     "body-parser": {
       "labels": {
-        "depType": "prod"
+        "scope": "prod"
       },
       "missingLockFileEntry": true,
       "dependencies": {},
@@ -28,17 +28,17 @@
     },
     "undefsafe": {
       "labels": {
-        "depType": "prod"
+        "scope": "prod"
       },
       "dependencies": {
         "debug": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {
             "ms": {
               "labels": {
-                "depType": "prod"
+                "scope": "prod"
               },
               "dependencies": {},
               "name": "ms",
@@ -54,17 +54,17 @@
     },
     "aws-sdk": {
       "labels": {
-        "depType": "prod"
+        "scope": "prod"
       },
       "dependencies": {
         "buffer": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {
             "base64-js": {
               "labels": {
-                "depType": "prod"
+                "scope": "prod"
               },
               "dependencies": {},
               "name": "base64-js",
@@ -72,7 +72,7 @@
             },
             "ieee754": {
               "labels": {
-                "depType": "prod"
+                "scope": "prod"
               },
               "dependencies": {},
               "name": "ieee754",
@@ -80,7 +80,7 @@
             },
             "isarray": {
               "labels": {
-                "depType": "prod"
+                "scope": "prod"
               },
               "dependencies": {},
               "name": "isarray",
@@ -92,7 +92,7 @@
         },
         "events": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {},
           "name": "events",
@@ -100,7 +100,7 @@
         },
         "ieee754": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {},
           "name": "ieee754",
@@ -108,7 +108,7 @@
         },
         "jmespath": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {},
           "name": "jmespath",
@@ -116,7 +116,7 @@
         },
         "querystring": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {},
           "name": "querystring",
@@ -124,7 +124,7 @@
         },
         "sax": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {},
           "name": "sax",
@@ -132,12 +132,12 @@
         },
         "url": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {
             "punycode": {
               "labels": {
-                "depType": "prod"
+                "scope": "prod"
               },
               "dependencies": {},
               "name": "punycode",
@@ -145,7 +145,7 @@
             },
             "querystring": {
               "labels": {
-                "depType": "prod"
+                "scope": "prod"
               },
               "dependencies": {},
               "name": "querystring",
@@ -157,7 +157,7 @@
         },
         "uuid": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {},
           "name": "uuid",
@@ -165,12 +165,12 @@
         },
         "xml2js": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {
             "sax": {
               "labels": {
-                "depType": "prod"
+                "scope": "prod"
               },
               "dependencies": {},
               "name": "sax",
@@ -178,7 +178,7 @@
             },
             "xmlbuilder": {
               "labels": {
-                "depType": "prod"
+                "scope": "prod"
               },
               "dependencies": {},
               "name": "xmlbuilder",
@@ -194,22 +194,22 @@
     },
     "axios": {
       "labels": {
-        "depType": "prod"
+        "scope": "prod"
       },
       "dependencies": {
         "follow-redirects": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {
             "debug": {
               "labels": {
-                "depType": "prod"
+                "scope": "prod"
               },
               "dependencies": {
                 "ms": {
                   "labels": {
-                    "depType": "prod"
+                    "scope": "prod"
                   },
                   "dependencies": {},
                   "name": "ms",
@@ -225,7 +225,7 @@
         },
         "is-buffer": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {},
           "name": "is-buffer",
@@ -237,7 +237,7 @@
     },
     "bignumber.js": {
       "labels": {
-        "depType": "prod"
+        "scope": "prod"
       },
       "dependencies": {},
       "name": "bignumber.js",

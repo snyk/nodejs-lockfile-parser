@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
+import {LockfileParser, PkgTree, Dep,  Scope, ManifestFile,
   getTopLevelDeps, Lockfile, LockfileType, createPkgTreeFromDep} from './';
 import getRuntimeVersion from '../get-node-runtime-version';
 import {setImmediatePromise} from '../set-immediate-promise';

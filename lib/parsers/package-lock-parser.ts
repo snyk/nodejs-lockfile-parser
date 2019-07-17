@@ -3,7 +3,7 @@ import * as graphlib from 'graphlib';
 import * as uuid from 'uuid/v4';
 import {setImmediatePromise} from '../set-immediate-promise';
 
-import {LockfileParser, PkgTree, Dep, DepType, ManifestFile,
+import {LockfileParser, PkgTree, Dep,  Scope, ManifestFile,
   getTopLevelDeps, Lockfile, LockfileType, createPkgTreeFromDep} from './';
 import {InvalidUserInputError, OutOfSyncError} from '../errors';
 
@@ -153,7 +153,7 @@ export class PackageLockParser implements LockfileParser {
       pkgTree.dependencies[name] = this.setDevDepRec(subTree);
     }
     pkgTree.labels = {
-      depType: DepType.dev,
+       scope:  Scope.dev,
     };
 
     return pkgTree;
@@ -355,7 +355,7 @@ export class PackageLockParser implements LockfileParser {
         const depNode: DepMapItem = {
           dependencies: {},
           labels: {
-            depType: dep.dev ? DepType.dev : DepType.prod,
+             scope: dep.dev ?  Scope.dev :  Scope.prod,
           },
           name: depName,
           requires: [],

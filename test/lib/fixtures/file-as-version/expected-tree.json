@@ -2,12 +2,12 @@
   "dependencies": {
     "debug": {
       "labels": {
-        "depType": "prod"
+        "scope": "prod"
       },
       "dependencies": {
         "ms": {
           "labels": {
-            "depType": "prod"
+            "scope": "prod"
           },
           "dependencies": {},
           "name": "ms",
@@ -19,7 +19,7 @@
     },
     "shared": {
       "labels": {
-        "depType": "prod"
+        "scope": "prod"
       },
       "dependencies": {},
       "name": "shared",
