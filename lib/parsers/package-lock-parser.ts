@@ -193,8 +193,12 @@ export class PackageLockParser implements LockfileParser {
         depGraph.setEdge(dependencyCopy, nodeCopy);
         // 3.a If edge goes to already-visited dependency, end of cycle is found;
         if (_.includes(traversed, child)) {
-          // update metadata and do not continue traversing
+          // update metadata and labels and do not continue traversing
           depMap[dependencyCopy].cyclic = true;
+          if (!depMap[dependencyCopy].labels) {
+              depMap[dependencyCopy].labels = {};
+          }
+          depMap[dependencyCopy].labels!.pruned = 'cyclic';
         } else {
           // 3.b Follow the edge and repeat the process, storing visited dependency-paths
           acyclicDuplicationRec(child, [...traversed, node], currentCycle, dependencyCopy);

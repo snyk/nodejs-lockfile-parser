@@ -129,6 +129,10 @@ export class YarnLockParser implements LockfileParser {
 
       if (queueItem.path.indexOf(depKey) >= 0) {
         queueItem.tree.cyclic = true;
+        if (!queueItem.tree.labels) {
+          queueItem.tree.labels = {};
+        }
+        queueItem.tree.labels.pruned = 'cyclic';
         continue;
       }
 
@@ -140,7 +144,9 @@ export class YarnLockParser implements LockfileParser {
       for (const [subName, subVersion] of subDependencies) {
         const subDependency: PkgTree = {
           dependencies: {},
-          labels: tree.labels,
+          labels: {
+            scope: tree.labels!.scope, // propagate scope label only
+          },
           name: subName,
           version: subVersion,
         };

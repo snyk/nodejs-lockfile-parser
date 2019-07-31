@@ -35,7 +35,8 @@ export interface PkgTree {
     nodeVersion: string;
   };
   labels?: {
-     scope: Scope;
+     scope?: Scope;
+     pruned?: 'cyclic';
   };
   hasDevDependencies?: boolean;
   cyclic?: boolean;

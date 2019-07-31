@@ -52,6 +52,7 @@ if (getRuntimeVersion() < 6) {
       'yarn.lock',
     );
     t.strictEqual(depTree.dependencies.debug.dependencies.ms.dependencies.debug.cyclic, true, 'Cyclic dependency is found correctly');
+    t.strictEqual(depTree.dependencies.debug.dependencies.ms.dependencies.debug.labels!.pruned, 'cyclic', 'Cyclic dependency is found correctly');
   });
 
   test('Parse yarn.lock with dev deps only', async (t) => {

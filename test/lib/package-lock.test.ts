@@ -146,6 +146,7 @@ test('Parse npm package-lock.json with cyclic deps', async (t) => {
     'package-lock.json',
   );
   t.strictEqual(depTree.dependencies.debug.dependencies.ms.dependencies.debug.cyclic, true, 'Cyclic dependency is found correctly');
+  t.strictEqual(depTree.dependencies.debug.dependencies.ms.dependencies.debug.labels!.pruned, 'cyclic', 'Cyclic label is set');
 });
 
 test('Parse npm package-lock.json with self-reference cyclic deps', async (t) => {

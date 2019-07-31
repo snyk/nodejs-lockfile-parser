@@ -12,7 +12,8 @@
           "dependencies": {
             "debug": {
               "labels": {
-                "scope": "prod"
+                "scope": "prod",
+                "pruned": "cyclic"
               },
               "dependencies": {},
               "name": "debug",
