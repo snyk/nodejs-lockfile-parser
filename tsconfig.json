@@ -2,8 +2,11 @@
     "compilerOptions": {
         "outDir": "./dist",
         "pretty": true,
-        "target": "es5",
-        "lib": ["es5", "es2015.promise"],
+        "target": "es2015",
+        "lib": [
+            "es2015",
+            "es2016.array.include"
+        ],
         "module": "commonjs",
         "sourceMap": true,
         "declaration": true,
