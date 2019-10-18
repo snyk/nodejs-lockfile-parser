@@ -16,8 +16,7 @@
           "version": "2.0.0",
           "labels": {
             "scope": "dev"
-          },
-          "dependencies": {}
+          }
         }
       }
     }

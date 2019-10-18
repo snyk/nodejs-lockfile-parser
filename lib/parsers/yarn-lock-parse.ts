@@ -72,7 +72,6 @@ export class YarnLockParser implements LockfileParser {
     const yarnLock = lockfile as YarnLock;
 
     const depTree: PkgTree = {
-      dependencies: {},
       hasDevDependencies: !_.isEmpty(manifestFile.devDependencies),
       name: manifestFile.name,
       size: 1,
@@ -92,6 +91,9 @@ export class YarnLockParser implements LockfileParser {
     }
 
     for (const dep of topLevelDeps) {
+      if (!depTree.dependencies) {
+        depTree.dependencies = {};
+      }
       if (/^file:/.test(dep.version)) {
         depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
       } else {
@@ -120,7 +122,10 @@ export class YarnLockParser implements LockfileParser {
         if (strict) {
           throw new OutOfSyncError(queueItem.tree.name, 'yarn');
         }
-        queueItem.tree.missingLockFileEntry = true;
+        if (!queueItem.tree.labels) {
+          queueItem.tree.labels = {};
+        }
+        queueItem.tree.labels.missingLockFileEntry = true;
         continue;
       }
 
@@ -128,7 +133,6 @@ export class YarnLockParser implements LockfileParser {
       queueItem.tree.version = dependency.version;
 
       if (queueItem.path.indexOf(depKey) >= 0) {
-        queueItem.tree.cyclic = true;
         if (!queueItem.tree.labels) {
           queueItem.tree.labels = {};
         }
@@ -143,7 +147,6 @@ export class YarnLockParser implements LockfileParser {
 
       for (const [subName, subVersion] of subDependencies) {
         const subDependency: PkgTree = {
-          dependencies: {},
           labels: {
             scope: tree.labels!.scope, // propagate scope label only
           },
@@ -151,6 +154,9 @@ export class YarnLockParser implements LockfileParser {
           version: subVersion,
         };
 
+        if (!queueItem.tree.dependencies) {
+          queueItem.tree.dependencies = {};
+        }
         queueItem.tree.dependencies[subName] = subDependency;
 
         queue.push({

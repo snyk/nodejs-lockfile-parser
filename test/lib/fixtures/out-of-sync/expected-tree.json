@@ -15,10 +15,8 @@
                 "scope": "prod",
                 "pruned": "cyclic"
               },
-              "dependencies": {},
               "name": "debug",
-              "version": "2.0.0",
-              "cyclic": true
+              "version": "2.0.0"
             }
           },
           "name": "ms",
@@ -30,21 +28,19 @@
     },
     "lodash": {
       "labels": {
-        "scope": "prod"
+        "scope": "prod",
+        "missingLockFileEntry": true
       },
-      "dependencies": {},
       "name": "lodash",
-      "version": "4.17.11",
-      "missingLockFileEntry": true
+      "version": "4.17.11"
     },
     "body-parser": {
       "labels": {
-        "scope": "prod"
+        "scope": "prod",
+        "missingLockFileEntry": true
       },
-      "dependencies": {},
       "name": "body-parser",
-      "version": "^1.18.2",
-      "missingLockFileEntry": true
+      "version": "^1.18.2"
     }
   },
   "hasDevDependencies": true,

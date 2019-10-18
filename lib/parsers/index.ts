@@ -28,7 +28,7 @@ export interface ManifestFile {
 export interface PkgTree {
   name: string;
   version: string;
-  dependencies: {
+  dependencies?: {
     [dep: string]: PkgTree;
   };
   meta?: {
@@ -37,10 +37,10 @@ export interface PkgTree {
   labels?: {
      scope?: Scope;
      pruned?: 'cyclic';
+     missingLockFileEntry?: boolean;
   };
   hasDevDependencies?: boolean;
   cyclic?: boolean;
-  missingLockFileEntry?: boolean;
   size?: number;
 }
 
@@ -95,7 +95,6 @@ export function getTopLevelDeps(targetFile: ManifestFile, includeDev: boolean): 
 
 export function createPkgTreeFromDep(dep: Dep): PkgTree {
   const pkgTree: PkgTree = {
-    dependencies: {},
     labels: {
        scope: dep.dev ? Scope.dev : Scope.prod,
     },

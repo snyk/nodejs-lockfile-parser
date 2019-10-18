@@ -47,7 +47,7 @@ test('Parse npm package.json with empty devDependencies', async (t) => {
   );
 
   t.false(depTree.hasDevDependencies, 'Package doesn\'t have devDependencies');
-  t.ok(depTree.dependencies['adm-zip'], 'Dependencies are reported correctly');
+  t.ok(depTree.dependencies!['adm-zip'], 'Dependencies are reported correctly');
 });
 
 test('Parse npm package-lock.json with missing dependency', async (t) => {
@@ -145,8 +145,7 @@ test('Parse npm package-lock.json with cyclic deps', async (t) => {
     'package.json',
     'package-lock.json',
   );
-  t.strictEqual(depTree.dependencies.debug.dependencies.ms.dependencies.debug.cyclic, true, 'Cyclic dependency is found correctly');
-  t.strictEqual(depTree.dependencies.debug.dependencies.ms.dependencies.debug.labels!.pruned, 'cyclic', 'Cyclic label is set');
+  t.strictEqual(depTree.dependencies!.debug.dependencies!.ms.dependencies!.debug.labels!.pruned, 'cyclic', 'Cyclic label is set');
 });
 
 test('Parse npm package-lock.json with self-reference cyclic deps', async (t) => {

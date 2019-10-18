@@ -15,7 +15,6 @@
       },
       "dependencies": {
         "function-bind": {
-          "dependencies": {},
           "labels": {
             "scope": "prod"
           },
@@ -32,7 +31,6 @@
       },
       "dependencies": {
         "ms": {
-          "dependencies": {},
           "labels": {
             "scope": "dev"
           },

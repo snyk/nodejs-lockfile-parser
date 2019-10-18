@@ -72,7 +72,6 @@ export class PackageLockParser implements LockfileParser {
     const packageLock = lockfile as PackageLock;
 
     const depTree: PkgTree = {
-      dependencies: {},
       hasDevDependencies: !_.isEmpty(manifestFile.devDependencies),
       name: manifestFile.name,
       size: 1,
@@ -123,6 +122,9 @@ export class PackageLockParser implements LockfileParser {
       // if any of top level dependencies is a part of cycle
       // it now has a different item in the map
       const depName = cycleStarts[dep.name] || dep.name;
+      if (!depTree.dependencies) {
+        depTree.dependencies = {};
+      }
       if (depTrees[depName]) {
         // if the top level dependency is dev, all children are dev
         depTree.dependencies[dep.name] = dep.dev ?
@@ -139,7 +141,10 @@ export class PackageLockParser implements LockfileParser {
           throw new OutOfSyncError(depName, 'npm');
         }
         depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
-        depTree.dependencies[dep.name].missingLockFileEntry = true;
+        if (!depTree.dependencies[dep.name].labels) {
+          depTree.dependencies[dep.name].labels = {};
+        }
+        depTree.dependencies[dep.name].labels!.missingLockFileEntry = true;
         treeSize++;
       }
     }
@@ -150,7 +155,7 @@ export class PackageLockParser implements LockfileParser {
 
   private setDevDepRec(pkgTree: PkgTree) {
     for (const [name, subTree] of _.entries(pkgTree.dependencies)) {
-      pkgTree.dependencies[name] = this.setDevDepRec(subTree);
+      pkgTree.dependencies![name] = this.setDevDepRec(subTree);
     }
     pkgTree.labels = {
        scope:  Scope.dev,
@@ -194,7 +199,6 @@ export class PackageLockParser implements LockfileParser {
         // 3.a If edge goes to already-visited dependency, end of cycle is found;
         if (_.includes(traversed, child)) {
           // update metadata and labels and do not continue traversing
-          depMap[dependencyCopy].cyclic = true;
           if (!depMap[dependencyCopy].labels) {
               depMap[dependencyCopy].labels = {};
           }
@@ -326,15 +330,21 @@ export class PackageLockParser implements LockfileParser {
       // looking for predecessors
       for (const subDepPath of depGraph.predecessors(depKey)) {
         const subDep = depTrees[subDepPath];
+        if (!dep.dependencies) {
+          dep.dependencies = {};
+        }
         dep.dependencies[subDep.name] = subDep;
         treeSize += depTreesSizes[subDepPath];
       }
       const pkgTree: PkgTree = {
-        dependencies: dep.dependencies,
         labels: dep.labels,
         name: dep.name,
         version: dep.version,
       };
+
+      if (dep.dependencies) {
+        pkgTree.dependencies = dep.dependencies;
+      }
       if (dep.cyclic) {
         pkgTree.cyclic = dep.cyclic;
       }
@@ -357,7 +367,6 @@ export class PackageLockParser implements LockfileParser {
     const flattenLockfileRec = (lockfileDeps: PackageLockDeps, path: string[]) => {
       for (const [depName, dep] of _.entries(lockfileDeps)) {
         const depNode: DepMapItem = {
-          dependencies: {},
           labels: {
              scope: dep.dev ?  Scope.dev :  Scope.prod,
           },
