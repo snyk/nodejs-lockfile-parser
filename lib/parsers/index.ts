@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import {PackageLock} from './package-lock-parser';
 import {YarnLock} from './yarn-lock-parse';
 import {InvalidUserInputError} from '../errors';
+import {DepGraph} from '@snyk/dep-graph';
 
 export interface Dep {
   name: string;
@@ -60,6 +61,9 @@ export interface LockfileParser {
   getDependencyTree: (manifestFile: ManifestFile, lockfile: Lockfile,
                       includeDev?: boolean, strict?: boolean)
       => Promise<PkgTree>;
+  getDependencyGraph?: (manifestFile: ManifestFile, lockfile: Lockfile,
+                        includeDev?: boolean, strict?: boolean)
+      => Promise<DepGraph>;
 }
 
 export type Lockfile = PackageLock | YarnLock;

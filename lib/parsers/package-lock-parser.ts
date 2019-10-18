@@ -2,10 +2,22 @@ import * as _ from 'lodash';
 import * as graphlib from 'graphlib';
 import * as uuid from 'uuid/v4';
 import {setImmediatePromise} from '../set-immediate-promise';
+import {eventLoopSpinner} from '../event-loop-spinner';
 
-import {LockfileParser, PkgTree, Dep,  Scope, ManifestFile,
-  getTopLevelDeps, Lockfile, LockfileType, createPkgTreeFromDep} from './';
+import {
+  createPkgTreeFromDep,
+  Dep,
+  getTopLevelDeps,
+  Lockfile,
+  LockfileParser,
+  LockfileType,
+  ManifestFile,
+  PkgTree,
+  Scope,
+} from './';
 import {InvalidUserInputError, OutOfSyncError} from '../errors';
+import {DepGraph, DepGraphBuilder} from '@snyk/dep-graph';
+import {alg} from 'graphlib';
 
 export interface PackageLock {
   name: string;
@@ -60,6 +72,148 @@ export class PackageLockParser implements LockfileParser {
       throw new InvalidUserInputError('package-lock.json parsing failed with ' +
         `error ${e.message}`);
     }
+  }
+
+  public async getDependencyGraph(manifestFile: ManifestFile, lockfile: Lockfile, includeDev = false,
+                                  strict = true): Promise<DepGraph> {
+
+    if (lockfile.type !== LockfileType.npm) {
+      throw new InvalidUserInputError('Unsupported lockfile provided. Please ' +
+          'provide `package-lock.json`.');
+    }
+    const packageLock = lockfile as PackageLock;
+
+    const rootPkgInfo = {name: manifestFile.name, version: manifestFile.version};
+    const graphBuilder = new DepGraphBuilder({name: 'npm'}, rootPkgInfo);
+
+    // asked to process empty deps
+    if (_.isEmpty(manifestFile.dependencies) && !includeDev) {
+      return graphBuilder.build();
+    }
+    // prepare a flat map, where dependency path is a key to dependency object
+    // path is an unique identifier for each dependency and corresponds to the
+    // relative path on disc
+    const depMap: DepMap = this.flattenLockfile(packageLock, includeDev);
+    // prepare nodes
+    for (const [depPath, {name, version, labels}] of Object.entries(depMap)) {
+      if (name !== rootPkgInfo.name) {
+        // @ts-ignore
+        graphBuilder.addPkgNode({name, version}, depPath, {labels});
+      }
+    }
+
+    if (this.els.isStarving()) {
+      await this.els.spin();
+    }
+
+    // add top-level edges - prod
+    for (const [dep, version] of Object.entries(manifestFile.dependencies || {})) {
+      if (/^file:/.test(version)) {
+        graphBuilder.addPkgNode({name: dep, version}, dep, {labels: {scope: Scope.prod}});
+      }
+      try {
+        graphBuilder.connectDep(graphBuilder.rootNodeId, dep);
+      } catch (e) {
+        if (strict) {
+          throw new OutOfSyncError(dep, 'npm');
+        }
+        graphBuilder.addPkgNode({name: dep, version},
+            // @ts-ignore
+            dep, {labels: {scope: Scope.prod, missingLockFileEntry: true}});
+        graphBuilder.connectDep(graphBuilder.rootNodeId, dep);
+      }
+    }
+
+    if (this.els.isStarving()) {
+      await this.els.spin();
+    }
+
+    // add top-level edges - dev
+    if (includeDev && manifestFile.devDependencies) {
+      for (const dep of Object.keys(manifestFile.devDependencies)) {
+        graphBuilder.connectDep(graphBuilder.rootNodeId, dep);
+      }
+    }
+
+    if (this.els.isStarving()) {
+      await this.els.spin();
+    }
+
+    // add edges
+    // prepare a queue like object to go through
+    const mapEntries = Object.entries(depMap);
+    while (mapEntries.length) {
+      // handle item
+      const [depPath, {name, requires}] = mapEntries.shift() as [string, DepMapItem];
+      const parentNodeId = name === rootPkgInfo.name ? graphBuilder.rootNodeId : depPath;
+      for (const depName of requires) {
+        let subDepPath = this.findDepsPath(depPath, depName, depMap);
+        const subDep = depMap[subDepPath];
+        if (subDep.name === rootPkgInfo.name) {
+          subDepPath = graphBuilder.rootNodeId;
+        }
+        // one dep can be both prod and dev (details in https://docs.npmjs.com/files/package-lock.json#dev)
+        // if it happens, copy of the prod one needs to be created and it's dependencies need to be adjusted too
+        // if (labels!.scope !== subDep.labels!.scope) {
+        //   console.log(depPath, subDepPath, labels!.scope, subDep.labels!.scope);
+        //   subDep = _.cloneDeep(subDep);
+        //   subDep.labels!.scope = Scope.dev;
+        //   const subDepPathOrigin = subDepPath;
+        //   subDepPath += '-dev';
+        //   graphBuilder.addPkgNode({name: subDep.name, version: subDep.version},
+        //       subDepPath, {labels: subDep.labels});
+        //   mapEntries.push([subDepPath, subDep]);
+        //   // depMap[subDepPath] = subDep;
+        // }
+        graphBuilder.connectDep(parentNodeId, subDepPath);
+        // HACK: Remove cycles
+        // @ts-ignore
+        if (!alg.isAcyclic(graphBuilder._graph)) {
+          // @ts-ignore
+          graphBuilder._graph.removeEdge(parentNodeId, subDepPath);
+          const subDepCyclic = _.cloneDeep(subDep);
+          subDepCyclic.labels!.pruned = 'cyclic';
+          subDepPath += '-cyclic';
+          graphBuilder.addPkgNode({name: subDepCyclic.name, version: subDepCyclic.version},
+          // @ts-ignore
+              subDepPath, {labels: subDepCyclic.labels});
+          graphBuilder.connectDep(parentNodeId, subDepPath);
+        }
+        if (this.els.isStarving()) {
+          await this.els.spin();
+        }
+      }
+    }
+
+    // adjust dev dependencies
+    // if (includeDev && manifestFile.devDependencies) {
+    //   const depQueue = Object.keys(manifestFile.devDependencies);
+    //   // @ts-ignore
+    //   const graph = graphBuilder._graph;
+    //   while (depQueue.length) {
+    //     const parentNodeId = depQueue.shift() as string;
+    //     const parentNode = graph.node(parentNodeId);
+    //     for (const childNodeId of graph.successors(parentNodeId)) {
+    //       const childNode = graph.node(childNodeId);
+    //       // prod dependency under dev dependency found
+    //       if (parentNode.info.labels.scope !== childNode.info.labels.scope) {
+    //         const devChildNode = _.cloneDeep(childNode);
+    //         devChildNode.info.labels!.scope = Scope.dev;
+    //         graph.removeEdge(parentNodeId, childNodeId);
+    //         graph.setNode(`${childNodeId}-dev`, devChildNode);
+    //         graphBuilder.connectDep(parentNodeId, `${childNodeId}-dev`);
+    //         for (const {w} of graph.outEdges(childNodeId)) {
+    //           graphBuilder.connectDep(`${childNodeId}-dev`, w);
+    //         }
+    //         depQueue.push(`${childNodeId}-dev`);
+    //       } else {
+    //         depQueue.push(childNodeId);
+    //       }
+    //     }
+    //   }
+    // }
+
+    return graphBuilder.build();
   }
 
   public async getDependencyTree(

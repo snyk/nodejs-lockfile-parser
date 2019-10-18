@@ -29,6 +29,7 @@
   ],
   "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
   "dependencies": {
+    "@snyk/dep-graph": "1.13.0",
     "@yarnpkg/lockfile": "^1.0.2",
     "graphlib": "^2.1.5",
     "lodash": "^4.17.14",

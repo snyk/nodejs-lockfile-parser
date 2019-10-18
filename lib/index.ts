@@ -2,6 +2,7 @@ import 'source-map-support/register';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
+import {DepGraph} from '@snyk/dep-graph';
 import {
   LockfileParser,
   Lockfile,
@@ -20,6 +21,7 @@ import {UnsupportedRuntimeError, InvalidUserInputError, OutOfSyncError} from './
 export {
   buildDepTree,
   buildDepTreeFromFiles,
+  buildDepGraphFromFiles,
   getYarnWorkspacesFromFiles,
   getYarnWorkspaces,
   PkgTree,
@@ -68,6 +70,36 @@ async function buildDepTree(
   return lockfileParser.getDependencyTree(manifestFile, lockFile, includeDev, strict);
 }
 
+async function buildDepGraph(
+    manifestFileContents: string, lockFileContents: string,
+    includeDev = false, lockfileType?: LockfileType,
+    strict: boolean = true, defaultManifestFileName: string = 'package.json'): Promise<DepGraph> {
+  if (!lockfileType) {
+    lockfileType = LockfileType.npm;
+  }
+
+  let lockfileParser: LockfileParser;
+  switch (lockfileType) {
+    case LockfileType.npm:
+      lockfileParser = new PackageLockParser();
+      break;
+    case LockfileType.yarn:
+      throw new InvalidUserInputError('DepGraph is supported for npm only.');
+    default:
+      throw new InvalidUserInputError('Unsupported lockfile type ' +
+          `${lockfileType} provided. Only 'npm' or 'yarn' is currently ` +
+          'supported.');
+  }
+
+  const manifestFile: ManifestFile = parseManifestFile(manifestFileContents);
+  if (!manifestFile.name) {
+    manifestFile.name = defaultManifestFileName;
+  }
+
+  const lockFile: Lockfile = lockfileParser.parseLockFile(lockFileContents);
+  return (lockfileParser as PackageLockParser).getDependencyGraph(manifestFile, lockFile, includeDev, strict);
+}
+
 async function buildDepTreeFromFiles(
   root: string, manifestFilePath: string, lockFilePath: string, includeDev = false,
   strict = true): Promise<PkgTree> {
@@ -102,6 +134,42 @@ async function buildDepTreeFromFiles(
 
   return await buildDepTree(manifestFileContents, lockFileContents, includeDev,
     lockFileType, strict, manifestFilePath);
+}
+
+async function buildDepGraphFromFiles(root: string, manifestFilePath: string, lockFilePath: string, includeDev = false,
+                                      strict = true): Promise<DepGraph> {
+
+  if (!root || !manifestFilePath || !lockFilePath) {
+    throw new InvalidUserInputError('Missing required parameters for buildDepGraphFromFiles()');
+  }
+
+  let lockFileType: LockfileType;
+  if (_.endsWith(lockFilePath, 'package-lock.json')) {
+    lockFileType = LockfileType.npm;
+  } else if (_.endsWith(lockFilePath, 'yarn.lock')) {
+    throw new InvalidUserInputError('DepGraph is supported for npm only.');
+  } else {
+    throw new InvalidUserInputError(`Unknown lockfile ${lockFilePath}. ` +
+        'Please provide package-lock.json.');
+  }
+
+  const manifestFileFullPath = path.resolve(root, manifestFilePath);
+  const lockFileFullPath = path.resolve(root, lockFilePath);
+
+  if (!fs.existsSync(manifestFileFullPath)) {
+    throw new InvalidUserInputError('Target file package.json not found at ' +
+        `location: ${manifestFileFullPath}`);
+  }
+  if (!fs.existsSync(lockFileFullPath)) {
+    throw new InvalidUserInputError('Lockfile not found at location: ' +
+        lockFileFullPath);
+  }
+
+  const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');
+  const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
+
+  return await buildDepGraph(manifestFileContents, lockFileContents, includeDev,
+      lockFileType, strict, manifestFilePath);
 }
 
 function getYarnWorkspacesFromFiles(root, manifestFilePath: string): string [] | false {
