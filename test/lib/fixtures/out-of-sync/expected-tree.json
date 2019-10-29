@@ -29,7 +29,7 @@
     "lodash": {
       "labels": {
         "scope": "prod",
-        "missingLockFileEntry": true
+        "missingLockFileEntry": "true"
       },
       "name": "lodash",
       "version": "4.17.11"
@@ -37,7 +37,7 @@
     "body-parser": {
       "labels": {
         "scope": "prod",
-        "missingLockFileEntry": true
+        "missingLockFileEntry": "true"
       },
       "name": "body-parser",
       "version": "^1.18.2"

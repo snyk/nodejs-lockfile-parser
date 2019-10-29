@@ -3,8 +3,10 @@ import * as graphlib from 'graphlib';
 import * as uuid from 'uuid/v4';
 import {setImmediatePromise} from '../set-immediate-promise';
 
-import {LockfileParser, PkgTree, Dep,  Scope, ManifestFile,
-  getTopLevelDeps, Lockfile, LockfileType, createPkgTreeFromDep} from './';
+import {
+  LockfileParser, PkgTree, DepTreeDep, Dep, Scope, ManifestFile,
+  getTopLevelDeps, Lockfile, LockfileType, createDepTreeDepFromDep,
+} from './';
 import {InvalidUserInputError, OutOfSyncError} from '../errors';
 
 export interface PackageLock {
@@ -32,7 +34,7 @@ interface DepMap {
   [path: string]: DepMapItem;
 }
 
-interface DepMapItem extends PkgTree {
+interface DepMapItem extends DepTreeDep {
   requires: string[];
 }
 
@@ -72,6 +74,7 @@ export class PackageLockParser implements LockfileParser {
     const packageLock = lockfile as PackageLock;
 
     const depTree: PkgTree = {
+      dependencies: {},
       hasDevDependencies: !_.isEmpty(manifestFile.devDependencies),
       name: manifestFile.name,
       size: 1,
@@ -122,9 +125,6 @@ export class PackageLockParser implements LockfileParser {
       // if any of top level dependencies is a part of cycle
       // it now has a different item in the map
       const depName = cycleStarts[dep.name] || dep.name;
-      if (!depTree.dependencies) {
-        depTree.dependencies = {};
-      }
       if (depTrees[depName]) {
         // if the top level dependency is dev, all children are dev
         depTree.dependencies[dep.name] = dep.dev ?
@@ -132,7 +132,7 @@ export class PackageLockParser implements LockfileParser {
         treeSize += depTreesSizes[depName];
         await setImmediatePromise();
       } else if (/^file:/.test(dep.version)) {
-        depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
+        depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
         treeSize++;
       } else {
         // TODO: also check the package version
@@ -140,11 +140,11 @@ export class PackageLockParser implements LockfileParser {
         if (strict) {
           throw new OutOfSyncError(depName, 'npm');
         }
-        depTree.dependencies[dep.name] = createPkgTreeFromDep(dep);
+        depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
         if (!depTree.dependencies[dep.name].labels) {
           depTree.dependencies[dep.name].labels = {};
         }
-        depTree.dependencies[dep.name].labels!.missingLockFileEntry = true;
+        depTree.dependencies[dep.name].labels!.missingLockFileEntry = 'true';
         treeSize++;
       }
     }
@@ -153,7 +153,7 @@ export class PackageLockParser implements LockfileParser {
     return depTree;
   }
 
-  private setDevDepRec(pkgTree: PkgTree) {
+  private setDevDepRec(pkgTree: DepTreeDep) {
     for (const [name, subTree] of _.entries(pkgTree.dependencies)) {
       pkgTree.dependencies![name] = this.setDevDepRec(subTree);
     }
@@ -307,14 +307,14 @@ export class PackageLockParser implements LockfileParser {
   // Algorithm is based on dynamic programming technique and tries to build
   // "more simple" trees and compose them into bigger ones.
   private async createDepTrees(depMap: DepMap, depGraph):
-    Promise<{depTrees: {[depPath: string]: PkgTree}, depTreesSizes: {[depPath: string]: number}}> {
+    Promise<{depTrees: {[depPath: string]: DepTreeDep}, depTreesSizes: {[depPath: string]: number}}> {
 
     // Graph has to be acyclic
     if (!graphlib.alg.isAcyclic(depGraph)) {
       throw new Error('Cycles were not removed from graph.');
     }
 
-    const depTrees: {[depPath: string]: PkgTree} = {};
+    const depTrees: {[depPath: string]: DepTreeDep} = {};
     const depTreesSizes: {[depPath: string]: number} = {};
     // topological sort guarantees that when we create a pkg-tree for a dep,
     // all it's sub-trees were already created. This also implies that leaf
@@ -333,25 +333,19 @@ export class PackageLockParser implements LockfileParser {
         if (!dep.dependencies) {
           dep.dependencies = {};
         }
-        dep.dependencies[subDep.name] = subDep;
+        dep.dependencies[subDep.name!] = subDep;
         treeSize += depTreesSizes[subDepPath];
       }
-      const pkgTree: PkgTree = {
+      const depTreeDep: DepTreeDep = {
         labels: dep.labels,
         name: dep.name,
         version: dep.version,
       };
 
       if (dep.dependencies) {
-        pkgTree.dependencies = dep.dependencies;
+        depTreeDep.dependencies = dep.dependencies;
       }
-      if (dep.cyclic) {
-        pkgTree.cyclic = dep.cyclic;
-      }
-      if (dep.hasDevDependencies) {
-        pkgTree.hasDevDependencies = dep.hasDevDependencies;
-      }
-      depTrees[depKey] = pkgTree;
+      depTrees[depKey] = depTreeDep;
       depTreesSizes[depKey] = treeSize;
       // Since this code doesn't handle any I/O or network, we need to force
       // event loop to tick while being used in server for request processing
