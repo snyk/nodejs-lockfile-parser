@@ -9,7 +9,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "ms",
           "version": "2.0.0"
         }
@@ -21,7 +20,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "shared",
       "version": "file:./some-file"
     }

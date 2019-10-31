@@ -4,7 +4,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "dustjs-linkedin",
       "version": "2.5.0"
     },
@@ -12,7 +11,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "dustjs-helpers",
       "version": "1.5.0"
     },
@@ -20,7 +18,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "ejs",
       "version": "1.0.0"
     },
@@ -28,7 +25,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "jquery",
       "version": "2.2.4"
     },
@@ -36,7 +32,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "marked",
       "version": "0.3.5"
     },
@@ -44,7 +39,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "moment",
       "version": "2.15.1"
     },
@@ -52,7 +46,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "ms",
       "version": "0.7.3"
     },
@@ -60,7 +53,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "optional",
       "version": "0.1.4"
     },
@@ -68,7 +60,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "stream-buffers",
       "version": "3.0.2"
     },
@@ -76,7 +67,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "adm-zip",
       "version": "0.4.7"
     },
@@ -84,7 +74,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "file-type",
       "version": "8.1.0"
     },
@@ -97,7 +86,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "cookie",
           "version": "0.1.2"
         },
@@ -105,7 +93,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "cookie-signature",
           "version": "1.0.5"
         }
@@ -122,7 +109,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "bluebird",
           "version": "3.5.1"
         }
@@ -139,7 +125,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "ejs",
           "version": "0.8.8"
         }
@@ -156,7 +141,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "ms",
           "version": "0.6.2"
         }
@@ -173,7 +157,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "methods",
           "version": "1.1.2"
         },
@@ -181,7 +164,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "parseurl",
           "version": "1.3.2"
         },
@@ -189,7 +171,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "vary",
           "version": "1.1.2"
         },
@@ -202,7 +183,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "ms",
               "version": "2.0.0"
             }
@@ -223,7 +203,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "depd",
           "version": "1.1.2"
         },
@@ -231,7 +210,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "on-headers",
           "version": "1.0.1"
         },
@@ -244,7 +222,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "safe-buffer",
               "version": "5.1.1"
             }
@@ -261,7 +238,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "ms",
               "version": "2.0.0"
             }
@@ -278,7 +254,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "ee-first",
               "version": "1.1.1"
             }
@@ -299,7 +274,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "inherits",
           "version": "1.0.2"
         },
@@ -307,7 +281,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "ini",
           "version": "1.1.0"
         },
@@ -315,7 +288,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "mkdirp",
           "version": "0.3.5"
         },
@@ -323,7 +295,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "once",
           "version": "1.1.1"
         },
@@ -331,7 +302,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "osenv",
           "version": "0.0.3"
         },
@@ -339,7 +309,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "semver",
           "version": "1.1.4"
         },
@@ -352,7 +321,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "ini",
               "version": "1.3.5"
             },
@@ -360,7 +328,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "proto-list",
               "version": "1.2.4"
             }
@@ -377,7 +344,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "abbrev",
               "version": "1.0.7"
             }
@@ -398,7 +364,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "bytes",
           "version": "1.0.0"
         },
@@ -406,7 +371,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "depd",
           "version": "1.0.1"
         },
@@ -414,7 +378,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "iconv-lite",
           "version": "0.4.4"
         },
@@ -422,7 +385,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "media-typer",
           "version": "0.3.0"
         },
@@ -430,7 +392,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "qs",
           "version": "2.2.4"
         },
@@ -443,7 +404,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "ee-first",
               "version": "1.0.5"
             }
@@ -460,7 +420,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "bytes",
               "version": "1.0.0"
             },
@@ -468,7 +427,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "iconv-lite",
               "version": "0.4.4"
             }
@@ -485,7 +443,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "media-typer",
               "version": "0.3.0"
             },
@@ -498,7 +455,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "mime-db",
                   "version": "1.12.0"
                 }
@@ -523,7 +479,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "ports",
           "version": "1.1.0"
         },
@@ -531,7 +486,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "underscore",
           "version": "1.8.3"
         },
@@ -544,7 +498,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "esprima",
               "version": "4.0.1"
             },
@@ -557,7 +510,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "sprintf-js",
                   "version": "1.0.3"
                 }
@@ -582,7 +534,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "escape-html",
           "version": "1.0.1"
         },
@@ -595,7 +546,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "negotiator",
               "version": "0.4.9"
             },
@@ -608,7 +558,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "mime-db",
                   "version": "1.12.0"
                 }
@@ -633,7 +582,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "fd",
           "version": "0.0.3"
         },
@@ -641,7 +589,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "mime",
           "version": "1.2.11"
         },
@@ -649,7 +596,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "negotiator",
           "version": "0.2.8"
         },
@@ -662,7 +608,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "lru-cache",
               "version": "2.3.1"
             }
@@ -674,7 +619,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "graceful-fs",
           "version": "1.2.3"
         }
@@ -691,7 +635,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "content-disposition",
           "version": "0.5.0"
         },
@@ -699,7 +642,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "content-type",
           "version": "1.0.4"
         },
@@ -707,7 +649,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "cookie",
           "version": "0.1.2"
         },
@@ -715,7 +656,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "cookie-signature",
           "version": "1.0.6"
         },
@@ -723,7 +663,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "depd",
           "version": "1.0.1"
         },
@@ -731,7 +670,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "escape-html",
           "version": "1.0.1"
         },
@@ -739,7 +677,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "fresh",
           "version": "0.2.4"
         },
@@ -747,7 +684,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "merge-descriptors",
           "version": "1.0.0"
         },
@@ -755,7 +691,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "methods",
           "version": "1.1.2"
         },
@@ -763,7 +698,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "parseurl",
           "version": "1.3.2"
         },
@@ -771,7 +705,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "path-to-regexp",
           "version": "0.1.3"
         },
@@ -779,7 +712,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "qs",
           "version": "2.4.2"
         },
@@ -787,7 +719,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "range-parser",
           "version": "1.0.3"
         },
@@ -795,7 +726,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "utils-merge",
           "version": "1.0.0"
         },
@@ -803,7 +733,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "vary",
           "version": "1.0.1"
         },
@@ -816,7 +745,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "ms",
               "version": "0.7.1"
             }
@@ -833,7 +761,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "crc",
               "version": "3.2.1"
             }
@@ -850,7 +777,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "ee-first",
               "version": "1.1.0"
             }
@@ -867,7 +793,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "forwarded",
               "version": "0.1.2"
             },
@@ -875,7 +800,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "ipaddr.js",
               "version": "1.0.5"
             }
@@ -892,7 +816,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "negotiator",
               "version": "0.5.3"
             },
@@ -905,7 +828,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "mime-db",
                   "version": "1.35.0"
                 }
@@ -926,7 +848,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "escape-html",
               "version": "1.0.1"
             },
@@ -939,7 +860,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "ms",
                   "version": "0.7.1"
                 }
@@ -956,7 +876,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "ee-first",
                   "version": "1.1.0"
                 }
@@ -977,7 +896,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "depd",
               "version": "1.0.1"
             },
@@ -985,7 +903,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "destroy",
               "version": "1.0.3"
             },
@@ -993,7 +910,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "escape-html",
               "version": "1.0.1"
             },
@@ -1001,7 +917,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "fresh",
               "version": "0.2.4"
             },
@@ -1009,7 +924,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "mime",
               "version": "1.3.4"
             },
@@ -1017,7 +931,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "ms",
               "version": "0.7.1"
             },
@@ -1025,7 +938,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "range-parser",
               "version": "1.0.3"
             },
@@ -1038,7 +950,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "ms",
                   "version": "0.7.1"
                 }
@@ -1055,7 +966,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "crc",
                   "version": "3.2.1"
                 }
@@ -1072,7 +982,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "ee-first",
                   "version": "1.1.0"
                 }
@@ -1093,7 +1002,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "media-typer",
               "version": "0.3.0"
             },
@@ -1106,7 +1014,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "mime-db",
                   "version": "1.35.0"
                 }
@@ -1127,7 +1034,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "escape-html",
               "version": "1.0.1"
             },
@@ -1135,7 +1041,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "parseurl",
               "version": "1.3.2"
             },
@@ -1143,7 +1048,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "utils-merge",
               "version": "1.0.0"
             },
@@ -1156,7 +1060,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "depd",
                   "version": "1.0.1"
                 },
@@ -1164,7 +1067,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "destroy",
                   "version": "1.0.3"
                 },
@@ -1172,7 +1074,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "escape-html",
                   "version": "1.0.1"
                 },
@@ -1180,7 +1081,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "fresh",
                   "version": "0.2.4"
                 },
@@ -1188,7 +1088,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "mime",
                   "version": "1.3.4"
                 },
@@ -1196,7 +1095,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "ms",
                   "version": "0.7.1"
                 },
@@ -1204,7 +1102,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "range-parser",
                   "version": "1.0.3"
                 },
@@ -1217,7 +1114,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "ms",
                       "version": "0.7.1"
                     }
@@ -1234,7 +1130,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "crc",
                       "version": "3.2.1"
                     }
@@ -1251,7 +1146,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "ee-first",
                       "version": "1.1.0"
                     }
@@ -1280,7 +1174,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "async",
           "version": "0.9.0"
         },
@@ -1288,7 +1181,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "bson",
           "version": "0.4.23"
         },
@@ -1296,7 +1188,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "hooks-fixed",
           "version": "1.1.0"
         },
@@ -1304,7 +1195,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "kareem",
           "version": "1.0.1"
         },
@@ -1312,7 +1202,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "mpath",
           "version": "0.1.1"
         },
@@ -1320,7 +1209,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "mpromise",
           "version": "0.5.4"
         },
@@ -1328,7 +1216,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "ms",
           "version": "0.7.1"
         },
@@ -1336,7 +1223,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "muri",
           "version": "1.0.0"
         },
@@ -1344,7 +1230,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "regexp-clone",
           "version": "0.0.1"
         },
@@ -1352,7 +1237,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "sliced",
           "version": "0.0.5"
         },
@@ -1365,7 +1249,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "bluebird",
               "version": "2.9.26"
             },
@@ -1373,7 +1256,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "regexp-clone",
               "version": "0.0.1"
             },
@@ -1381,7 +1263,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "sliced",
               "version": "0.0.5"
             },
@@ -1394,7 +1275,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "ms",
                   "version": "0.7.1"
                 }
@@ -1415,7 +1295,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "es6-promise",
               "version": "2.1.1"
             },
@@ -1428,7 +1307,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "core-util-is",
                   "version": "1.0.2"
                 },
@@ -1436,7 +1314,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "inherits",
                   "version": "2.0.3"
                 },
@@ -1444,7 +1321,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "isarray",
                   "version": "0.0.1"
                 },
@@ -1452,7 +1328,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "string_decoder",
                   "version": "0.10.31"
                 }
@@ -1469,7 +1344,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "bson",
                   "version": "0.4.23"
                 },
@@ -1482,7 +1356,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "nan",
                       "version": "2.10.0"
                     }
@@ -1511,7 +1384,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "streamifier",
           "version": "0.1.1"
         },
@@ -1534,7 +1406,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "core-util-is",
                       "version": "1.0.2"
                     },
@@ -1542,7 +1413,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "inherits",
                       "version": "2.0.3"
                     },
@@ -1550,7 +1420,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "isarray",
                       "version": "0.0.1"
                     },
@@ -1558,7 +1427,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "string_decoder",
                       "version": "0.10.31"
                     }
@@ -1575,7 +1443,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "streamsearch",
                       "version": "0.1.2"
                     },
@@ -1588,7 +1455,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "core-util-is",
                           "version": "1.0.2"
                         },
@@ -1596,7 +1462,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "inherits",
                           "version": "2.0.3"
                         },
@@ -1604,7 +1469,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "isarray",
                           "version": "0.0.1"
                         },
@@ -1612,7 +1476,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "string_decoder",
                           "version": "0.10.31"
                         }
@@ -1641,7 +1504,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "graceful-fs",
               "version": "4.1.4"
             },
@@ -1654,7 +1516,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "graceful-fs",
                   "version": "4.1.11"
                 }
@@ -1676,7 +1537,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "fs.realpath",
                       "version": "1.0.0"
                     },
@@ -1684,7 +1544,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "inherits",
                       "version": "2.0.1"
                     },
@@ -1692,7 +1551,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "path-is-absolute",
                       "version": "1.0.0"
                     },
@@ -1705,7 +1563,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "wrappy",
                           "version": "1.0.2"
                         }
@@ -1722,7 +1579,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "wrappy",
                           "version": "1.0.2"
                         },
@@ -1735,7 +1591,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "wrappy",
                               "version": "1.0.2"
                             }
@@ -1761,7 +1616,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "balanced-match",
                               "version": "1.0.0"
                             },
@@ -1769,7 +1623,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "concat-map",
                               "version": "0.0.1"
                             }
@@ -1806,7 +1659,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "bluebird",
           "version": "3.5.1"
         },
@@ -1814,7 +1666,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "clean-yaml-object",
           "version": "0.1.0"
         },
@@ -1822,7 +1673,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "deeper",
           "version": "2.1.0"
         },
@@ -1830,7 +1680,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "isexe",
           "version": "1.1.2"
         },
@@ -1838,7 +1687,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "only-shallow",
           "version": "1.2.0"
         },
@@ -1846,7 +1694,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "opener",
           "version": "1.4.3"
         },
@@ -1854,7 +1701,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "signal-exit",
           "version": "2.1.2"
         },
@@ -1862,7 +1708,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "stack-utils",
           "version": "0.4.0"
         },
@@ -1870,7 +1715,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "supports-color",
           "version": "1.3.1"
         },
@@ -1878,7 +1722,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "tmatch",
           "version": "2.0.1"
         },
@@ -1891,7 +1734,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "esprima",
               "version": "4.0.1"
             },
@@ -1904,7 +1746,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "sprintf-js",
                   "version": "1.0.3"
                 }
@@ -1925,7 +1766,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "core-util-is",
               "version": "1.0.2"
             },
@@ -1933,7 +1773,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "inherits",
               "version": "2.0.3"
             },
@@ -1941,7 +1780,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "isarray",
               "version": "1.0.0"
             },
@@ -1949,7 +1787,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "process-nextick-args",
               "version": "2.0.0"
             },
@@ -1957,7 +1794,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "safe-buffer",
               "version": "5.1.1"
             },
@@ -1965,7 +1801,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "util-deprecate",
               "version": "1.0.2"
             },
@@ -1978,7 +1813,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "safe-buffer",
                   "version": "5.1.1"
                 }
@@ -1999,7 +1833,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "signal-exit",
               "version": "2.1.2"
             },
@@ -2012,7 +1845,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "isexe",
                   "version": "1.1.2"
                 }
@@ -2034,7 +1866,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "pseudomap",
                       "version": "1.0.2"
                     },
@@ -2042,7 +1873,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "yallist",
                       "version": "2.0.0"
                     }
@@ -2059,7 +1889,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "isexe",
                       "version": "1.1.2"
                     }
@@ -2084,7 +1913,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "fs.realpath",
               "version": "1.0.0"
             },
@@ -2092,7 +1920,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "inherits",
               "version": "2.0.1"
             },
@@ -2100,7 +1927,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "path-is-absolute",
               "version": "1.0.0"
             },
@@ -2113,7 +1939,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "wrappy",
                   "version": "1.0.2"
                 }
@@ -2130,7 +1955,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "wrappy",
                   "version": "1.0.2"
                 },
@@ -2143,7 +1967,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "wrappy",
                       "version": "1.0.2"
                     }
@@ -2169,7 +1992,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "balanced-match",
                       "version": "1.0.0"
                     },
@@ -2177,7 +1999,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "concat-map",
                       "version": "0.0.1"
                     }
@@ -2202,7 +2023,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "events-to-array",
               "version": "1.1.2"
             },
@@ -2210,7 +2030,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "inherits",
               "version": "2.0.3"
             },
@@ -2223,7 +2042,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "esprima",
                   "version": "4.0.1"
                 },
@@ -2236,7 +2054,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "sprintf-js",
                       "version": "1.0.3"
                     }
@@ -2257,7 +2074,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "core-util-is",
                   "version": "1.0.2"
                 },
@@ -2265,7 +2081,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "inherits",
                   "version": "2.0.3"
                 },
@@ -2273,7 +2088,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "isarray",
                   "version": "1.0.0"
                 },
@@ -2281,7 +2095,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "process-nextick-args",
                   "version": "2.0.0"
                 },
@@ -2289,7 +2102,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "safe-buffer",
                   "version": "5.1.1"
                 },
@@ -2297,7 +2109,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "util-deprecate",
                   "version": "1.0.2"
                 },
@@ -2310,7 +2121,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "safe-buffer",
                       "version": "5.1.1"
                     }
@@ -2335,7 +2145,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "lcov-parse",
               "version": "0.0.10"
             },
@@ -2343,7 +2152,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "log-driver",
               "version": "1.2.5"
             },
@@ -2351,7 +2159,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "minimist",
               "version": "1.2.0"
             },
@@ -2364,7 +2171,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "esprima",
                   "version": "2.7.3"
                 },
@@ -2377,7 +2183,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "sprintf-js",
                       "version": "1.0.3"
                     }
@@ -2398,7 +2203,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "aws-sign2",
                   "version": "0.6.0"
                 },
@@ -2406,7 +2210,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "aws4",
                   "version": "1.7.0"
                 },
@@ -2414,7 +2217,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "caseless",
                   "version": "0.11.0"
                 },
@@ -2422,7 +2224,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "extend",
                   "version": "3.0.2"
                 },
@@ -2430,7 +2231,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "forever-agent",
                   "version": "0.6.1"
                 },
@@ -2438,7 +2238,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "is-typedarray",
                   "version": "1.0.0"
                 },
@@ -2446,7 +2245,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "isstream",
                   "version": "0.1.2"
                 },
@@ -2454,7 +2252,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "json-stringify-safe",
                   "version": "5.0.1"
                 },
@@ -2462,7 +2259,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "oauth-sign",
                   "version": "0.8.2"
                 },
@@ -2470,7 +2266,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "qs",
                   "version": "6.3.2"
                 },
@@ -2478,7 +2273,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "stringstream",
                   "version": "0.0.6"
                 },
@@ -2486,7 +2280,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "tunnel-agent",
                   "version": "0.4.3"
                 },
@@ -2494,7 +2287,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "uuid",
                   "version": "3.3.2"
                 },
@@ -2507,7 +2299,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "delayed-stream",
                       "version": "1.0.0"
                     }
@@ -2524,7 +2315,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "mime-db",
                       "version": "1.35.0"
                     }
@@ -2541,7 +2331,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "punycode",
                       "version": "1.4.1"
                     }
@@ -2558,7 +2347,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "asynckit",
                       "version": "0.4.0"
                     },
@@ -2571,7 +2359,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "delayed-stream",
                           "version": "1.0.0"
                         }
@@ -2588,7 +2375,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "mime-db",
                           "version": "1.35.0"
                         }
@@ -2609,7 +2395,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "commander",
                       "version": "2.16.0"
                     },
@@ -2622,7 +2407,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "pinkie",
                           "version": "2.0.4"
                         }
@@ -2639,7 +2423,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "ansi-styles",
                           "version": "2.2.1"
                         },
@@ -2647,7 +2430,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "escape-string-regexp",
                           "version": "1.0.5"
                         },
@@ -2655,7 +2437,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "supports-color",
                           "version": "2.0.0"
                         },
@@ -2668,7 +2449,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "ansi-regex",
                               "version": "2.1.1"
                             }
@@ -2685,7 +2465,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "ansi-regex",
                               "version": "2.1.1"
                             }
@@ -2706,7 +2485,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "generate-function",
                           "version": "2.0.0"
                         },
@@ -2714,7 +2492,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-my-ip-valid",
                           "version": "1.0.0"
                         },
@@ -2722,7 +2499,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "jsonpointer",
                           "version": "4.0.1"
                         },
@@ -2730,7 +2506,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "xtend",
                           "version": "4.0.1"
                         },
@@ -2743,7 +2518,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "is-property",
                               "version": "1.0.2"
                             }
@@ -2768,7 +2542,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "hoek",
                       "version": "2.16.3"
                     },
@@ -2781,7 +2554,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "hoek",
                           "version": "2.16.3"
                         }
@@ -2798,7 +2570,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "hoek",
                           "version": "2.16.3"
                         }
@@ -2820,7 +2591,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "hoek",
                               "version": "2.16.3"
                             }
@@ -2845,7 +2615,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "assert-plus",
                       "version": "0.2.0"
                     },
@@ -2858,7 +2627,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "assert-plus",
                           "version": "1.0.0"
                         },
@@ -2866,7 +2634,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "extsprintf",
                           "version": "1.3.0"
                         },
@@ -2874,7 +2641,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "json-schema",
                           "version": "0.2.3"
                         },
@@ -2887,7 +2653,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "assert-plus",
                               "version": "1.0.0"
                             },
@@ -2895,7 +2660,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "core-util-is",
                               "version": "1.0.2"
                             },
@@ -2903,7 +2667,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "extsprintf",
                               "version": "1.3.0"
                             }
@@ -2924,7 +2687,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "asn1",
                           "version": "0.2.3"
                         },
@@ -2932,7 +2694,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "assert-plus",
                           "version": "1.0.0"
                         },
@@ -2940,7 +2701,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "safer-buffer",
                           "version": "2.1.2"
                         },
@@ -2953,7 +2713,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "assert-plus",
                               "version": "1.0.0"
                             }
@@ -2970,7 +2729,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "assert-plus",
                               "version": "1.0.0"
                             }
@@ -2982,7 +2740,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "jsbn",
                           "version": "0.1.1"
                         },
@@ -2990,7 +2747,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "tweetnacl",
                           "version": "0.14.5"
                         },
@@ -3003,7 +2759,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "tweetnacl",
                               "version": "0.14.5"
                             }
@@ -3020,7 +2775,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "jsbn",
                               "version": "0.1.1"
                             },
@@ -3028,7 +2782,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "safer-buffer",
                               "version": "2.1.2"
                             }
@@ -3071,7 +2824,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "deep-equal",
                       "version": "0.1.2"
                     },
@@ -3079,7 +2831,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "defined",
                       "version": "0.0.0"
                     },
@@ -3087,7 +2838,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "inherits",
                       "version": "2.0.3"
                     },
@@ -3095,7 +2845,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "jsonify",
                       "version": "0.0.0"
                     },
@@ -3103,7 +2852,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "through",
                       "version": "2.3.8"
                     },
@@ -3116,7 +2864,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "through",
                           "version": "2.3.8"
                         }
@@ -3133,7 +2880,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "through",
                           "version": "2.3.8"
                         }
@@ -3150,7 +2896,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "duplexer",
                           "version": "0.1.1"
                         }
@@ -3175,7 +2920,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "caseless",
                   "version": "0.6.0"
                 },
@@ -3183,7 +2927,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "forever-agent",
                   "version": "0.5.2"
                 },
@@ -3191,7 +2934,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "json-stringify-safe",
                   "version": "5.0.1"
                 },
@@ -3199,7 +2941,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "mime-types",
                   "version": "1.0.2"
                 },
@@ -3207,7 +2948,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "node-uuid",
                   "version": "1.4.8"
                 },
@@ -3215,7 +2955,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "qs",
                   "version": "1.2.2"
                 },
@@ -3223,7 +2962,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "tunnel-agent",
                   "version": "0.4.3"
                 },
@@ -3241,7 +2979,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "core-util-is",
                           "version": "1.0.2"
                         },
@@ -3249,7 +2986,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "inherits",
                           "version": "2.0.3"
                         },
@@ -3257,7 +2993,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "isarray",
                           "version": "0.0.1"
                         },
@@ -3265,7 +3000,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "string_decoder",
                           "version": "0.10.31"
                         }
@@ -3281,7 +3015,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "aws-sign2",
                   "version": "0.5.0"
                 },
@@ -3289,7 +3022,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "oauth-sign",
                   "version": "0.4.0"
                 },
@@ -3297,7 +3029,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "stringstream",
                   "version": "0.0.6"
                 },
@@ -3310,7 +3041,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "asn1",
                       "version": "0.1.11"
                     },
@@ -3318,7 +3048,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "assert-plus",
                       "version": "0.1.5"
                     },
@@ -3326,7 +3055,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "ctype",
                       "version": "0.5.3"
                     }
@@ -3343,7 +3071,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "psl",
                       "version": "1.1.28"
                     },
@@ -3351,7 +3078,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "punycode",
                       "version": "1.4.1"
                     }
@@ -3368,7 +3094,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "async",
                       "version": "0.9.0"
                     },
@@ -3376,7 +3101,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "mime",
                       "version": "1.2.11"
                     },
@@ -3389,7 +3113,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "delayed-stream",
                           "version": "0.0.5"
                         }
@@ -3410,7 +3133,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "hoek",
                       "version": "0.9.1"
                     },
@@ -3423,7 +3145,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "hoek",
                           "version": "0.9.1"
                         }
@@ -3440,7 +3161,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "hoek",
                           "version": "0.9.1"
                         }
@@ -3462,7 +3182,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "hoek",
                               "version": "0.9.1"
                             }
@@ -3495,7 +3214,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "color-support",
               "version": "1.1.3"
             },
@@ -3503,7 +3221,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "diff",
               "version": "1.4.0"
             },
@@ -3511,7 +3228,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "escape-string-regexp",
               "version": "1.0.5"
             },
@@ -3524,7 +3240,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "ms",
                   "version": "0.7.1"
                 }
@@ -3541,7 +3256,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "esprima",
                   "version": "4.0.1"
                 },
@@ -3554,7 +3268,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "sprintf-js",
                       "version": "1.0.3"
                     }
@@ -3575,7 +3288,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "punycode",
                   "version": "1.4.1"
                 },
@@ -3588,7 +3300,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "ansi-regex",
                       "version": "2.1.1"
                     }
@@ -3609,7 +3320,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "fs.realpath",
                   "version": "1.0.0"
                 },
@@ -3617,7 +3327,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "inherits",
                   "version": "2.0.1"
                 },
@@ -3625,7 +3334,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "path-is-absolute",
                   "version": "1.0.0"
                 },
@@ -3638,7 +3346,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "wrappy",
                       "version": "1.0.2"
                     }
@@ -3655,7 +3362,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "wrappy",
                       "version": "1.0.2"
                     },
@@ -3668,7 +3374,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "wrappy",
                           "version": "1.0.2"
                         }
@@ -3694,7 +3399,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "balanced-match",
                           "version": "1.0.0"
                         },
@@ -3702,7 +3406,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "concat-map",
                           "version": "0.0.1"
                         }
@@ -3727,7 +3430,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "events-to-array",
                   "version": "1.1.2"
                 },
@@ -3735,7 +3437,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "inherits",
                   "version": "2.0.3"
                 },
@@ -3748,7 +3449,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "esprima",
                       "version": "4.0.1"
                     },
@@ -3761,7 +3461,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "sprintf-js",
                           "version": "1.0.3"
                         }
@@ -3782,7 +3481,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "core-util-is",
                       "version": "1.0.2"
                     },
@@ -3790,7 +3488,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "inherits",
                       "version": "2.0.3"
                     },
@@ -3798,7 +3495,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "isarray",
                       "version": "1.0.0"
                     },
@@ -3806,7 +3502,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "process-nextick-args",
                       "version": "2.0.0"
                     },
@@ -3814,7 +3509,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "safe-buffer",
                       "version": "5.1.1"
                     },
@@ -3822,7 +3516,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "util-deprecate",
                       "version": "1.0.2"
                     },
@@ -3835,7 +3528,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "safe-buffer",
                           "version": "5.1.1"
                         }
@@ -3860,7 +3552,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "core-util-is",
                   "version": "1.0.2"
                 },
@@ -3868,7 +3559,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "inherits",
                   "version": "2.0.3"
                 },
@@ -3876,7 +3566,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "isarray",
                   "version": "0.0.1"
                 },
@@ -3884,7 +3573,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "string_decoder",
                   "version": "0.10.31"
                 }
@@ -3905,7 +3593,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "arrify",
               "version": "1.0.1"
             },
@@ -3913,7 +3600,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "convert-source-map",
               "version": "1.2.0"
             },
@@ -3921,7 +3607,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "resolve-from",
               "version": "2.0.0"
             },
@@ -3929,7 +3614,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "signal-exit",
               "version": "3.0.0"
             },
@@ -3937,7 +3621,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "source-map",
               "version": "0.5.6"
             },
@@ -3950,7 +3633,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "md5-o-matic",
                   "version": "0.1.1"
                 }
@@ -3967,7 +3649,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "minimist",
                   "version": "0.0.8"
                 }
@@ -3989,7 +3670,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "md5-o-matic",
                       "version": "0.1.1"
                     }
@@ -4006,7 +3686,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "minimist",
                       "version": "0.0.8"
                     }
@@ -4023,7 +3702,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "graceful-fs",
                       "version": "4.1.4"
                     },
@@ -4031,7 +3709,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "imurmurhash",
                       "version": "0.1.4"
                     },
@@ -4039,7 +3716,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "slide",
                       "version": "1.1.6"
                     }
@@ -4065,7 +3741,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "is-utf8",
                       "version": "0.2.1"
                     }
@@ -4096,7 +3771,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-utf8",
                           "version": "0.2.1"
                         }
@@ -4126,7 +3800,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "pinkie",
                       "version": "2.0.4"
                     }
@@ -4148,7 +3821,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "pinkie",
                           "version": "2.0.4"
                         }
@@ -4173,7 +3845,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "signal-exit",
                   "version": "2.1.2"
                 },
@@ -4186,7 +3857,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "isexe",
                       "version": "1.1.2"
                     }
@@ -4208,7 +3878,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "pseudomap",
                           "version": "1.0.2"
                         },
@@ -4216,7 +3885,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "yallist",
                           "version": "2.0.0"
                         }
@@ -4233,7 +3901,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "isexe",
                           "version": "1.1.2"
                         }
@@ -4258,7 +3925,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "inherits",
                   "version": "2.0.1"
                 },
@@ -4266,7 +3932,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "path-is-absolute",
                   "version": "1.0.0"
                 },
@@ -4279,7 +3944,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "wrappy",
                       "version": "1.0.2"
                     }
@@ -4296,7 +3960,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "wrappy",
                       "version": "1.0.2"
                     },
@@ -4309,7 +3972,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "wrappy",
                           "version": "1.0.2"
                         }
@@ -4335,7 +3997,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "balanced-match",
                           "version": "0.4.1"
                         },
@@ -4343,7 +4004,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "concat-map",
                           "version": "0.0.1"
                         }
@@ -4378,7 +4038,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "pinkie",
                           "version": "2.0.4"
                         }
@@ -4400,7 +4059,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "pinkie",
                               "version": "2.0.4"
                             }
@@ -4434,7 +4092,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "fs.realpath",
                       "version": "1.0.0"
                     },
@@ -4442,7 +4099,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "inherits",
                       "version": "2.0.1"
                     },
@@ -4450,7 +4106,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "path-is-absolute",
                       "version": "1.0.0"
                     },
@@ -4463,7 +4118,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "wrappy",
                           "version": "1.0.2"
                         }
@@ -4480,7 +4134,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "wrappy",
                           "version": "1.0.2"
                         },
@@ -4493,7 +4146,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "wrappy",
                               "version": "1.0.2"
                             }
@@ -4519,7 +4171,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "balanced-match",
                               "version": "1.0.0"
                             },
@@ -4527,7 +4178,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "concat-map",
                               "version": "0.0.1"
                             }
@@ -4556,7 +4206,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "commondir",
                   "version": "1.0.1"
                 },
@@ -4569,7 +4218,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "minimist",
                       "version": "0.0.8"
                     }
@@ -4596,7 +4244,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "pinkie",
                               "version": "2.0.4"
                             }
@@ -4618,7 +4265,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "pinkie",
                                   "version": "2.0.4"
                                 }
@@ -4651,7 +4297,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "os-homedir",
                   "version": "1.0.1"
                 },
@@ -4659,7 +4304,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "signal-exit",
                   "version": "2.1.2"
                 },
@@ -4672,7 +4316,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "minimist",
                       "version": "0.0.8"
                     }
@@ -4689,7 +4332,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "isexe",
                       "version": "1.1.2"
                     }
@@ -4706,7 +4348,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "signal-exit",
                       "version": "2.1.2"
                     },
@@ -4719,7 +4360,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "isexe",
                           "version": "1.1.2"
                         }
@@ -4741,7 +4381,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "pseudomap",
                               "version": "1.0.2"
                             },
@@ -4749,7 +4388,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "yallist",
                               "version": "2.0.0"
                             }
@@ -4766,7 +4404,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "isexe",
                               "version": "1.1.2"
                             }
@@ -4796,7 +4433,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "fs.realpath",
                           "version": "1.0.0"
                         },
@@ -4804,7 +4440,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "inherits",
                           "version": "2.0.1"
                         },
@@ -4812,7 +4447,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "path-is-absolute",
                           "version": "1.0.0"
                         },
@@ -4825,7 +4459,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "wrappy",
                               "version": "1.0.2"
                             }
@@ -4842,7 +4475,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "wrappy",
                               "version": "1.0.2"
                             },
@@ -4855,7 +4487,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "wrappy",
                                   "version": "1.0.2"
                                 }
@@ -4881,7 +4512,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "balanced-match",
                                   "version": "1.0.0"
                                 },
@@ -4889,7 +4519,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "concat-map",
                                   "version": "0.0.1"
                                 }
@@ -4922,7 +4551,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "camelcase",
                   "version": "3.0.0"
                 },
@@ -4930,7 +4558,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "decamelize",
                   "version": "1.2.0"
                 },
@@ -4938,7 +4565,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "require-main-filename",
                   "version": "1.0.1"
                 },
@@ -4946,7 +4572,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "set-blocking",
                   "version": "1.0.0"
                 },
@@ -4954,7 +4579,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "window-size",
                   "version": "0.2.0"
                 },
@@ -4962,7 +4586,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "y18n",
                   "version": "3.2.1"
                 },
@@ -4975,7 +4598,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "lodash.keys",
                       "version": "4.0.7"
                     },
@@ -4983,7 +4605,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "lodash.rest",
                       "version": "4.0.3"
                     }
@@ -5005,7 +4626,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "invert-kv",
                           "version": "1.0.0"
                         }
@@ -5031,7 +4651,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "number-is-nan",
                           "version": "1.0.0"
                         }
@@ -5048,7 +4667,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "number-is-nan",
                           "version": "1.0.0"
                         }
@@ -5065,7 +4683,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "ansi-regex",
                           "version": "2.1.1"
                         }
@@ -5086,7 +4703,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "camelcase",
                       "version": "2.1.1"
                     },
@@ -5099,7 +4715,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "lodash.keys",
                           "version": "4.0.7"
                         },
@@ -5107,7 +4722,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "lodash.rest",
                           "version": "4.0.3"
                         }
@@ -5133,7 +4747,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "ansi-regex",
                           "version": "2.1.1"
                         }
@@ -5155,7 +4768,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "number-is-nan",
                               "version": "1.0.0"
                             }
@@ -5172,7 +4784,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "number-is-nan",
                               "version": "1.0.0"
                             }
@@ -5189,7 +4800,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "ansi-regex",
                               "version": "2.1.1"
                             }
@@ -5220,7 +4830,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "number-is-nan",
                                   "version": "1.0.0"
                                 }
@@ -5237,7 +4846,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "number-is-nan",
                                   "version": "1.0.0"
                                 }
@@ -5254,7 +4862,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "ansi-regex",
                                   "version": "2.1.1"
                                 }
@@ -5283,7 +4890,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "object-assign",
                       "version": "4.1.0"
                     },
@@ -5291,7 +4897,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "symbol",
                       "version": "0.2.3"
                     },
@@ -5309,7 +4914,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "pinkie",
                               "version": "2.0.4"
                             }
@@ -5331,7 +4935,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "pinkie",
                                   "version": "2.0.4"
                                 }
@@ -5356,7 +4959,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "graceful-fs",
                           "version": "4.1.4"
                         },
@@ -5364,7 +4966,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "pify",
                           "version": "2.3.0"
                         },
@@ -5377,7 +4978,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "pinkie",
                               "version": "2.0.4"
                             }
@@ -5394,7 +4994,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "is-utf8",
                               "version": "0.2.1"
                             }
@@ -5416,7 +5015,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "is-arrayish",
                                   "version": "0.2.1"
                                 }
@@ -5455,7 +5053,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "pinkie",
                               "version": "2.0.4"
                             }
@@ -5477,7 +5074,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "pinkie",
                                   "version": "2.0.4"
                                 }
@@ -5507,7 +5103,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "graceful-fs",
                               "version": "4.1.4"
                             },
@@ -5515,7 +5110,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "pify",
                               "version": "2.3.0"
                             },
@@ -5528,7 +5122,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "pinkie",
                                   "version": "2.0.4"
                                 }
@@ -5549,7 +5142,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "graceful-fs",
                               "version": "4.1.4"
                             },
@@ -5557,7 +5149,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "pify",
                               "version": "2.3.0"
                             },
@@ -5570,7 +5161,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "pinkie",
                                   "version": "2.0.4"
                                 }
@@ -5587,7 +5177,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "is-utf8",
                                   "version": "0.2.1"
                                 }
@@ -5609,7 +5198,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "is-arrayish",
                                       "version": "0.2.1"
                                     }
@@ -5634,7 +5222,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "hosted-git-info",
                               "version": "2.1.5"
                             },
@@ -5642,7 +5229,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "semver",
                               "version": "5.1.0"
                             },
@@ -5655,7 +5241,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "builtin-modules",
                                   "version": "1.1.1"
                                 }
@@ -5677,7 +5262,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "spdx-license-ids",
                                       "version": "1.2.1"
                                     }
@@ -5694,7 +5278,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "spdx-exceptions",
                                       "version": "1.0.4"
                                     },
@@ -5702,7 +5285,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "spdx-license-ids",
                                       "version": "1.2.1"
                                     }
@@ -5739,7 +5321,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "array-unique",
                   "version": "0.2.1"
                 },
@@ -5747,7 +5328,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "filename-regex",
                   "version": "2.0.0"
                 },
@@ -5755,7 +5335,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "is-extglob",
                   "version": "1.0.0"
                 },
@@ -5763,7 +5342,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "normalize-path",
                   "version": "2.0.1"
                 },
@@ -5776,7 +5354,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "arr-flatten",
                       "version": "1.0.1"
                     }
@@ -5793,7 +5370,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "is-posix-bracket",
                       "version": "0.1.1"
                     }
@@ -5810,7 +5386,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "is-extglob",
                       "version": "1.0.0"
                     }
@@ -5827,7 +5402,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "is-extglob",
                       "version": "1.0.0"
                     }
@@ -5844,7 +5418,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "is-buffer",
                       "version": "1.1.3"
                     }
@@ -5861,7 +5434,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "is-extendable",
                       "version": "0.1.1"
                     },
@@ -5874,7 +5446,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "for-in",
                           "version": "0.1.5"
                         }
@@ -5895,7 +5466,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "is-primitive",
                       "version": "2.0.0"
                     },
@@ -5908,7 +5478,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-primitive",
                           "version": "2.0.0"
                         }
@@ -5929,7 +5498,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "is-dotfile",
                       "version": "1.0.2"
                     },
@@ -5937,7 +5505,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "is-extglob",
                       "version": "1.0.0"
                     },
@@ -5950,7 +5517,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-extglob",
                           "version": "1.0.0"
                         }
@@ -5972,7 +5538,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "is-extglob",
                               "version": "1.0.0"
                             }
@@ -5994,7 +5559,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "is-extglob",
                                   "version": "1.0.0"
                                 }
@@ -6023,7 +5587,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "preserve",
                       "version": "0.2.0"
                     },
@@ -6031,7 +5594,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "repeat-element",
                       "version": "1.1.2"
                     },
@@ -6049,7 +5611,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "repeat-element",
                               "version": "1.1.2"
                             },
@@ -6057,7 +5618,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "repeat-string",
                               "version": "1.5.4"
                             },
@@ -6070,7 +5630,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "isarray",
                                   "version": "1.0.0"
                                 }
@@ -6092,7 +5651,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "is-buffer",
                                       "version": "1.1.3"
                                     }
@@ -6118,7 +5676,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "is-buffer",
                                       "version": "1.1.3"
                                     }
@@ -6140,7 +5697,6 @@
                                           "labels": {
                                             "scope": "prod"
                                           },
-                                          "dependencies": {},
                                           "name": "is-buffer",
                                           "version": "1.1.3"
                                         }
@@ -6181,7 +5737,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "arrify",
                   "version": "1.0.1"
                 },
@@ -6189,7 +5744,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "require-main-filename",
                   "version": "1.0.1"
                 },
@@ -6202,7 +5756,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "lodash.keys",
                       "version": "4.0.7"
                     },
@@ -6210,7 +5763,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "lodash.rest",
                       "version": "4.0.3"
                     }
@@ -6237,7 +5789,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "pinkie",
                               "version": "2.0.4"
                             }
@@ -6259,7 +5810,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "pinkie",
                                   "version": "2.0.4"
                                 }
@@ -6289,7 +5839,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "graceful-fs",
                               "version": "4.1.4"
                             },
@@ -6297,7 +5846,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "pify",
                               "version": "2.3.0"
                             },
@@ -6310,7 +5858,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "pinkie",
                                   "version": "2.0.4"
                                 }
@@ -6331,7 +5878,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "graceful-fs",
                               "version": "4.1.4"
                             },
@@ -6339,7 +5885,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "pify",
                               "version": "2.3.0"
                             },
@@ -6352,7 +5897,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "pinkie",
                                   "version": "2.0.4"
                                 }
@@ -6369,7 +5913,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "is-utf8",
                                   "version": "0.2.1"
                                 }
@@ -6391,7 +5934,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "is-arrayish",
                                       "version": "0.2.1"
                                     }
@@ -6416,7 +5958,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "hosted-git-info",
                               "version": "2.1.5"
                             },
@@ -6424,7 +5965,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "semver",
                               "version": "5.1.0"
                             },
@@ -6437,7 +5977,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "builtin-modules",
                                   "version": "1.1.1"
                                 }
@@ -6459,7 +5998,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "spdx-license-ids",
                                       "version": "1.2.1"
                                     }
@@ -6476,7 +6014,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "spdx-exceptions",
                                       "version": "1.0.4"
                                     },
@@ -6484,7 +6021,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "spdx-license-ids",
                                       "version": "1.2.1"
                                     }
@@ -6517,7 +6053,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "array-unique",
                       "version": "0.2.1"
                     },
@@ -6525,7 +6060,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "filename-regex",
                       "version": "2.0.0"
                     },
@@ -6533,7 +6067,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "is-extglob",
                       "version": "1.0.0"
                     },
@@ -6541,7 +6074,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "normalize-path",
                       "version": "2.0.1"
                     },
@@ -6554,7 +6086,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "arr-flatten",
                           "version": "1.0.1"
                         }
@@ -6571,7 +6102,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-posix-bracket",
                           "version": "0.1.1"
                         }
@@ -6588,7 +6118,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-extglob",
                           "version": "1.0.0"
                         }
@@ -6605,7 +6134,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-extglob",
                           "version": "1.0.0"
                         }
@@ -6622,7 +6150,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-buffer",
                           "version": "1.1.3"
                         }
@@ -6639,7 +6166,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-extendable",
                           "version": "0.1.1"
                         },
@@ -6652,7 +6178,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "for-in",
                               "version": "0.1.5"
                             }
@@ -6673,7 +6198,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-primitive",
                           "version": "2.0.0"
                         },
@@ -6686,7 +6210,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "is-primitive",
                               "version": "2.0.0"
                             }
@@ -6707,7 +6230,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-dotfile",
                           "version": "1.0.2"
                         },
@@ -6715,7 +6237,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "is-extglob",
                           "version": "1.0.0"
                         },
@@ -6728,7 +6249,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "is-extglob",
                               "version": "1.0.0"
                             }
@@ -6750,7 +6270,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "is-extglob",
                                   "version": "1.0.0"
                                 }
@@ -6772,7 +6291,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "is-extglob",
                                       "version": "1.0.0"
                                     }
@@ -6801,7 +6319,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "preserve",
                           "version": "0.2.0"
                         },
@@ -6809,7 +6326,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "repeat-element",
                           "version": "1.1.2"
                         },
@@ -6827,7 +6343,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "repeat-element",
                                   "version": "1.1.2"
                                 },
@@ -6835,7 +6350,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "repeat-string",
                                   "version": "1.5.4"
                                 },
@@ -6848,7 +6362,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "isarray",
                                       "version": "1.0.0"
                                     }
@@ -6870,7 +6383,6 @@
                                           "labels": {
                                             "scope": "prod"
                                           },
-                                          "dependencies": {},
                                           "name": "is-buffer",
                                           "version": "1.1.3"
                                         }
@@ -6896,7 +6408,6 @@
                                           "labels": {
                                             "scope": "prod"
                                           },
-                                          "dependencies": {},
                                           "name": "is-buffer",
                                           "version": "1.1.3"
                                         }
@@ -6918,7 +6429,6 @@
                                               "labels": {
                                                 "scope": "prod"
                                               },
-                                              "dependencies": {},
                                               "name": "is-buffer",
                                               "version": "1.1.3"
                                             }
@@ -6963,7 +6473,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "abbrev",
                   "version": "1.0.7"
                 },
@@ -6971,7 +6480,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "async",
                   "version": "1.5.2"
                 },
@@ -6979,7 +6487,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "esprima",
                   "version": "2.7.2"
                 },
@@ -6987,7 +6494,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "resolve",
                   "version": "1.1.7"
                 },
@@ -6995,7 +6501,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "wordwrap",
                   "version": "1.0.0"
                 },
@@ -7008,7 +6513,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "minimist",
                       "version": "0.0.8"
                     }
@@ -7025,7 +6529,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "abbrev",
                       "version": "1.0.7"
                     }
@@ -7042,7 +6545,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "wrappy",
                       "version": "1.0.2"
                     }
@@ -7059,7 +6561,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "has-flag",
                       "version": "1.0.0"
                     }
@@ -7076,7 +6577,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "isexe",
                       "version": "1.1.2"
                     }
@@ -7093,7 +6593,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "esprima",
                       "version": "2.7.3"
                     },
@@ -7106,7 +6605,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "sprintf-js",
                           "version": "1.0.3"
                         }
@@ -7137,7 +6635,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "balanced-match",
                               "version": "0.4.1"
                             },
@@ -7145,7 +6642,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "concat-map",
                               "version": "0.0.1"
                             }
@@ -7166,7 +6662,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "inherits",
                           "version": "2.0.1"
                         },
@@ -7174,7 +6669,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "path-is-absolute",
                           "version": "1.0.0"
                         },
@@ -7187,7 +6681,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "wrappy",
                               "version": "1.0.2"
                             }
@@ -7204,7 +6697,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "wrappy",
                               "version": "1.0.2"
                             },
@@ -7217,7 +6709,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "wrappy",
                                   "version": "1.0.2"
                                 }
@@ -7243,7 +6734,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "balanced-match",
                                   "version": "0.4.1"
                                 },
@@ -7251,7 +6741,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "concat-map",
                                   "version": "0.0.1"
                                 }
@@ -7280,7 +6769,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "esprima",
                       "version": "2.7.2"
                     },
@@ -7288,7 +6776,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "estraverse",
                       "version": "1.9.3"
                     },
@@ -7296,7 +6783,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "esutils",
                       "version": "2.0.2"
                     },
@@ -7309,7 +6795,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "deep-is",
                           "version": "0.1.3"
                         },
@@ -7317,7 +6802,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "fast-levenshtein",
                           "version": "1.1.3"
                         },
@@ -7325,7 +6809,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "prelude-ls",
                           "version": "1.1.2"
                         },
@@ -7333,7 +6816,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "wordwrap",
                           "version": "1.0.0"
                         },
@@ -7346,7 +6828,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "prelude-ls",
                               "version": "1.1.2"
                             }
@@ -7363,7 +6844,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "prelude-ls",
                               "version": "1.1.2"
                             },
@@ -7376,7 +6856,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "prelude-ls",
                                   "version": "1.1.2"
                                 }
@@ -7401,7 +6880,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "amdefine",
                           "version": "1.0.0"
                         }
@@ -7422,7 +6900,6 @@
                       "labels": {
                         "scope": "prod"
                       },
-                      "dependencies": {},
                       "name": "async",
                       "version": "1.5.2"
                     },
@@ -7435,7 +6912,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "minimist",
                           "version": "0.0.10"
                         },
@@ -7443,7 +6919,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "wordwrap",
                           "version": "0.0.3"
                         }
@@ -7460,7 +6935,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "amdefine",
                           "version": "1.0.0"
                         }
@@ -7477,7 +6951,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "async",
                           "version": "0.2.10"
                         },
@@ -7485,7 +6958,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "source-map",
                           "version": "0.5.6"
                         },
@@ -7493,7 +6965,6 @@
                           "labels": {
                             "scope": "prod"
                           },
-                          "dependencies": {},
                           "name": "uglify-to-browserify",
                           "version": "1.0.2"
                         },
@@ -7506,7 +6977,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "camelcase",
                               "version": "1.2.1"
                             },
@@ -7514,7 +6984,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "decamelize",
                               "version": "1.2.0"
                             },
@@ -7522,7 +6991,6 @@
                               "labels": {
                                 "scope": "prod"
                               },
-                              "dependencies": {},
                               "name": "window-size",
                               "version": "0.1.0"
                             },
@@ -7535,7 +7003,6 @@
                                   "labels": {
                                     "scope": "prod"
                                   },
-                                  "dependencies": {},
                                   "name": "wordwrap",
                                   "version": "0.0.2"
                                 },
@@ -7548,7 +7015,6 @@
                                       "labels": {
                                         "scope": "prod"
                                       },
-                                      "dependencies": {},
                                       "name": "lazy-cache",
                                       "version": "1.0.4"
                                     },
@@ -7561,7 +7027,6 @@
                                           "labels": {
                                             "scope": "prod"
                                           },
-                                          "dependencies": {},
                                           "name": "longest",
                                           "version": "1.0.1"
                                         },
@@ -7569,7 +7034,6 @@
                                           "labels": {
                                             "scope": "prod"
                                           },
-                                          "dependencies": {},
                                           "name": "repeat-string",
                                           "version": "1.5.4"
                                         },
@@ -7582,7 +7046,6 @@
                                               "labels": {
                                                 "scope": "prod"
                                               },
-                                              "dependencies": {},
                                               "name": "is-buffer",
                                               "version": "1.1.3"
                                             }
@@ -7612,7 +7075,6 @@
                                           "labels": {
                                             "scope": "prod"
                                           },
-                                          "dependencies": {},
                                           "name": "longest",
                                           "version": "1.0.1"
                                         },
@@ -7620,7 +7082,6 @@
                                           "labels": {
                                             "scope": "prod"
                                           },
-                                          "dependencies": {},
                                           "name": "repeat-string",
                                           "version": "1.5.4"
                                         },
@@ -7633,7 +7094,6 @@
                                               "labels": {
                                                 "scope": "prod"
                                               },
-                                              "dependencies": {},
                                               "name": "is-buffer",
                                               "version": "1.1.3"
                                             }

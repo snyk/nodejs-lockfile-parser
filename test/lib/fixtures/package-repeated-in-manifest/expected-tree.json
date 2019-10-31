@@ -19,33 +19,25 @@
           "version": "1.0.0",
           "labels": {
             "scope": "prod"
-          },
-          "dependencies": {}
-        },
+          }},
         "depd": {
           "name": "depd",
           "version": "1.0.1",
           "labels": {
             "scope": "prod"
-          },
-          "dependencies": {}
-        },
+          }},
         "iconv-lite": {
           "name": "iconv-lite",
           "version": "0.4.4",
           "labels": {
             "scope": "prod"
-          },
-          "dependencies": {}
-        },
+          }},
         "media-typer": {
           "name": "media-typer",
           "version": "0.3.0",
           "labels": {
             "scope": "prod"
-          },
-          "dependencies": {}
-        },
+          }},
         "on-finished": {
           "name": "on-finished",
           "version": "2.1.0",
@@ -58,9 +50,7 @@
               "version": "1.0.5",
               "labels": {
                 "scope": "prod"
-              },
-              "dependencies": {}
-            }
+              }}
           }
         },
         "qs": {
@@ -68,9 +58,7 @@
           "version": "2.2.4",
           "labels": {
             "scope": "prod"
-          },
-          "dependencies": {}
-        },
+          }},
         "raw-body": {
           "name": "raw-body",
           "version": "1.3.0",
@@ -83,17 +71,13 @@
               "version": "1.0.0",
               "labels": {
                 "scope": "prod"
-              },
-              "dependencies": {}
-            },
+              }},
             "iconv-lite": {
               "name": "iconv-lite",
               "version": "0.4.4",
               "labels": {
                 "scope": "prod"
-              },
-              "dependencies": {}
-            }
+              }}
           }
         },
         "type-is": {
@@ -108,9 +92,7 @@
               "version": "0.3.0",
               "labels": {
                 "scope": "prod"
-              },
-              "dependencies": {}
-            },
+              }},
             "mime-types": {
               "name": "mime-types",
               "version": "2.0.14",
@@ -123,9 +105,7 @@
                   "version": "1.12.0",
                   "labels": {
                     "scope": "prod"
-                  },
-                  "dependencies": {}
-                }
+                  }}
               }
             }
           }
@@ -137,8 +117,6 @@
       "version": "8.1.0",
       "labels": {
         "scope": "prod"
-      },
-      "dependencies": {}
-    }
+      }}
   }
 }

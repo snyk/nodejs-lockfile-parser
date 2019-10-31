@@ -25,22 +25,34 @@ export interface ManifestFile {
   version?: string;
 }
 
-export interface PkgTree {
-  name: string;
-  version: string;
+// This is a copy/paste from https://github.com/snyk/dep-graph/blob/master/src/legacy/index.ts
+// and should be removed in favour of depgraph library interface
+
+export interface DepTreeDep {
+  name?: string; // shouldn't, but might happen
+  version?: string; // shouldn't, but might happen
+  dependencies?: {
+    [depName: string]: DepTreeDep,
+  };
+  labels?: {
+    [key: string]: string | undefined;
+    scope?: 'dev' | 'prod';
+    pruned?: 'cyclic' | 'true';
+    missingLockFileEntry?: 'true';
+  };
+}
+
+export interface PkgTree extends DepTreeDep {
+  type?: string;
+  packageFormatVersion?: string;
   dependencies: {
-    [dep: string]: PkgTree;
+    [depName: string]: DepTreeDep,
   };
   meta?: {
     nodeVersion: string;
   };
-  labels?: {
-     scope?: Scope;
-     pruned?: 'cyclic';
-  };
   hasDevDependencies?: boolean;
   cyclic?: boolean;
-  missingLockFileEntry?: boolean;
   size?: number;
 }
 
@@ -93,17 +105,14 @@ export function getTopLevelDeps(targetFile: ManifestFile, includeDev: boolean): 
   return dependencies;
 }
 
-export function createPkgTreeFromDep(dep: Dep): PkgTree {
-  const pkgTree: PkgTree = {
-    dependencies: {},
+export function createDepTreeDepFromDep(dep: Dep): DepTreeDep {
+  return {
     labels: {
-       scope: dep.dev ? Scope.dev : Scope.prod,
+      scope: dep.dev ? Scope.dev : Scope.prod,
     },
     name: dep.name,
     version: dep.version,
   };
-
-  return pkgTree;
 }
 
 export function getYarnWorkspaces(targetFile: string): string [] | false {

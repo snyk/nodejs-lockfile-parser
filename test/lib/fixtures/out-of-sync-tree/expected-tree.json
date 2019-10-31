@@ -9,7 +9,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "ms",
           "version": "2.1.1"
         }
@@ -19,10 +18,9 @@
     },
     "body-parser": {
       "labels": {
-        "scope": "prod"
+        "scope": "prod",
+        "missingLockFileEntry": "true"
       },
-      "missingLockFileEntry": true,
-      "dependencies": {},
       "name": "body-parser",
       "version": "^1.18.2"
     },
@@ -40,7 +38,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "ms",
               "version": "2.0.0"
             }
@@ -66,7 +63,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "base64-js",
               "version": "1.3.0"
             },
@@ -74,7 +70,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "ieee754",
               "version": "1.1.8"
             },
@@ -82,7 +77,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "isarray",
               "version": "1.0.0"
             }
@@ -94,7 +88,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "events",
           "version": "1.1.1"
         },
@@ -102,7 +95,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "ieee754",
           "version": "1.1.8"
         },
@@ -110,7 +102,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "jmespath",
           "version": "0.15.0"
         },
@@ -118,7 +109,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "querystring",
           "version": "0.2.0"
         },
@@ -126,7 +116,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "sax",
           "version": "1.2.1"
         },
@@ -139,7 +128,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "punycode",
               "version": "1.3.2"
             },
@@ -147,7 +135,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "querystring",
               "version": "0.2.0"
             }
@@ -159,7 +146,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "uuid",
           "version": "3.1.0"
         },
@@ -172,7 +158,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "sax",
               "version": "1.2.1"
             },
@@ -180,7 +165,6 @@
               "labels": {
                 "scope": "prod"
               },
-              "dependencies": {},
               "name": "xmlbuilder",
               "version": "9.0.7"
             }
@@ -211,7 +195,6 @@
                   "labels": {
                     "scope": "prod"
                   },
-                  "dependencies": {},
                   "name": "ms",
                   "version": "2.0.0"
                 }
@@ -227,7 +210,6 @@
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {},
           "name": "is-buffer",
           "version": "1.1.6"
         }
@@ -239,7 +221,6 @@
       "labels": {
         "scope": "prod"
       },
-      "dependencies": {},
       "name": "bignumber.js",
       "version": "7.2.1"
     }
