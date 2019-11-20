@@ -1,4 +1,4 @@
-dist: trusty
+dist: bionic
 sudo: false
 notifications:
   email: false
@@ -7,9 +7,7 @@ node_js:
   - "10"
   - "8"
   - "6"
-cache:
-  directories:
-    - node_modules
+cache: npm
 script:
   - "npm run lint"
   - "npm test"
