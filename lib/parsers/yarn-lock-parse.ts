@@ -1,4 +1,6 @@
 import * as _ from 'lodash';
+import * as pMap from 'p-map';
+
 import {
   LockfileParser, PkgTree, DepTreeDep, Dep, ManifestFile,
   getTopLevelDeps, Lockfile, LockfileType, createDepTreeDepFromDep,
@@ -10,6 +12,8 @@ import {
   UnsupportedRuntimeError,
   OutOfSyncError,
 } from '../errors';
+
+const EVENT_PROCESSING_CONCURRENCY = 5;
 
 export interface YarnLock {
   type: string;
@@ -36,7 +40,7 @@ export class YarnLockParser implements LockfileParser {
 
   private yarnLockfileParser;
   private treeSize: number;
-  private eventLoopSpinRate = 100;
+  private eventLoopSpinRate = 20;
 
   constructor() {
     // @yarnpkg/lockfile doesn't work with Node.js < 6 and crashes just after
@@ -47,7 +51,6 @@ export class YarnLockParser implements LockfileParser {
         'Node.js v6 and higher.');
     }
     this.yarnLockfileParser = require('@yarnpkg/lockfile');
-
     // Number of dependencies including root one.
     this.treeSize = 1;
   }
@@ -87,25 +90,15 @@ export class YarnLockParser implements LockfileParser {
     }
 
     const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
-
     // asked to process empty deps
     if (_.isEmpty(manifestFile.dependencies) && !includeDev) {
       return depTree;
     }
 
-    for (const dep of topLevelDeps) {
-      if (/^file:/.test(dep.version)) {
-        depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
-      } else {
-        depTree.dependencies[dep.name] = await this.buildSubTree(yarnLock, createDepTreeDepFromDep(dep), strict);
-      }
-      this.treeSize++;
-
-      if (this.treeSize % this.eventLoopSpinRate === 0) {
-        // Spin event loop every X dependencies.
-        await setImmediatePromise();
-      }
-    }
+    await pMap(
+      topLevelDeps,
+      (dep) => this.resolveDep(dep, depTree, yarnLock, strict),
+      { concurrency: EVENT_PROCESSING_CONCURRENCY });
 
     depTree.size = this.treeSize;
     return depTree;
@@ -113,7 +106,6 @@ export class YarnLockParser implements LockfileParser {
 
   private async buildSubTree(lockFile: YarnLock, tree: DepTreeDep, strict: boolean): Promise<DepTreeDep> {
     const queue = [{path: [] as string[], tree}];
-
     while (queue.length > 0) {
       const queueItem = queue.pop()!;
       const depKey = `${queueItem.tree.name}@${queueItem.tree.version}`;
@@ -174,5 +166,19 @@ export class YarnLockParser implements LockfileParser {
     }
 
     return tree;
+  }
+
+  private async resolveDep(dep, depTree, yarnLock, strict) {
+    if (/^file:/.test(dep.version)) {
+      depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
+    } else {
+      depTree.dependencies[dep.name] = await this.buildSubTree(yarnLock, createDepTreeDepFromDep(dep), strict);
+    }
+    this.treeSize++;
+
+    if (this.treeSize % this.eventLoopSpinRate === 0) {
+      // Spin event loop every X dependencies.
+      await setImmediatePromise();
+    }
   }
 }
