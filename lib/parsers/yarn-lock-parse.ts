@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import * as pMap from 'p-map';
 
 import {
   LockfileParser, PkgTree, DepTreeDep, Dep, ManifestFile,
@@ -11,6 +12,8 @@ import {
   UnsupportedRuntimeError,
   OutOfSyncError,
 } from '../errors';
+
+const EVENT_PROCESSING_CONCURRENCY = 5;
 
 export interface YarnLock {
   type: string;
@@ -92,7 +95,11 @@ export class YarnLockParser implements LockfileParser {
       return depTree;
     }
 
-    await Promise.all(topLevelDeps.map((dep) => this.resolveDep(dep, depTree, yarnLock, strict)));
+    await pMap(
+      topLevelDeps,
+      (dep) => this.resolveDep(dep, depTree, yarnLock, strict),
+      { concurrency: EVENT_PROCESSING_CONCURRENCY });
+
     depTree.size = this.treeSize;
     return depTree;
   }
