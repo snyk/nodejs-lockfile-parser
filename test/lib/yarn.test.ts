@@ -181,6 +181,20 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 
+  test('Yarn2 yarn.lock does not generate tree', async (t) => {
+    try {
+      await buildDepTreeFromFiles(
+        `${__dirname}/fixtures/yarn-2/`,
+        'package.json',
+        'yarn.lock',
+        false,
+        false,
+      );
+    } catch (err) {
+      t.match(err.message, /yarn.lock parsing failed with an error: Unknown token: .+ in lockfile/, 'unable to parse yarn2 lockfile');
+    }
+  });
+
   test('`package.json` with file as version', async (t) => {
     const expectedDepTree = load('file-as-version/expected-tree.json');
 
