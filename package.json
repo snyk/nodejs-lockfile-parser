@@ -21,7 +21,7 @@
   "author": "snyk.io",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "files": [
     "bin",
@@ -44,6 +44,6 @@
     "@types/uuid": "^3.4.4",
     "tap": "^12.6.1",
     "tslint": "5.11.0",
-    "typescript": "3.0.1"
+    "typescript": "3.8.3"
   }
 }

@@ -1,6 +1,5 @@
 node_modules/
 npm-debug.log
-.npmrc
 # output
 dist
 .DS_Store
