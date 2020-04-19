@@ -7,7 +7,7 @@ import {
   LockfileParser, PkgTree, DepTreeDep, Dep, Scope, ManifestFile,
   getTopLevelDeps, Lockfile, LockfileType, createDepTreeDepFromDep,
 } from './';
-import {InvalidUserInputError, OutOfSyncError} from '../errors';
+import {InvalidUserInputError, OutOfSyncError, TreeSizeLimitError} from '../errors';
 
 export interface PackageLock {
   name: string;
@@ -120,8 +120,12 @@ export class PackageLockParser implements LockfileParser {
 
     // number of dependencies including root one
     let treeSize = 1;
-
+    const treeSizeLimit = 6.0e6;
     for (const dep of topLevelDeps) {
+      // tree size limit should be 6 millions.
+      if (treeSize > treeSizeLimit) {
+        throw new TreeSizeLimitError();
+      }
       // if any of top level dependencies is a part of cycle
       // it now has a different item in the map
       const depName = cycleStarts[dep.name] || dep.name;
