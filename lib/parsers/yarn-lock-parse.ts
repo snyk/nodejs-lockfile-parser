@@ -2,11 +2,18 @@ import * as _ from 'lodash';
 import * as pMap from 'p-map';
 
 import {
-  LockfileParser, PkgTree, DepTreeDep, Dep, ManifestFile,
-  getTopLevelDeps, Lockfile, LockfileType, createDepTreeDepFromDep,
+  LockfileParser,
+  PkgTree,
+  DepTreeDep,
+  Dep,
+  ManifestFile,
+  getTopLevelDeps,
+  Lockfile,
+  LockfileType,
+  createDepTreeDepFromDep,
 } from './';
 import getRuntimeVersion from '../get-node-runtime-version';
-import {setImmediatePromise} from '../set-immediate-promise';
+import { setImmediatePromise } from '../set-immediate-promise';
 import {
   InvalidUserInputError,
   UnsupportedRuntimeError,
@@ -37,7 +44,6 @@ export interface YarnLockDep {
 }
 
 export class YarnLockParser implements LockfileParser {
-
   private yarnLockfileParser;
   private treeSize: number;
   private eventLoopSpinRate = 20;
@@ -47,8 +53,9 @@ export class YarnLockParser implements LockfileParser {
     // the import, so it has to be required conditionally
     // more details at https://github.com/yarnpkg/yarn/issues/6304
     if (getRuntimeVersion() < 6) {
-      throw new UnsupportedRuntimeError('yarn.lock parsing is supported for ' +
-        'Node.js v6 and higher.');
+      throw new UnsupportedRuntimeError(
+        'yarn.lock parsing is supported for ' + 'Node.js v6 and higher.',
+      );
     }
     this.yarnLockfileParser = require('@yarnpkg/lockfile');
     // Number of dependencies including root one.
@@ -57,22 +64,30 @@ export class YarnLockParser implements LockfileParser {
 
   public parseLockFile(lockFileContents: string): YarnLock {
     try {
-      const yarnLock: YarnLock = this.yarnLockfileParser.parse(lockFileContents);
+      const yarnLock: YarnLock = this.yarnLockfileParser.parse(
+        lockFileContents,
+      );
       yarnLock.dependencies = yarnLock.object;
       yarnLock.type = LockfileType.yarn;
       return yarnLock;
     } catch (e) {
-      throw new InvalidUserInputError('yarn.lock parsing failed with an ' +
-        `error: ${e.message}`);
+      throw new InvalidUserInputError(
+        'yarn.lock parsing failed with an ' + `error: ${e.message}`,
+      );
     }
   }
 
   public async getDependencyTree(
-    manifestFile: ManifestFile, lockfile: Lockfile, includeDev = false,
-    strict = true ): Promise<PkgTree> {
+    manifestFile: ManifestFile,
+    lockfile: Lockfile,
+    includeDev = false,
+    strict = true,
+  ): Promise<PkgTree> {
     if (lockfile.type !== LockfileType.yarn) {
-      throw new InvalidUserInputError('Unsupported lockfile provided. ' +
-        'Please provide `package-lock.json`.');
+      throw new InvalidUserInputError(
+        'Unsupported lockfile provided. ' +
+          'Please provide `package-lock.json`.',
+      );
     }
     const yarnLock = lockfile as YarnLock;
 
@@ -98,14 +113,19 @@ export class YarnLockParser implements LockfileParser {
     await pMap(
       topLevelDeps,
       (dep) => this.resolveDep(dep, depTree, yarnLock, strict),
-      { concurrency: EVENT_PROCESSING_CONCURRENCY });
+      { concurrency: EVENT_PROCESSING_CONCURRENCY },
+    );
 
     depTree.size = this.treeSize;
     return depTree;
   }
 
-  private async buildSubTree(lockFile: YarnLock, tree: DepTreeDep, strict: boolean): Promise<DepTreeDep> {
-    const queue = [{path: [] as string[], tree}];
+  private async buildSubTree(
+    lockFile: YarnLock,
+    tree: DepTreeDep,
+    strict: boolean,
+  ): Promise<DepTreeDep> {
+    const queue = [{ path: [] as string[], tree }];
     while (queue.length > 0) {
       const queueItem = queue.pop()!;
       const depKey = `${queueItem.tree.name}@${queueItem.tree.version}`;
@@ -172,7 +192,11 @@ export class YarnLockParser implements LockfileParser {
     if (/^file:/.test(dep.version)) {
       depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
     } else {
-      depTree.dependencies[dep.name] = await this.buildSubTree(yarnLock, createDepTreeDepFromDep(dep), strict);
+      depTree.dependencies[dep.name] = await this.buildSubTree(
+        yarnLock,
+        createDepTreeDepFromDep(dep),
+        strict,
+      );
     }
     this.treeSize++;
 
