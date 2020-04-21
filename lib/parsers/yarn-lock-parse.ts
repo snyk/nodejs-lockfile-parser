@@ -13,7 +13,7 @@ import {
   createDepTreeDepFromDep,
 } from './';
 import getRuntimeVersion from '../get-node-runtime-version';
-import { setImmediatePromise } from '../set-immediate-promise';
+import { eventLoopSpinner } from 'event-loop-spinner';
 import {
   InvalidUserInputError,
   UnsupportedRuntimeError,
@@ -48,7 +48,6 @@ export interface YarnLockDep {
 export class YarnLockParser implements LockfileParser {
   private yarnLockfileParser;
   private treeSize: number;
-  private eventLoopSpinRate = 20;
 
   constructor() {
     // @yarnpkg/lockfile doesn't work with Node.js < 6 and crashes just after
@@ -181,12 +180,9 @@ export class YarnLockParser implements LockfileParser {
           path: [...queueItem.path, depKey],
           tree: subDependency,
         });
-
         this.treeSize++;
-
-        if (this.treeSize % this.eventLoopSpinRate === 0) {
-          // Spin event loop every X dependencies.
-          await setImmediatePromise();
+        if (eventLoopSpinner.isStarving()) {
+          await eventLoopSpinner.spin();
         }
       }
     }
@@ -205,10 +201,8 @@ export class YarnLockParser implements LockfileParser {
       );
     }
     this.treeSize++;
-
-    if (this.treeSize % this.eventLoopSpinRate === 0) {
-      // Spin event loop every X dependencies.
-      await setImmediatePromise();
+    if (eventLoopSpinner.isStarving()) {
+      await eventLoopSpinner.spin();
     }
   }
 }

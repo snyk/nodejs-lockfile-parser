@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import * as graphlib from 'graphlib';
 import * as uuid from 'uuid/v4';
 import { config } from '../config';
-import { setImmediatePromise } from '../set-immediate-promise';
+import { eventLoopSpinner } from 'event-loop-spinner';
 
 import {
   LockfileParser,
@@ -158,7 +158,9 @@ export class PackageLockParser implements LockfileParser {
           ? this.setDevDepRec(_.cloneDeep(depTrees[depName]))
           : depTrees[depName];
         treeSize += depTreesSizes[depName];
-        await setImmediatePromise();
+        if (eventLoopSpinner.isStarving()) {
+          await eventLoopSpinner.spin();
+        }
       } else if (/^file:/.test(dep.version)) {
         depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
         treeSize++;
@@ -408,7 +410,9 @@ export class PackageLockParser implements LockfileParser {
       depTreesSizes[depKey] = treeSize;
       // Since this code doesn't handle any I/O or network, we need to force
       // event loop to tick while being used in server for request processing
-      await setImmediatePromise();
+      if (eventLoopSpinner.isStarving()) {
+        await eventLoopSpinner.spin();
+      }
     }
 
     return { depTrees, depTreesSizes };
