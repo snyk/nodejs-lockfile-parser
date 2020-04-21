@@ -6,10 +6,10 @@
     "parse-nodejs-lockfile": "./bin/index.js"
   },
   "scripts": {
-    "test": "npm run lint && npm run unit-test",
-    "unit-test": "tap -Rspec ./test/lib/*.test.[tj]s --timeout=300",
-    "lint": "eslint --color --cache '{lib,test}/**/*.{js,ts}' && prettier --concurrency=${JOBS:-3} --quiet --check '{lib,test}/**/*.{js,ts}'",
-    "format": "prettier --write '{lib,test}/**/*.{js,ts}'",
+    "test": "npm run unit-test",
+    "unit-test": "tap -Rspec ./test/lib/**/*.test.[tj]s --timeout=300",
+    "lint": "prettier --check '{lib,test}/**/*.ts' && eslint '{lib,test}/**/*.ts'",
+    "format": "prettier --write '{lib,test}/**/*.ts'",
     "build": "tsc",
     "build-watch": "tsc -w",
     "prepare": "npm run build"
@@ -43,9 +43,12 @@
     "@types/lodash": "^4.14.136",
     "@types/node": "^6.14.7",
     "@types/uuid": "^3.4.4",
-    "prettier": "^2.0.2",
+    "@typescript-eslint/eslint-plugin": "^2.7.0",
+    "@typescript-eslint/parser": "^2.7.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.10.1",
+    "prettier": "^1.19.1",
     "tap": "^12.6.1",
-    "tslint": "5.11.0",
     "typescript": "3.0.1"
   }
 }

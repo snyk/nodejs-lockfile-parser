@@ -220,7 +220,7 @@ export class PackageLockParser implements LockfileParser {
       // 2. For every cyclic dependency of entry node...
       const edgesToProcess = (depGraph.inEdges(
         node,
-      ) as graphlib.Edge[]).filter((e) => _.includes(currentCycle, e.v));
+      ) as graphlib.Edge[]).filter(e => _.includes(currentCycle, e.v));
       for (const edge of edgesToProcess) {
         // ... create a duplicate of the dependency...
         const child = edge.v;
@@ -291,14 +291,14 @@ export class PackageLockParser implements LockfileParser {
     // node has to have edges
     const edges = depGraph.nodeEdges(nodeFrom) as graphlib.Edge[];
     if (outEdges) {
-      const parentEdges = edges.filter((e) => !_.includes(cycle, e.w));
+      const parentEdges = edges.filter(e => !_.includes(cycle, e.w));
       for (const edge of parentEdges) {
         const parent = edge.w;
         depGraph.setEdge(nodeTo, parent);
       }
     }
     if (inEdges) {
-      const childEdges = edges.filter((e) => !_.includes(cycle, e.v));
+      const childEdges = edges.filter(e => !_.includes(cycle, e.v));
       for (const edge of childEdges) {
         const child = edge.v;
         depGraph.setEdge(child, nodeTo);

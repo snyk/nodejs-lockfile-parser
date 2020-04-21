@@ -112,7 +112,7 @@ export class YarnLockParser implements LockfileParser {
 
     await pMap(
       topLevelDeps,
-      (dep) => this.resolveDep(dep, depTree, yarnLock, strict),
+      dep => this.resolveDep(dep, depTree, yarnLock, strict),
       { concurrency: EVENT_PROCESSING_CONCURRENCY },
     );
 

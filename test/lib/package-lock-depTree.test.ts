@@ -9,10 +9,10 @@ import * as fs from 'fs';
 import * as _ from 'lodash';
 import { InvalidUserInputError, OutOfSyncError } from '../../lib/errors';
 
-const load = (filename) =>
+const load = filename =>
   JSON.parse(fs.readFileSync(`${__dirname}/fixtures/${filename}`, 'utf8'));
 
-test('Parse npm package-lock.json', async (t) => {
+test('Parse npm package-lock.json', async t => {
   const expectedDepTree = load('goof/dep-tree-no-dev-deps.json');
 
   const depTree = await buildDepTreeFromFiles(
@@ -24,7 +24,7 @@ test('Parse npm package-lock.json', async (t) => {
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });
 
-test('Parse npm package-lock.json with devDependencies', async (t) => {
+test('Parse npm package-lock.json with devDependencies', async t => {
   const expectedDepTree = load('goof/dep-tree-with-dev-deps.json');
 
   const depTree = await buildDepTreeFromFiles(
@@ -37,7 +37,7 @@ test('Parse npm package-lock.json with devDependencies', async (t) => {
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });
 
-test('Parse npm package.json with empty devDependencies', async (t) => {
+test('Parse npm package.json with empty devDependencies', async t => {
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/empty-dev-deps/`,
     'package.json',
@@ -49,7 +49,7 @@ test('Parse npm package.json with empty devDependencies', async (t) => {
   t.ok(depTree.dependencies!['adm-zip'], 'Dependencies are reported correctly');
 });
 
-test('Parse npm package-lock.json with missing dependency', async (t) => {
+test('Parse npm package-lock.json with missing dependency', async t => {
   t.rejects(
     buildDepTreeFromFiles(
       `${__dirname}/fixtures/goof/`,
@@ -61,7 +61,7 @@ test('Parse npm package-lock.json with missing dependency', async (t) => {
   );
 });
 
-test('Parse npm package-lock.json with repeated dependency', async (t) => {
+test('Parse npm package-lock.json with repeated dependency', async t => {
   const expectedDepTree = load(
     'package-repeated-in-manifest/expected-tree.json',
   );
@@ -76,7 +76,7 @@ test('Parse npm package-lock.json with repeated dependency', async (t) => {
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });
 
-test('Parse npm package-lock.json with missing package name', async (t) => {
+test('Parse npm package-lock.json with missing package name', async t => {
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/missing-name/`,
     'package.json',
@@ -88,7 +88,7 @@ test('Parse npm package-lock.json with missing package name', async (t) => {
   t.equals(depTree.name, 'package.json');
 });
 
-test('Parse npm package-lock.json with empty dependencies and includeDev = false', async (t) => {
+test('Parse npm package-lock.json with empty dependencies and includeDev = false', async t => {
   const expectedDepTree = load('missing-deps/expected-tree.json');
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/missing-deps/`,
@@ -99,7 +99,7 @@ test('Parse npm package-lock.json with empty dependencies and includeDev = false
   t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
 });
 
-test('Parse npm package-lock.json with empty dependencies and includeDev = true', async (t) => {
+test('Parse npm package-lock.json with empty dependencies and includeDev = true', async t => {
   const expectedDepTree = load('missing-deps/expected-tree.json');
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/missing-deps/`,
@@ -110,7 +110,7 @@ test('Parse npm package-lock.json with empty dependencies and includeDev = true'
   t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
 });
 
-test('Parse npm package-lock.json with dev deps only', async (t) => {
+test('Parse npm package-lock.json with dev deps only', async t => {
   const expectedDepTree = load('dev-deps-only/expected-tree.json');
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/dev-deps-only/`,
@@ -121,7 +121,7 @@ test('Parse npm package-lock.json with dev deps only', async (t) => {
   t.deepEqual(depTree, expectedDepTree, 'Tree is created with dev deps only');
 });
 
-test('Parse npm simple package-lock.json dev and prod deps', async (t) => {
+test('Parse npm simple package-lock.json dev and prod deps', async t => {
   const expectedDepTree = load('simple-test/expected-tree.json');
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/simple-test/`,
@@ -137,7 +137,7 @@ test('Parse npm simple package-lock.json dev and prod deps', async (t) => {
   );
 });
 
-test('Parse npm package-lock.json with dev deps only', async (t) => {
+test('Parse npm package-lock.json with dev deps only', async t => {
   const expectedDepTreeEmpty = load('dev-deps-only/expected-tree-empty.json');
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/dev-deps-only/`,
@@ -148,7 +148,7 @@ test('Parse npm package-lock.json with dev deps only', async (t) => {
   t.deepEqual(depTree, expectedDepTreeEmpty, 'Tree is created empty');
 });
 
-test('Parse npm package-lock.json with cyclic deps', async (t) => {
+test('Parse npm package-lock.json with cyclic deps', async t => {
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/cyclic-dep-simple/`,
     'package.json',
@@ -162,7 +162,7 @@ test('Parse npm package-lock.json with cyclic deps', async (t) => {
   );
 });
 
-test('Parse npm package-lock.json with self-reference cyclic deps', async (t) => {
+test('Parse npm package-lock.json with self-reference cyclic deps', async t => {
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/cyclic-dep-self-reference/`,
     'package.json',
@@ -171,7 +171,7 @@ test('Parse npm package-lock.json with self-reference cyclic deps', async (t) =>
   t.ok(depTree.dependencies, 'Tree is created');
 });
 
-test('Performance: Parse big npm package-lock.json with cyclic deps and dev-deps', async (t) => {
+test('Performance: Parse big npm package-lock.json with cyclic deps and dev-deps', async t => {
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/cyclic-dep/`,
     'package.json',
@@ -181,7 +181,7 @@ test('Performance: Parse big npm package-lock.json with cyclic deps and dev-deps
   t.deepEqual(depTree.name, 'trucolor', 'Tree is created correctly');
 });
 
-test('Parse invalid npm package-lock.json', async (t) => {
+test('Parse invalid npm package-lock.json', async t => {
   t.rejects(
     buildDepTreeFromFiles(
       `${__dirname}/fixtures/invalid-files/`,
@@ -193,7 +193,7 @@ test('Parse invalid npm package-lock.json', async (t) => {
   );
 });
 
-test('Parse invalid package.json', async (t) => {
+test('Parse invalid package.json', async t => {
   t.rejects(
     buildDepTreeFromFiles(
       `${__dirname}/fixtures/invalid-files/`,
@@ -205,7 +205,7 @@ test('Parse invalid package.json', async (t) => {
   );
 });
 
-test('Small Out of sync project package-lock.json generates tree', async (t) => {
+test('Small Out of sync project package-lock.json generates tree', async t => {
   const expectedDepTree = load('out-of-sync-tree/expected-tree.json');
 
   const depTree = await buildDepTreeFromFiles(
@@ -218,7 +218,7 @@ test('Small Out of sync project package-lock.json generates tree', async (t) => 
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });
 
-test('Out of sync package-lock.json strict', async (t) => {
+test('Out of sync package-lock.json strict', async t => {
   t.rejects(
     buildDepTreeFromFiles(
       `${__dirname}/fixtures/out-of-sync/`,
@@ -229,7 +229,7 @@ test('Out of sync package-lock.json strict', async (t) => {
   );
 });
 
-test('Out of sync package-lock.json generates tree', async (t) => {
+test('Out of sync package-lock.json generates tree', async t => {
   const expectedDepTree = load('out-of-sync/expected-tree.json');
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/fixtures/out-of-sync/`,
@@ -241,7 +241,7 @@ test('Out of sync package-lock.json generates tree', async (t) => {
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });
 
-test('`package.json` with file as version', async (t) => {
+test('`package.json` with file as version', async t => {
   const expectedDepTree = load('file-as-version/expected-tree.json');
 
   const depTree = await buildDepTreeFromFiles(

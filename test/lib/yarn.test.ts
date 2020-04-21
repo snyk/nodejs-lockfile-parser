@@ -15,7 +15,7 @@ import {
 } from '../../lib/errors';
 
 if (getRuntimeVersion() < 6) {
-  test('Parse yarn.lock', async (t) => {
+  test('Parse yarn.lock', async t => {
     t.rejects(
       buildDepTreeFromFiles(
         `${__dirname}/fixtures/goof/`,
@@ -31,10 +31,10 @@ if (getRuntimeVersion() < 6) {
     );
   });
 } else {
-  const load = (filename) =>
+  const load = filename =>
     JSON.parse(fs.readFileSync(`${__dirname}/fixtures/${filename}`, 'utf8'));
 
-  test('Parse yarn.lock', async (t) => {
+  test('Parse yarn.lock', async t => {
     const expectedDepTree = load('goof/dep-tree-no-dev-deps-yarn.json');
 
     const depTree = await buildDepTreeFromFiles(
@@ -46,7 +46,7 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 
-  test('Parse yarn.lock with cyclic deps', async (t) => {
+  test('Parse yarn.lock with cyclic deps', async t => {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/cyclic-dep-simple/`,
       'package.json',
@@ -60,7 +60,7 @@ if (getRuntimeVersion() < 6) {
     );
   });
 
-  test('Parse yarn.lock with dev deps only', async (t) => {
+  test('Parse yarn.lock with dev deps only', async t => {
     const expectedDepTree = load('dev-deps-only/expected-tree.json');
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/dev-deps-only/`,
@@ -72,7 +72,7 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree is created with dev deps only');
   });
 
-  test('Parse yarn.lock with empty devDependencies', async (t) => {
+  test('Parse yarn.lock with empty devDependencies', async t => {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/empty-dev-deps/`,
       'package.json',
@@ -87,7 +87,7 @@ if (getRuntimeVersion() < 6) {
     );
   });
 
-  test('Parse yarn.lock with devDependencies', async (t) => {
+  test('Parse yarn.lock with devDependencies', async t => {
     const expectedDepTree = load('goof/dep-tree-with-dev-deps-yarn.json');
 
     const depTree = await buildDepTreeFromFiles(
@@ -100,7 +100,7 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 
-  test('Parse yarn.lock with missing dependency', async (t) => {
+  test('Parse yarn.lock with missing dependency', async t => {
     t.rejects(
       buildDepTreeFromFiles(
         `${__dirname}/fixtures/goof/`,
@@ -112,7 +112,7 @@ if (getRuntimeVersion() < 6) {
     );
   });
 
-  test('Parse yarn.lock with repeated dependency', async (t) => {
+  test('Parse yarn.lock with repeated dependency', async t => {
     const expectedDepTree = load(
       'package-repeated-in-manifest/expected-tree.json',
     );
@@ -127,7 +127,7 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 
-  test('Parse yarn.lock with missing package name', async (t) => {
+  test('Parse yarn.lock with missing package name', async t => {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/missing-name/`,
       'package.json',
@@ -139,7 +139,7 @@ if (getRuntimeVersion() < 6) {
     t.equals(depTree.name, 'package.json');
   });
 
-  test('Parse yarn.lock with empty dependencies and includeDev = false', async (t) => {
+  test('Parse yarn.lock with empty dependencies and includeDev = false', async t => {
     const expectedDepTree = load('missing-deps/expected-tree.json');
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/missing-deps/`,
@@ -150,7 +150,7 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
   });
 
-  test('Parse yarn.lock with empty dependencies and includeDev = true', async (t) => {
+  test('Parse yarn.lock with empty dependencies and includeDev = true', async t => {
     const expectedDepTree = load('missing-deps/expected-tree.json');
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/missing-deps/`,
@@ -161,7 +161,7 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
   });
 
-  test('Parse invalid yarn.lock', async (t) => {
+  test('Parse invalid yarn.lock', async t => {
     t.rejects(
       buildDepTreeFromFiles(
         `${__dirname}/fixtures/invalid-files/`,
@@ -173,7 +173,7 @@ if (getRuntimeVersion() < 6) {
     );
   });
 
-  test('Out of sync yarn.lock strict mode', async (t) => {
+  test('Out of sync yarn.lock strict mode', async t => {
     t.rejects(
       buildDepTreeFromFiles(
         `${__dirname}/fixtures/out-of-sync/`,
@@ -184,7 +184,7 @@ if (getRuntimeVersion() < 6) {
     );
   });
 
-  test('Out of sync yarn.lock generates tree', async (t) => {
+  test('Out of sync yarn.lock generates tree', async t => {
     const expectedDepTree = load('out-of-sync/expected-tree.json');
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/out-of-sync/`,
@@ -196,7 +196,7 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 
-  test('`package.json` with file as version', async (t) => {
+  test('`package.json` with file as version', async t => {
     const expectedDepTree = load('file-as-version/expected-tree.json');
 
     const depTree = await buildDepTreeFromFiles(
@@ -208,7 +208,7 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 
-  test('succeeds with `git url` + `ssh`', async (t) => {
+  test('succeeds with `git url` + `ssh`', async t => {
     const expectedDepTree = load('git-ssh-url-deps/expected-tree.json');
 
     const depTree = await buildDepTreeFromFiles(
@@ -220,7 +220,7 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 
-  test('succeeds with external tarball url', async (t) => {
+  test('succeeds with external tarball url', async t => {
     const expectedDepTree = load('external-tarball/expected-tree.json');
 
     const depTree = await buildDepTreeFromFiles(
@@ -233,7 +233,7 @@ if (getRuntimeVersion() < 6) {
   });
 }
 
-test('Identify package.json as a yarn workspace', async (t) => {
+test('Identify package.json as a yarn workspace', async t => {
   const workspaces = getYarnWorkspacesFromFiles(
     `${__dirname}/fixtures/yarn-workspace/`,
     'package.json',
@@ -245,7 +245,7 @@ test('Identify package.json as a yarn workspace', async (t) => {
   );
 });
 
-test('identify package.json as Not a workspace project', async (t) => {
+test('identify package.json as Not a workspace project', async t => {
   const workspaces = getYarnWorkspacesFromFiles(
     `${__dirname}/fixtures/external-tarball/`,
     'package.json',
