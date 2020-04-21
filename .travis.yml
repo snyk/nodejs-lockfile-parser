@@ -4,9 +4,9 @@ notifications:
   email: false
 language: node_js
 node_js:
+  - "12"
   - "10"
   - "8"
-  - "6"
 cache: npm
 script:
   - "npm run lint"
