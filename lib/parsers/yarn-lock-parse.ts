@@ -18,7 +18,9 @@ import {
   InvalidUserInputError,
   UnsupportedRuntimeError,
   OutOfSyncError,
+  TreeSizeLimitError,
 } from '../errors';
+import { config } from '../config';
 
 const EVENT_PROCESSING_CONCURRENCY = 5;
 
@@ -158,6 +160,10 @@ export class YarnLockParser implements LockfileParser {
       });
 
       for (const [subName, subVersion] of subDependencies) {
+        // tree size limit should be 6 millions.
+        if (this.treeSize > config.YARN_TREE_SIZE_LIMIT) {
+          throw new TreeSizeLimitError();
+        }
         const subDependency: DepTreeDep = {
           labels: {
             scope: tree.labels!.scope, // propagate scope label only

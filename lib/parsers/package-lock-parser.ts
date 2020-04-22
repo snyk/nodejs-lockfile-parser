@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import * as graphlib from 'graphlib';
 import * as uuid from 'uuid/v4';
+import { config } from '../config';
 import { setImmediatePromise } from '../set-immediate-promise';
 
 import {
@@ -143,10 +144,9 @@ export class PackageLockParser implements LockfileParser {
 
     // number of dependencies including root one
     let treeSize = 1;
-    const treeSizeLimit = 6.0e6;
     for (const dep of topLevelDeps) {
       // tree size limit should be 6 millions.
-      if (treeSize > treeSizeLimit) {
+      if (treeSize > config.NPM_TREE_SIZE_LIMIT) {
         throw new TreeSizeLimitError();
       }
       // if any of top level dependencies is a part of cycle
