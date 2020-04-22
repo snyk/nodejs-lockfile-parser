@@ -3,5 +3,6 @@ npm-debug.log
 # output
 dist
 .DS_Store
+.eslintcache
 *.log
 /package-lock.json
