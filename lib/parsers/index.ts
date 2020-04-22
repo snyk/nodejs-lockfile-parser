@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import {PackageLock} from './package-lock-parser';
-import {YarnLock} from './yarn-lock-parse';
-import {InvalidUserInputError} from '../errors';
+import { PackageLock } from './package-lock-parser';
+import { YarnLock } from './yarn-lock-parse';
+import { InvalidUserInputError } from '../errors';
 
 export interface Dep {
   name: string;
@@ -32,7 +32,7 @@ export interface DepTreeDep {
   name?: string; // shouldn't, but might happen
   version?: string; // shouldn't, but might happen
   dependencies?: {
-    [depName: string]: DepTreeDep,
+    [depName: string]: DepTreeDep;
   };
   labels?: {
     [key: string]: string | undefined;
@@ -46,7 +46,7 @@ export interface PkgTree extends DepTreeDep {
   type?: string;
   packageFormatVersion?: string;
   dependencies: {
-    [depName: string]: DepTreeDep,
+    [depName: string]: DepTreeDep;
   };
   meta?: {
     nodeVersion: string;
@@ -67,11 +67,13 @@ export enum LockfileType {
 }
 
 export interface LockfileParser {
-  parseLockFile: (lockFileContents: string)
-      => Lockfile;
-  getDependencyTree: (manifestFile: ManifestFile, lockfile: Lockfile,
-                      includeDev?: boolean, strict?: boolean)
-      => Promise<PkgTree>;
+  parseLockFile: (lockFileContents: string) => Lockfile;
+  getDependencyTree: (
+    manifestFile: ManifestFile,
+    lockfile: Lockfile,
+    includeDev?: boolean,
+    strict?: boolean,
+  ) => Promise<PkgTree>;
 }
 
 export type Lockfile = PackageLock | YarnLock;
@@ -80,12 +82,16 @@ export function parseManifestFile(manifestFileContents: string): ManifestFile {
   try {
     return JSON.parse(manifestFileContents);
   } catch (e) {
-    throw new InvalidUserInputError('package.json parsing failed with error ' +
-      e.message);
+    throw new InvalidUserInputError(
+      'package.json parsing failed with error ' + e.message,
+    );
   }
 }
 
-export function getTopLevelDeps(targetFile: ManifestFile, includeDev: boolean): Dep[] {
+export function getTopLevelDeps(
+  targetFile: ManifestFile,
+  includeDev: boolean,
+): Dep[] {
   const dependencies: Dep[] = [];
 
   const dependenciesIterator = _.entries({
@@ -95,8 +101,10 @@ export function getTopLevelDeps(targetFile: ManifestFile, includeDev: boolean): 
 
   for (const [name, version] of dependenciesIterator) {
     dependencies.push({
-      dev: (includeDev && targetFile.devDependencies) ?
-        !!targetFile.devDependencies[name] : false,
+      dev:
+        includeDev && targetFile.devDependencies
+          ? !!targetFile.devDependencies[name]
+          : false,
       name,
       version,
     });
@@ -115,7 +123,7 @@ export function createDepTreeDepFromDep(dep: Dep): DepTreeDep {
   };
 }
 
-export function getYarnWorkspaces(targetFile: string): string [] | false {
+export function getYarnWorkspaces(targetFile: string): string[] | false {
   try {
     const packageJson: ManifestFile = parseManifestFile(targetFile);
     if (!!packageJson.workspaces && !!packageJson.private) {
@@ -123,7 +131,8 @@ export function getYarnWorkspaces(targetFile: string): string [] | false {
     }
     return false;
   } catch (e) {
-    throw new InvalidUserInputError('package.json parsing failed with ' +
-      `error ${e.message}`);
+    throw new InvalidUserInputError(
+      'package.json parsing failed with ' + `error ${e.message}`,
+    );
   }
 }

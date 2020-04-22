@@ -1,10 +1,8 @@
 #!/usr/bin/env node_modules/.bin/ts-node
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
-// tslint:disable:max-line-length
-// tslint:disable:object-literal-key-quotes
-import {test} from 'tap';
-import {buildDepTreeFromFiles, getYarnWorkspacesFromFiles} from '../../lib';
+import { test } from 'tap';
+import { buildDepTreeFromFiles, getYarnWorkspacesFromFiles } from '../../lib';
 import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import * as fs from 'fs';
 import * as _ from 'lodash';
@@ -22,16 +20,17 @@ if (getRuntimeVersion() < 6) {
         'package.json',
         'yarn.lock',
       ),
-      new UnsupportedRuntimeError('Parsing `yarn.lock` is not supported on ' +
-        'Node.js version less than 6. Please upgrade your Node.js environment ' +
-        'or use `package-lock.json`'),
+      new UnsupportedRuntimeError(
+        'Parsing `yarn.lock` is not supported on ' +
+          'Node.js version less than 6. Please upgrade your Node.js environment ' +
+          'or use `package-lock.json`',
+      ),
       'Information about non-supported environment is shown',
     );
   });
 } else {
-  const load = (filename) => JSON.parse(
-    fs.readFileSync(`${__dirname}/fixtures/${filename}`, 'utf8'),
-  );
+  const load = (filename) =>
+    JSON.parse(fs.readFileSync(`${__dirname}/fixtures/${filename}`, 'utf8'));
 
   test('Parse yarn.lock', async (t) => {
     const expectedDepTree = load('goof/dep-tree-no-dev-deps-yarn.json');
@@ -51,7 +50,12 @@ if (getRuntimeVersion() < 6) {
       'package.json',
       'yarn.lock',
     );
-    t.strictEqual(depTree.dependencies!.debug.dependencies!.ms.dependencies!.debug.labels!.pruned, 'cyclic', 'Cyclic dependency is found correctly');
+    t.strictEqual(
+      depTree.dependencies!.debug.dependencies!.ms.dependencies!.debug.labels!
+        .pruned,
+      'cyclic',
+      'Cyclic dependency is found correctly',
+    );
   });
 
   test('Parse yarn.lock with dev deps only', async (t) => {
@@ -74,8 +78,11 @@ if (getRuntimeVersion() < 6) {
       true,
     );
 
-    t.false(depTree.hasDevDependencies, 'Package doesn\'t have devDependencies');
-    t.ok(depTree.dependencies!['adm-zip'], 'Dependencies are reported correctly');
+    t.false(depTree.hasDevDependencies, "Package doesn't have devDependencies");
+    t.ok(
+      depTree.dependencies!['adm-zip'],
+      'Dependencies are reported correctly',
+    );
   });
 
   test('Parse yarn.lock with devDependencies', async (t) => {
@@ -92,15 +99,21 @@ if (getRuntimeVersion() < 6) {
   });
 
   test('Parse yarn.lock with missing dependency', async (t) => {
-      t.rejects(buildDepTreeFromFiles(
+    t.rejects(
+      buildDepTreeFromFiles(
         `${__dirname}/fixtures/goof/`,
         'package.json',
         'yarn_missing_dep.lock',
-      ), null, 'Error is thrown');
+      ),
+      null,
+      'Error is thrown',
+    );
   });
 
   test('Parse yarn.lock with repeated dependency', async (t) => {
-    const expectedDepTree = load('package-repeated-in-manifest/expected-tree.json');
+    const expectedDepTree = load(
+      'package-repeated-in-manifest/expected-tree.json',
+    );
 
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/package-repeated-in-manifest/`,
@@ -172,12 +185,12 @@ if (getRuntimeVersion() < 6) {
   test('Out of sync yarn.lock generates tree', async (t) => {
     const expectedDepTree = load('out-of-sync/expected-tree.json');
     const depTree = await buildDepTreeFromFiles(
-        `${__dirname}/fixtures/out-of-sync/`,
-        'package.json',
-        'yarn.lock',
-        false,
-        false,
-      );
+      `${__dirname}/fixtures/out-of-sync/`,
+      'package.json',
+      'yarn.lock',
+      false,
+      false,
+    );
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 
@@ -223,7 +236,11 @@ test('Identify package.json as a yarn workspace', async (t) => {
     `${__dirname}/fixtures/yarn-workspace/`,
     'package.json',
   );
-  t.deepEqual(workspaces, [ 'packages/*', 'libs/*' ], 'Workspaces identified as expected');
+  t.deepEqual(
+    workspaces,
+    ['packages/*', 'libs/*'],
+    'Workspaces identified as expected',
+  );
 });
 
 test('identify package.json as Not a workspace project', async (t) => {
