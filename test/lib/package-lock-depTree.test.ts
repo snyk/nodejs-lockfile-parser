@@ -2,10 +2,15 @@
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 import { test } from 'tap';
+import { config } from '../../lib/config';
 import { buildDepTreeFromFiles } from '../../lib';
 import * as fs from 'fs';
 import * as _ from 'lodash';
-import { InvalidUserInputError, OutOfSyncError } from '../../lib/errors';
+import {
+  InvalidUserInputError,
+  OutOfSyncError,
+  TreeSizeLimitError,
+} from '../../lib/errors';
 
 const load = (filename) =>
   JSON.parse(fs.readFileSync(`${__dirname}/fixtures/${filename}`, 'utf8'));
@@ -249,4 +254,17 @@ test('`package.json` with file as version', async (t) => {
   );
 
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
+test('Npm Tree size exceeds the allowed limit of 500 dependencies.', async (t) => {
+  config.NPM_TREE_SIZE_LIMIT = 500;
+  t.rejects(
+    buildDepTreeFromFiles(
+      `${__dirname}/fixtures/goof/`,
+      'package.json',
+      'package-lock.json',
+    ),
+    new TreeSizeLimitError(),
+    'Expected error is thrown',
+  );
 });

@@ -2,6 +2,7 @@
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 import { test } from 'tap';
+import { config } from '../../lib/config';
 import { buildDepTreeFromFiles, getYarnWorkspacesFromFiles } from '../../lib';
 import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import * as fs from 'fs';
@@ -10,6 +11,7 @@ import {
   UnsupportedRuntimeError,
   InvalidUserInputError,
   OutOfSyncError,
+  TreeSizeLimitError,
 } from '../../lib/errors';
 
 if (getRuntimeVersion() < 6) {
@@ -249,4 +251,17 @@ test('identify package.json as Not a workspace project', async (t) => {
     'package.json',
   );
   t.is(workspaces, false, 'Not a yarn workspace');
+});
+
+test('Yarn Tree size exceeds the allowed limit of 500 dependencies.', async (t) => {
+  config.YARN_TREE_SIZE_LIMIT = 500;
+  t.rejects(
+    buildDepTreeFromFiles(
+      `${__dirname}/fixtures/goof/`,
+      'package.json',
+      'yarn.lock',
+    ),
+    new TreeSizeLimitError(),
+    'Expected error is thrown',
+  );
 });
