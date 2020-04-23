@@ -171,7 +171,7 @@ export class PackageLockParser implements LockfileParser {
         // TODO: also check the package version
         // for a stricter check
         if (strict) {
-          throw new OutOfSyncError(depName, 'npm');
+          throw new OutOfSyncError(depName, LockfileType.npm);
         }
         depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
         if (!depTree.dependencies[dep.name].labels) {
@@ -363,7 +363,7 @@ export class PackageLockParser implements LockfileParser {
     }
 
     if (!depMap[depName]) {
-      throw new OutOfSyncError(depName, 'npm');
+      throw new OutOfSyncError(depName, LockfileType.npm);
     }
 
     return depName;

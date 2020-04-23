@@ -23,7 +23,7 @@ import { config } from '../config';
 
 const EVENT_PROCESSING_CONCURRENCY = 5;
 
-export type YarnLockFileTypes = LockfileType.yarn;
+export type YarnLockFileTypes = LockfileType.yarn | LockfileType.yarn2;
 
 export interface YarnLockDeps {
   [depName: string]: YarnLockDep;

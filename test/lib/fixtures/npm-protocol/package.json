@@ -1,0 +1,6 @@
+{
+  "name": "test3",
+  "dependencies": {
+    "lodash": "npm:^4.17.15"
+  }
+}

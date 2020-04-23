@@ -3,28 +3,28 @@
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 import { test } from 'tap';
 import { buildDepTreeFromFiles, LockfileType } from '../../lib';
-import { config } from '../../lib/config';
 import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import * as fs from 'fs';
-import * as _isEmpty from 'lodash.isempty';
+import * as _ from 'lodash';
 import {
   UnsupportedRuntimeError,
   InvalidUserInputError,
   OutOfSyncError,
   TreeSizeLimitError,
 } from '../../lib/errors';
+import { config } from '../../lib/config';
 
-if (getRuntimeVersion() < 6) {
+if (getRuntimeVersion() < 10) {
   test('Parse yarn.lock', async (t) => {
     t.rejects(
       buildDepTreeFromFiles(
         `${__dirname}/fixtures/goof/`,
         'package.json',
-        'yarn.lock',
+        'yarn2/yarn.lock',
       ),
       new UnsupportedRuntimeError(
         'Parsing `yarn.lock` is not supported on ' +
-          'Node.js version less than 6. Please upgrade your Node.js environment ' +
+          'Node.js version less than 10. Please upgrade your Node.js environment ' +
           'or use `package-lock.json`',
       ),
       'Information about non-supported environment is shown',
@@ -35,14 +35,13 @@ if (getRuntimeVersion() < 6) {
     JSON.parse(fs.readFileSync(`${__dirname}/fixtures/${filename}`, 'utf8'));
 
   test('Parse yarn.lock', async (t) => {
-    const expectedDepTree = load('goof/dep-tree-no-dev-deps-yarn.json');
+    const expectedDepTree = load('goof/yarn2/dep-tree-no-dev-deps-yarn.json');
 
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/goof/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
     );
-
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 
@@ -50,7 +49,7 @@ if (getRuntimeVersion() < 6) {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/cyclic-dep-simple/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
     );
     t.strictEqual(
       depTree.dependencies!.debug.dependencies!.ms.dependencies!.debug.labels!
@@ -65,7 +64,7 @@ if (getRuntimeVersion() < 6) {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/dev-deps-only/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
       true,
     );
 
@@ -76,7 +75,7 @@ if (getRuntimeVersion() < 6) {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/empty-dev-deps/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
       true,
     );
 
@@ -88,15 +87,14 @@ if (getRuntimeVersion() < 6) {
   });
 
   test('Parse yarn.lock with devDependencies', async (t) => {
-    const expectedDepTree = load('goof/dep-tree-with-dev-deps-yarn.json');
+    const expectedDepTree = load('goof/yarn2/dep-tree-with-dev-deps-yarn.json');
 
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/goof/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
       true,
     );
-
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 
@@ -105,9 +103,9 @@ if (getRuntimeVersion() < 6) {
       buildDepTreeFromFiles(
         `${__dirname}/fixtures/missing-deps-in-lock/`,
         'package.json',
-        'yarn.lock',
+        'yarn2/yarn.lock',
       ),
-      new OutOfSyncError('uptime', LockfileType.yarn),
+      new OutOfSyncError('uptime', LockfileType.yarn2),
       'Error is thrown',
     );
   });
@@ -120,7 +118,7 @@ if (getRuntimeVersion() < 6) {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/package-repeated-in-manifest/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
       false,
     );
 
@@ -131,11 +129,11 @@ if (getRuntimeVersion() < 6) {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/missing-name/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
       true,
     );
 
-    t.false(_isEmpty(depTree.dependencies));
+    t.false(_.isEmpty(depTree.dependencies));
     t.equals(depTree.name, 'package.json');
   });
 
@@ -144,7 +142,7 @@ if (getRuntimeVersion() < 6) {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/missing-deps/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
       false,
     );
     t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
@@ -155,7 +153,7 @@ if (getRuntimeVersion() < 6) {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/missing-deps/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
       true,
     );
     t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
@@ -166,7 +164,7 @@ if (getRuntimeVersion() < 6) {
       buildDepTreeFromFiles(
         `${__dirname}/fixtures/invalid-files/`,
         'package.json',
-        'yarn.lock',
+        'yarn2/yarn.lock',
       ),
       new InvalidUserInputError('yarn.lock parsing failed with an error'),
       'Expected error is thrown',
@@ -178,18 +176,18 @@ if (getRuntimeVersion() < 6) {
       buildDepTreeFromFiles(
         `${__dirname}/fixtures/out-of-sync/`,
         'package.json',
-        'yarn.lock',
+        'yarn2/yarn.lock',
       ),
-      new OutOfSyncError('lodash', LockfileType.yarn),
+      new OutOfSyncError('lodash', LockfileType.yarn2),
     );
   });
 
   test('Out of sync yarn.lock generates tree', async (t) => {
-    const expectedDepTree = load('out-of-sync/expected-tree.json');
+    const expectedDepTree = load('out-of-sync/yarn2/expected-tree.json');
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/out-of-sync/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
       false,
       false,
     );
@@ -202,7 +200,7 @@ if (getRuntimeVersion() < 6) {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/file-as-version/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
     );
 
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
@@ -214,7 +212,7 @@ if (getRuntimeVersion() < 6) {
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/git-ssh-url-deps/`,
       'package.json',
-      'yarn.lock',
+      'yarn2/yarn.lock',
     );
 
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
@@ -225,6 +223,18 @@ if (getRuntimeVersion() < 6) {
 
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/fixtures/external-tarball/`,
+      'package.json',
+      'yarn2/yarn.lock',
+    );
+
+    t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+  });
+
+  test('succeeds with npm protocol', async (t) => {
+    const expectedDepTree = load('npm-protocol/expected-tree.json');
+
+    const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/fixtures/npm-protocol/`,
       'package.json',
       'yarn.lock',
     );

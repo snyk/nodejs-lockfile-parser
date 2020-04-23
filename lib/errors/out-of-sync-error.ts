@@ -1,3 +1,5 @@
+import { LockfileType } from '../parsers';
+
 const LOCK_FILE_NAME = {
   npm: 'package-lock.json',
   yarn: 'yarn.lock',
@@ -14,7 +16,7 @@ export class OutOfSyncError extends Error {
   public dependencyName: string;
   public lockFileType: string;
 
-  constructor(dependencyName: string, lockFileType: 'yarn' | 'npm') {
+  constructor(dependencyName: string, lockFileType: LockfileType) {
     super(
       `Dependency ${dependencyName} was not found in ` +
         `${LOCK_FILE_NAME[lockFileType]}. Your package.json and ` +
