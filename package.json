@@ -31,6 +31,7 @@
   "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
   "dependencies": {
     "@yarnpkg/lockfile": "^1.0.2",
+    "event-loop-spinner": "^1.1.0",
     "graphlib": "^2.1.5",
     "lodash": "^4.17.14",
     "p-map": "2.1.0",
