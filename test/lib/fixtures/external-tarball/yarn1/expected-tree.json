@@ -117,7 +117,10 @@
     }
   },
   "hasDevDependencies": false,
-  "name": "git-ssh-url-deps",
+  "name": "external-tarball",
   "size": 16,
-  "version": ""
+  "version": "",
+  "meta": {
+    "packageManagerVersion": "1"
+  }
 }

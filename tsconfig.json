@@ -4,10 +4,11 @@
         "pretty": true,
         "target": "es2017",
         "lib": [
-            "es2017"
+            "es2017",
+            "dom"
         ],
+        "allowSyntheticDefaultImports": true,
         "module": "commonjs",
-        "skipLibCheck": true,
         "sourceMap": true,
         "declaration": true,
         "importHelpers": true,

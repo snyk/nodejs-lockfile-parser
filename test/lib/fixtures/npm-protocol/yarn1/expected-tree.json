@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "lodash": {
+      "labels": {
+        "scope": "prod"
+      },
+      "name": "lodash",
+      "version": "4.17.15"
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "test3",
+  "size": 2,
+  "version": "",
+  "meta": {
+    "packageManagerVersion": "1"
+  }
+}

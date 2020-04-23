@@ -11,5 +11,3 @@ debug@2.0.x:
 ms@0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.6.2.tgz#d89c2124c6fdc1353d65a8b77bf1aac4b193708c"
-  dependencies:
-    debug "2.0.x"

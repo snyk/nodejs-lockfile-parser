@@ -13,6 +13,7 @@ import {
 } from './parsers';
 import { PackageLockParser } from './parsers/package-lock-parser';
 import { YarnLockParser } from './parsers/yarn-lock-parse';
+import { Yarn2LockParser } from './parsers/yarn2-lock-parse';
 import getRuntimeVersion from './get-node-runtime-version';
 import {
   UnsupportedRuntimeError,
@@ -51,13 +52,16 @@ async function buildDepTree(
       lockfileParser = new PackageLockParser();
       break;
     case LockfileType.yarn:
-      // parsing yarn.lock is supported for Node.js v6 and higher
-      if (getRuntimeVersion() >= 6) {
-        lockfileParser = new YarnLockParser();
+      lockfileParser = new YarnLockParser();
+      break;
+    case LockfileType.yarn2:
+      // parsing yarn.lock is supported for Node.js v10 and higher
+      if (getRuntimeVersion() >= 10) {
+        lockfileParser = new Yarn2LockParser();
       } else {
         throw new UnsupportedRuntimeError(
           'Parsing `yarn.lock` is not ' +
-            'supported on Node.js version less than 6. Please upgrade your ' +
+            'supported on Node.js version less than 10. Please upgrade your ' +
             'Node.js environment or use `package-lock.json`',
         );
       }
@@ -99,7 +103,15 @@ async function buildDepTreeFromFiles(
   if (lockFilePath.endsWith('package-lock.json')) {
     lockFileType = LockfileType.npm;
   } else if (lockFilePath.endsWith('yarn.lock')) {
-    lockFileType = LockfileType.yarn;
+    if (
+      fs.existsSync(
+        path.resolve(root, lockFilePath.replace('yarn.lock', '.yarnrc.yml')),
+      )
+    ) {
+      lockFileType = LockfileType.yarn2;
+    } else {
+      lockFileType = LockfileType.yarn;
+    }
   } else {
     throw new InvalidUserInputError(
       `Unknown lockfile ${lockFilePath}. ` +

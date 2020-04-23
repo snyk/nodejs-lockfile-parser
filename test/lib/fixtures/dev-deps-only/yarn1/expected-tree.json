@@ -1,0 +1,27 @@
+{
+  "name": "pkg-dev-deps-only",
+  "size": 3,
+  "version": "0.0.1",
+  "hasDevDependencies": true,
+  "dependencies": {
+    "debug": {
+      "name": "debug",
+      "version": "2.6.9",
+      "labels": {
+        "scope": "dev"
+      },
+      "dependencies": {
+        "ms": {
+          "name": "ms",
+          "version": "2.0.0",
+          "labels": {
+            "scope": "dev"
+          }
+        }
+      }
+    }
+  },
+  "meta": {
+    "packageManagerVersion": "1"
+  }
+}
