@@ -2,7 +2,6 @@ import * as _ from '@snyk/lodash';
 import { PackageLock } from './package-lock-parser';
 import { YarnLock } from './yarn-lock-parse';
 import { InvalidUserInputError } from '../errors';
-import { Yarn2Lock } from './yarn2-lock-parse';
 
 export interface Dep {
   name: string;
@@ -65,7 +64,6 @@ export enum Scope {
 export enum LockfileType {
   npm = 'npm',
   yarn = 'yarn',
-  yarn2 = 'yarn2',
 }
 
 export interface LockfileParser {
@@ -78,7 +76,7 @@ export interface LockfileParser {
   ) => Promise<PkgTree>;
 }
 
-export type Lockfile = PackageLock | YarnLock | Yarn2Lock;
+export type Lockfile = PackageLock | YarnLock;
 
 export function parseManifestFile(manifestFileContents: string): ManifestFile {
   try {

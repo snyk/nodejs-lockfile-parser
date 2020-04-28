@@ -22,7 +22,7 @@ import { config } from '../config';
 
 const EVENT_PROCESSING_CONCURRENCY = 5;
 
-export type YarnLockFileTypes = LockfileType.yarn | LockfileType.yarn2;
+export type YarnLockFileTypes = LockfileType.yarn;
 
 export interface YarnLockDeps {
   [depName: string]: YarnLockDep;
@@ -65,8 +65,7 @@ export abstract class YarnLockParseBase<T extends YarnLockFileTypes>
   ): Promise<PkgTree> {
     if (lockfile.type !== this.type) {
       throw new InvalidUserInputError(
-        'Unsupported lockfile provided. ' +
-          'Please provide `package-lock.json`.',
+        'Unsupported lockfile provided. Please provide `yarn.lock`.',
       );
     }
     const yarnLock = lockfile as YarnLockBase<T>;
@@ -112,7 +111,7 @@ export abstract class YarnLockParseBase<T extends YarnLockFileTypes>
       const dependency = lockFile.object[depKey];
       if (!dependency) {
         if (strict) {
-          throw new OutOfSyncError(queueItem.tree.name!, 'yarn');
+          throw new OutOfSyncError(queueItem.tree.name!, this.type);
         }
         if (!queueItem.tree.labels) {
           queueItem.tree.labels = {};
