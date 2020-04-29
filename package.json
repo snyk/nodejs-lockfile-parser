@@ -30,10 +30,10 @@
   ],
   "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
   "dependencies": {
+    "@snyk/graphlib": "2.1.9-patch",
     "@snyk/lodash": "^4.17.15-patch",
     "@yarnpkg/lockfile": "^1.0.2",
     "event-loop-spinner": "^1.1.0",
-    "graphlib": "^2.1.5",
     "p-map": "2.1.0",
     "snyk-config": "^3.0.0",
     "source-map-support": "^0.5.7",
@@ -41,7 +41,6 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@types/graphlib": "^2.1.4",
     "@types/node": "^6.14.7",
     "@types/uuid": "^3.4.4",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
