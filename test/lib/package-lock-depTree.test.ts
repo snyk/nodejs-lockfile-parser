@@ -5,7 +5,7 @@ import { test } from 'tap';
 import { config } from '../../lib/config';
 import { buildDepTreeFromFiles } from '../../lib';
 import * as fs from 'fs';
-import * as _ from 'lodash';
+import * as _ from '@snyk/lodash';
 import {
   InvalidUserInputError,
   OutOfSyncError,

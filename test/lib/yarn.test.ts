@@ -6,7 +6,7 @@ import { config } from '../../lib/config';
 import { buildDepTreeFromFiles, getYarnWorkspacesFromFiles } from '../../lib';
 import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import * as fs from 'fs';
-import * as _ from 'lodash';
+import * as _ from '@snyk/lodash';
 import {
   UnsupportedRuntimeError,
   InvalidUserInputError,

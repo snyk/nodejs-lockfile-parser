@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import * as _ from '@snyk/lodash';
 import { PackageLock } from './package-lock-parser';
 import { YarnLock } from './yarn-lock-parse';
 import { InvalidUserInputError } from '../errors';
