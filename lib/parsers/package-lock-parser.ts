@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import * as _ from '@snyk/lodash';
 import * as graphlib from 'graphlib';
 import * as uuid from 'uuid/v4';
 import { config } from '../config';

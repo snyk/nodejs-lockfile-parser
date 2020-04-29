@@ -1,7 +1,7 @@
 import 'source-map-support/register';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as _ from 'lodash';
+import * as _ from '@snyk/lodash';
 import {
   LockfileParser,
   Lockfile,
