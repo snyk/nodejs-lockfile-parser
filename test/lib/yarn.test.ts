@@ -2,8 +2,8 @@
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 import { test } from 'tap';
+import { buildDepTreeFromFiles } from '../../lib';
 import { config } from '../../lib/config';
-import { buildDepTreeFromFiles, getYarnWorkspacesFromFiles } from '../../lib';
 import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import * as fs from 'fs';
 import * as _ from '@snyk/lodash';
@@ -103,11 +103,11 @@ if (getRuntimeVersion() < 6) {
   test('Parse yarn.lock with missing dependency', async (t) => {
     t.rejects(
       buildDepTreeFromFiles(
-        `${__dirname}/fixtures/goof/`,
+        `${__dirname}/fixtures/missing-deps-in-lock/`,
         'package.json',
-        'yarn_missing_dep.lock',
+        'yarn.lock',
       ),
-      null,
+      new OutOfSyncError('uptime', 'yarn'),
       'Error is thrown',
     );
   });
@@ -232,26 +232,6 @@ if (getRuntimeVersion() < 6) {
     t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
   });
 }
-
-test('Identify package.json as a yarn workspace', async (t) => {
-  const workspaces = getYarnWorkspacesFromFiles(
-    `${__dirname}/fixtures/yarn-workspace/`,
-    'package.json',
-  );
-  t.deepEqual(
-    workspaces,
-    ['packages/*', 'libs/*'],
-    'Workspaces identified as expected',
-  );
-});
-
-test('identify package.json as Not a workspace project', async (t) => {
-  const workspaces = getYarnWorkspacesFromFiles(
-    `${__dirname}/fixtures/external-tarball/`,
-    'package.json',
-  );
-  t.is(workspaces, false, 'Not a yarn workspace');
-});
 
 test('Yarn Tree size exceeds the allowed limit of 500 dependencies.', async (t) => {
   config.YARN_TREE_SIZE_LIMIT = 500;

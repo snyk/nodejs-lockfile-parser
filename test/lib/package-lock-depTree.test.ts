@@ -55,11 +55,11 @@ test('Parse npm package.json with empty devDependencies', async (t) => {
 test('Parse npm package-lock.json with missing dependency', async (t) => {
   t.rejects(
     buildDepTreeFromFiles(
-      `${__dirname}/fixtures/goof/`,
+      `${__dirname}/fixtures/missing-deps-in-lock/`,
       'package.json',
-      'package-lock_missing_dep.json',
+      'package-lock.json',
     ),
-    null,
+    new OutOfSyncError('uptime', 'npm'),
     'Error is thrown',
   );
 });

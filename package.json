@@ -32,13 +32,15 @@
   "dependencies": {
     "@snyk/graphlib": "2.1.9-patch",
     "@snyk/lodash": "^4.17.15-patch",
+    "@yarnpkg/core": "^2.0.0-rc.26",
     "@yarnpkg/lockfile": "^1.1.0",
     "event-loop-spinner": "^1.1.0",
     "p-map": "2.1.0",
     "snyk-config": "^3.0.0",
     "source-map-support": "^0.5.7",
     "tslib": "^1.9.3",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "yaml": "^1.9.2"
   },
   "devDependencies": {
     "@types/node": "^6.14.7",

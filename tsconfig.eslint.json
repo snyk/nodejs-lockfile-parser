@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "/dev/null", 
+    "outDir": "/dev/null"
   },
   "include": [
     "./lib/**/*",
