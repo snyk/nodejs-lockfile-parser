@@ -1,4 +1,3 @@
-import * as _ from '@snyk/lodash';
 import { PackageLock } from './package-lock-parser';
 import { YarnLock } from './yarn-lock-parse';
 import { InvalidUserInputError } from '../errors';
@@ -94,7 +93,7 @@ export function getTopLevelDeps(
 ): Dep[] {
   const dependencies: Dep[] = [];
 
-  const dependenciesIterator = _.entries({
+  const dependenciesIterator = Object.entries({
     ...targetFile.dependencies,
     ...(includeDev ? targetFile.devDependencies : null),
   });
