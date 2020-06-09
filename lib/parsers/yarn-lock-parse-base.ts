@@ -78,7 +78,7 @@ export abstract class YarnLockParseBase<T extends YarnLockFileTypes>
       version: manifestFile.version || '',
     };
 
-    const nodeVersion = _.get(manifestFile, 'engines.node');
+    const nodeVersion = manifestFile?.engines?.node;
     if (nodeVersion) {
       _.set(depTree, 'meta.nodeVersion', nodeVersion);
     }
@@ -131,7 +131,7 @@ export abstract class YarnLockParseBase<T extends YarnLockFileTypes>
         continue;
       }
 
-      const subDependencies = _.entries({
+      const subDependencies = Object.entries({
         ...dependency.dependencies,
         ...dependency.optionalDependencies,
       });

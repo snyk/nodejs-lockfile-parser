@@ -99,7 +99,7 @@ export class PackageLockParser implements LockfileParser {
       version: manifestFile.version || '',
     };
 
-    const nodeVersion = _.get(manifestFile, 'engines.node');
+    const nodeVersion = manifestFile?.engines?.node;
 
     if (nodeVersion) {
       _.set(depTree, 'meta.nodeVersion', nodeVersion);
@@ -218,11 +218,16 @@ export class PackageLockParser implements LockfileParser {
     To keep an order of algorithm steps readable, function is defined on-the-fly
     Arrow function is used for calling `this` without .bind(this) in the end
     */
-    const acyclicDuplicationRec = (node, traversed, currentCycle, nodeCopy) => {
+    const acyclicDuplicationRec = (
+      node,
+      traversed: string[],
+      currentCycle: string[],
+      nodeCopy,
+    ) => {
       // 2. For every cyclic dependency of entry node...
       const edgesToProcess = (depGraph.inEdges(
         node,
-      ) as graphlib.Edge[]).filter((e) => _.includes(currentCycle, e.v));
+      ) as graphlib.Edge[]).filter((e) => currentCycle.includes(e.v));
       for (const edge of edgesToProcess) {
         // ... create a duplicate of the dependency...
         const child = edge.v;
@@ -234,7 +239,7 @@ export class PackageLockParser implements LockfileParser {
         // ...and connect it with the duplicated entry node
         depGraph.setEdge(dependencyCopy, nodeCopy);
         // 3.a If edge goes to already-visited dependency, end of cycle is found;
-        if (_.includes(traversed, child)) {
+        if (traversed.includes(child)) {
           // update metadata and labels and do not continue traversing
           if (!depMap[dependencyCopy].labels) {
             depMap[dependencyCopy].labels = {};
@@ -293,14 +298,14 @@ export class PackageLockParser implements LockfileParser {
     // node has to have edges
     const edges = depGraph.nodeEdges(nodeFrom) as graphlib.Edge[];
     if (outEdges) {
-      const parentEdges = edges.filter((e) => !_.includes(cycle, e.w));
+      const parentEdges = edges.filter((e) => !cycle.includes(e.w));
       for (const edge of parentEdges) {
         const parent = edge.w;
         depGraph.setEdge(nodeTo, parent);
       }
     }
     if (inEdges) {
-      const childEdges = edges.filter((e) => !_.includes(cycle, e.v));
+      const childEdges = edges.filter((e) => !cycle.includes(e.v));
       for (const edge of childEdges) {
         const child = edge.v;
         depGraph.setEdge(child, nodeTo);
@@ -327,7 +332,7 @@ export class PackageLockParser implements LockfileParser {
     for (const depKey of Object.keys(depMap)) {
       depGraph.setNode(depKey);
     }
-    for (const [depPath, dep] of _.entries(depMap)) {
+    for (const [depPath, dep] of Object.entries(depMap)) {
       for (const depName of dep.requires) {
         const subDepPath = this.findDepsPath(depPath, depName, depMap);
         // direction is from the dependency to the package requiring it
@@ -425,7 +430,7 @@ export class PackageLockParser implements LockfileParser {
       lockfileDeps: PackageLockDeps,
       path: string[],
     ) => {
-      for (const [depName, dep] of _.entries(lockfileDeps)) {
+      for (const [depName, dep] of Object.entries(lockfileDeps)) {
         const depNode: DepMapItem = {
           labels: {
             scope: dep.dev ? Scope.dev : Scope.prod,

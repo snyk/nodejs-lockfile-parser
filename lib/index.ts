@@ -1,7 +1,6 @@
 import 'source-map-support/register';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as _ from '@snyk/lodash';
 import {
   LockfileParser,
   Lockfile,
@@ -97,9 +96,9 @@ async function buildDepTreeFromFiles(
   }
 
   let lockFileType: LockfileType;
-  if (_.endsWith(lockFilePath, 'package-lock.json')) {
+  if (lockFilePath.endsWith('package-lock.json')) {
     lockFileType = LockfileType.npm;
-  } else if (_.endsWith(lockFilePath, 'yarn.lock')) {
+  } else if (lockFilePath.endsWith('yarn.lock')) {
     lockFileType = LockfileType.yarn;
   } else {
     throw new InvalidUserInputError(
