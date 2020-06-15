@@ -5,7 +5,7 @@ import { test } from 'tap';
 import { config } from '../../lib/config';
 import { buildDepTreeFromFiles } from '../../lib';
 import * as fs from 'fs';
-import * as _ from '@snyk/lodash';
+import * as _isEmpty from 'lodash.isempty';
 import {
   InvalidUserInputError,
   OutOfSyncError,
@@ -87,7 +87,7 @@ test('Parse npm package-lock.json with missing package name', async (t) => {
     true,
   );
 
-  t.false(_.isEmpty(depTree.dependencies));
+  t.false(_isEmpty(depTree.dependencies));
   t.equals(depTree.name, 'package.json');
 });
 

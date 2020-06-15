@@ -6,7 +6,7 @@ import { buildDepTreeFromFiles } from '../../lib';
 import { config } from '../../lib/config';
 import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import * as fs from 'fs';
-import * as _ from '@snyk/lodash';
+import * as _isEmpty from 'lodash.isempty';
 import {
   UnsupportedRuntimeError,
   InvalidUserInputError,
@@ -135,7 +135,7 @@ if (getRuntimeVersion() < 6) {
       true,
     );
 
-    t.false(_.isEmpty(depTree.dependencies));
+    t.false(_isEmpty(depTree.dependencies));
     t.equals(depTree.name, 'package.json');
   });
 

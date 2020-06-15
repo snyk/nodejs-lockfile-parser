@@ -1,4 +1,7 @@
-import * as _ from '@snyk/lodash';
+import * as _cloneDeep from 'lodash.clonedeep';
+import * as _isEmpty from 'lodash.isempty';
+import * as _set from 'lodash.set';
+import * as _toPairs from 'lodash.topairs';
 import * as graphlib from '@snyk/graphlib';
 import * as uuid from 'uuid/v4';
 import { config } from '../config';
@@ -93,7 +96,7 @@ export class PackageLockParser implements LockfileParser {
 
     const depTree: PkgTree = {
       dependencies: {},
-      hasDevDependencies: !_.isEmpty(manifestFile.devDependencies),
+      hasDevDependencies: !_isEmpty(manifestFile.devDependencies),
       name: manifestFile.name,
       size: 1,
       version: manifestFile.version || '',
@@ -102,11 +105,11 @@ export class PackageLockParser implements LockfileParser {
     const nodeVersion = manifestFile?.engines?.node;
 
     if (nodeVersion) {
-      _.set(depTree, 'meta.nodeVersion', nodeVersion);
+      _set(depTree, 'meta.nodeVersion', nodeVersion);
     }
 
     // asked to process empty deps
-    if (_.isEmpty(manifestFile.dependencies) && !includeDev) {
+    if (_isEmpty(manifestFile.dependencies) && !includeDev) {
       return depTree;
     }
 
@@ -155,7 +158,7 @@ export class PackageLockParser implements LockfileParser {
       if (depTrees[depName]) {
         // if the top level dependency is dev, all children are dev
         depTree.dependencies[dep.name] = dep.dev
-          ? this.setDevDepRec(_.cloneDeep(depTrees[depName]))
+          ? this.setDevDepRec(_cloneDeep(depTrees[depName]))
           : depTrees[depName];
         treeSize += depTreesSizes[depName];
         if (eventLoopSpinner.isStarving()) {
@@ -184,7 +187,7 @@ export class PackageLockParser implements LockfileParser {
   }
 
   private setDevDepRec(pkgTree: DepTreeDep) {
-    for (const [name, subTree] of _.entries(pkgTree.dependencies)) {
+    for (const [name, subTree] of _toPairs(pkgTree.dependencies)) {
       pkgTree.dependencies![name] = this.setDevDepRec(subTree);
     }
     pkgTree.labels = {
@@ -320,7 +323,7 @@ export class PackageLockParser implements LockfileParser {
   ): string {
     const newNode = node + uuid();
     // update depMap with new node
-    depMap[newNode] = _.cloneDeep(depMap[node]);
+    depMap[newNode] = _cloneDeep(depMap[node]);
     // add new node to the graph
     depGraph.setNode(newNode);
 

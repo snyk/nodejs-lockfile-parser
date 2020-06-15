@@ -1,4 +1,5 @@
-import * as _ from '@snyk/lodash';
+import * as _isEmpty from 'lodash.isempty';
+import * as _set from 'lodash.set';
 import * as pMap from 'p-map';
 
 import {
@@ -72,7 +73,7 @@ export abstract class YarnLockParseBase<T extends YarnLockFileTypes>
 
     const depTree: PkgTree = {
       dependencies: {},
-      hasDevDependencies: !_.isEmpty(manifestFile.devDependencies),
+      hasDevDependencies: !_isEmpty(manifestFile.devDependencies),
       name: manifestFile.name,
       size: 1,
       version: manifestFile.version || '',
@@ -80,12 +81,12 @@ export abstract class YarnLockParseBase<T extends YarnLockFileTypes>
 
     const nodeVersion = manifestFile?.engines?.node;
     if (nodeVersion) {
-      _.set(depTree, 'meta.nodeVersion', nodeVersion);
+      _set(depTree, 'meta.nodeVersion', nodeVersion);
     }
 
     const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
     // asked to process empty deps
-    if (_.isEmpty(manifestFile.dependencies) && !includeDev) {
+    if (_isEmpty(manifestFile.dependencies) && !includeDev) {
       return depTree;
     }
 
