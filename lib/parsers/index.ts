@@ -8,13 +8,17 @@ export interface Dep {
   dev?: boolean;
 }
 
+interface WorkspacesAlternateConfig {
+  packages?: string[];
+}
+
 export interface ManifestFile {
   name: string;
   private?: string;
   engines?: {
     node?: string;
   };
-  workspaces?: string[];
+  workspaces?: string[] | WorkspacesAlternateConfig;
   dependencies?: {
     [dep: string]: string;
   };
@@ -126,7 +130,10 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
   try {
     const packageJson: ManifestFile = parseManifestFile(targetFile);
     if (!!packageJson.workspaces && !!packageJson.private) {
-      return [...packageJson.workspaces];
+      const workspacesPackages = packageJson.workspaces as string[];
+      const workspacesAlternateConfigPackages = (packageJson.workspaces as WorkspacesAlternateConfig)
+        .packages;
+      return [...(workspacesAlternateConfigPackages || workspacesPackages)];
     }
     return false;
   } catch (e) {
