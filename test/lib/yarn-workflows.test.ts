@@ -16,6 +16,14 @@ test('Identify package.json as a yarn workspace', async (t) => {
   );
 });
 
+test('Identify package.json as a yarn workspace when using alternate configuration format', async (t) => {
+  const workspaces = getYarnWorkspacesFromFiles(
+    `${__dirname}/fixtures/yarn-workspace-alternate-config/`,
+    'package.json',
+  );
+  t.deepEqual(workspaces, ['packages/*'], 'Workspaces identified as expected');
+});
+
 test('identify package.json as Not a workspace project', async (t) => {
   const workspaces = getYarnWorkspacesFromFiles(
     `${__dirname}/fixtures/external-tarball/`,
