@@ -313,3 +313,18 @@ for (const version of ['yarn1', 'yarn2']) {
     }
   });
 }
+
+// Yarn v2 specific test
+test('.yarnrc.yaml is missing, but still resolving to yarn2 version', async (t) => {
+  if (getRuntimeVersion() === 8) {
+    return t.skip();
+  }
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/missing-dot-yarnrc-yarn2/`,
+    'package.json',
+    `yarn.lock`,
+  );
+
+  t.equal(depTree.meta?.packageManagerVersion, '2', 'resolved to yarn v2');
+});

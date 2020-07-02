@@ -99,26 +99,6 @@ async function buildDepTreeFromFiles(
     throw new Error('Missing required parameters for buildDepTreeFromFiles()');
   }
 
-  let lockFileType: LockfileType;
-  if (lockFilePath.endsWith('package-lock.json')) {
-    lockFileType = LockfileType.npm;
-  } else if (lockFilePath.endsWith('yarn.lock')) {
-    if (
-      fs.existsSync(
-        path.resolve(root, lockFilePath.replace('yarn.lock', '.yarnrc.yml')),
-      )
-    ) {
-      lockFileType = LockfileType.yarn2;
-    } else {
-      lockFileType = LockfileType.yarn;
-    }
-  } else {
-    throw new InvalidUserInputError(
-      `Unknown lockfile ${lockFilePath}. ` +
-        'Please provide either package-lock.json or yarn.lock.',
-    );
-  }
-
   const manifestFileFullPath = path.resolve(root, manifestFilePath);
   const lockFileFullPath = path.resolve(root, lockFilePath);
 
@@ -136,6 +116,27 @@ async function buildDepTreeFromFiles(
 
   const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');
   const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
+
+  let lockFileType: LockfileType;
+  if (lockFilePath.endsWith('package-lock.json')) {
+    lockFileType = LockfileType.npm;
+  } else if (lockFilePath.endsWith('yarn.lock')) {
+    if (
+      lockFileContents.includes('__metadata') ||
+      fs.existsSync(
+        path.resolve(root, lockFilePath.replace('yarn.lock', '.yarnrc.yml')),
+      )
+    ) {
+      lockFileType = LockfileType.yarn2;
+    } else {
+      lockFileType = LockfileType.yarn;
+    }
+  } else {
+    throw new InvalidUserInputError(
+      `Unknown lockfile ${lockFilePath}. ` +
+        'Please provide either package-lock.json or yarn.lock.',
+    );
+  }
 
   return await buildDepTree(
     manifestFileContents,
