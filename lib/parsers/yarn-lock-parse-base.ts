@@ -23,7 +23,7 @@ import { config } from '../config';
 
 const EVENT_PROCESSING_CONCURRENCY = 5;
 
-export type YarnLockFileTypes = LockfileType.yarn;
+export type YarnLockFileTypes = LockfileType.yarn | LockfileType.yarn2;
 
 export interface YarnLockDeps {
   [depName: string]: YarnLockDep;
@@ -83,6 +83,10 @@ export abstract class YarnLockParseBase<T extends YarnLockFileTypes>
     if (nodeVersion) {
       _set(depTree, 'meta.nodeVersion', nodeVersion);
     }
+
+    const packageManagerVersion =
+      lockfile.type === LockfileType.yarn ? '1' : '2';
+    _set(depTree, 'meta.packageManagerVersion', packageManagerVersion);
 
     const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
     // asked to process empty deps

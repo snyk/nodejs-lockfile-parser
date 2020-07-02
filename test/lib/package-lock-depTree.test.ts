@@ -3,7 +3,7 @@
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 import { test } from 'tap';
 import { config } from '../../lib/config';
-import { buildDepTreeFromFiles } from '../../lib';
+import { buildDepTreeFromFiles, LockfileType } from '../../lib';
 import * as fs from 'fs';
 import * as _isEmpty from 'lodash.isempty';
 import {
@@ -59,7 +59,7 @@ test('Parse npm package-lock.json with missing dependency', async (t) => {
       'package.json',
       'package-lock.json',
     ),
-    new OutOfSyncError('uptime', 'npm'),
+    new OutOfSyncError('uptime', LockfileType.npm),
     'Error is thrown',
   );
 });
@@ -228,7 +228,7 @@ test('Out of sync package-lock.json strict', async (t) => {
       'package.json',
       'package-lock.json',
     ),
-    new OutOfSyncError('lodash', 'npm'),
+    new OutOfSyncError('lodash', LockfileType.npm),
   );
 });
 
