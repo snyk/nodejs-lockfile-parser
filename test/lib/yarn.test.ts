@@ -1,27 +1,15 @@
 #!/usr/bin/env node_modules/.bin/ts-node
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
-import * as fs from 'fs';
+import { test } from 'tap';
 import * as path from 'path';
 import * as _isEmpty from 'lodash.isempty';
-import { test } from 'tap';
-import { buildDepTreeFromFiles, LockfileType } from '../../lib';
+
+import { load } from '../utils';
 import { config } from '../../lib/config';
+import { buildDepTreeFromFiles, LockfileType } from '../../lib';
 import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import { InvalidUserInputError, OutOfSyncError } from '../../lib/errors';
-
-function readFixture(filePath: string): string {
-  return fs.readFileSync(`${__dirname}/fixtures/${filePath}`, 'utf8');
-}
-
-function load(filePath: string): any {
-  try {
-    const contents = readFixture(filePath);
-    return JSON.parse(contents);
-  } catch (e) {
-    throw new Error('Could not find test fixture ' + filePath);
-  }
-}
 
 for (const version of ['yarn1', 'yarn2']) {
   if (version === 'yarn2' && getRuntimeVersion() === 8) {

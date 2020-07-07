@@ -76,7 +76,9 @@ async function buildDepTree(
 
   const manifestFile: ManifestFile = parseManifestFile(manifestFileContents);
   if (!manifestFile.name) {
-    manifestFile.name = defaultManifestFileName;
+    manifestFile.name = path.isAbsolute(defaultManifestFileName)
+      ? path.basename(defaultManifestFileName)
+      : defaultManifestFileName;
   }
 
   const lockFile: Lockfile = lockfileParser.parseLockFile(lockFileContents);

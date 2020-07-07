@@ -2,18 +2,16 @@
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 import { test } from 'tap';
-import { config } from '../../lib/config';
-import { buildDepTreeFromFiles, LockfileType } from '../../lib';
-import * as fs from 'fs';
 import * as _isEmpty from 'lodash.isempty';
+
 import {
   InvalidUserInputError,
   OutOfSyncError,
   TreeSizeLimitError,
 } from '../../lib/errors';
-
-const load = (filename) =>
-  JSON.parse(fs.readFileSync(`${__dirname}/fixtures/${filename}`, 'utf8'));
+import { load } from '../utils';
+import { config } from '../../lib/config';
+import { buildDepTreeFromFiles, LockfileType } from '../../lib';
 
 test('Parse npm package-lock.json', async (t) => {
   const expectedDepTree = load('goof/dep-tree-no-dev-deps.json');

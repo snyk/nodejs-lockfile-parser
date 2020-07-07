@@ -1,0 +1,5 @@
+{
+  "description": "package.json without name",
+  "version": "1.0.0",
+  "dependencies": {}
+}
