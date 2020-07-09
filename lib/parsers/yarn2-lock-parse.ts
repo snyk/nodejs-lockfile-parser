@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as yaml from 'yaml';
 
 import { LockfileType } from './';
@@ -35,11 +34,13 @@ export class Yarn2LockParser extends YarnLockParseBase<LockfileType.yarn2> {
       const rawYarnLock: any = yaml.parse(lockFileContents);
       delete rawYarnLock.__metadata;
       const dependencies: YarnLockDeps = {};
-      _.forEach(rawYarnLock, (versionData, fullDescriptor) => {
-        this.keyNormalizer(fullDescriptor).forEach((descriptor) => {
-          dependencies[descriptor] = versionData;
-        });
-      });
+      Object.entries(rawYarnLock).forEach(
+        ([fullDescriptor, versionData]: [string, any]) => {
+          this.keyNormalizer(fullDescriptor).forEach((descriptor) => {
+            dependencies[descriptor] = versionData;
+          });
+        },
+      );
       return {
         dependencies,
         lockfileType: LockfileType.yarn2,
