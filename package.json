@@ -36,6 +36,7 @@
     "event-loop-spinner": "^2.0.0",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isempty": "^4.4.0",
+    "lodash.flatmap": "^4.5.0",
     "lodash.set": "^4.3.2",
     "lodash.topairs": "^4.3.0",
     "p-map": "2.1.0",
