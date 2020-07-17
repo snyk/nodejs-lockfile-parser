@@ -1,6 +1,7 @@
 import * as _isEmpty from 'lodash.isempty';
 import * as _set from 'lodash.set';
 import * as pMap from 'p-map';
+import { DepGraph } from '@snyk/dep-graph';
 
 import {
   LockfileParser,
@@ -57,6 +58,15 @@ export abstract class YarnLockParseBase<T extends YarnLockFileTypes>
   }
 
   public abstract parseLockFile(lockFileContents: string): Lockfile;
+
+  public async getDepGraph(
+    manifestFile: ManifestFile,
+    lockfile: Lockfile,
+    includeDev = false,
+    strict = true,
+  ): Promise<DepGraph> {
+    return {} as unknown as DepGraph;
+  }
 
   public async getDependencyTree(
     manifestFile: ManifestFile,

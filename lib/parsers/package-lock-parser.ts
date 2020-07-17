@@ -24,6 +24,8 @@ import {
   OutOfSyncError,
   TreeSizeLimitError,
 } from '../errors';
+import { DepGraph, DepGraphBuilder, PkgInfo } from '@snyk/dep-graph';
+import { mapAndFilter } from '@yarnpkg/core/lib/miscUtils';
 
 export interface PackageLock {
   name: string;
@@ -80,6 +82,58 @@ export class PackageLockParser implements LockfileParser {
     }
   }
 
+  public async getDepGraph(
+    manifestFile: ManifestFile,
+    lockfile: Lockfile,
+    includeDev = false,
+    // strict = true, // TODO: throw error when lockfile out of sync
+  ): Promise<DepGraph> {
+
+    if (lockfile.type !== LockfileType.npm) {
+      throw new InvalidUserInputError('Unsupported lockfile, please provide `package-lock.json`.');
+    }
+    const packageLock = lockfile as PackageLock;
+
+    const rootPkgInfo: PkgInfo = { name: manifestFile.name, version: manifestFile.version };
+
+    const builder = new DepGraphBuilder({ name: 'npm' }, rootPkgInfo);
+
+    const productionDependencies = manifestFile.dependencies || {};
+    const devDependencies = manifestFile.devDependencies || {};
+
+    const depMap = this.flattenLockfile(packageLock);
+
+    for (const { name, version } of Object.values(depMap)) {
+      const nodeId = `${name}@${version}`; // TODO: what if version is undefined?
+      builder.addPkgNode({ name, version }, nodeId);
+    }
+
+    for (const dependency of Object.keys(productionDependencies)) {
+      const { name, version } = depMap[dependency];
+      const nodeId = `${name}@${version}`;
+      builder.connectDep(builder.rootNodeId, nodeId);
+    }
+
+    if (includeDev) {
+      for (const dependency of Object.keys(devDependencies)) {
+        const { name, version } = depMap[dependency];
+        const nodeId = `${name}@${version}`;
+        builder.connectDep(builder.rootNodeId, nodeId);
+      }
+    }
+
+    // TODO: How do we connect more complicated transitives (deeply nested, not at the top-level)
+    // for (const [path, dep] of Object.entries(depMap)) {
+    //   const parentNodeId = `??`;
+    //   const nodeId = `??`;
+    //   builder.connectDep(parentNodeId, nodeId);
+    // }
+
+    // TODO: label missing deps (if strict = false)
+
+    return builder.build();
+  }
+
   public async getDependencyTree(
     manifestFile: ManifestFile,
     lockfile: Lockfile,
@@ -89,7 +143,7 @@ export class PackageLockParser implements LockfileParser {
     if (lockfile.type !== LockfileType.npm) {
       throw new InvalidUserInputError(
         'Unsupported lockfile provided. Please ' +
-          'provide `package-lock.json`.',
+        'provide `package-lock.json`.',
       );
     }
     const packageLock = lockfile as PackageLock;
@@ -433,6 +487,7 @@ export class PackageLockParser implements LockfileParser {
       lockfileDeps: PackageLockDeps,
       path: string[],
     ) => {
+      console.log(path);
       for (const [depName, dep] of Object.entries(lockfileDeps)) {
         const depNode: DepMapItem = {
           labels: {

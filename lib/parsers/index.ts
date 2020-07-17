@@ -2,6 +2,7 @@ import { PackageLock } from './package-lock-parser';
 import { YarnLock } from './yarn-lock-parse';
 import { InvalidUserInputError } from '../errors';
 import { Yarn2Lock } from './yarn2-lock-parse';
+import { DepGraph } from '@snyk/dep-graph';
 
 export interface Dep {
   name: string;
@@ -33,7 +34,7 @@ export interface ManifestFile {
 // and should be removed in favour of depgraph library interface
 
 export interface DepTreeDep {
-  name?: string; // shouldn't, but might happen
+  name: string;
   version?: string; // shouldn't, but might happen
   dependencies?: {
     [depName: string]: DepTreeDep;
@@ -80,6 +81,12 @@ export interface LockfileParser {
     includeDev?: boolean,
     strict?: boolean,
   ) => Promise<PkgTree>;
+  getDepGraph: (
+    manifestFile: ManifestFile,
+    lockfile: Lockfile,
+    includeDev?: boolean,
+    strict?: boolean,
+  ) => Promise<DepGraph>;
 }
 
 export type Lockfile = PackageLock | YarnLock | Yarn2Lock;
