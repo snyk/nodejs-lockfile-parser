@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "npm"
+  },
+  "pkgs": [
+    {
+      "id": "pkg-missing-deps@1.0.0",
+      "info": {
+        "name": "pkg-missing-deps",
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "pkg-missing-deps@1.0.0",
+        "deps": []
+      }
+    ]
+  }
+}

@@ -81,12 +81,7 @@ async function buildDepGraph(
       : defaultManifestFileName;
   }
   const lockFile: Lockfile = lockfileParser.parseLockFile(lockFileContents);
-  return lockfileParser.getDepGraph(
-    manifestFile,
-    lockFile,
-    includeDev,
-    strict,
-  );
+  return lockfileParser.getDepGraph(manifestFile, lockFile, includeDev, strict);
 }
 
 async function buildDepTree(

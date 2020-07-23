@@ -12,6 +12,20 @@
       }
     },
     {
+      "id": "ms@2.0.0",
+      "info": {
+        "name": "ms",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "debug@2.6.9",
+      "info": {
+        "name": "debug",
+        "version": "2.6.9"
+      }
+    },
+    {
       "id": "function-bind@1.1.1",
       "info": {
         "name": "function-bind",
@@ -34,9 +48,36 @@
         "pkgId": "goof@0.0.3",
         "deps": [
           {
+            "nodeId": "debug@2.6.9"
+          },
+          {
             "nodeId": "has@1.0.3"
           }
         ]
+      },
+      {
+        "nodeId": "ms@2.0.0",
+        "pkgId": "ms@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "dev"
+          }
+        }
+      },
+      {
+        "nodeId": "debug@2.6.9",
+        "pkgId": "debug@2.6.9",
+        "deps": [
+          {
+            "nodeId": "ms@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "dev"
+          }
+        }
       },
       {
         "nodeId": "function-bind@1.1.1",

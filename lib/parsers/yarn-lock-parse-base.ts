@@ -65,7 +65,7 @@ export abstract class YarnLockParseBase<T extends YarnLockFileTypes>
     includeDev = false,
     strict = true,
   ): Promise<DepGraph> {
-    return {} as unknown as DepGraph;
+    return ({} as unknown) as DepGraph;
   }
 
   public async getDependencyTree(

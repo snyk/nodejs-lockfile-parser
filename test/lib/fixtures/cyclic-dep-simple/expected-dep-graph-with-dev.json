@@ -5,24 +5,24 @@
   },
   "pkgs": [
     {
-      "id": "goof@0.0.3",
+      "id": "trucolor@0.7.1",
       "info": {
-        "name": "goof",
-        "version": "0.0.3"
+        "name": "trucolor",
+        "version": "0.7.1"
       }
     },
     {
-      "id": "function-bind@1.1.1",
+      "id": "ms@0.6.2",
       "info": {
-        "name": "function-bind",
-        "version": "1.1.1"
+        "name": "ms",
+        "version": "0.6.2"
       }
     },
     {
-      "id": "has@1.0.3",
+      "id": "debug@2.0.0",
       "info": {
-        "name": "has",
-        "version": "1.0.3"
+        "name": "debug",
+        "version": "2.0.0"
       }
     }
   ],
@@ -31,17 +31,21 @@
     "nodes": [
       {
         "nodeId": "root-node",
-        "pkgId": "goof@0.0.3",
+        "pkgId": "trucolor@0.7.1",
         "deps": [
           {
-            "nodeId": "has@1.0.3"
+            "nodeId": "debug@2.0.0"
           }
         ]
       },
       {
-        "nodeId": "function-bind@1.1.1",
-        "pkgId": "function-bind@1.1.1",
-        "deps": [],
+        "nodeId": "ms@0.6.2",
+        "pkgId": "ms@0.6.2",
+        "deps": [
+          {
+            "nodeId": "debug@2.0.0"
+          }
+        ],
         "info": {
           "labels": {
             "scope": "prod"
@@ -49,11 +53,11 @@
         }
       },
       {
-        "nodeId": "has@1.0.3",
-        "pkgId": "has@1.0.3",
+        "nodeId": "debug@2.0.0",
+        "pkgId": "debug@2.0.0",
         "deps": [
           {
-            "nodeId": "function-bind@1.1.1"
+            "nodeId": "ms@0.6.2"
           }
         ],
         "info": {

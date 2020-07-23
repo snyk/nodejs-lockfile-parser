@@ -2,287 +2,240 @@
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 import { test } from 'tap';
-import * as _isEmpty from 'lodash.isempty';
-import { createFromJSON } from '@snyk/dep-graph';
-
-// import {
-//   InvalidUserInputError,
-//   OutOfSyncError,
-//   TreeSizeLimitError,
-// } from '../../lib/errors';
-import { load } from '../utils';
-// import { config } from '../../lib/config';
+import {
+  InvalidUserInputError,
+  OutOfSyncError,
+} from '../../lib/errors';
+import { loadDepGraph } from '../utils';
 import { buildDepGraphFromFiles, LockfileType } from '../../lib';
 
-test('simple-test', async (t) => {
-  const expectedJSON = load('simple-test/expected-dep-graph.json');
-  const expected = createFromJSON(expectedJSON);
+function testGraphs(t, actual, expected) {
+  t.equals(actual.getPkgs().length, expected.getPkgs().length, 'pkg count');
+  t.same(actual.rootPkg, expected.rootPkg, 'root pkg');
+  t.same(actual.pkgManager, expected.pkgManager, 'pkgManager');
+  for (const pkg of expected.getDepPkgs()) {
+    t.equals(
+      actual.countPathsToRoot(pkg),
+      expected.countPathsToRoot(pkg),
+      `count paths to root for ${pkg.name}@${pkg.version}`,
+    );
+  }
+  for (const pkg of expected.getDepPkgs()) {
+    t.same(
+      actual.getPkgNodes(pkg),
+      expected.getPkgNodes(pkg),
+      `same nodes for ${pkg.name}@${pkg.version}`,
+    );
+  }
+  // tests above give more clues about the differences when not equal
+  t.ok(actual.equals(expected), 'dep-graph equal');
+}
+
+// test fixtures with and without dev dependencies
+const fixtures = [
+  'goof',
+  'package-repeated-in-manifest',
+  'missing-deps',
+  'dev-deps-only',
+  'simple-test',
+  'cyclic-dep-simple'
+];
+
+for (const fixture of fixtures) {
+
+  test(fixture, async (t) => {
+    const expected = loadDepGraph(`${fixture}/expected-dep-graph.json`);
+  
+    const actual = await buildDepGraphFromFiles(
+      `${__dirname}/fixtures/${fixture}/`,
+      'package.json',
+      'package-lock.json',
+    );
+
+    testGraphs(t, actual, expected);
+  });
+
+  test(`${fixture} with dev dependencies`, async (t) => {
+    const expected = loadDepGraph(`${fixture}/expected-dep-graph-with-dev.json`);
+  
+    const actual = await buildDepGraphFromFiles(
+      `${__dirname}/fixtures/${fixture}/`,
+      'package.json',
+      'package-lock.json',
+      true,
+    );
+
+    testGraphs(t, actual, expected);
+  });
+}
+
+test('empty dev dependencies', async (t) => {
+  const expected = loadDepGraph('empty-dev-deps/expected-dep-graph.json');
 
   const actual = await buildDepGraphFromFiles(
-    `${__dirname}/fixtures/goof/`,
+    `${__dirname}/fixtures/empty-dev-deps/`,
     'package.json',
     'package-lock.json',
     true,
   );
 
-  const equal = actual.equals(expected);
-  // if(!equal) {
-  //   console.log(JSON.stringify(actual.toJSON(), null, 2));
-  //   console.log(JSON.stringify(expected.toJSON(), null, 2));
-  // }
-  t.ok(equal, 'expected dep-graph');
+  for (const pkg of actual.getDepPkgs()) {
+    for (const node of actual.getPkgNodes(pkg)) {
+      t.notOk(node?.info?.labels?.scope === 'dev', 'no dev labels');
+    }
+  }
+
+  testGraphs(t, actual, expected);
 });
 
-// test('Parse npm package-lock.json with no dev dependencies', async (t) => {
-//   const expectedDepGraph = load('goof/dep-graph-no-dev-deps.json');
+test('missing name in manifest', async (t) => {
+  const expected = loadDepGraph('missing-name/expected-dep-graph.json');
 
-//   const depGraph = await buildDepGraphFromFiles(
-//     `${__dirname}/fixtures/goof/`,
-//     'package.json',
-//     'package-lock.json',
-//   );
+  const actual = await buildDepGraphFromFiles(
+    `${__dirname}/fixtures/missing-name/`,
+    'package.json',
+    'package-lock.json',
+  );
 
-//   t.deepEqual(depGraph, expectedDepGraph, 'expected dep-graph');
-// });
+  testGraphs(t, actual, expected);
+});
 
-// test('Parse npm package-lock.json with devDependencies', async (t) => {
-//   const expectedDepTree = load('goof/dep-tree-with-dev-deps.json');
+test('cyclic-dep-self-reference', { skip: true }, async (t) => {
+  const expected = loadDepGraph('cyclic-dep-self-reference/expected-dep-graph.json');
 
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/goof/`,
-//     'package.json',
-//     'package-lock.json',
-//     true,
-//   );
+  const actual = await buildDepGraphFromFiles(
+    `${__dirname}/fixtures/cyclic-dep-self-reference/`,
+    'package.json',
+    'package-lock.json',
+  );
 
-//   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
-// });
+  testGraphs(t, actual, expected);
+});
 
-// test('Parse npm package.json with empty devDependencies', async (t) => {
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/empty-dev-deps/`,
-//     'package.json',
-//     'package-lock.json',
-//     true,
-//   );
+test('cyclic-dep - with dev dependencies', { skip: true }, async (t) => {
+  const expected = loadDepGraph('cyclic-dep/expected-dep-graph.json');
 
-//   t.false(depTree.hasDevDependencies, "Package doesn't have devDependencies");
-//   t.ok(depTree.dependencies!['adm-zip'], 'Dependencies are reported correctly');
-// });
+  const actual = await buildDepGraphFromFiles(
+    `${__dirname}/fixtures/cyclic-dep/`,
+    'package.json',
+    'package-lock.json',
+    true,
+  );
 
-// test('Parse npm package-lock.json with missing dependency', async (t) => {
-//   t.rejects(
-//     buildDepTreeFromFiles(
-//       `${__dirname}/fixtures/missing-deps-in-lock/`,
-//       'package.json',
-//       'package-lock.json',
-//     ),
-//     new OutOfSyncError('uptime', LockfileType.npm),
-//     'Error is thrown',
-//   );
-// });
+  testGraphs(t, actual, expected);
+});
 
-// test('Parse npm package-lock.json with repeated dependency', async (t) => {
-//   const expectedDepTree = load(
-//     'package-repeated-in-manifest/expected-tree.json',
-//   );
+test('invalid package-lock.json', async (t) => {
+  t.rejects(
+    buildDepGraphFromFiles(
+      `${__dirname}/fixtures/invalid-files/`,
+      'package.json',
+      'package-lock.json',
+    ),
+    new InvalidUserInputError('package-lock.json parsing failed with error'),
+    'Expected error is thrown',
+  );
+});
 
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/package-repeated-in-manifest/`,
-//     'package.json',
-//     'package-lock.json',
-//     false,
-//   );
+test('invalid package.json', async (t) => {
+  t.rejects(
+    buildDepGraphFromFiles(
+      `${__dirname}/fixtures/invalid-files/`,
+      'package.json_invalid',
+      'package-lock.json',
+    ),
+    new InvalidUserInputError('package.json parsing failed with error'),
+    'Expected error is thrown',
+  );
+});
 
-//   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
-// });
+test('out-of-sync-tree', async (t) => {
+  const expected = loadDepGraph('out-of-sync-tree/expected-dep-graph.json');
 
-// test('Parse npm package-lock.json with missing package name', async (t) => {
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/missing-name/`,
-//     'package.json',
-//     'package-lock.json',
-//     true,
-//   );
+  const actual = await buildDepGraphFromFiles(
+    `${__dirname}/fixtures/out-of-sync-tree/`,
+    'package.json',
+    'package-lock.json',
+    false,
+    false,
+  );
 
-//   t.false(_isEmpty(depTree.dependencies));
-//   t.equals(depTree.name, 'package.json');
-// });
+  testGraphs(t, actual, expected);
+});
 
-// test('Parse npm package-lock.json with empty dependencies and includeDev = false', async (t) => {
-//   const expectedDepTree = load('missing-deps/expected-tree.json');
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/missing-deps/`,
-//     'package.json',
-//     'package-lock.json',
-//     false,
-//   );
-//   t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
-// });
+test('out-of-sync-tree with dev dependencies', async (t) => {
+  const expected = loadDepGraph('out-of-sync-tree/expected-dep-graph-with-dev.json');
 
-// test('Parse npm package-lock.json with empty dependencies and includeDev = true', async (t) => {
-//   const expectedDepTree = load('missing-deps/expected-tree.json');
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/missing-deps/`,
-//     'package.json',
-//     'package-lock.json',
-//     true,
-//   );
-//   t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
-// });
+  const actual = await buildDepGraphFromFiles(
+    `${__dirname}/fixtures/out-of-sync-tree/`,
+    'package.json',
+    'package-lock.json',
+    true,
+    false,
+  );
+  
+  testGraphs(t, actual, expected);
+});
 
-// test('Parse npm package-lock.json with dev deps only', async (t) => {
-//   const expectedDepTree = load('dev-deps-only/expected-tree.json');
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/dev-deps-only/`,
-//     'package.json',
-//     'package-lock.json',
-//     true,
-//   );
-//   t.deepEqual(depTree, expectedDepTree, 'Tree is created with dev deps only');
-// });
+test('missing-deps-in-lock - error when strict true', async (t) => {
+  t.rejects(
+    buildDepGraphFromFiles(
+      `${__dirname}/fixtures/missing-deps-in-lock/`,
+      'package.json',
+      'package-lock.json',
+    ),
+    new OutOfSyncError('uptime', LockfileType.npm),
+    'OutOfSyncError is thrown',
+  );
+});
 
-// test('Parse npm simple package-lock.json dev and prod deps', async (t) => {
-//   const expectedDepTree = load('simple-test/expected-tree.json');
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/simple-test/`,
-//     'package.json',
-//     'package-lock.json',
-//     true,
-//   );
+test('missing-deps-in-lock - missing labels when strict false', async (t) => {
+  const expected = loadDepGraph('missing-deps-in-lock/expected-dep-graph.json');
 
-//   t.deepEqual(
-//     depTree,
-//     expectedDepTree,
-//     'Tree is created with dev and prod deps',
-//   );
-// });
+  const actual = await buildDepGraphFromFiles(
+    `${__dirname}/fixtures/missing-deps-in-lock/`,
+    'package.json',
+    'package-lock.json',
+    true,
+    false,
+  );
 
-// test('Parse npm package-lock.json with dev deps only', async (t) => {
-//   const expectedDepTreeEmpty = load('dev-deps-only/expected-tree-empty.json');
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/dev-deps-only/`,
-//     'package.json',
-//     'package-lock.json',
-//     false,
-//   );
-//   t.deepEqual(depTree, expectedDepTreeEmpty, 'Tree is created empty');
-// });
+  testGraphs(t, actual, expected);
+});
 
-// test('Parse npm package-lock.json with cyclic deps', async (t) => {
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/cyclic-dep-simple/`,
-//     'package.json',
-//     'package-lock.json',
-//   );
-//   t.strictEqual(
-//     depTree.dependencies!.debug.dependencies!.ms.dependencies!.debug.labels!
-//       .pruned,
-//     'cyclic',
-//     'Cyclic label is set',
-//   );
-// });
+test('out-of-sync - error when strict true', async (t) => {
+  t.rejects(
+    buildDepGraphFromFiles(
+      `${__dirname}/fixtures/out-of-sync/`,
+      'package.json',
+      'package-lock.json',
+    ),
+    new OutOfSyncError('lodash', LockfileType.npm),
+  );
+});
 
-// test('Parse npm package-lock.json with self-reference cyclic deps', async (t) => {
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/cyclic-dep-self-reference/`,
-//     'package.json',
-//     'package-lock.json',
-//   );
-//   t.ok(depTree.dependencies, 'Tree is created');
-// });
+test('out-of-sync - missing labels when strict false', async (t) => {
+  const expected = loadDepGraph('out-of-sync/expected-dep-graph.json');
 
-// test('Performance: Parse big npm package-lock.json with cyclic deps and dev-deps', async (t) => {
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/cyclic-dep/`,
-//     'package.json',
-//     'package-lock.json',
-//     true,
-//   );
-//   t.deepEqual(depTree.name, 'trucolor', 'Tree is created correctly');
-// });
+  const actual = await buildDepGraphFromFiles(
+    `${__dirname}/fixtures/out-of-sync/`,
+    'package.json',
+    'package-lock.json',
+    true,
+    false,
+  );
 
-// test('Parse invalid npm package-lock.json', async (t) => {
-//   t.rejects(
-//     buildDepTreeFromFiles(
-//       `${__dirname}/fixtures/invalid-files/`,
-//       'package.json',
-//       'package-lock.json',
-//     ),
-//     new InvalidUserInputError('package-lock.json parsing failed with error'),
-//     'Expected error is thrown',
-//   );
-// });
+  testGraphs(t, actual, expected);
+});
 
-// test('Parse invalid package.json', async (t) => {
-//   t.rejects(
-//     buildDepTreeFromFiles(
-//       `${__dirname}/fixtures/invalid-files/`,
-//       'package.json_invalid',
-//       'package-lock.json',
-//     ),
-//     new InvalidUserInputError('package.json parsing failed with error'),
-//     'Expected error is thrown',
-//   );
-// });
+test('file-as-version', async (t) => {
+  const expected = loadDepGraph('file-as-version/expected-dep-graph.json');
 
-// test('Small Out of sync project package-lock.json generates tree', async (t) => {
-//   const expectedDepTree = load('out-of-sync-tree/expected-tree.json');
+  const actual = await buildDepGraphFromFiles(
+    `${__dirname}/fixtures/file-as-version/`,
+    'package.json',
+    'package-lock.json',
+  );
 
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/out-of-sync-tree/`,
-//     'package.json',
-//     'package-lock.json',
-//     false,
-//     false,
-//   );
-//   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
-// });
-
-// test('Out of sync package-lock.json strict', async (t) => {
-//   t.rejects(
-//     buildDepTreeFromFiles(
-//       `${__dirname}/fixtures/out-of-sync/`,
-//       'package.json',
-//       'package-lock.json',
-//     ),
-//     new OutOfSyncError('lodash', LockfileType.npm),
-//   );
-// });
-
-// test('Out of sync package-lock.json generates tree', async (t) => {
-//   const expectedDepTree = load('out-of-sync/expected-tree.json');
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/out-of-sync/`,
-//     'package.json',
-//     'package-lock.json',
-//     false,
-//     false,
-//   );
-//   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
-// });
-
-// test('`package.json` with file as version', async (t) => {
-//   const expectedDepTree = load('file-as-version/expected-tree.json');
-
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/file-as-version/`,
-//     'package.json',
-//     'package-lock.json',
-//   );
-
-//   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
-// });
-
-// test('Npm Tree size exceeds the allowed limit of 500 dependencies.', async (t) => {
-//   config.NPM_TREE_SIZE_LIMIT = 500;
-//   t.rejects(
-//     buildDepTreeFromFiles(
-//       `${__dirname}/fixtures/goof/`,
-//       'package.json',
-//       'package-lock.json',
-//     ),
-//     new TreeSizeLimitError(),
-//     'Expected error is thrown',
-//   );
-// });
+  testGraphs(t, actual, expected);
+});

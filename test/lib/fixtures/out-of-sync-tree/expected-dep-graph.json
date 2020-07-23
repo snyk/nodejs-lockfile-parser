@@ -1,0 +1,549 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "npm"
+  },
+  "pkgs": [
+    {
+      "id": "out-of-sync-small@1.0.0",
+      "info": {
+        "name": "out-of-sync-small",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "aws-sdk@2.362.0",
+      "info": {
+        "name": "aws-sdk",
+        "version": "2.362.0"
+      }
+    },
+    {
+      "id": "axios@0.18.0",
+      "info": {
+        "name": "axios",
+        "version": "0.18.0"
+      }
+    },
+    {
+      "id": "base64-js@1.3.0",
+      "info": {
+        "name": "base64-js",
+        "version": "1.3.0"
+      }
+    },
+    {
+      "id": "bignumber.js@7.2.1",
+      "info": {
+        "name": "bignumber.js",
+        "version": "7.2.1"
+      }
+    },
+    {
+      "id": "buffer@4.9.1",
+      "info": {
+        "name": "buffer",
+        "version": "4.9.1"
+      }
+    },
+    {
+      "id": "debug@4.1.0",
+      "info": {
+        "name": "debug",
+        "version": "4.1.0"
+      }
+    },
+    {
+      "id": "ms@2.1.1",
+      "info": {
+        "name": "ms",
+        "version": "2.1.1"
+      }
+    },
+    {
+      "id": "events@1.1.1",
+      "info": {
+        "name": "events",
+        "version": "1.1.1"
+      }
+    },
+    {
+      "id": "follow-redirects@1.5.10",
+      "info": {
+        "name": "follow-redirects",
+        "version": "1.5.10"
+      }
+    },
+    {
+      "id": "debug@3.1.0",
+      "info": {
+        "name": "debug",
+        "version": "3.1.0"
+      }
+    },
+    {
+      "id": "ieee754@1.1.8",
+      "info": {
+        "name": "ieee754",
+        "version": "1.1.8"
+      }
+    },
+    {
+      "id": "is-buffer@1.1.6",
+      "info": {
+        "name": "is-buffer",
+        "version": "1.1.6"
+      }
+    },
+    {
+      "id": "isarray@1.0.0",
+      "info": {
+        "name": "isarray",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "jmespath@0.15.0",
+      "info": {
+        "name": "jmespath",
+        "version": "0.15.0"
+      }
+    },
+    {
+      "id": "ms@2.0.0",
+      "info": {
+        "name": "ms",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "punycode@1.3.2",
+      "info": {
+        "name": "punycode",
+        "version": "1.3.2"
+      }
+    },
+    {
+      "id": "querystring@0.2.0",
+      "info": {
+        "name": "querystring",
+        "version": "0.2.0"
+      }
+    },
+    {
+      "id": "sax@1.2.1",
+      "info": {
+        "name": "sax",
+        "version": "1.2.1"
+      }
+    },
+    {
+      "id": "undefsafe@1.3.1",
+      "info": {
+        "name": "undefsafe",
+        "version": "1.3.1"
+      }
+    },
+    {
+      "id": "debug@2.6.9",
+      "info": {
+        "name": "debug",
+        "version": "2.6.9"
+      }
+    },
+    {
+      "id": "url@0.10.3",
+      "info": {
+        "name": "url",
+        "version": "0.10.3"
+      }
+    },
+    {
+      "id": "uuid@3.1.0",
+      "info": {
+        "name": "uuid",
+        "version": "3.1.0"
+      }
+    },
+    {
+      "id": "xml2js@0.4.19",
+      "info": {
+        "name": "xml2js",
+        "version": "0.4.19"
+      }
+    },
+    {
+      "id": "xmlbuilder@9.0.7",
+      "info": {
+        "name": "xmlbuilder",
+        "version": "9.0.7"
+      }
+    },
+    {
+      "id": "body-parser@^1.18.2",
+      "info": {
+        "name": "body-parser",
+        "version": "^1.18.2"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "out-of-sync-small@1.0.0",
+        "deps": [
+          {
+            "nodeId": "aws-sdk"
+          },
+          {
+            "nodeId": "axios"
+          },
+          {
+            "nodeId": "bignumber.js"
+          },
+          {
+            "nodeId": "debug"
+          },
+          {
+            "nodeId": "undefsafe"
+          },
+          {
+            "nodeId": "body-parser"
+          }
+        ]
+      },
+      {
+        "nodeId": "aws-sdk",
+        "pkgId": "aws-sdk@2.362.0",
+        "deps": [
+          {
+            "nodeId": "buffer"
+          },
+          {
+            "nodeId": "events"
+          },
+          {
+            "nodeId": "ieee754"
+          },
+          {
+            "nodeId": "jmespath"
+          },
+          {
+            "nodeId": "querystring"
+          },
+          {
+            "nodeId": "sax"
+          },
+          {
+            "nodeId": "url"
+          },
+          {
+            "nodeId": "uuid"
+          },
+          {
+            "nodeId": "xml2js"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "axios",
+        "pkgId": "axios@0.18.0",
+        "deps": [
+          {
+            "nodeId": "follow-redirects"
+          },
+          {
+            "nodeId": "is-buffer"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "base64-js",
+        "pkgId": "base64-js@1.3.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "bignumber.js",
+        "pkgId": "bignumber.js@7.2.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "buffer",
+        "pkgId": "buffer@4.9.1",
+        "deps": [
+          {
+            "nodeId": "base64-js"
+          },
+          {
+            "nodeId": "ieee754"
+          },
+          {
+            "nodeId": "isarray"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "debug",
+        "pkgId": "debug@4.1.0",
+        "deps": [
+          {
+            "nodeId": "debug|ms"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "debug|ms",
+        "pkgId": "ms@2.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "events",
+        "pkgId": "events@1.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "follow-redirects",
+        "pkgId": "follow-redirects@1.5.10",
+        "deps": [
+          {
+            "nodeId": "follow-redirects|debug"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "follow-redirects|debug",
+        "pkgId": "debug@3.1.0",
+        "deps": [
+          {
+            "nodeId": "ms"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ieee754",
+        "pkgId": "ieee754@1.1.8",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-buffer",
+        "pkgId": "is-buffer@1.1.6",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "isarray",
+        "pkgId": "isarray@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "jmespath",
+        "pkgId": "jmespath@0.15.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ms",
+        "pkgId": "ms@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "punycode",
+        "pkgId": "punycode@1.3.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "querystring",
+        "pkgId": "querystring@0.2.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "sax",
+        "pkgId": "sax@1.2.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "undefsafe",
+        "pkgId": "undefsafe@1.3.1",
+        "deps": [
+          {
+            "nodeId": "undefsafe|debug"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "undefsafe|debug",
+        "pkgId": "debug@2.6.9",
+        "deps": [
+          {
+            "nodeId": "ms"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "url",
+        "pkgId": "url@0.10.3",
+        "deps": [
+          {
+            "nodeId": "punycode"
+          },
+          {
+            "nodeId": "querystring"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "uuid",
+        "pkgId": "uuid@3.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "xml2js",
+        "pkgId": "xml2js@0.4.19",
+        "deps": [
+          {
+            "nodeId": "sax"
+          },
+          {
+            "nodeId": "xmlbuilder"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "xmlbuilder",
+        "pkgId": "xmlbuilder@9.0.7",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "body-parser",
+        "pkgId": "body-parser@^1.18.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "missingLockFileEntry": "true"
+          }
+        }
+      }
+    ]
+  }
+}
