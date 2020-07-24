@@ -1,0 +1,166 @@
+{
+  "name": "trucolorr",
+  "version": "2.0.4",
+  "description": "TTY color toolkit supporting Truecolor (24bit RGB)",
+  "author": "Mark Griffiths <mark@thebespokepixel.com> (http://thebespokepixel.com/)",
+  "main": "index.js",
+  "module": "index.mjs",
+  "bin": {
+    "trucolor": "./bin/trucolor"
+  },
+  "files": [
+    "index.js",
+    "index.mjs",
+    "bin/"
+  ],
+  "bugs": {
+    "url": "https://github.com/thebespokepixel/trucolor/issues"
+  },
+  "copyright": {
+    "year": "2020",
+    "owner": "The Bespoke Pixel"
+  },
+  "config": {
+    "cli": {
+      "selected": "direct",
+      "none": {
+        "color": "hex",
+        "background": "",
+        "bold": "",
+        "dim": "",
+        "italic": "",
+        "underline": "",
+        "blink": "",
+        "invert": "",
+        "reset": "",
+        "normal": ""
+      },
+      "direct": {
+        "color": "hex",
+        "background": "--background",
+        "bold": "--bold",
+        "dim": "--dim",
+        "italic": "--italic",
+        "underline": "--underline",
+        "blink": "--blink",
+        "invert": "--invert",
+        "reset": "reset",
+        "normal": "normal"
+      },
+      "fish": {
+        "color": "hex",
+        "background": "--background",
+        "bold": "--bold",
+        "dim": "",
+        "italic": "",
+        "underline": "--underline",
+        "blink": "",
+        "invert": "",
+        "reset": "normal",
+        "normal": "normal"
+      }
+    }
+  },
+  "dependencies": {
+    "truwrap": "^2.0.4"
+  },
+  "engines": {
+    "node": ">=10.0"
+  },
+  "homepage": "https://github.com/thebespokepixel/trucolor",
+  "keywords": [
+    "color",
+    "24bit",
+    "truecolor",
+    "SGR",
+    "ansi",
+    "command line",
+    "fish"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thebespokepixel/trucolor.git"
+  },
+  "scripts": {
+    "test": "xo && nyc ava",
+    "generate-test-fixtures": "scripts/generate-test-fixtures",
+    "generate-test-widths": "scripts/generate-test-widths",
+    "doc-serve": "documentation serve --watch --theme node_modules/documentation-theme-bespoke --github --config src/docs/documentation.yml --project-name $npm_package_name  --project-version $npm_package_version src/index.js",
+    "doc-build": "documentation build --format html --output docs --theme node_modules/documentation-theme-bespoke --github --config src/docs/documentation.yml --project-name $npm_package_name  --project-version $npm_package_version src/index.js",
+    "readme": "compile-readme -u src/docs/example.md src/docs/readme.md > readme.md",
+    "coverage": "nyc ava && nyc report --reporter=lcov --report-dir test/coverage; open test/coverage/lcov-report/index.html"
+  },
+  "xo": {
+    "semicolon": false,
+    "ignores": [
+      "bin/**/*",
+      "lib/**/*",
+      "docs/**",
+      "test/coverage/**",
+      "index.js"
+    ]
+  },
+  "ava": {
+    "babel": true,
+    "files": [
+      "test/*.js"
+    ]
+  },
+  "badges": {
+    "github": "thebespokepixel",
+    "npm": "thebespokepixel",
+    "name": "trucolor",
+    "codeclimate": "5f8c6c4143841284dc75",
+    "providers": {
+      "aux1": {
+        "title": "github",
+        "text": "source",
+        "color": "4E73B6",
+        "link": "https://github.com/thebespokepixel/trucolor"
+      }
+    },
+    "readme": {
+      "Publishing Status": [
+        [
+          "npm",
+          "david"
+        ],
+        [
+          "travis-com",
+          "rollup"
+        ]
+      ],
+      "Development Status": [
+        [
+          "travis-com-dev",
+          "david-dev",
+          "david-devdeps-dev"
+        ],
+        [
+          "snyk",
+          "code-climate",
+          "code-climate-coverage"
+        ]
+      ],
+      "Documentation/Help": [
+        "inch",
+        "twitter"
+      ]
+    },
+    "docs": [
+      [
+        "aux1",
+        "travis-com"
+      ],
+      [
+        "code-climate",
+        "code-climate-coverage"
+      ],
+      [
+        "snyk",
+        "david"
+      ]
+    ]
+  }
+}

@@ -6,7 +6,7 @@ import * as graphlib from '@snyk/graphlib';
 import * as uuid from 'uuid/v4';
 import { config } from '../config';
 import { eventLoopSpinner } from 'event-loop-spinner';
-// import * as fs from 'fs';
+import * as fs from 'fs';
 
 import {
   LockfileParser,
@@ -167,10 +167,10 @@ export class PackageLockParser implements LockfileParser {
     });
 
     const pathMap = await this.mapPaths(packageLock.dependencies || {});
-    // fs.writeFileSync(
-    //   __dirname + '/pathMap.json',
-    //   JSON.stringify(pathMap, null, 2),
-    // );
+    fs.writeFileSync(
+      __dirname + '/pathMap.json',
+      JSON.stringify(pathMap, null, 2),
+    );
 
     // check for out of sync
     for (const name of topLevelPkgNames) {
@@ -197,39 +197,74 @@ export class PackageLockParser implements LockfileParser {
 
     // add all pkgs and nodes
     // and connect top level pkgs to root
-    for (const [path, entry] of Object.entries(pathMap)) {
-      const { dev } = entry;
-      if (!includeDev && dev) {
-        continue;
-      }
-      const { name, version, miss, root } = entry;
+    // const something: {[path: string]: NodeInfo} = {};
+    // for (const [path, entry] of Object.entries(pathMap)) {
+    //   const { dev } = entry;
+    //   if (!includeDev && dev) {
+    //     continue;
+    //   }
+    //   const { name, version, miss, root } = entry;
+    //   const scope = dev ? 'dev' : 'prod';
+    //   const missingLockFileEntry = miss ? 'true' : 'false';
+    //   const nodeInfo: NodeInfo = miss
+    //     ? { labels: { scope, missingLockFileEntry } }
+    //     : { labels: { scope } };
+    //   builder.addPkgNode({ name, version }, path, nodeInfo);
+    //   something[path] = nodeInfo;
+    //   if (root && topLevelPkgNames.includes(name)) {
+    //     builder.connectDep(builder.rootNodeId, path);
+    //   }
+    // }
+
+    // loop again separately here to ensure all nodes have been added before connecting
+    // for (const [path, { dev, subPaths = [] }] of Object.entries(pathMap)) {
+    //   if (!includeDev && dev) {
+    //     continue;
+    //   }
+    //   for (const subPath of subPaths) {
+    //     builder.connectDep(path, subPath);
+    //   }
+    // }
+    const built: {[path: string]: boolean} = {};
+    const connectedToRoot: any = {};
+    const func = (ancestors: string[], path: string, parent: string) => {
+      built[path] = true;
+      const { name, version, subPaths = [], dev, miss } = pathMap[path];
       const scope = dev ? 'dev' : 'prod';
       const missingLockFileEntry = miss ? 'true' : 'false';
       const nodeInfo: NodeInfo = miss
         ? { labels: { scope, missingLockFileEntry } }
         : { labels: { scope } };
       builder.addPkgNode({ name, version }, path, nodeInfo);
-      if (root && topLevelPkgNames.includes(name)) {
-        builder.connectDep(builder.rootNodeId, path);
+      builder.connectDep(parent, path);
+      connectedToRoot[path] = true;
+      console.log(`[${ancestors}]`, 'connecting', path);
+      const graph = builder.build();
+      try {
+        graph.countPathsToRoot({ name, version });
+      } catch(err) {
+        throw new Error(`[${ancestors}] ${path} (${name}@${version})` + err);
       }
-    }
 
-    // loop again separately here to ensure all nodes have been added before connecting
-    for (const [path, { dev, subPaths = [] }] of Object.entries(pathMap)) {
-      if (!includeDev && dev) {
-        continue;
-      }
       for (const subPath of subPaths) {
-        builder.connectDep(path, subPath);
+        if(!ancestors.includes(subPath) && !connectedToRoot[subPath]) {
+          func([...ancestors, path], subPath, path);
+        } else {
+          nodeInfo.labels!.pruned = 'cyclic';
+        }
       }
     }
 
-    // const graph = builder.build();
-    // const graphJSON = graph.toJSON();
-    // fs.writeFileSync(
-    //   __dirname + '/depGraph.json',
-    //   JSON.stringify(graphJSON, null, 2),
-    // );
+    for(const topLevel of topLevelPkgNames) {
+      func([], topLevel, builder.rootNodeId);
+    }
+
+    const graph = builder.build();
+    const graphJSON = graph.toJSON();
+    fs.writeFileSync(
+      __dirname + '/depGraph.json',
+      JSON.stringify(graphJSON, null, 2),
+    );
 
     // TODO: label & break cyclic?
 

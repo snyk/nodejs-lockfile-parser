@@ -42,13 +42,11 @@
         "nodeId": "ms@0.6.2",
         "pkgId": "ms@0.6.2",
         "deps": [
-          {
-            "nodeId": "debug@2.0.0"
-          }
         ],
         "info": {
           "labels": {
-            "scope": "prod"
+            "scope": "prod",
+            "pruned": "cyclic"
           }
         }
       },
