@@ -2,7 +2,7 @@ import 'source-map-support/register';
 import * as fs from 'fs';
 import * as path from 'path';
 import {
-  LockfileParser,
+  //LockfileParser,
   Lockfile,
   ManifestFile,
   PkgTree,
@@ -11,7 +11,10 @@ import {
   LockfileType,
   getYarnWorkspaces,
 } from './parsers';
-import { PackageLockParser } from './parsers/package-lock-parser';
+import {
+  PackageLockParser,
+  LockfileParser,
+} from './parsers/package-lock-depgraph-parser';
 import { YarnLockParser } from './parsers/yarn-lock-parse';
 import { Yarn2LockParser } from './parsers/yarn2-lock-parse';
 import getRuntimeVersion from './get-node-runtime-version';
@@ -20,10 +23,12 @@ import {
   InvalidUserInputError,
   OutOfSyncError,
 } from './errors';
+import { DepGraph } from '@snyk/dep-graph';
+import { DepTree } from '@snyk/dep-graph/dist/legacy';
 
 export {
-  buildDepTree,
-  buildDepTreeFromFiles,
+  buildDepGraph,
+  buildDepGraphFromFiles,
   getYarnWorkspacesFromFiles,
   getYarnWorkspaces,
   PkgTree,
@@ -34,38 +39,39 @@ export {
   OutOfSyncError,
 };
 
-async function buildDepTree(
+async function buildDepGraph(
   manifestFileContents: string,
   lockFileContents: string,
   includeDev = false,
   lockfileType?: LockfileType,
   strict: boolean = true,
   defaultManifestFileName: string = 'package.json',
-): Promise<PkgTree> {
+): Promise<DepGraph> {
   if (!lockfileType) {
     lockfileType = LockfileType.npm;
   }
 
   let lockfileParser: LockfileParser;
+
   switch (lockfileType) {
     case LockfileType.npm:
       lockfileParser = new PackageLockParser();
       break;
-    case LockfileType.yarn:
-      lockfileParser = new YarnLockParser();
-      break;
-    case LockfileType.yarn2:
-      // parsing yarn.lock is supported for Node.js v10 and higher
-      if (getRuntimeVersion() >= 10) {
-        lockfileParser = new Yarn2LockParser();
-      } else {
-        throw new UnsupportedRuntimeError(
-          'Parsing `yarn.lock` is not ' +
-            'supported on Node.js version less than 10. Please upgrade your ' +
-            'Node.js environment or use `package-lock.json`',
-        );
-      }
-      break;
+    // case LockfileType.yarn:
+    //   lockfileParser = new YarnLockParser();
+    //   break;
+    // case LockfileType.yarn2:
+    //   // parsing yarn.lock is supported for Node.js v10 and higher
+    //   if (getRuntimeVersion() >= 10) {
+    //     lockfileParser = new Yarn2LockParser();
+    //   } else {
+    //     throw new UnsupportedRuntimeError(
+    //       'Parsing `yarn.lock` is not ' +
+    //         'supported on Node.js version less than 10. Please upgrade your ' +
+    //         'Node.js environment or use `package-lock.json`',
+    //     );
+    //   }
+    //   break;
     default:
       throw new InvalidUserInputError(
         'Unsupported lockfile type ' +
@@ -82,7 +88,7 @@ async function buildDepTree(
   }
 
   const lockFile: Lockfile = lockfileParser.parseLockFile(lockFileContents);
-  return lockfileParser.getDependencyTree(
+  return lockfileParser.getDependencyGraph(
     manifestFile,
     lockFile,
     includeDev,
@@ -90,15 +96,15 @@ async function buildDepTree(
   );
 }
 
-async function buildDepTreeFromFiles(
+async function buildDepGraphFromFiles(
   root: string,
   manifestFilePath: string,
   lockFilePath: string,
   includeDev = false,
   strict = true,
-): Promise<PkgTree> {
+): Promise<DepGraph> {
   if (!root || !manifestFilePath || !lockFilePath) {
-    throw new Error('Missing required parameters for buildDepTreeFromFiles()');
+    throw new Error('Missing required parameters for buildDepGraphFromFiles()');
   }
 
   const manifestFileFullPath = path.resolve(root, manifestFilePath);
@@ -140,7 +146,7 @@ async function buildDepTreeFromFiles(
     );
   }
 
-  return await buildDepTree(
+  return await buildDepGraph(
     manifestFileContents,
     lockFileContents,
     includeDev,
