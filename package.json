@@ -34,7 +34,7 @@
     "@yarnpkg/core": "^2.0.0-rc.29",
     "@yarnpkg/lockfile": "^1.1.0",
     "event-loop-spinner": "^2.0.0",
-    "got": "11.4.0",
+    "got": "11.5.0",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isempty": "^4.4.0",
     "lodash.flatmap": "^4.5.0",
