@@ -5,9 +5,9 @@ import { test } from 'tap';
 import * as path from 'path';
 import * as _isEmpty from 'lodash.isempty';
 
-import { load } from '../utils';
+import { load, readFixture } from '../utils';
 import { config } from '../../lib/config';
-import { buildDepTreeFromFiles, LockfileType } from '../../lib';
+import { buildDepTreeFromFiles, buildDepTree, LockfileType } from '../../lib';
 import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import { InvalidUserInputError, OutOfSyncError } from '../../lib/errors';
 
@@ -26,6 +26,25 @@ for (const version of ['yarn1', 'yarn2']) {
       `${__dirname}/fixtures/goof/`,
       'package.json',
       `${version}/yarn.lock`,
+    );
+
+    t.same(depTree, expectedDepTree, 'Tree generated as expected');
+  });
+
+  test(`buildDepTree from string yarn.lock (${version})`, async (t) => {
+    // yarn 1 & 2 produce different dep trees
+    // because yarn 2 now adds additional transitive required when compiling for example, node-gyp
+    const expectedPath = path.join('goof', version, 'expected-tree.json');
+    const expectedDepTree = load(expectedPath);
+
+    const manifestFileContents = readFixture('goof/package.json');
+    const lockFileContents = readFixture(`goof/${version}/yarn.lock`);
+
+    const depTree = await buildDepTree(
+      manifestFileContents,
+      lockFileContents,
+      false,
+      LockfileType.yarn,
     );
 
     t.same(depTree, expectedDepTree, 'Tree generated as expected');
