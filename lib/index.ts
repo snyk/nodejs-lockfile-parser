@@ -44,6 +44,8 @@ async function buildDepTree(
 ): Promise<PkgTree> {
   if (!lockfileType) {
     lockfileType = LockfileType.npm;
+  } else if (lockfileType === LockfileType.yarn) {
+    lockfileType = getYarnLockfileType(lockFileContents);
   }
 
   let lockfileParser: LockfileParser;
@@ -123,16 +125,7 @@ async function buildDepTreeFromFiles(
   if (lockFilePath.endsWith('package-lock.json')) {
     lockFileType = LockfileType.npm;
   } else if (lockFilePath.endsWith('yarn.lock')) {
-    if (
-      lockFileContents.includes('__metadata') ||
-      fs.existsSync(
-        path.resolve(root, lockFilePath.replace('yarn.lock', '.yarnrc.yml')),
-      )
-    ) {
-      lockFileType = LockfileType.yarn2;
-    } else {
-      lockFileType = LockfileType.yarn;
-    }
+    lockFileType = getYarnLockfileType(lockFileContents, root, lockFilePath);
   } else {
     throw new InvalidUserInputError(
       `Unknown lockfile ${lockFilePath}. ` +
@@ -169,4 +162,23 @@ function getYarnWorkspacesFromFiles(
   const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');
 
   return getYarnWorkspaces(manifestFileContents);
+}
+
+function getYarnLockfileType(
+  lockFileContents: string,
+  root?: string,
+  lockFilePath?: string,
+): LockfileType {
+  if (
+    lockFileContents.includes('__metadata') ||
+    (root &&
+      lockFilePath &&
+      fs.existsSync(
+        path.resolve(root, lockFilePath.replace('yarn.lock', '.yarnrc.yml')),
+      ))
+  ) {
+    return LockfileType.yarn2;
+  } else {
+    return LockfileType.yarn;
+  }
 }
