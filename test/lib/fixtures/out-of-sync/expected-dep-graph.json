@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "npm"
+  },
+  "pkgs": [
+    {
+      "id": "trucolor@0.7.1",
+      "info": {
+        "name": "trucolor",
+        "version": "0.7.1"
+      }
+    },
+    {
+      "id": "debug@2.0.0",
+      "info": {
+        "name": "debug",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "ms@0.6.2",
+      "info": {
+        "name": "ms",
+        "version": "0.6.2"
+      }
+    },
+    {
+      "id": "ava@^0.25.0",
+      "info": {
+        "name": "ava",
+        "version": "^0.25.0"
+      }
+    },
+    {
+      "id": "lodash@4.17.11",
+      "info": {
+        "name": "lodash",
+        "version": "4.17.11"
+      }
+    },
+    {
+      "id": "body-parser@^1.18.2",
+      "info": {
+        "name": "body-parser",
+        "version": "^1.18.2"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "trucolor@0.7.1",
+        "deps": [
+          {
+            "nodeId": "debug"
+          },
+          {
+            "nodeId": "ava"
+          },
+          {
+            "nodeId": "lodash"
+          },
+          {
+            "nodeId": "body-parser"
+          }
+        ]
+      },
+      {
+        "nodeId": "debug",
+        "pkgId": "debug@2.0.0",
+        "deps": [
+          {
+            "nodeId": "ms"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ms",
+        "pkgId": "ms@0.6.2",
+        "deps": [
+          {
+            "nodeId": "debug"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ava",
+        "pkgId": "ava@^0.25.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "dev",
+            "missingLockFileEntry": "true"
+          }
+        }
+      },
+      {
+        "nodeId": "lodash",
+        "pkgId": "lodash@4.17.11",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "missingLockFileEntry": "true"
+          }
+        }
+      },
+      {
+        "nodeId": "body-parser",
+        "pkgId": "body-parser@^1.18.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "missingLockFileEntry": "true"
+          }
+        }
+      }
+    ]
+  }
+}

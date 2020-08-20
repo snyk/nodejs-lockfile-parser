@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "npm"
+  },
+  "pkgs": [
+    {
+      "id": "cyclic-dep-self-reference@1.0.0",
+      "info": {
+        "name": "cyclic-dep-self-reference",
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "cyclic-dep-self-reference@1.0.0",
+        "deps": []
+      }
+    ]
+  }
+}

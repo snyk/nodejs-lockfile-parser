@@ -6,6 +6,7 @@ import * as graphlib from '@snyk/graphlib';
 import * as uuid from 'uuid/v4';
 import { config } from '../config';
 import { eventLoopSpinner } from 'event-loop-spinner';
+// import * as fs from 'fs';
 
 import {
   LockfileParser,
@@ -24,6 +25,8 @@ import {
   OutOfSyncError,
   TreeSizeLimitError,
 } from '../errors';
+import { DepGraph, DepGraphBuilder, PkgInfo } from '@snyk/dep-graph';
+import { NodeInfo } from '@snyk/dep-graph/dist/core/types';
 
 export interface PackageLock {
   name: string;
@@ -63,6 +66,19 @@ interface EdgeDirection {
   outEdges: boolean;
 }
 
+interface PathMap {
+  [path: string]: {
+    name: string;
+    version: string;
+    dev: boolean;
+    deps: string[];
+    root: boolean;
+    subPaths?: string[];
+    miss?: boolean;
+    cycle?: boolean;
+  };
+}
+
 export class PackageLockParser implements LockfileParser {
   // package names must not contain URI unsafe characters, so one of them is
   // a good delimiter (https://www.ietf.org/rfc/rfc1738.txt)
@@ -78,6 +94,146 @@ export class PackageLockParser implements LockfileParser {
         'package-lock.json parsing failed with ' + `error ${e.message}`,
       );
     }
+  }
+
+  private async mapPaths(
+    deps: PackageLockDeps,
+    map: PathMap = {},
+    path: string[] = [],
+  ): Promise<PathMap> {
+    for (const [name, dep] of Object.entries(deps)) {
+      if (eventLoopSpinner.isStarving()) {
+        await eventLoopSpinner.spin();
+      }
+      const { version, requires = {}, dependencies = {}, dev = false } = dep;
+      const depPath: string[] = [...path, name];
+      const key = `${depPath.join(this.pathDelimiter)}`;
+      map[key] = {
+        name,
+        version,
+        dev,
+        deps: Object.keys(dependencies),
+        root: depPath.length === 1,
+      };
+      // add sub-paths after creating map entry to include our own deps
+      map[key].subPaths = Object.keys(requires).map((depName) => {
+        // what's the closest deps that mentions me (in my path so far)?
+        for (let i = depPath.length; i > 0; i--) {
+          const subPath = depPath.slice(0, i);
+          const subPathKey = subPath.join(this.pathDelimiter);
+          const depNames = map[subPathKey]?.deps || [];
+          if (depNames.includes(depName)) {
+            // found! add myself to the path and return
+            return subPath.concat(depName).join(this.pathDelimiter);
+          }
+        }
+        return depName; // otherwise assume root (key is name)
+      });
+      // recurse if I have dependencies
+      if (dependencies) {
+        this.mapPaths(dependencies, map, depPath);
+      }
+    }
+    return map;
+  }
+
+  public async getDepGraph(
+    manifestFile: ManifestFile,
+    lockfile: Lockfile,
+    includeDev = false,
+    strict = true,
+  ): Promise<DepGraph> {
+    if (lockfile.type !== LockfileType.npm) {
+      throw new InvalidUserInputError(
+        'Unsupported lockfile, please provide `package-lock.json`.',
+      );
+    }
+    const packageLock = lockfile as PackageLock;
+
+    const rootPkgInfo: PkgInfo = {
+      name: manifestFile.name,
+      version: manifestFile.version,
+    };
+
+    const builder = new DepGraphBuilder({ name: 'npm' }, rootPkgInfo);
+
+    const prodDependencies = manifestFile.dependencies || {};
+    const devDependencies = includeDev
+      ? manifestFile.devDependencies || {}
+      : {};
+    const topLevelPkgNames = Object.keys({
+      ...devDependencies,
+      ...prodDependencies,
+    });
+
+    const pathMap = await this.mapPaths(packageLock.dependencies || {});
+    // fs.writeFileSync(
+    //   __dirname + '/pathMap.json',
+    //   JSON.stringify(pathMap, null, 2),
+    // );
+
+    // check for out of sync
+    for (const name of topLevelPkgNames) {
+      // all top level pkg paths will be root level (so key is name)
+      if (!pathMap[name]) {
+        if (strict) {
+          throw new OutOfSyncError(name, LockfileType.npm);
+        } else {
+          // add missing top level pkgs to the map
+          const prodVersion = prodDependencies[name];
+          const dev = prodVersion ? false : true;
+          const version = prodVersion ? prodVersion : devDependencies[name];
+          pathMap[name] = {
+            name,
+            version,
+            dev,
+            deps: [],
+            miss: true,
+            root: true,
+          };
+        }
+      }
+    }
+
+    // add all pkgs and nodes
+    // and connect top level pkgs to root
+    for (const [path, entry] of Object.entries(pathMap)) {
+      const { dev } = entry;
+      if (!includeDev && dev) {
+        continue;
+      }
+      const { name, version, miss, root } = entry;
+      const scope = dev ? 'dev' : 'prod';
+      const missingLockFileEntry = miss ? 'true' : 'false';
+      const nodeInfo: NodeInfo = miss
+        ? { labels: { scope, missingLockFileEntry } }
+        : { labels: { scope } };
+      builder.addPkgNode({ name, version }, path, nodeInfo);
+      if (root && topLevelPkgNames.includes(name)) {
+        builder.connectDep(builder.rootNodeId, path);
+      }
+    }
+
+    // loop again separately here to ensure all nodes have been added before connecting
+    for (const [path, { dev, subPaths = [] }] of Object.entries(pathMap)) {
+      if (!includeDev && dev) {
+        continue;
+      }
+      for (const subPath of subPaths) {
+        builder.connectDep(path, subPath);
+      }
+    }
+
+    // const graph = builder.build();
+    // const graphJSON = graph.toJSON();
+    // fs.writeFileSync(
+    //   __dirname + '/depGraph.json',
+    //   JSON.stringify(graphJSON, null, 2),
+    // );
+
+    // TODO: label & break cyclic?
+
+    return builder.build();
   }
 
   public async getDependencyTree(

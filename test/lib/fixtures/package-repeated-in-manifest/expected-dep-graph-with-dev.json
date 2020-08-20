@@ -1,0 +1,362 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "npm"
+  },
+  "pkgs": [
+    {
+      "id": "goof@0.0.3",
+      "info": {
+        "name": "goof",
+        "version": "0.0.3"
+      }
+    },
+    {
+      "id": "body-parser@1.9.0",
+      "info": {
+        "name": "body-parser",
+        "version": "1.9.0"
+      }
+    },
+    {
+      "id": "bytes@1.0.0",
+      "info": {
+        "name": "bytes",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "debug@2.6.9",
+      "info": {
+        "name": "debug",
+        "version": "2.6.9"
+      }
+    },
+    {
+      "id": "depd@1.0.1",
+      "info": {
+        "name": "depd",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "ee-first@1.0.5",
+      "info": {
+        "name": "ee-first",
+        "version": "1.0.5"
+      }
+    },
+    {
+      "id": "file-type@8.1.0",
+      "info": {
+        "name": "file-type",
+        "version": "8.1.0"
+      }
+    },
+    {
+      "id": "iconv-lite@0.4.4",
+      "info": {
+        "name": "iconv-lite",
+        "version": "0.4.4"
+      }
+    },
+    {
+      "id": "media-typer@0.3.0",
+      "info": {
+        "name": "media-typer",
+        "version": "0.3.0"
+      }
+    },
+    {
+      "id": "mime-db@1.12.0",
+      "info": {
+        "name": "mime-db",
+        "version": "1.12.0"
+      }
+    },
+    {
+      "id": "mime-types@2.0.14",
+      "info": {
+        "name": "mime-types",
+        "version": "2.0.14"
+      }
+    },
+    {
+      "id": "ms@2.0.0",
+      "info": {
+        "name": "ms",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "on-finished@2.1.0",
+      "info": {
+        "name": "on-finished",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "qs@2.2.4",
+      "info": {
+        "name": "qs",
+        "version": "2.2.4"
+      }
+    },
+    {
+      "id": "raw-body@1.3.0",
+      "info": {
+        "name": "raw-body",
+        "version": "1.3.0"
+      }
+    },
+    {
+      "id": "type-is@1.5.7",
+      "info": {
+        "name": "type-is",
+        "version": "1.5.7"
+      }
+    },
+    {
+      "id": "undefsafe@1.3.1",
+      "info": {
+        "name": "undefsafe",
+        "version": "1.3.1"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "goof@0.0.3",
+        "deps": [
+          {
+            "nodeId": "body-parser"
+          },
+          {
+            "nodeId": "file-type"
+          },
+          {
+            "nodeId": "undefsafe"
+          }
+        ]
+      },
+      {
+        "nodeId": "body-parser",
+        "pkgId": "body-parser@1.9.0",
+        "deps": [
+          {
+            "nodeId": "bytes"
+          },
+          {
+            "nodeId": "depd"
+          },
+          {
+            "nodeId": "iconv-lite"
+          },
+          {
+            "nodeId": "media-typer"
+          },
+          {
+            "nodeId": "on-finished"
+          },
+          {
+            "nodeId": "qs"
+          },
+          {
+            "nodeId": "raw-body"
+          },
+          {
+            "nodeId": "type-is"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "bytes",
+        "pkgId": "bytes@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "debug",
+        "pkgId": "debug@2.6.9",
+        "deps": [
+          {
+            "nodeId": "ms"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "dev"
+          }
+        }
+      },
+      {
+        "nodeId": "depd",
+        "pkgId": "depd@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ee-first",
+        "pkgId": "ee-first@1.0.5",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "file-type",
+        "pkgId": "file-type@8.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "iconv-lite",
+        "pkgId": "iconv-lite@0.4.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "media-typer",
+        "pkgId": "media-typer@0.3.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mime-db",
+        "pkgId": "mime-db@1.12.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mime-types",
+        "pkgId": "mime-types@2.0.14",
+        "deps": [
+          {
+            "nodeId": "mime-db"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ms",
+        "pkgId": "ms@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "dev"
+          }
+        }
+      },
+      {
+        "nodeId": "on-finished",
+        "pkgId": "on-finished@2.1.0",
+        "deps": [
+          {
+            "nodeId": "ee-first"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "qs",
+        "pkgId": "qs@2.2.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "raw-body",
+        "pkgId": "raw-body@1.3.0",
+        "deps": [
+          {
+            "nodeId": "bytes"
+          },
+          {
+            "nodeId": "iconv-lite"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "type-is",
+        "pkgId": "type-is@1.5.7",
+        "deps": [
+          {
+            "nodeId": "media-typer"
+          },
+          {
+            "nodeId": "mime-types"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "undefsafe",
+        "pkgId": "undefsafe@1.3.1",
+        "deps": [
+          {
+            "nodeId": "debug"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "dev"
+          }
+        }
+      }
+    ]
+  }
+}
