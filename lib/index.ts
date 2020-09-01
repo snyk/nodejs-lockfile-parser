@@ -13,12 +13,13 @@ import {
 } from './parsers';
 import { PackageLockParser } from './parsers/package-lock-parser';
 import { YarnLockParser } from './parsers/yarn-lock-parse';
-import { Yarn2LockParser } from './parsers/yarn2-lock-parse';
-import getRuntimeVersion from './get-node-runtime-version';
+// import { Yarn2LockParser } from './parsers/yarn2-lock-parse';
+// import getRuntimeVersion from './get-node-runtime-version';
 import {
   UnsupportedRuntimeError,
   InvalidUserInputError,
   OutOfSyncError,
+  UnsupportedError,
 } from './errors';
 
 export {
@@ -57,17 +58,26 @@ async function buildDepTree(
       lockfileParser = new YarnLockParser();
       break;
     case LockfileType.yarn2:
-      // parsing yarn.lock is supported for Node.js v10 and higher
-      if (getRuntimeVersion() >= 10) {
-        lockfileParser = new Yarn2LockParser();
-      } else {
-        throw new UnsupportedRuntimeError(
-          'Parsing `yarn.lock` is not ' +
-            'supported on Node.js version less than 10. Please upgrade your ' +
-            'Node.js environment or use `package-lock.json`',
-        );
-      }
-      break;
+      throw new UnsupportedError(
+        'Yarn2 support has been temporarily removed to support Node.js versions 8.x.x',
+      );
+    /**
+     * Removing yarn 2 support as this breaks support for yarn with Node.js 8
+     * See: https://github.com/snyk/snyk/issues/1270
+     *
+     * Uncomment following code once Snyk stops Node.js 8 support
+     * // parsing yarn.lock is supported for Node.js v10 and higher
+     * if (getRuntimeVersion() >= 10) {
+     *  lockfileParser = new Yarn2LockParser();
+     *  } else {
+     *   throw new UnsupportedRuntimeError(
+     *     'Parsing `yarn.lock` is not ' +
+     *       'supported on Node.js version less than 10. Please upgrade your ' +
+     *       'Node.js environment or use `package-lock.json`',
+     *   );
+     * }
+     * break;
+     */
     default:
       throw new InvalidUserInputError(
         'Unsupported lockfile type ' +
