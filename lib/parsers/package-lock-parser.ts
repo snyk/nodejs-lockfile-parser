@@ -2,7 +2,7 @@ import * as _cloneDeep from 'lodash.clonedeep';
 import * as _isEmpty from 'lodash.isempty';
 import * as _set from 'lodash.set';
 import * as _toPairs from 'lodash.topairs';
-import * as graphlib from '@snyk/graphlib';
+import * as graphlib from 'graphlib';
 import * as uuid from 'uuid/v4';
 import { config } from '../config';
 import { eventLoopSpinner } from 'event-loop-spinner';
