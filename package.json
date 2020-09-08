@@ -43,12 +43,12 @@
     "snyk-config": "^3.0.0",
     "source-map-support": "^0.5.7",
     "tslib": "^1.9.3",
-    "uuid": "^3.3.2",
+    "uuid": "^8.3.0",
     "yaml": "^1.9.2"
   },
   "devDependencies": {
     "@types/node": "^10.17.26",
-    "@types/uuid": "^3.4.4",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
     "eslint": "6.8.0",
