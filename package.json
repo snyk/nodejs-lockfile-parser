@@ -30,10 +30,10 @@
   ],
   "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
   "dependencies": {
+    "@snyk/graphlib": "2.1.9-patch.3",
     "@yarnpkg/lockfile": "^1.1.0",
     "event-loop-spinner": "^2.0.0",
     "got": "11.4.0",
-    "graphlib": "2.1.8",
     "lodash.clonedeep": "^4.5.0",
     "lodash.flatmap": "^4.5.0",
     "lodash.isempty": "^4.4.0",
