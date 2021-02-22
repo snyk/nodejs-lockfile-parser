@@ -24,6 +24,8 @@ import {
   OutOfSyncError,
   TreeSizeLimitError,
 } from '../errors';
+import { DepGraph } from '@snyk/dep-graph';
+import { getPackageLockDepGraph } from './get-package-lock-dep-graph';
 
 export interface PackageLock {
   name: string;
@@ -42,6 +44,7 @@ export interface PackageLockDep {
   requires?: {
     [depName: string]: string;
   };
+  linkedRequires?: Record<string, PackageLockDep>;
   dependencies?: PackageLockDeps;
   dev?: boolean;
 }
@@ -459,5 +462,14 @@ export class PackageLockParser implements LockfileParser {
     flattenLockfileRec(lockfile.dependencies || {}, []);
 
     return depMap;
+  }
+
+  public async getDepGraph(
+    manifestFile: ManifestFile,
+    lockfile: Lockfile,
+    includeDev = false,
+    strict = true,
+  ): Promise<DepGraph> {
+    return getPackageLockDepGraph(manifestFile, lockfile, includeDev, strict);
   }
 }

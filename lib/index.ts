@@ -11,6 +11,8 @@ import {
 
 export { buildDepTree, buildDepTreeFromFiles } from './dep-tree';
 
+export { buildDepGraph, buildDepGraphFromFiles } from './dep-graph';
+
 export {
   getYarnWorkspacesFromFiles,
   getYarnWorkspaces,

@@ -20,8 +20,11 @@ import {
   TreeSizeLimitError,
 } from '../errors';
 import { config } from '../config';
+import { DepGraph } from '@snyk/dep-graph';
+import { getYarnLockDepGraph } from './get-yarn-lock-dep-graph';
+import { YarnLock } from './yarn-lock-parse';
 
-const EVENT_PROCESSING_CONCURRENCY = 5;
+export const EVENT_PROCESSING_CONCURRENCY = 5;
 
 export type YarnLockFileTypes = LockfileType.yarn | LockfileType.yarn2;
 
@@ -190,5 +193,25 @@ export abstract class YarnLockParseBase<T extends YarnLockFileTypes>
     if (eventLoopSpinner.isStarving()) {
       await eventLoopSpinner.spin();
     }
+  }
+
+  public async getDepGraph(
+    manifestFile: ManifestFile,
+    yarnLock: Lockfile,
+    includeDev = false,
+    strict = true,
+  ): Promise<DepGraph> {
+    if (yarnLock.type !== this.type) {
+      throw new InvalidUserInputError(
+        'Unsupported lockfile provided. Please provide `yarn.lock`.',
+      );
+    }
+
+    return await getYarnLockDepGraph(
+      manifestFile,
+      yarnLock as YarnLock,
+      includeDev,
+      strict,
+    );
   }
 }
