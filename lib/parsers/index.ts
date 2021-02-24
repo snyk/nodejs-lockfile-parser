@@ -1,6 +1,7 @@
 import { PackageLock } from './package-lock-parser';
 import { YarnLock } from './yarn-lock-parse';
 import { InvalidUserInputError } from '../errors';
+import { DepGraph } from '@snyk/dep-graph';
 // import { Yarn2Lock } from './yarn2-lock-parse';
 
 export interface Dep {
@@ -80,6 +81,12 @@ export interface LockfileParser {
     includeDev?: boolean,
     strict?: boolean,
   ) => Promise<PkgTree>;
+  getDepGraph: (
+    manifestFile: ManifestFile,
+    lockfile: Lockfile,
+    includeDev?: boolean,
+    strict?: boolean,
+  ) => Promise<DepGraph>;
 }
 
 export type Lockfile = PackageLock | YarnLock; // | Yarn2Lock;
