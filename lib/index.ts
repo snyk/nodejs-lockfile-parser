@@ -11,7 +11,7 @@ import {
   getYarnWorkspaces,
 } from './parsers';
 import { PackageLockParser } from './parsers/package-lock-parser';
-import { YarnLockParser } from './parsers/yarn-lock-parse';
+import { YarnLockParser } from './parsers/yarn-lock-parser';
 // import { Yarn2LockParser } from './parsers/yarn2-lock-parse';
 // import getRuntimeVersion from './get-node-runtime-version';
 import {

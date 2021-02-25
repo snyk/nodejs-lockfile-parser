@@ -6,3 +6,4 @@ dist
 .eslintcache
 *.log
 /package-lock.json
+.idea
