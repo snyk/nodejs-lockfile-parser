@@ -95,7 +95,7 @@ const SCENARIOS_REJECTED = [
   {
     name: 'Parse yarn.lock with missing dependency',
     workspace: 'missing-deps-in-lock',
-    expectedError: new OutOfSyncError('uptime', LockfileType.yarn),
+    expectedError: new OutOfSyncError('uptime@1.4.7', LockfileType.yarn),
   },
   {
     name: 'Parse invalid yarn.lock',
@@ -107,7 +107,7 @@ const SCENARIOS_REJECTED = [
   {
     name: 'Out of sync yarn.lock strict mode',
     workspace: 'out-of-sync',
-    expectedError: new OutOfSyncError('lodash', LockfileType.yarn),
+    expectedError: new OutOfSyncError('lodash@4.17.11', LockfileType.yarn),
   },
 ];
 

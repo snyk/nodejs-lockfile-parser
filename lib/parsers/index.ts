@@ -1,5 +1,5 @@
 import { PackageLock } from './package-lock-parser';
-import { YarnLock } from './yarn-lock-parse';
+import { YarnLock } from './yarn-lock-parser';
 import { InvalidUserInputError } from '../errors';
 // import { Yarn2Lock } from './yarn2-lock-parse';
 
@@ -53,7 +53,7 @@ export interface PkgTree extends DepTreeDep {
     [depName: string]: DepTreeDep;
   };
   meta?: {
-    nodeVersion: string;
+    nodeVersion?: string;
     packageManagerVersion?: string;
   };
   hasDevDependencies?: boolean;
