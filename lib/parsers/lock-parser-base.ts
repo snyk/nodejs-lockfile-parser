@@ -18,11 +18,7 @@ import {
   PkgTree,
   Scope,
 } from './';
-import {
-  InvalidUserInputError,
-  OutOfSyncError,
-  TreeSizeLimitError,
-} from '../errors';
+import { InvalidUserInputError, OutOfSyncError } from '../errors';
 
 export interface PackageLockDeps {
   [depName: string]: PackageLockDep;
@@ -57,7 +53,7 @@ interface EdgeDirection {
 export abstract class LockParserBase implements LockfileParser {
   protected pathDelimiter = '|';
 
-  constructor(protected type: LockfileType, protected treeSizeLimit: number) {}
+  constructor(protected type: LockfileType) {}
 
   public abstract parseLockFile(lockFileContents: string): Lockfile;
 
@@ -129,9 +125,6 @@ export abstract class LockParserBase implements LockfileParser {
     // number of dependencies including root one
     let treeSize = 1;
     for (const dep of topLevelDeps) {
-      if (treeSize > this.treeSizeLimit) {
-        throw new TreeSizeLimitError();
-      }
       // if any of top level dependencies is a part of cycle
       // it now has a different item in the map
       const key = this.getDepTreeKey(dep);

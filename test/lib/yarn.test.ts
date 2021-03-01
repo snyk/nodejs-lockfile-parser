@@ -5,7 +5,6 @@ import { test } from 'tap';
 import * as path from 'path';
 
 import { load, readFixture } from '../utils';
-import { config } from '../../lib/config';
 import { buildDepTreeFromFiles, buildDepTree, LockfileType } from '../../lib';
 import getRuntimeVersion from '../../lib/get-node-runtime-version';
 import {
@@ -191,28 +190,6 @@ for (const version of ['yarn1', 'yarn2']) {
       } else {
         t.fail();
       }
-    }
-  });
-
-  // special case
-  test(`Yarn Tree size exceeds the allowed limit of 500 dependencies (${version})`, async (t) => {
-    try {
-      config.YARN_TREE_SIZE_LIMIT = 500;
-      await buildDepTreeFromFiles(
-        `${__dirname}/fixtures/goof/`,
-        'package.json',
-        `${version}/yarn.lock`,
-      );
-      t.fail('Expected TreeSizeLimitError to be thrown');
-    } catch (err) {
-      if (version === 'yarn2') {
-        t.equals(err.constructor.name, 'UnsupportedError');
-        t.equals(err.message, yarn2Error);
-      } else {
-        t.equals(err.constructor.name, 'TreeSizeLimitError');
-      }
-    } finally {
-      config.YARN_TREE_SIZE_LIMIT = 6.0e6;
     }
   });
 }
