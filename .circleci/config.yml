@@ -139,16 +139,6 @@ workflows:
             branches:
               ignore:
                 - master
-      - test-windows:
-          name: Windows Tests for Node v8 support
-          context: nodejs-install
-          node_version: "8.17.0"
-          requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
       - test-unix:
           name: Unix Tests for Node v12 support
           context: nodejs-install
@@ -163,16 +153,6 @@ workflows:
           name: Unix Tests for Node v10 support
           context: nodejs-install
           node_version: "10"
-          requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-unix:
-          name: Unix Tests for Node v8 support
-          context: nodejs-install
-          node_version: "8"
           requires:
             - Lint
           filters:
