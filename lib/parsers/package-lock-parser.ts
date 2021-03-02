@@ -1,7 +1,6 @@
 import { Dep, Lockfile, LockfileType, Scope } from './index';
 import { InvalidUserInputError } from '../errors';
 import { DepMap, DepMapItem, LockParserBase } from './lock-parser-base';
-import { config } from '../config';
 
 export interface PackageLock {
   name: string;
@@ -26,7 +25,7 @@ export interface PackageLockDep {
 
 export class PackageLockParser extends LockParserBase {
   constructor() {
-    super(LockfileType.npm, config.NPM_TREE_SIZE_LIMIT);
+    super(LockfileType.npm);
   }
 
   public parseLockFile(lockFileContents: string): PackageLock {

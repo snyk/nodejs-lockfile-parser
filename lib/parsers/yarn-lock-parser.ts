@@ -10,7 +10,6 @@ import {
 } from './index';
 import { InvalidUserInputError } from '../errors';
 import { DepMap, LockParserBase } from './lock-parser-base';
-import { config } from '../config';
 
 export type YarnLockFileTypes = LockfileType.yarn | LockfileType.yarn2;
 
@@ -37,7 +36,7 @@ export interface YarnLockDep {
 
 export class YarnLockParser extends LockParserBase {
   constructor() {
-    super(LockfileType.yarn, config.YARN_TREE_SIZE_LIMIT);
+    super(LockfileType.yarn);
   }
 
   public parseLockFile(lockFileContents: string): YarnLock {
