@@ -152,7 +152,7 @@ export abstract class LockParserBase implements LockfileParser {
         // TODO: also check the package version
         // for a stricter check
         if (strict) {
-          throw new OutOfSyncError(depName, this.type);
+          throw new OutOfSyncError(dep.name, this.type);
         }
         depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
         if (!depTree.dependencies[dep.name].labels) {
