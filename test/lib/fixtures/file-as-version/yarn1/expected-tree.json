@@ -21,7 +21,7 @@
         "scope": "prod"
       },
       "name": "shared",
-      "version": "file:./some-file"
+      "version": "0.0.1"
     }
   },
   "hasDevDependencies": false,

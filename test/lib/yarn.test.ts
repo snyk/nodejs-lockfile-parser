@@ -7,15 +7,7 @@ import * as path from 'path';
 import { load, readFixture } from '../utils';
 import { config } from '../../lib/config';
 import { buildDepTreeFromFiles, buildDepTree, LockfileType } from '../../lib';
-import getRuntimeVersion from '../../lib/get-node-runtime-version';
-import {
-  InvalidUserInputError,
-  OutOfSyncError,
-  UnsupportedError,
-} from '../../lib/errors';
-
-const yarn2Error =
-  'Yarn2 support has been temporarily removed to support Node.js versions 8.x.x';
+import { InvalidUserInputError, OutOfSyncError } from '../../lib/errors';
 
 const SCENARIOS_WITH_FILES = [
   {
@@ -96,6 +88,7 @@ const SCENARIOS_REJECTED = [
     name: 'Parse yarn.lock with missing dependency',
     workspace: 'missing-deps-in-lock',
     expectedError: new OutOfSyncError('uptime', LockfileType.yarn),
+    expectedErrorYarn2: new OutOfSyncError('uptime', LockfileType.yarn2),
   },
   {
     name: 'Parse invalid yarn.lock',
@@ -103,19 +96,19 @@ const SCENARIOS_REJECTED = [
     expectedError: new InvalidUserInputError(
       'yarn.lock parsing failed with an error',
     ),
+    expectedErrorYarn2: new InvalidUserInputError(
+      'yarn.lock parsing failed with an error',
+    ),
   },
   {
     name: 'Out of sync yarn.lock strict mode',
     workspace: 'out-of-sync',
     expectedError: new OutOfSyncError('lodash', LockfileType.yarn),
+    expectedErrorYarn2: new OutOfSyncError('lodash', LockfileType.yarn2),
   },
 ];
 
-for (const version of ['yarn1', 'yarn2']) {
-  if (version === 'yarn2' && getRuntimeVersion() === 8) {
-    continue; // yarn 2 does not support node 8 (but yarn 1 does)
-  }
-
+for (const version of ['yarn1', 'yarn2'] as const) {
   for (const scenario of SCENARIOS_WITH_FILES) {
     test(`${scenario.name} (${version})`, async (t) => {
       // yarn 1 & 2 produce different dep trees
@@ -137,12 +130,7 @@ for (const version of ['yarn1', 'yarn2']) {
 
         t.same(depTree, expectedDepTree, 'Tree generated as expected');
       } catch (err) {
-        if (version === 'yarn2') {
-          t.equals(err.constructor.name, 'UnsupportedError');
-          t.equals(err.message, yarn2Error);
-        } else {
-          t.fail();
-        }
+        t.fail(err);
       }
     });
   }
@@ -151,7 +139,7 @@ for (const version of ['yarn1', 'yarn2']) {
     test(`${scenario.name} (${version})`, async (t) => {
       const expectedError =
         version === 'yarn2'
-          ? new UnsupportedError(yarn2Error)
+          ? scenario.expectedErrorYarn2
           : scenario.expectedError;
       t.rejects(
         buildDepTreeFromFiles(
@@ -180,17 +168,12 @@ for (const version of ['yarn1', 'yarn2']) {
         manifestFileContents,
         lockFileContents,
         false,
-        LockfileType.yarn,
+        version === 'yarn2' ? LockfileType.yarn2 : LockfileType.yarn,
       );
 
       t.same(depTree, expectedDepTree, 'Tree generated as expected');
     } catch (err) {
-      if (version === 'yarn2') {
-        t.equals(err.constructor.name, 'UnsupportedError');
-        t.equals(err.message, yarn2Error);
-      } else {
-        t.fail();
-      }
+      t.fail();
     }
   });
 
@@ -205,12 +188,7 @@ for (const version of ['yarn1', 'yarn2']) {
       );
       t.fail('Expected TreeSizeLimitError to be thrown');
     } catch (err) {
-      if (version === 'yarn2') {
-        t.equals(err.constructor.name, 'UnsupportedError');
-        t.equals(err.message, yarn2Error);
-      } else {
-        t.equals(err.constructor.name, 'TreeSizeLimitError');
-      }
+      t.equals(err.constructor.name, 'TreeSizeLimitError');
     } finally {
       config.YARN_TREE_SIZE_LIMIT = 6.0e6;
     }
@@ -218,16 +196,12 @@ for (const version of ['yarn1', 'yarn2']) {
 }
 
 // // Yarn v2 specific test
-// test('.yarnrc.yaml is missing, but still resolving to yarn2 version', async (t) => {
-//   if (getRuntimeVersion() === 8) {
-//     return t.skip();
-//   }
-//
-//   const depTree = await buildDepTreeFromFiles(
-//     `${__dirname}/fixtures/missing-dot-yarnrc-yarn2/`,
-//     'package.json',
-//     `yarn.lock`,
-//   );
-//
-//   t.equal(depTree.meta?.packageManagerVersion, '2', 'resolved to yarn v2');
-// });
+test('.yarnrc.yaml is missing, but still resolving to yarn2 version', async (t) => {
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/missing-dot-yarnrc-yarn2/`,
+    'package.json',
+    `yarn.lock`,
+  );
+
+  t.equal(depTree.meta?.packageManagerVersion, '2', 'resolved to yarn v2');
+});
