@@ -100,7 +100,10 @@ export abstract class LockParserBase implements LockfileParser {
     const depMap: DepMap = this.getDepMap(yarnLock);
 
     // all paths are identified, we can create a graph representing what depends on what
-    const depGraph: graphlib.Graph = this.createGraphOfDependencies(depMap);
+    const depGraph: graphlib.Graph = this.createGraphOfDependencies(
+      depMap,
+      strict,
+    );
 
     // topological sort will be applied and it requires acyclic graphs
     let cycleStarts: CycleStartMap = {};
@@ -311,16 +314,21 @@ export abstract class LockParserBase implements LockfileParser {
     return newNode;
   }
 
-  private createGraphOfDependencies(depMap: DepMap): graphlib.Graph {
+  private createGraphOfDependencies(
+    depMap: DepMap,
+    strict: boolean,
+  ): graphlib.Graph {
     const depGraph = new graphlib.Graph();
     for (const depKey of Object.keys(depMap)) {
       depGraph.setNode(depKey);
     }
     for (const [depPath, dep] of Object.entries(depMap)) {
       for (const depName of dep.requires) {
-        const subDepPath = this.findDepsPath(depPath, depName, depMap);
-        // direction is from the dependency to the package requiring it
-        depGraph.setEdge(subDepPath, depPath);
+        const subDepPath = this.findDepsPath(depPath, depName, depMap, strict);
+        if (subDepPath !== null) {
+          // direction is from the dependency to the package requiring it
+          depGraph.setEdge(subDepPath, depPath);
+        }
       }
     }
 
@@ -333,7 +341,8 @@ export abstract class LockParserBase implements LockfileParser {
     startPath: string,
     depName: string,
     depMap: DepMap,
-  ): string {
+    strict: boolean,
+  ): string | null {
     const depPath = startPath.split(this.pathDelimiter);
     while (depPath.length) {
       const currentPath = depPath.concat(depName).join(this.pathDelimiter);
@@ -344,6 +353,7 @@ export abstract class LockParserBase implements LockfileParser {
     }
 
     if (!depMap[depName]) {
+      if (!strict) return null;
       throw new OutOfSyncError(depName, this.type);
     }
 
