@@ -81,6 +81,12 @@ const SCENARIOS_WITH_FILES = [
     workspace: 'missing-name',
     includeDev: false,
   },
+  {
+    name: 'Parse yarn.lock with resolutions',
+    workspace: 'resolutions',
+    includeDev: false,
+    strict: false,
+  },
 ];
 
 const SCENARIOS_REJECTED = [
