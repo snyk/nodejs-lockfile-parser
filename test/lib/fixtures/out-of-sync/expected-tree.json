@@ -48,6 +48,9 @@
   "size": 6,
   "version": "0.7.1",
   "meta": {
-    "nodeVersion": ">=8.0"
+    "nodeVersion": ">=8.0",
+    "lockfileVersion": 1,
+    "packageManager": "npm"
   }
 }
+

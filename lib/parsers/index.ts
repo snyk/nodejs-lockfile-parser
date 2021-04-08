@@ -56,7 +56,8 @@ export interface PkgTree extends DepTreeDep {
   };
   meta?: {
     nodeVersion?: string;
-    packageManagerVersion?: string;
+    lockfileVersion?: number;
+    packageManager?: string;
   };
   hasDevDependencies?: boolean;
   cyclic?: boolean;
@@ -70,6 +71,7 @@ export enum Scope {
 
 export enum LockfileType {
   npm = 'npm',
+  npm7 = 'npm7',
   yarn = 'yarn',
   yarn2 = 'yarn2',
 }
@@ -120,7 +122,9 @@ export function getTopLevelDeps(
     });
   }
 
-  if (isNpm7(lockfile) && targetFile.peerDependencies) {
+  // Only include peerDependencies if using npm and npm is at least
+  // version 7 as npm v7 automatically installs peerDependencies
+  if (lockfile.type === LockfileType.npm7 && targetFile.peerDependencies) {
     for (const [name, version] of Object.entries(targetFile.peerDependencies)) {
       dependencies.push({
         name,
@@ -129,15 +133,6 @@ export function getTopLevelDeps(
     }
   }
   return dependencies;
-}
-
-// Only include peerDependencies if using npm and npm is at least
-// version 7 as npm v7 automatically installs peerDependencies
-function isNpm7(lockfile: Lockfile): boolean {
-  return (
-    lockfile.type === LockfileType.npm &&
-    (lockfile as PackageLock).lockfileVersion === 2
-  );
 }
 
 export function createDepTreeDepFromDep(dep: Dep): DepTreeDep {

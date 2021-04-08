@@ -6554,7 +6554,7 @@
                 },
                 "supports-color": {
                   "labels": {
-                   "scope": "prod"
+                    "scope": "prod"
                   },
                   "dependencies": {
                     "has-flag": {
@@ -7143,6 +7143,8 @@
   "version": "0.0.3",
   "size": 914,
   "meta": {
-    "nodeVersion": "6.14.1"
+    "nodeVersion": "6.14.1",
+    "lockfileVersion": 1,
+    "packageManager": "npm"
   }
 }

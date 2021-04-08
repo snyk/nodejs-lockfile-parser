@@ -4932,5 +4932,9 @@
   "name": "goof",
   "size": 852,
   "version": "0.0.3",
-  "meta": { "nodeVersion": "6.14.1", "packageManagerVersion": "1" }
+  "meta": {
+    "nodeVersion": "6.14.1",
+    "lockfileVersion": 1,
+    "packageManager": "yarn"
+  }
 }

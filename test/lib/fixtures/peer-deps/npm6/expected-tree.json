@@ -27,5 +27,9 @@
   "hasDevDependencies": false,
   "name": "goof",
   "size": 4,
-  "version": "0.0.3"
+  "version": "0.0.3",
+  "meta": {
+    "lockfileVersion": 1,
+    "packageManager": "npm"
+  }
 }

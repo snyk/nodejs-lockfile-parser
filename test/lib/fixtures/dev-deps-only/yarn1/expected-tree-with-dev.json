@@ -22,6 +22,7 @@
     }
   },
   "meta": {
-    "packageManagerVersion": "1"
+    "lockfileVersion": 1,
+    "packageManager": "yarn"
   }
 }

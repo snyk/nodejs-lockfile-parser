@@ -13900,6 +13900,8 @@
   "version": "0.0.3",
   "size": 1791,
   "meta": {
-    "nodeVersion": "6.14.1"
+    "nodeVersion": "6.14.1",
+    "lockfileVersion": 1,
+    "packageManager": "npm"
   }
 }

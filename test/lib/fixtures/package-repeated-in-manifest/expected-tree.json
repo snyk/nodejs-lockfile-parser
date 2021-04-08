@@ -4,7 +4,9 @@
   "version": "0.0.3",
   "hasDevDependencies": true,
   "meta": {
-    "nodeVersion": "10.8.0"
+    "nodeVersion": "10.8.0",
+    "lockfileVersion": 1,
+    "packageManager": "npm"
   },
   "dependencies": {
     "body-parser": {

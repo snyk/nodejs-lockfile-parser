@@ -5,7 +5,8 @@
   "hasDevDependencies": true,
   "meta": {
     "nodeVersion": "10.8.0",
-    "packageManagerVersion": "2"
+    "lockfileVersion": "2",
+    "packageManager": "yarn"
   },
   "dependencies": {
     "body-parser": {

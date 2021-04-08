@@ -29,6 +29,7 @@
   "size": 4,
   "version": "0.0.1",
   "meta": {
-    "packageManagerVersion": "1"
+    "lockfileVersion": 1,
+    "packageManager": "yarn"
   }
 }
