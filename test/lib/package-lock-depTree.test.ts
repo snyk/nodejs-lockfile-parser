@@ -254,11 +254,22 @@ test('`package.json` with file as version', async (t) => {
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });
 
-test('`package.json` with peer and optionals (npm7)', async (t) => {
-  const expectedDepTree = load('peer-deps/expected-tree.json');
+test('`package.json` with peer and optionals (npm6)', async (t) => {
+  const expectedDepTree = load('peer-deps/npm6/expected-tree.json');
 
   const depTree = await buildDepTreeFromFiles(
-    `${__dirname}/fixtures/peer-deps/`,
+    `${__dirname}/fixtures/peer-deps/npm6`,
+    'package.json',
+    'package-lock.json',
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+test('`package.json` with peer and optionals (npm7)', async (t) => {
+  const expectedDepTree = load('peer-deps/npm7/expected-tree.json');
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/peer-deps/npm7`,
     'package.json',
     'package-lock.json',
   );

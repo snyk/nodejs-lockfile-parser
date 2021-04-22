@@ -6,6 +6,7 @@ import { Yarn2Lock } from './yarn2-lock-parser';
 export interface Dep {
   name: string;
   version: string;
+  isPeerDep?: boolean;
   dev?: boolean;
 }
 
@@ -105,7 +106,6 @@ export function getTopLevelDeps(
   const dependenciesIterator = Object.entries({
     ...targetFile.dependencies,
     ...(includeDev ? targetFile.devDependencies : null),
-    ...(targetFile.peerDependencies || {}),
     ...(targetFile.optionalDependencies || {}),
   });
 
@@ -118,6 +118,16 @@ export function getTopLevelDeps(
       name,
       version,
     });
+  }
+
+  if (targetFile.peerDependencies) {
+    for (const [name, version] of Object.entries(targetFile.peerDependencies)) {
+      dependencies.push({
+        name,
+        version,
+        isPeerDep: true,
+      });
+    }
   }
 
   return dependencies;
