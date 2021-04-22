@@ -13,6 +13,10 @@ interface WorkspacesAlternateConfig {
   packages?: string[];
 }
 
+type ManifestDependencies = {
+  [dep: string]: string;
+};
+
 export interface ManifestFile {
   name: string;
   private?: string;
@@ -20,12 +24,10 @@ export interface ManifestFile {
     node?: string;
   };
   workspaces?: string[] | WorkspacesAlternateConfig;
-  dependencies?: {
-    [dep: string]: string;
-  };
-  devDependencies?: {
-    [dep: string]: string;
-  };
+  dependencies?: ManifestDependencies;
+  devDependencies?: ManifestDependencies;
+  optionalDependencies?: ManifestDependencies;
+  peerDependencies?: ManifestDependencies;
   version?: string;
 }
 
@@ -103,6 +105,8 @@ export function getTopLevelDeps(
   const dependenciesIterator = Object.entries({
     ...targetFile.dependencies,
     ...(includeDev ? targetFile.devDependencies : null),
+    ...(targetFile.peerDependencies || {}),
+    ...(targetFile.optionalDependencies || {}),
   });
 
   for (const [name, version] of dependenciesIterator) {
