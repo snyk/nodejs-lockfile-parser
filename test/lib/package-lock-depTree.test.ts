@@ -254,6 +254,18 @@ test('`package.json` with file as version', async (t) => {
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });
 
+test('`package.json` with peer and optionals (npm7)', async (t) => {
+  const expectedDepTree = load('peer-deps/expected-tree.json');
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/peer-deps/`,
+    'package.json',
+    'package-lock.json',
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
 test('Npm Tree size exceeds the allowed limit of 500 dependencies.', async (t) => {
   config.NPM_TREE_SIZE_LIMIT = 500;
   t.rejects(
