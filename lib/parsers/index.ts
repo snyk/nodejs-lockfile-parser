@@ -6,7 +6,6 @@ import { Yarn2Lock } from './yarn2-lock-parser';
 export interface Dep {
   name: string;
   version: string;
-  isPeerDep?: boolean;
   dev?: boolean;
 }
 
@@ -100,6 +99,7 @@ export function parseManifestFile(manifestFileContents: string): ManifestFile {
 export function getTopLevelDeps(
   targetFile: ManifestFile,
   includeDev: boolean,
+  lockfile: Lockfile,
 ): Dep[] {
   const dependencies: Dep[] = [];
 
@@ -120,17 +120,24 @@ export function getTopLevelDeps(
     });
   }
 
-  if (targetFile.peerDependencies) {
+  if (isNpm7(lockfile) && targetFile.peerDependencies) {
     for (const [name, version] of Object.entries(targetFile.peerDependencies)) {
       dependencies.push({
         name,
         version,
-        isPeerDep: true,
       });
     }
   }
-
   return dependencies;
+}
+
+// Only include peerDependencies if using npm and npm is at least
+// version 7 as npm v7 automatically installs peerDependencies
+function isNpm7(lockfile: Lockfile): boolean {
+  return (
+    lockfile.type === LockfileType.npm &&
+    (lockfile as PackageLock).lockfileVersion === 2
+  );
 }
 
 export function createDepTreeDepFromDep(dep: Dep): DepTreeDep {
