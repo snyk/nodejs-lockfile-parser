@@ -23,7 +23,6 @@ import {
   OutOfSyncError,
   TreeSizeLimitError,
 } from '../errors';
-import { PackageLock } from './package-lock-parser';
 
 export interface PackageLockDeps {
   [depName: string]: PackageLockDep;
@@ -125,7 +124,11 @@ export abstract class LockParserBase implements LockfileParser {
     );
 
     // get trees for dependencies from manifest file
-    const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
+    const topLevelDeps: Dep[] = getTopLevelDeps(
+      manifestFile,
+      includeDev,
+      lockfile,
+    );
 
     // number of dependencies including root one
     let treeSize = 1;
@@ -149,8 +152,6 @@ export abstract class LockParserBase implements LockfileParser {
       } else if (/^file:/.test(dep.version)) {
         depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
         treeSize++;
-      } else if (isPeerDepInLockfileV1(lockfile, dep)) {
-        continue;
       } else {
         // TODO: also check the package version
         // for a stricter check
@@ -419,12 +420,4 @@ export abstract class LockParserBase implements LockfileParser {
   protected getDepTreeKey(dep: Dep): string {
     throw new Error('Not implemented');
   }
-}
-
-// Checks for the case of using npm version 6 or less
-// in conjunction with peer deps. This is needed as npm 6
-// does not auto install peerDeps so we dont need to worry
-// about them.
-function isPeerDepInLockfileV1(lockfile: Lockfile, dep: Dep) {
-  return (lockfile as PackageLock).lockfileVersion === 1 && dep.isPeerDep;
 }

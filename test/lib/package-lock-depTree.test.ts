@@ -265,6 +265,21 @@ test('`package.json` with peer and optionals (npm6)', async (t) => {
 
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });
+
+test('`package.json` with peer and optionals (npm6), strict = false', async (t) => {
+  const expectedDepTree = load('peer-deps/npm6/expected-tree.json');
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/peer-deps/npm6`,
+    'package.json',
+    'package-lock.json',
+    false,
+    false,
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
 test('`package.json` with peer and optionals (npm7)', async (t) => {
   const expectedDepTree = load('peer-deps/npm7/expected-tree.json');
 
@@ -272,6 +287,44 @@ test('`package.json` with peer and optionals (npm7)', async (t) => {
     `${__dirname}/fixtures/peer-deps/npm7`,
     'package.json',
     'package-lock.json',
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
+test('`package.json` with peer and optionals (npm7), strict = false', async (t) => {
+  const expectedDepTree = load('peer-deps/npm7/expected-tree.json');
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/peer-deps/npm7`,
+    'package.json',
+    'package-lock.json',
+    false,
+    false,
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
+test('`package.json` with peer and optionals (yarn)', async (t) => {
+  const expectedDepTree = load('peer-deps/yarn/expected-tree.json');
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/peer-deps/yarn`,
+    'package.json',
+    'yarn.lock',
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
+test('`package.json` with peer and optionals (yarn2)', async (t) => {
+  const expectedDepTree = load('peer-deps/yarn2/expected-tree.json');
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/fixtures/peer-deps/yarn2`,
+    'package.json',
+    'yarn.lock',
   );
 
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
