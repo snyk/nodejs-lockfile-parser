@@ -203,5 +203,5 @@ test('.yarnrc.yaml is missing, but still resolving to yarn2 version', async (t) 
     `yarn.lock`,
   );
 
-  t.equal(depTree.meta?.packageManagerVersion, '2', 'resolved to yarn v2');
+  t.equal(depTree.meta?.lockfileVersion, 2, 'resolved to yarn v2');
 });

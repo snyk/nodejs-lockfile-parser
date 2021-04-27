@@ -3,5 +3,9 @@
   "size": 1,
   "version": "0.0.1",
   "hasDevDependencies": true,
+  "meta": {
+    "lockfileVersion": 1,
+    "packageManager": "npm"
+  },
   "dependencies": {}
 }

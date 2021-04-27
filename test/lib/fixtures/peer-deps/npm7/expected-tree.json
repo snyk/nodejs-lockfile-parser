@@ -3,6 +3,10 @@
   "name": "goof",
   "size": 6,
   "version": "0.0.3",
+  "meta": {
+    "lockfileVersion": 2,
+    "packageManager": "npm"
+  },
   "dependencies": {
     "adm-zip": {
       "labels": { "scope": "prod" },

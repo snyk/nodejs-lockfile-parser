@@ -228,5 +228,9 @@
   "hasDevDependencies": true,
   "name": "out-of-sync-small",
   "size": 30,
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "meta": {
+    "lockfileVersion": 1,
+    "packageManager": "npm"
+  }
 }

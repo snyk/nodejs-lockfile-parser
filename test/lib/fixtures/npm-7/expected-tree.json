@@ -1,12 +1,12 @@
 {
   "hasDevDependencies": true,
-  "name": "goof",
+  "name": "npm-7",
   "size": 5,
-  "version": "0.0.3",
+  "version": "1.0.0",
   "meta": {
-    "nodeVersion": "6.14.1",
-    "lockfileVersion": 1,
-    "packageManager": "npm"
+    "nodeVersion": "12.0.0",
+    "lockfileVersion": 2,
+    "packageManager": "yarn"
   },
   "dependencies": {
     "has": {

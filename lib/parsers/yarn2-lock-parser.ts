@@ -68,10 +68,13 @@ export class Yarn2LockParser extends LockParserBase {
       strict,
     );
 
-    if (!depTree.meta) depTree.meta = {};
-    depTree.meta.packageManagerVersion = '2';
+    const meta = { lockfileVersion: 2, packageManager: 'yarn' };
+    const depTreeWithMeta = {
+      ...depTree,
+      meta: { ...depTree.meta, ...meta },
+    };
 
-    return depTree;
+    return depTreeWithMeta;
   }
 
   protected getDepMap(lockfile: Lockfile): DepMap {
