@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 
 export function readFixture(filePath: string): string {
-  return fs.readFileSync(`${__dirname}/lib/fixtures/${filePath}`, 'utf8');
+  return fs.readFileSync(`${__dirname}/fixtures/${filePath}`, 'utf8');
 }
 
 export function load(filePath: string): any {

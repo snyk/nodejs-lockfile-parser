@@ -121,7 +121,7 @@ for (const version of ['yarn1', 'yarn2'] as const) {
       const expectedDepTree = load(expectedPath);
       try {
         const depTree = await buildDepTreeFromFiles(
-          `${__dirname}/fixtures/${scenario.workspace}/`,
+          `${__dirname}/../fixtures/${scenario.workspace}/`,
           'package.json',
           `${version}/yarn.lock`,
           scenario.includeDev,
@@ -143,7 +143,7 @@ for (const version of ['yarn1', 'yarn2'] as const) {
           : scenario.expectedError;
       t.rejects(
         buildDepTreeFromFiles(
-          `${__dirname}/fixtures/${scenario.workspace}/`,
+          `${__dirname}/../fixtures/${scenario.workspace}/`,
           'package.json',
           `${version}/yarn.lock`,
         ),
@@ -182,7 +182,7 @@ for (const version of ['yarn1', 'yarn2'] as const) {
     try {
       config.YARN_TREE_SIZE_LIMIT = 500;
       await buildDepTreeFromFiles(
-        `${__dirname}/fixtures/goof/`,
+        `${__dirname}/../fixtures/goof/`,
         'package.json',
         `${version}/yarn.lock`,
       );
@@ -198,7 +198,7 @@ for (const version of ['yarn1', 'yarn2'] as const) {
 // // Yarn v2 specific test
 test('.yarnrc.yaml is missing, but still resolving to yarn2 version', async (t) => {
   const depTree = await buildDepTreeFromFiles(
-    `${__dirname}/fixtures/missing-dot-yarnrc-yarn2/`,
+    `${__dirname}/../fixtures/missing-dot-yarnrc-yarn2/`,
     'package.json',
     `yarn.lock`,
   );
