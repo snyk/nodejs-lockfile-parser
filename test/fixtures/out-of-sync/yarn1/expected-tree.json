@@ -4,27 +4,17 @@
       "labels": {
         "scope": "prod"
       },
+      "name": "debug",
+      "version": "2.0.0",
       "dependencies": {
         "ms": {
           "labels": {
             "scope": "prod"
           },
-          "dependencies": {
-            "debug": {
-              "labels": {
-                "scope": "prod",
-                "pruned": "cyclic"
-              },
-              "name": "debug",
-              "version": "2.0.0"
-            }
-          },
           "name": "ms",
           "version": "0.6.2"
         }
-      },
-      "name": "debug",
-      "version": "2.0.0"
+      }
     },
     "lodash": {
       "labels": {
@@ -45,12 +35,11 @@
   },
   "hasDevDependencies": true,
   "name": "trucolor",
-  "size": 6,
+  "size": 5,
   "version": "0.7.1",
   "meta": {
     "nodeVersion": ">=8.0",
     "lockfileVersion": 1,
-    "packageManager": "npm"
+    "packageManager": "yarn"
   }
 }
-

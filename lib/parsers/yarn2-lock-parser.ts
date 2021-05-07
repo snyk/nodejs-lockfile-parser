@@ -1,4 +1,4 @@
-import * as yaml from 'yaml';
+import { load, FAILSAFE_SCHEMA } from 'js-yaml';
 import * as yarnCore from '@yarnpkg/core';
 
 import { LockParserBase, DepMap } from './lock-parser-base';
@@ -22,7 +22,11 @@ export class Yarn2LockParser extends LockParserBase {
 
   public parseLockFile(lockFileContents: string): Yarn2Lock {
     try {
-      const rawYarnLock: any = yaml.parse(lockFileContents);
+      const rawYarnLock: any = load(lockFileContents, {
+        json: true,
+        schema: FAILSAFE_SCHEMA,
+      });
+
       delete rawYarnLock.__metadata;
       const dependencies: YarnLockDeps = {};
 

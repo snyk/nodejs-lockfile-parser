@@ -39,8 +39,7 @@
   "version": "0.7.1",
   "meta": {
     "nodeVersion": ">=8.0",
-    "lockfileVersion": 1,
+    "lockfileVersion": 2,
     "packageManager": "yarn"
   }
 }
-
