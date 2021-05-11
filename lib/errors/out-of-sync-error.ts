@@ -3,11 +3,13 @@ import { LockfileType } from '../parsers';
 const LOCK_FILE_NAME = {
   npm: 'package-lock.json',
   yarn: 'yarn.lock',
+  yarn2: 'yarn.lock',
 };
 
 const INSTALL_COMMAND = {
   npm: 'npm install',
   yarn: 'yarn install',
+  yarn2: 'yarn install',
 };
 
 export class OutOfSyncError extends Error {
