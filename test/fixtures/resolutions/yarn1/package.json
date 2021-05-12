@@ -1,0 +1,11 @@
+{
+  "name": "goof",
+  "version": "0.0.3",
+  "dependencies": {
+    "adm-zip": "0.4.7"
+  },
+  "resolutions": {
+    "adm-zip": "0.4.8"
+  },
+  "devDependencies": {}
+}

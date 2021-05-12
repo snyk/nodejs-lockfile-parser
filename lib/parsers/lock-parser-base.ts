@@ -59,7 +59,10 @@ export abstract class LockParserBase implements LockfileParser {
 
   constructor(protected type: LockfileType, protected treeSizeLimit: number) {}
 
-  public abstract parseLockFile(lockFileContents: string): Lockfile;
+  public abstract parseLockFile(
+    lockFileContents: string,
+    manifestFile?: ManifestFile,
+  ): Lockfile;
 
   public async getDependencyTree(
     manifestFile: ManifestFile,
@@ -73,7 +76,6 @@ export abstract class LockParserBase implements LockfileParser {
           'provide `package-lock.json`.',
       );
     }
-    const yarnLock = lockfile as Lockfile;
 
     const depTree: PkgTree = {
       dependencies: {},
@@ -97,7 +99,7 @@ export abstract class LockParserBase implements LockfileParser {
     // prepare a flat map, where dependency path is a key to dependency object
     // path is an unique identifier for each dependency and corresponds to the
     // relative path on disc
-    const depMap: DepMap = this.getDepMap(yarnLock);
+    const depMap: DepMap = this.getDepMap(lockfile);
 
     // all paths are identified, we can create a graph representing what depends on what
     const depGraph: graphlib.Graph = this.createGraphOfDependencies(depMap);
@@ -140,6 +142,7 @@ export abstract class LockParserBase implements LockfileParser {
       // it now has a different item in the map
       const key = this.getDepTreeKey(dep);
       const depName = cycleStarts[key] || key;
+
       if (depTrees[depName]) {
         // if the top level dependency is dev, all children are dev
         depTree.dependencies[dep.name] = dep.dev
@@ -346,7 +349,6 @@ export abstract class LockParserBase implements LockfileParser {
       }
       depPath.pop();
     }
-
     if (!depMap[depName]) {
       throw new OutOfSyncError(depName, this.type);
     }

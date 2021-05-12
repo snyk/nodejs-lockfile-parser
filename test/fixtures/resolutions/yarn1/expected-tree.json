@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "adm-zip": {
+      "labels": {
+        "scope": "prod"
+      },
+      "name": "adm-zip",
+      "version": "0.4.8"
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "goof",
+  "size": 2,
+  "version": "0.0.3",
+  "meta": {
+    "lockfileVersion": 1,
+    "packageManager": "yarn"
+  }
+}

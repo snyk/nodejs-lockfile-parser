@@ -24,6 +24,7 @@ export interface ManifestFile {
     node?: string;
   };
   workspaces?: string[] | WorkspacesAlternateConfig;
+  resolutions?: ManifestDependencies;
   dependencies?: ManifestDependencies;
   devDependencies?: ManifestDependencies;
   optionalDependencies?: ManifestDependencies;
@@ -77,7 +78,10 @@ export enum LockfileType {
 }
 
 export interface LockfileParser {
-  parseLockFile: (lockFileContents: string) => Lockfile;
+  parseLockFile: (
+    lockFileContents: string,
+    manifestFile: ManifestFile,
+  ) => Lockfile;
   getDependencyTree: (
     manifestFile: ManifestFile,
     lockfile: Lockfile,
@@ -109,6 +113,7 @@ export function getTopLevelDeps(
     ...targetFile.dependencies,
     ...(includeDev ? targetFile.devDependencies : null),
     ...(targetFile.optionalDependencies || {}),
+    ...(targetFile.resolutions ? targetFile.resolutions : null),
   });
 
   for (const [name, version] of dependenciesIterator) {

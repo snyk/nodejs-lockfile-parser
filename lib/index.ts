@@ -30,6 +30,7 @@ export {
   UnsupportedRuntimeError,
   InvalidUserInputError,
   OutOfSyncError,
+  ManifestFile,
 };
 
 async function buildDepTree(
@@ -72,7 +73,10 @@ async function buildDepTree(
       : defaultManifestFileName;
   }
 
-  const lockFile: Lockfile = lockfileParser.parseLockFile(lockFileContents);
+  const lockFile: Lockfile = lockfileParser.parseLockFile(
+    lockFileContents,
+    manifestFile,
+  );
   return lockfileParser.getDependencyTree(
     manifestFile,
     lockFile,

@@ -20,7 +20,10 @@ export class Yarn2LockParser extends LockParserBase {
     super(LockfileType.yarn2, config.YARN_TREE_SIZE_LIMIT);
   }
 
-  public parseLockFile(lockFileContents: string): Yarn2Lock {
+  public parseLockFile(
+    lockFileContents: string,
+    manifestFile: ManifestFile,
+  ): Yarn2Lock {
     try {
       const rawYarnLock: any = load(lockFileContents, {
         json: true,
@@ -41,8 +44,18 @@ export class Yarn2LockParser extends LockParserBase {
 
       Object.entries(rawYarnLock).forEach(
         ([fullDescriptor, versionData]: [string, any]) => {
+          const newVersionData =
+            manifestFile.resolutions && versionData.dependencies
+              ? {
+                  ...versionData,
+                  dependencies: {
+                    ...versionData.dependencies,
+                    ...manifestFile.resolutions,
+                  },
+                }
+              : versionData;
           keyNormalizer(fullDescriptor).forEach((descriptor) => {
-            dependencies[descriptor] = versionData;
+            dependencies[descriptor] = newVersionData;
           });
         },
       );
