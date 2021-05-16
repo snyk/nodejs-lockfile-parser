@@ -6,6 +6,7 @@
       },
       "name": "undefsafe",
       "version": "1.3.1",
+      "resolved": "https://registry.yarnpkg.com/undefsafe/-/undefsafe-1.3.1.tgz#168853130e15d57a5842a294bd0f203f1dd734ac",
       "dependencies": {
         "debug": {
           "labels": {
@@ -13,13 +14,15 @@
           },
           "name": "debug",
           "version": "2.6.9",
+          "resolved": "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f",
           "dependencies": {
             "ms": {
               "labels": {
                 "scope": "prod"
               },
               "name": "ms",
-              "version": "2.0.0"
+              "version": "2.0.0",
+              "resolved": "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
             }
           }
         }

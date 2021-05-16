@@ -4,116 +4,146 @@
       "labels": {
         "scope": "prod"
       },
+      "name": "body-parser",
+      "version": "1.9.0",
+      "checksum": "2/6c007bcec8f162cd5b3d945e6332e8890f483c9e758ea8a2acf00ad7b7f7d174d0e76f171c1469f51a50fa3dddaac75f1afb0d1c266325f96f648a60d1751fdc",
+      "resolution": "body-parser@git+ssh://git@github.com/expressjs/body-parser.git#commit:263f602e6ae34add6332c1eb4caa808893b0b711",
       "dependencies": {
         "bytes": {
           "labels": {
             "scope": "prod"
           },
           "name": "bytes",
-          "version": "1.0.0"
+          "version": "1.0.0",
+          "checksum": "2/ece30287a729bcd942822049ac83ea716c1f59eb3ad27af66fb22ca8c1ff62fd4547b574091e7f784e91f892df896ec978413133c85505a732da1998886d4258",
+          "resolution": "bytes@npm:1.0.0"
         },
         "depd": {
           "labels": {
             "scope": "prod"
           },
           "name": "depd",
-          "version": "1.0.1"
+          "version": "1.0.1",
+          "checksum": "2/de68884c3ed486659c3515cca8b97f9e40b97f899f5f7c054e6f5ff78549800266be1367fd475a0cc9248b3161dc55572c1a559632ad8f0d0849cfe890c33a40",
+          "resolution": "depd@npm:1.0.1"
         },
         "iconv-lite": {
           "labels": {
             "scope": "prod"
           },
           "name": "iconv-lite",
-          "version": "0.4.4"
+          "version": "0.4.4",
+          "checksum": "2/20b017106bcc9a425b93e7c921db0dff9ace206a0c95bcab7f9ad4667e71e57f60d6ae5188df9ac5113256014bcaf0003f3a159337d4086437cbedd1728e86e4",
+          "resolution": "iconv-lite@npm:0.4.4"
         },
         "media-typer": {
           "labels": {
             "scope": "prod"
           },
           "name": "media-typer",
-          "version": "0.3.0"
-        },
-        "qs": {
-          "labels": {
-            "scope": "prod"
-          },
-          "name": "qs",
-          "version": "2.2.4"
+          "version": "0.3.0",
+          "checksum": "2/be1c825782df7f38eebd451d778f6407bb15a59c8807a69e7f2ad74a25440e474536441c6bf583fdf2803ea23b866e91ff68f565cda297211dd89147758c8df3",
+          "resolution": "media-typer@npm:0.3.0"
         },
         "on-finished": {
           "labels": {
             "scope": "prod"
           },
+          "name": "on-finished",
+          "version": "2.1.0",
+          "checksum": "2/2abfc77ff9bcaf28d1b59d67afb7b6a95a61d43a823b26b7ad106400570ebf09a4c0b3f9d303c51af3162568b0d368a147c0ef14c0a220c717a1789d07cdf739",
+          "resolution": "on-finished@npm:2.1.0",
           "dependencies": {
             "ee-first": {
               "labels": {
                 "scope": "prod"
               },
               "name": "ee-first",
-              "version": "1.0.5"
+              "version": "1.0.5",
+              "checksum": "2/1e984f485887e3488adf796bdaf173b71cd9c0bc31cf3f2c1f6e6077d50c77637af0b452a2c0ed16f03c498c63b8418e4a2b2cbf9497266a82fdbf686cca47a6",
+              "resolution": "ee-first@npm:1.0.5"
             }
+          }
+        },
+        "qs": {
+          "labels": {
+            "scope": "prod"
           },
-          "name": "on-finished",
-          "version": "2.1.0"
+          "name": "qs",
+          "version": "2.2.4",
+          "checksum": "2/5e59b29c6108f9d8f9cc778b83267d60189255bd346bc63250790fb10fc66dda82f599a9d944dd8b1beb0356338b979eef1ce0d875a377bba4aee8aae410e088",
+          "resolution": "qs@npm:2.2.4"
         },
         "raw-body": {
           "labels": {
             "scope": "prod"
           },
+          "name": "raw-body",
+          "version": "1.3.0",
+          "checksum": "2/f0f5acddf484dbe6d25303f74be635fbfae70372815abb800150ced4af5d71dccb5c993bea1bb355e12a9ecce99f008dee455aa14839a5e2aac008472db82e74",
+          "resolution": "raw-body@npm:1.3.0",
           "dependencies": {
             "bytes": {
               "labels": {
                 "scope": "prod"
               },
               "name": "bytes",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "checksum": "2/ece30287a729bcd942822049ac83ea716c1f59eb3ad27af66fb22ca8c1ff62fd4547b574091e7f784e91f892df896ec978413133c85505a732da1998886d4258",
+              "resolution": "bytes@npm:1.0.0"
             },
             "iconv-lite": {
               "labels": {
                 "scope": "prod"
               },
               "name": "iconv-lite",
-              "version": "0.4.4"
+              "version": "0.4.4",
+              "checksum": "2/20b017106bcc9a425b93e7c921db0dff9ace206a0c95bcab7f9ad4667e71e57f60d6ae5188df9ac5113256014bcaf0003f3a159337d4086437cbedd1728e86e4",
+              "resolution": "iconv-lite@npm:0.4.4"
             }
-          },
-          "name": "raw-body",
-          "version": "1.3.0"
+          }
         },
         "type-is": {
           "labels": {
             "scope": "prod"
           },
+          "name": "type-is",
+          "version": "1.5.7",
+          "checksum": "2/abbac8488069060159f1ec5ff66188a022bd83e49d29a0f722a00846e559d5775d91fc41d17bf2188ddaf98494313d8b5f0336b4866345b0d2bb16b22c98ae67",
+          "resolution": "type-is@npm:1.5.7",
           "dependencies": {
             "media-typer": {
               "labels": {
                 "scope": "prod"
               },
               "name": "media-typer",
-              "version": "0.3.0"
+              "version": "0.3.0",
+              "checksum": "2/be1c825782df7f38eebd451d778f6407bb15a59c8807a69e7f2ad74a25440e474536441c6bf583fdf2803ea23b866e91ff68f565cda297211dd89147758c8df3",
+              "resolution": "media-typer@npm:0.3.0"
             },
             "mime-types": {
               "labels": {
                 "scope": "prod"
               },
+              "name": "mime-types",
+              "version": "2.0.14",
+              "checksum": "2/36e3a0fcfe68d15d00d86c5951d6c1ff5156848c245c176f8e0b22425568a2db6a26d3e27cf0154535202531ad19430e93e1b60950220617d8bf4dff06e6b752",
+              "resolution": "mime-types@npm:2.0.14",
               "dependencies": {
                 "mime-db": {
                   "labels": {
                     "scope": "prod"
                   },
                   "name": "mime-db",
-                  "version": "1.12.0"
+                  "version": "1.12.0",
+                  "checksum": "2/e55b1b044dba864869a01f26c58922690e07404b281cf6d5a7d59d115013d8c42b5007a4699fce8976fd86a6d48ad61b27461540449733b79c4bfc940a2d0568",
+                  "resolution": "mime-db@npm:1.12.0"
                 }
-              },
-              "name": "mime-types",
-              "version": "2.0.14"
+              }
             }
-          },
-          "name": "type-is",
-          "version": "1.5.7"
+          }
         }
-      },
-      "name": "body-parser",
-      "version": "1.9.0"
+      }
     }
   },
   "hasDevDependencies": false,

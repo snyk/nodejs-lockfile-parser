@@ -5,7 +5,8 @@
         "scope": "prod"
       },
       "name": "adm-zip",
-      "version": "0.4.7"
+      "version": "0.4.7",
+      "resolved": "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.4.7.tgz#8606c2cbf1c426ce8c8ec00174447fd49b6eafc1"
     }
   },
   "hasDevDependencies": false,

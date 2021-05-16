@@ -1,9 +1,9 @@
 {
+  "dependencies": {},
+  "hasDevDependencies": false,
   "name": "pkg-missing-deps",
   "size": 1,
   "version": "1.0.0",
-  "hasDevDependencies": false,
-  "dependencies": {},
   "meta": {
     "lockfileVersion": 2,
     "packageManager": "yarn"

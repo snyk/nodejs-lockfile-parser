@@ -5,7 +5,9 @@
         "scope": "prod"
       },
       "name": "adm-zip",
-      "version": "0.4.7"
+      "version": "0.4.7",
+      "checksum": "2/11a1c45712be29358e9e62b8b7111c2af6b13ee8e954443f64b5f6e7e869473219f4601f34537e960cf98968b9e7d46a376abb650c4095adcbe402b98a1c8af0",
+      "resolution": "adm-zip@npm:0.4.7"
     }
   },
   "hasDevDependencies": false,

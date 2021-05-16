@@ -4,116 +4,131 @@
       "labels": {
         "scope": "prod"
       },
+      "name": "body-parser",
+      "version": "1.9.0",
+      "resolved": "git+ssh://git@github.com/expressjs/body-parser.git#263f602e6ae34add6332c1eb4caa808893b0b711",
       "dependencies": {
         "bytes": {
           "labels": {
             "scope": "prod"
           },
           "name": "bytes",
-          "version": "1.0.0"
+          "version": "1.0.0",
+          "resolved": "https://registry.yarnpkg.com/bytes/-/bytes-1.0.0.tgz#3569ede8ba34315fab99c3e92cb04c7220de1fa8"
         },
         "depd": {
           "labels": {
             "scope": "prod"
           },
           "name": "depd",
-          "version": "1.0.1"
+          "version": "1.0.1",
+          "resolved": "http://registry.npmjs.org/depd/-/depd-1.0.1.tgz#80aec64c9d6d97e65cc2a9caa93c0aa6abf73aaa"
         },
         "iconv-lite": {
           "labels": {
             "scope": "prod"
           },
           "name": "iconv-lite",
-          "version": "0.4.4"
+          "version": "0.4.4",
+          "resolved": "http://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.4.tgz#e95f2e41db0735fc21652f7827a5ee32e63c83a8"
         },
         "media-typer": {
           "labels": {
             "scope": "prod"
           },
           "name": "media-typer",
-          "version": "0.3.0"
-        },
-        "qs": {
-          "labels": {
-            "scope": "prod"
-          },
-          "name": "qs",
-          "version": "2.2.4"
+          "version": "0.3.0",
+          "resolved": "http://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
         },
         "on-finished": {
           "labels": {
             "scope": "prod"
           },
+          "name": "on-finished",
+          "version": "2.1.0",
+          "resolved": "https://registry.yarnpkg.com/on-finished/-/on-finished-2.1.0.tgz#0c539f09291e8ffadde0c8a25850fb2cedc7022d",
           "dependencies": {
             "ee-first": {
               "labels": {
                 "scope": "prod"
               },
               "name": "ee-first",
-              "version": "1.0.5"
+              "version": "1.0.5",
+              "resolved": "https://registry.yarnpkg.com/ee-first/-/ee-first-1.0.5.tgz#8c9b212898d8cd9f1a9436650ce7be202c9e9ff0"
             }
+          }
+        },
+        "qs": {
+          "labels": {
+            "scope": "prod"
           },
-          "name": "on-finished",
-          "version": "2.1.0"
+          "name": "qs",
+          "version": "2.2.4",
+          "resolved": "http://registry.npmjs.org/qs/-/qs-2.2.4.tgz#2e9fbcd34b540e3421c924ecd01e90aa975319c8"
         },
         "raw-body": {
           "labels": {
             "scope": "prod"
           },
+          "name": "raw-body",
+          "version": "1.3.0",
+          "resolved": "https://registry.yarnpkg.com/raw-body/-/raw-body-1.3.0.tgz#978230a156a5548f42eef14de22d0f4f610083d1",
           "dependencies": {
             "bytes": {
               "labels": {
                 "scope": "prod"
               },
               "name": "bytes",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "resolved": "https://registry.yarnpkg.com/bytes/-/bytes-1.0.0.tgz#3569ede8ba34315fab99c3e92cb04c7220de1fa8"
             },
             "iconv-lite": {
               "labels": {
                 "scope": "prod"
               },
               "name": "iconv-lite",
-              "version": "0.4.4"
+              "version": "0.4.4",
+              "resolved": "http://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.4.tgz#e95f2e41db0735fc21652f7827a5ee32e63c83a8"
             }
-          },
-          "name": "raw-body",
-          "version": "1.3.0"
+          }
         },
         "type-is": {
           "labels": {
             "scope": "prod"
           },
+          "name": "type-is",
+          "version": "1.5.7",
+          "resolved": "https://registry.yarnpkg.com/type-is/-/type-is-1.5.7.tgz#b9368a593cc6ef7d0645e78b2f4c64cbecd05e90",
           "dependencies": {
             "media-typer": {
               "labels": {
                 "scope": "prod"
               },
               "name": "media-typer",
-              "version": "0.3.0"
+              "version": "0.3.0",
+              "resolved": "http://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
             },
             "mime-types": {
               "labels": {
                 "scope": "prod"
               },
+              "name": "mime-types",
+              "version": "2.0.14",
+              "resolved": "http://registry.npmjs.org/mime-types/-/mime-types-2.0.14.tgz#310e159db23e077f8bb22b748dabfa4957140aa6",
               "dependencies": {
                 "mime-db": {
                   "labels": {
                     "scope": "prod"
                   },
                   "name": "mime-db",
-                  "version": "1.12.0"
+                  "version": "1.12.0",
+                  "resolved": "http://registry.npmjs.org/mime-db/-/mime-db-1.12.0.tgz#3d0c63180f458eb10d325aaa37d7c58ae312e9d7"
                 }
-              },
-              "name": "mime-types",
-              "version": "2.0.14"
+              }
             }
-          },
-          "name": "type-is",
-          "version": "1.5.7"
+          }
         }
-      },
-      "name": "body-parser",
-      "version": "1.9.0"
+      }
     }
   },
   "hasDevDependencies": false,

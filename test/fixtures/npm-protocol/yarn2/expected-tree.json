@@ -5,7 +5,9 @@
         "scope": "prod"
       },
       "name": "lodash",
-      "version": "4.17.15"
+      "version": "4.17.15",
+      "checksum": "aec3fbb7570aa67bda500b8299b1b1821d60646bede87f76a74dfcc7666ab3445267d734ec71424d70809d52ad67a1356fab5ab694a3faa1908d68e9d48f00f5",
+      "resolution": "lodash@npm:4.17.15"
     }
   },
   "hasDevDependencies": false,

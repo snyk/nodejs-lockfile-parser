@@ -1,4 +1,4 @@
-{
+,{
   "dependencies": {
     "dustjs-linkedin": {
       "labels": { "scope": "prod" },
@@ -15,21 +15,25 @@
           "name": "bytes",
           "version": "1.0.0"
         },
+
         "depd": {
           "labels": { "scope": "prod" },
           "name": "depd",
           "version": "1.0.1"
         },
+
         "iconv-lite": {
           "labels": { "scope": "prod" },
           "name": "iconv-lite",
           "version": "0.4.4"
         },
+
         "media-typer": {
           "labels": { "scope": "prod" },
           "name": "media-typer",
           "version": "0.3.0"
         },
+
         "on-finished": {
           "labels": { "scope": "prod" },
           "name": "on-finished",
@@ -42,11 +46,13 @@
             }
           }
         },
+
         "qs": {
           "labels": { "scope": "prod" },
           "name": "qs",
           "version": "2.2.4"
         },
+
         "raw-body": {
           "labels": { "scope": "prod" },
           "name": "raw-body",
