@@ -37,7 +37,6 @@ export interface YarnLockDep {
   optionalDependencies?: {
     [depName: string]: string;
   };
-  
 }
 
 export class YarnLockParser extends LockParserBase {
@@ -72,8 +71,8 @@ export class YarnLockParser extends LockParserBase {
     );
 
     const meta = {
-      lockfileVersion: 1, 
-      packageManager: 'yarn'
+      lockfileVersion: 1,
+      packageManager: 'yarn',
     };
 
     const depTreeWithMeta = {
@@ -93,18 +92,20 @@ export class YarnLockParser extends LockParserBase {
         ...(dep.dependencies || {}),
         ...(dep.optionalDependencies || {}),
       });
-  
+
       depMap[depName] = {
         labels: {
           scope: Scope.prod,
         },
         name: getName(depName),
-        requires: subDependencies.map(([name, semverPattern]) => getDepRef(name, semverPattern)),
-        
+        requires: subDependencies.map(([name, semverPattern]) =>
+          getDepRef(name, semverPattern),
+        ),
+
         version: dep.version,
 
         ...(dep.resolved && { resolved: dep.resolved }),
-        ...(dep.integrity && { integrity: dep.integrity })
+        ...(dep.integrity && { integrity: dep.integrity }),
       };
     }
 
@@ -121,5 +122,5 @@ function getName(depName: string) {
 }
 
 function getDepRef(name: string, semverPattern: string): string {
-  return `${name}@${semverPattern}`
+  return `${name}@${semverPattern}`;
 }

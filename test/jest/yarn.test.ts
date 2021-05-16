@@ -1,23 +1,12 @@
 import * as path from 'path';
 
-import {
-  load,
-  readFixture
-} from '../utils';
-import {
-  config
-} from '../../lib/config';
-import {
-  buildDepTreeFromFiles,
-  buildDepTree,
-  LockfileType
-} from '../../lib';
-import {
-  InvalidUserInputError,
-  OutOfSyncError
-} from '../../lib/errors';
+import { load, readFixture } from '../utils';
+import { config } from '../../lib/config';
+import { buildDepTreeFromFiles, buildDepTree, LockfileType } from '../../lib';
+import { InvalidUserInputError, OutOfSyncError } from '../../lib/errors';
 
-const SCENARIOS_WITH_FILES = [{
+const SCENARIOS_WITH_FILES = [
+  {
     name: 'Parse yarn.lock',
     workspace: 'goof',
     includeDev: false,
@@ -90,7 +79,8 @@ const SCENARIOS_WITH_FILES = [{
   },
 ];
 
-const SCENARIOS_REJECTED = [{
+const SCENARIOS_REJECTED = [
+  {
     name: 'Parse yarn.lock with missing dependency',
     workspace: 'missing-deps-in-lock',
     expectedError: new OutOfSyncError('uptime', LockfileType.yarn),
@@ -114,8 +104,7 @@ const SCENARIOS_REJECTED = [{
   },
 ];
 
-for (const version of ['yarn1', 'yarn2'] as
-  const) {
+for (const version of ['yarn1', 'yarn2'] as const) {
   for (const scenario of SCENARIOS_WITH_FILES) {
     test(`${scenario.name} (${version})`, async () => {
       // yarn 1 & 2 produce different dep trees
@@ -135,24 +124,24 @@ for (const version of ['yarn1', 'yarn2'] as
         scenario.strict,
       );
 
-      expect(depTree).toEqual(expectedDepTree)
+      expect(depTree).toEqual(expectedDepTree);
     });
   }
 
   for (const scenario of SCENARIOS_REJECTED) {
     test(`${scenario.name} (${version})`, async () => {
       const expectedError =
-        version === 'yarn2' ?
-        scenario.expectedErrorYarn2 :
-        scenario.expectedError;
+        version === 'yarn2'
+          ? scenario.expectedErrorYarn2
+          : scenario.expectedError;
 
       expect(
         buildDepTreeFromFiles(
           `${__dirname}/../fixtures/${scenario.workspace}/`,
           'package.json',
           `${version}/yarn.lock`,
-        )
-      ).rejects.toThrow(expectedError.message)
+        ),
+      ).rejects.toThrow(expectedError.message);
     });
   }
 
@@ -173,7 +162,7 @@ for (const version of ['yarn1', 'yarn2'] as
       version === 'yarn2' ? LockfileType.yarn2 : LockfileType.yarn,
     );
 
-    expect(depTree).toEqual(expectedDepTree)
+    expect(depTree).toEqual(expectedDepTree);
   });
 
   // special case
@@ -181,11 +170,11 @@ for (const version of ['yarn1', 'yarn2'] as
     config.YARN_TREE_SIZE_LIMIT = 500;
     expect(
       buildDepTreeFromFiles(
-      `${__dirname}/../fixtures/goof/`,
-      'package.json',
-      `${version}/yarn.lock`,
-      )
-    ).rejects.toThrow()
+        `${__dirname}/../fixtures/goof/`,
+        'package.json',
+        `${version}/yarn.lock`,
+      ),
+    ).rejects.toThrow();
     config.YARN_TREE_SIZE_LIMIT = 6.0e6;
   });
 }
@@ -198,5 +187,5 @@ test('.yarnrc.yaml is missing, but still resolving to yarn2 version', async () =
     `yarn.lock`,
   );
 
-  expect(depTree.meta?.lockfileVersion).toEqual(2)
+  expect(depTree.meta?.lockfileVersion).toEqual(2);
 });

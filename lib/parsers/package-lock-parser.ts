@@ -96,7 +96,7 @@ export class PackageLockParser extends LockParserBase {
           version: dep.version,
 
           ...(dep.resolved && { resolved: dep.resolved }),
-          ...(dep.integrity && { integrity: dep.integrity })
+          ...(dep.integrity && { integrity: dep.integrity }),
         };
 
         if (dep.requires) {

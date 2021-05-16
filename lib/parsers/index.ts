@@ -20,7 +20,7 @@ type ManifestDependencies = {
 export interface ManifestFile {
   name: string;
   private?: string;
-  
+
   engines?: {
     node?: string;
   };
@@ -39,7 +39,7 @@ export interface ManifestFile {
 export interface DepTreeDep {
   name?: string; // shouldn't, but might happen
   version?: string; // shouldn't, but might happen
-  
+
   resolved?: string;
   integrity?: string;
 
@@ -155,7 +155,7 @@ export function createDepTreeDepFromDep(dep: Dep): DepTreeDep {
       scope: dep.dev ? Scope.dev : Scope.prod,
     },
     name: dep.name,
-    version: dep.version
+    version: dep.version,
   };
 }
 

@@ -14,9 +14,8 @@ export interface Yarn2Lock {
   lockfileType: LockfileType.yarn2;
 }
 
-
 export interface Yarn2LockDeps {
-  [depName: string]: Yarn2LockDep
+  [depName: string]: Yarn2LockDep;
 }
 
 export interface Yarn2LockDep {
@@ -26,17 +25,15 @@ export interface Yarn2LockDep {
   checksum?: string;
   linkType?: string;
   languageName?: string;
-  
+
   dependencies?: {
     [depName: string]: string;
   };
 
   optionalDependencies?: {
     [depName: string]: string;
-  }
+  };
 }
-
-
 
 export class Yarn2LockParser extends LockParserBase {
   constructor() {

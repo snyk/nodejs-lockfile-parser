@@ -163,13 +163,12 @@ export abstract class LockParserBase implements LockfileParser {
         if (strict) {
           throw new OutOfSyncError(dep.name, this.type);
         }
-        
+
         depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
 
         if (!depTree.dependencies[dep.name].labels) {
           depTree.dependencies[dep.name].labels = {};
         }
-
 
         depTree.dependencies[dep.name].labels!.missingLockFileEntry = 'true';
         treeSize++;
@@ -411,7 +410,7 @@ export abstract class LockParserBase implements LockfileParser {
         // They have incompatible formats with resolved and integrity
         // and hence have their own fields
         ...(dep.checksum && { checksum: dep.checksum }),
-        ...(dep.resolution && { resolution: dep.resolution })
+        ...(dep.resolution && { resolution: dep.resolution }),
       };
 
       if (dep.dependencies) {
