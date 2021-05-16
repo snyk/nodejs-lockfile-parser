@@ -1,122 +1,143 @@
 {
-  "name": "goof",
-  "size": 17,
-  "version": "0.0.3",
-  "hasDevDependencies": true,
-  "meta": {
-    "nodeVersion": "10.8.0",
-    "lockfileVersion": 1,
-    "packageManager": "npm"
-  },
   "dependencies": {
     "body-parser": {
-      "name": "body-parser",
-      "version": "1.9.0",
       "labels": {
         "scope": "prod"
       },
+      "name": "body-parser",
+      "version": "1.9.0",
+      "resolved": "https://registry.npmjs.org/body-parser/-/body-parser-1.9.0.tgz",
+      "integrity": "sha1-ldcpQ7Gk9n9Wu6yeDcyDe2hwNgU=",
       "dependencies": {
         "bytes": {
-          "name": "bytes",
-          "version": "1.0.0",
-          "labels": {
-            "scope": "prod"
-          }
-        },
-        "depd": {
-          "name": "depd",
-          "version": "1.0.1",
-          "labels": {
-            "scope": "prod"
-          }
-        },
-        "iconv-lite": {
-          "name": "iconv-lite",
-          "version": "0.4.4",
-          "labels": {
-            "scope": "prod"
-          }
-        },
-        "media-typer": {
-          "name": "media-typer",
-          "version": "0.3.0",
-          "labels": {
-            "scope": "prod"
-          }
-        },
-        "on-finished": {
-          "name": "on-finished",
-          "version": "2.1.0",
           "labels": {
             "scope": "prod"
           },
+          "name": "bytes",
+          "version": "1.0.0",
+          "resolved": "https://registry.npmjs.org/bytes/-/bytes-1.0.0.tgz",
+          "integrity": "sha1-NWnt6Lo0MV+rmcPpLLBMciDeH6g="
+        },
+        "depd": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "depd",
+          "version": "1.0.1",
+          "resolved": "https://registry.npmjs.org/depd/-/depd-1.0.1.tgz",
+          "integrity": "sha1-gK7GTJ1tl+ZcwqnKqTwKpqv3Oqo="
+        },
+        "iconv-lite": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "iconv-lite",
+          "version": "0.4.4",
+          "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.4.tgz",
+          "integrity": "sha1-6V8uQdsHNfwhZS94J6XuMuY8g6g="
+        },
+        "media-typer": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "media-typer",
+          "version": "0.3.0",
+          "resolved": "https://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz",
+          "integrity": "sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g="
+        },
+        "on-finished": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "on-finished",
+          "version": "2.1.0",
+          "resolved": "https://registry.npmjs.org/on-finished/-/on-finished-2.1.0.tgz",
+          "integrity": "sha1-DFOfCSkej/rd4MiiWFD7LO3HAi0=",
           "dependencies": {
             "ee-first": {
-              "name": "ee-first",
-              "version": "1.0.5",
               "labels": {
                 "scope": "prod"
-              }
+              },
+              "name": "ee-first",
+              "version": "1.0.5",
+              "resolved": "https://registry.npmjs.org/ee-first/-/ee-first-1.0.5.tgz",
+              "integrity": "sha1-jJshKJjYzZ8alDZlDOe+ICyen/A="
             }
           }
         },
         "qs": {
-          "name": "qs",
-          "version": "2.2.4",
-          "labels": {
-            "scope": "prod"
-          }
-        },
-        "raw-body": {
-          "name": "raw-body",
-          "version": "1.3.0",
           "labels": {
             "scope": "prod"
           },
+          "name": "qs",
+          "version": "2.2.4",
+          "resolved": "https://registry.npmjs.org/qs/-/qs-2.2.4.tgz",
+          "integrity": "sha1-Lp+800tUDjQhySTs0B6QqpdTGcg="
+        },
+        "raw-body": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "raw-body",
+          "version": "1.3.0",
+          "resolved": "https://registry.npmjs.org/raw-body/-/raw-body-1.3.0.tgz",
+          "integrity": "sha1-l4IwoValVI9C7vFN4i0PT2EAg9E=",
           "dependencies": {
             "bytes": {
+              "labels": {
+                "scope": "prod"
+              },
               "name": "bytes",
               "version": "1.0.0",
-              "labels": {
-                "scope": "prod"
-              }
+              "resolved": "https://registry.npmjs.org/bytes/-/bytes-1.0.0.tgz",
+              "integrity": "sha1-NWnt6Lo0MV+rmcPpLLBMciDeH6g="
             },
             "iconv-lite": {
-              "name": "iconv-lite",
-              "version": "0.4.4",
               "labels": {
                 "scope": "prod"
-              }
+              },
+              "name": "iconv-lite",
+              "version": "0.4.4",
+              "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.4.tgz",
+              "integrity": "sha1-6V8uQdsHNfwhZS94J6XuMuY8g6g="
             }
           }
         },
         "type-is": {
-          "name": "type-is",
-          "version": "1.5.7",
           "labels": {
             "scope": "prod"
           },
+          "name": "type-is",
+          "version": "1.5.7",
+          "resolved": "https://registry.npmjs.org/type-is/-/type-is-1.5.7.tgz",
+          "integrity": "sha1-uTaKWTzG730GReeLL0xky+zQXpA=",
           "dependencies": {
             "media-typer": {
-              "name": "media-typer",
-              "version": "0.3.0",
-              "labels": {
-                "scope": "prod"
-              }
-            },
-            "mime-types": {
-              "name": "mime-types",
-              "version": "2.0.14",
               "labels": {
                 "scope": "prod"
               },
+              "name": "media-typer",
+              "version": "0.3.0",
+              "resolved": "https://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz",
+              "integrity": "sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g="
+            },
+            "mime-types": {
+              "labels": {
+                "scope": "prod"
+              },
+              "name": "mime-types",
+              "version": "2.0.14",
+              "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.0.14.tgz",
+              "integrity": "sha1-MQ4VnbI+B3+Lsit0jav6SVcUCqY=",
               "dependencies": {
                 "mime-db": {
-                  "name": "mime-db",
-                  "version": "1.12.0",
                   "labels": {
                     "scope": "prod"
-                  }
+                  },
+                  "name": "mime-db",
+                  "version": "1.12.0",
+                  "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.12.0.tgz",
+                  "integrity": "sha1-PQxjGA9FjrENMlqqN9fFiuMS6dc="
                 }
               }
             }
@@ -125,11 +146,22 @@
       }
     },
     "file-type": {
-      "name": "file-type",
-      "version": "8.1.0",
       "labels": {
         "scope": "prod"
-      }
+      },
+      "name": "file-type",
+      "version": "8.1.0",
+      "resolved": "https://registry.npmjs.org/file-type/-/file-type-8.1.0.tgz",
+      "integrity": "sha512-qyQ0pzAy78gVoJsmYeNgl8uH8yKhr1lVhW7JbzJmnlRi0I4R2eEDEJZVKG8agpDnLpacwNbDhLNG/LMdxHD2YQ=="
     }
+  },
+  "hasDevDependencies": true,
+  "name": "goof",
+  "size": 17,
+  "version": "0.0.3",
+  "meta": {
+    "nodeVersion": "10.8.0",
+    "lockfileVersion": 1,
+    "packageManager": "npm"
   }
 }

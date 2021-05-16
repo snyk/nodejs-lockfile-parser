@@ -1,11 +1,11 @@
 {
+  "dependencies": {},
+  "hasDevDependencies": false,
   "name": "pkg-missing-deps",
   "size": 1,
   "version": "1.0.0",
-  "hasDevDependencies": false,
   "meta": {
     "lockfileVersion": 1,
     "packageManager": "npm"
-  },
-  "dependencies": {}
+  }
 }

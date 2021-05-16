@@ -5,7 +5,9 @@
         "scope": "prod"
       },
       "name": "adm-zip",
-      "version": "0.4.7"
+      "version": "0.4.7",
+      "checksum": "11a1c45712be29358e9e62b8b7111c2af6b13ee8e954443f64b5f6e7e869473219f4601f34537e960cf98968b9e7d46a376abb650c4095adcbe402b98a1c8af0",
+      "resolution": "adm-zip@npm:0.4.7"
     },
     "debug": {
       "labels": {
@@ -13,13 +15,17 @@
       },
       "name": "debug",
       "version": "2.6.9",
+      "checksum": "559f44f98cf25e2ee489022aec173afbff746564cb108c4493becb95bc3c017a67bdaa25a0ff64801fd32c35051d00af0e56cc7f762ae2c3bc089496e5a1c31b",
+      "resolution": "debug@npm:2.6.9",
       "dependencies": {
         "ms": {
           "labels": {
             "scope": "prod"
           },
           "name": "ms",
-          "version": "2.0.0"
+          "version": "2.0.0",
+          "checksum": "1a230340cc7f322fbe916783d8c8d60455407c6b7fb7f901d6ee34eb272402302c5c7f070a97b8531245cbb4ca6a0a623f6a128d7e5a5440cefa2c669c0b35bb",
+          "resolution": "ms@npm:2.0.0"
         }
       }
     }
