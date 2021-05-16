@@ -4,16 +4,39 @@ import * as yarnCore from '@yarnpkg/core';
 import { LockParserBase, DepMap } from './lock-parser-base';
 import { Dep, Lockfile, LockfileType, ManifestFile, PkgTree, Scope } from '.';
 import { config } from '../config';
-import { YarnLockDeps } from './yarn-lock-parser';
 import { InvalidUserInputError } from '../errors';
 import { yarnLockFileKeyNormalizer } from './yarn-utils';
 
 export interface Yarn2Lock {
   type: string;
-  object: YarnLockDeps;
-  dependencies?: YarnLockDeps;
+  object: Yarn2LockDeps;
+  dependencies?: Yarn2LockDeps;
   lockfileType: LockfileType.yarn2;
 }
+
+
+export interface Yarn2LockDeps {
+  [depName: string]: Yarn2LockDep
+}
+
+export interface Yarn2LockDep {
+  version: string;
+
+  resolution?: string;
+  checksum?: string;
+  linkType?: string;
+  languageName?: string;
+  
+  dependencies?: {
+    [depName: string]: string;
+  };
+
+  optionalDependencies?: {
+    [depName: string]: string;
+  }
+}
+
+
 
 export class Yarn2LockParser extends LockParserBase {
   constructor() {
@@ -28,7 +51,7 @@ export class Yarn2LockParser extends LockParserBase {
       });
 
       delete rawYarnLock.__metadata;
-      const dependencies: YarnLockDeps = {};
+      const dependencies: Yarn2LockDeps = {};
 
       const structUtils = yarnCore.structUtils;
       const parseDescriptor = structUtils.parseDescriptor;
@@ -90,13 +113,18 @@ export class Yarn2LockParser extends LockParserBase {
         ...(dep.dependencies || {}),
         ...(dep.optionalDependencies || {}),
       });
+
       depMap[depName] = {
         labels: {
           scope: Scope.prod,
         },
+
         name: getName(depName),
         requires: subDependencies.map(([key, ver]) => `${key}@${ver}`),
         version: dep.version,
+
+        ...(dep.resolution && { resolution: dep.resolution }),
+        ...(dep.checksum && { checksum: dep.checksum }),
       };
     }
 

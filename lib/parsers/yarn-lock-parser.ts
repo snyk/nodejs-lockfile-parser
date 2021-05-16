@@ -27,12 +27,17 @@ export interface YarnLockDeps {
 
 export interface YarnLockDep {
   version: string;
+  resolved?: string;
+  integrity?: string;
+
   dependencies?: {
     [depName: string]: string;
   };
+
   optionalDependencies?: {
     [depName: string]: string;
   };
+  
 }
 
 export class YarnLockParser extends LockParserBase {
@@ -66,7 +71,11 @@ export class YarnLockParser extends LockParserBase {
       strict,
     );
 
-    const meta = { lockfileVersion: 1, packageManager: 'yarn' };
+    const meta = {
+      lockfileVersion: 1, 
+      packageManager: 'yarn'
+    };
+
     const depTreeWithMeta = {
       ...depTree,
       meta: { ...depTree.meta, ...meta },
@@ -84,13 +93,18 @@ export class YarnLockParser extends LockParserBase {
         ...(dep.dependencies || {}),
         ...(dep.optionalDependencies || {}),
       });
+  
       depMap[depName] = {
         labels: {
           scope: Scope.prod,
         },
         name: getName(depName),
-        requires: subDependencies.map(([key, ver]) => `${key}@${ver}`),
+        requires: subDependencies.map(([name, semverPattern]) => getDepRef(name, semverPattern)),
+        
         version: dep.version,
+
+        ...(dep.resolved && { resolved: dep.resolved }),
+        ...(dep.integrity && { integrity: dep.integrity })
       };
     }
 
@@ -104,4 +118,8 @@ export class YarnLockParser extends LockParserBase {
 
 function getName(depName: string) {
   return depName.slice(0, depName.indexOf('@', 1));
+}
+
+function getDepRef(name: string, semverPattern: string): string {
+  return `${name}@${semverPattern}`
 }

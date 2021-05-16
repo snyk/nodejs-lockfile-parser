@@ -20,9 +20,11 @@ type ManifestDependencies = {
 export interface ManifestFile {
   name: string;
   private?: string;
+  
   engines?: {
     node?: string;
   };
+
   workspaces?: string[] | WorkspacesAlternateConfig;
   dependencies?: ManifestDependencies;
   devDependencies?: ManifestDependencies;
@@ -37,9 +39,18 @@ export interface ManifestFile {
 export interface DepTreeDep {
   name?: string; // shouldn't, but might happen
   version?: string; // shouldn't, but might happen
+  
+  resolved?: string;
+  integrity?: string;
+
+  // Specific for Yarn2 Lockfile
+  resolution?: string;
+  checksum?: string;
+
   dependencies?: {
     [depName: string]: DepTreeDep;
   };
+
   labels?: {
     [key: string]: string | undefined;
     scope?: 'dev' | 'prod';
@@ -54,11 +65,13 @@ export interface PkgTree extends DepTreeDep {
   dependencies: {
     [depName: string]: DepTreeDep;
   };
+
   meta?: {
     nodeVersion?: string;
     lockfileVersion?: number;
     packageManager?: string;
   };
+
   hasDevDependencies?: boolean;
   cyclic?: boolean;
   size?: number;
@@ -78,6 +91,7 @@ export enum LockfileType {
 
 export interface LockfileParser {
   parseLockFile: (lockFileContents: string) => Lockfile;
+
   getDependencyTree: (
     manifestFile: ManifestFile,
     lockfile: Lockfile,
@@ -141,7 +155,7 @@ export function createDepTreeDepFromDep(dep: Dep): DepTreeDep {
       scope: dep.dev ? Scope.dev : Scope.prod,
     },
     name: dep.name,
-    version: dep.version,
+    version: dep.version
   };
 }
 
