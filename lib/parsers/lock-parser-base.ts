@@ -124,7 +124,11 @@ export abstract class LockParserBase implements LockfileParser {
     );
 
     // get trees for dependencies from manifest file
-    const topLevelDeps: Dep[] = getTopLevelDeps(manifestFile, includeDev);
+    const topLevelDeps: Dep[] = getTopLevelDeps(
+      manifestFile,
+      includeDev,
+      lockfile,
+    );
 
     // number of dependencies including root one
     let treeSize = 1;

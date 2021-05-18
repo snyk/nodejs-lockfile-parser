@@ -1,4 +1,11 @@
-import { Dep, Lockfile, LockfileType, Scope } from './index';
+import {
+  Dep,
+  Lockfile,
+  LockfileType,
+  ManifestFile,
+  PkgTree,
+  Scope,
+} from './index';
 import { InvalidUserInputError } from '../errors';
 import { DepMap, DepMapItem, LockParserBase } from './lock-parser-base';
 import { config } from '../config';
@@ -7,8 +14,8 @@ export interface PackageLock {
   name: string;
   version: string;
   dependencies?: PackageLockDeps;
-  lockfileVersion: number;
-  type: LockfileType.npm;
+  lockfileVersion: 1 | 2;
+  type: LockfileType.npm | LockfileType.npm7;
 }
 
 export interface PackageLockDeps {
@@ -32,13 +39,40 @@ export class PackageLockParser extends LockParserBase {
   public parseLockFile(lockFileContents: string): PackageLock {
     try {
       const packageLock: PackageLock = JSON.parse(lockFileContents);
-      packageLock.type = LockfileType.npm;
+      packageLock.type =
+        packageLock.lockfileVersion === 1
+          ? LockfileType.npm
+          : LockfileType.npm7;
+      this.type = packageLock.type;
       return packageLock;
     } catch (e) {
       throw new InvalidUserInputError(
         'package-lock.json parsing failed with ' + `error ${e.message}`,
       );
     }
+  }
+
+  public async getDependencyTree(
+    manifestFile: ManifestFile,
+    lockfile: Lockfile,
+    includeDev: boolean = false,
+    strict: boolean = true,
+  ): Promise<PkgTree> {
+    const dependencyTree = await super.getDependencyTree(
+      manifestFile,
+      lockfile,
+      includeDev,
+      strict,
+    );
+    const meta = {
+      lockfileVersion: (lockfile as PackageLock).lockfileVersion,
+      packageManager: 'npm',
+    };
+    const depTreeWithMeta = {
+      ...dependencyTree,
+      meta: { ...dependencyTree.meta, ...meta },
+    };
+    return depTreeWithMeta;
   }
 
   protected getDepMap(lockfile: Lockfile): DepMap {

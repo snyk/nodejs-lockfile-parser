@@ -1,0 +1,49 @@
+{
+  "hasDevDependencies": false,
+  "name": "goof",
+  "size": 6,
+  "version": "0.0.3",
+  "meta": {
+    "lockfileVersion": 2,
+    "packageManager": "npm"
+  },
+  "dependencies": {
+    "adm-zip": {
+      "labels": { "scope": "prod" },
+      "name": "adm-zip",
+      "version": "0.4.7"
+    },
+    "has": {
+      "name": "has",
+      "version": "1.0.3",
+      "labels": {
+        "scope": "prod"
+      },
+      "dependencies": {
+        "function-bind": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "function-bind",
+          "version": "1.1.1"
+        }
+      }
+    },
+    "debug": {
+      "name": "debug",
+      "version": "2.6.9",
+      "labels": {
+        "scope": "prod"
+      },
+      "dependencies": {
+        "ms": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "ms",
+          "version": "2.0.0"
+        }
+      }
+    }
+  }
+}

@@ -13,6 +13,10 @@ interface WorkspacesAlternateConfig {
   packages?: string[];
 }
 
+type ManifestDependencies = {
+  [dep: string]: string;
+};
+
 export interface ManifestFile {
   name: string;
   private?: string;
@@ -20,12 +24,10 @@ export interface ManifestFile {
     node?: string;
   };
   workspaces?: string[] | WorkspacesAlternateConfig;
-  dependencies?: {
-    [dep: string]: string;
-  };
-  devDependencies?: {
-    [dep: string]: string;
-  };
+  dependencies?: ManifestDependencies;
+  devDependencies?: ManifestDependencies;
+  optionalDependencies?: ManifestDependencies;
+  peerDependencies?: ManifestDependencies;
   version?: string;
 }
 
@@ -54,7 +56,8 @@ export interface PkgTree extends DepTreeDep {
   };
   meta?: {
     nodeVersion?: string;
-    packageManagerVersion?: string;
+    lockfileVersion?: number;
+    packageManager?: string;
   };
   hasDevDependencies?: boolean;
   cyclic?: boolean;
@@ -68,6 +71,7 @@ export enum Scope {
 
 export enum LockfileType {
   npm = 'npm',
+  npm7 = 'npm7',
   yarn = 'yarn',
   yarn2 = 'yarn2',
 }
@@ -97,12 +101,14 @@ export function parseManifestFile(manifestFileContents: string): ManifestFile {
 export function getTopLevelDeps(
   targetFile: ManifestFile,
   includeDev: boolean,
+  lockfile: Lockfile,
 ): Dep[] {
   const dependencies: Dep[] = [];
 
   const dependenciesIterator = Object.entries({
     ...targetFile.dependencies,
     ...(includeDev ? targetFile.devDependencies : null),
+    ...(targetFile.optionalDependencies || {}),
   });
 
   for (const [name, version] of dependenciesIterator) {
@@ -116,6 +122,16 @@ export function getTopLevelDeps(
     });
   }
 
+  // Only include peerDependencies if using npm and npm is at least
+  // version 7 as npm v7 automatically installs peerDependencies
+  if (lockfile.type === LockfileType.npm7 && targetFile.peerDependencies) {
+    for (const [name, version] of Object.entries(targetFile.peerDependencies)) {
+      dependencies.push({
+        name,
+        version,
+      });
+    }
+  }
   return dependencies;
 }
 

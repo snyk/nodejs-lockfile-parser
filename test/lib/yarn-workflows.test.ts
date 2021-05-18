@@ -6,7 +6,7 @@ import { getYarnWorkspacesFromFiles } from '../../lib';
 
 test('Identify package.json as a yarn workspace', async (t) => {
   const workspaces = getYarnWorkspacesFromFiles(
-    `${__dirname}/fixtures/yarn-workspace/`,
+    `${__dirname}/../fixtures/yarn-workspace/`,
     'package.json',
   );
   t.deepEqual(
@@ -18,7 +18,7 @@ test('Identify package.json as a yarn workspace', async (t) => {
 
 test('Identify package.json as a yarn workspace when using alternate configuration format', async (t) => {
   const workspaces = getYarnWorkspacesFromFiles(
-    `${__dirname}/fixtures/yarn-workspace-alternate-config/`,
+    `${__dirname}/../fixtures/yarn-workspace-alternate-config/`,
     'package.json',
   );
   t.deepEqual(workspaces, ['packages/*'], 'Workspaces identified as expected');
@@ -26,7 +26,7 @@ test('Identify package.json as a yarn workspace when using alternate configurati
 
 test('identify package.json as Not a workspace project', async (t) => {
   const workspaces = getYarnWorkspacesFromFiles(
-    `${__dirname}/fixtures/external-tarball/`,
+    `${__dirname}/../fixtures/external-tarball/`,
     'package.json',
   );
   t.is(workspaces, false, 'Not a yarn workspace');

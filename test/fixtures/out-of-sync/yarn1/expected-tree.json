@@ -1,0 +1,45 @@
+{
+  "dependencies": {
+    "debug": {
+      "labels": {
+        "scope": "prod"
+      },
+      "name": "debug",
+      "version": "2.0.0",
+      "dependencies": {
+        "ms": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "ms",
+          "version": "0.6.2"
+        }
+      }
+    },
+    "lodash": {
+      "labels": {
+        "scope": "prod",
+        "missingLockFileEntry": "true"
+      },
+      "name": "lodash",
+      "version": "4.17.11"
+    },
+    "body-parser": {
+      "labels": {
+        "scope": "prod",
+        "missingLockFileEntry": "true"
+      },
+      "name": "body-parser",
+      "version": "^1.18.2"
+    }
+  },
+  "hasDevDependencies": true,
+  "name": "trucolor",
+  "size": 5,
+  "version": "0.7.1",
+  "meta": {
+    "nodeVersion": ">=8.0",
+    "lockfileVersion": 1,
+    "packageManager": "yarn"
+  }
+}

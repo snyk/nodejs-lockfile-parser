@@ -1,7 +1,0 @@
-{
-  "name": "pkg-dev-deps-only",
-  "size": 1,
-  "version": "0.0.1",
-  "hasDevDependencies": true,
-  "dependencies": {}
-}

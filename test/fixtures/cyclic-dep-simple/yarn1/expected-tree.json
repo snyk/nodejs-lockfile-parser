@@ -1,0 +1,39 @@
+{
+  "dependencies": {
+    "debug": {
+      "labels": {
+        "scope": "prod"
+      },
+      "name": "debug",
+      "version": "2.0.0",
+      "dependencies": {
+        "ms": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "ms",
+          "version": "0.6.2",
+          "dependencies": {
+            "debug": {
+              "labels": {
+                "scope": "prod",
+                "pruned": "cyclic"
+              },
+              "name": "debug",
+              "version": "2.0.0"
+            }
+          }
+        }
+      }
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "trucolor",
+  "size": 4,
+  "version": "0.7.1",
+  "meta": {
+    "nodeVersion": ">=8.0",
+    "lockfileVersion": 1,
+    "packageManager": "yarn"
+  }
+}
