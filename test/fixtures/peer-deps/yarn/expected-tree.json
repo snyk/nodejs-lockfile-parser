@@ -5,7 +5,9 @@
         "scope": "prod"
       },
       "name": "adm-zip",
-      "version": "0.4.7"
+      "version": "0.4.7",
+      "resolved": "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.4.7.tgz#8606c2cbf1c426ce8c8ec00174447fd49b6eafc1",
+      "integrity": "sha1-hgbCy/HEJs6MjsABdER/1Jtur8E="
     },
     "debug": {
       "labels": {
@@ -13,13 +15,17 @@
       },
       "name": "debug",
       "version": "2.6.9",
+      "resolved": "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f",
+      "integrity": "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==",
       "dependencies": {
         "ms": {
           "labels": {
             "scope": "prod"
           },
           "name": "ms",
-          "version": "2.0.0"
+          "version": "2.0.0",
+          "resolved": "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8",
+          "integrity": "sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g="
         }
       }
     }

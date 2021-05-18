@@ -5,7 +5,9 @@
         "scope": "prod"
       },
       "name": "adm-zip",
-      "version": "0.4.7"
+      "version": "0.4.7",
+      "resolved": "https://registry.npmjs.org/adm-zip/-/adm-zip-0.4.7.tgz",
+      "integrity": "sha1-hgbCy/HEJs6MjsABdER/1Jtur8E="
     },
     "debug": {
       "labels": {
@@ -13,13 +15,17 @@
       },
       "name": "debug",
       "version": "2.6.9",
+      "resolved": "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz",
+      "integrity": "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==",
       "dependencies": {
         "ms": {
           "labels": {
             "scope": "prod"
           },
           "name": "ms",
-          "version": "2.0.0"
+          "version": "2.0.0",
+          "resolved": "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz",
+          "integrity": "sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g="
         }
       }
     }

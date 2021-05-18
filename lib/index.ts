@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+
 import {
   LockfileParser,
   Lockfile,
@@ -10,9 +11,11 @@ import {
   LockfileType,
   getYarnWorkspaces,
 } from './parsers';
+
 import { PackageLockParser } from './parsers/package-lock-parser';
 import { YarnLockParser } from './parsers/yarn-lock-parser';
 import { Yarn2LockParser } from './parsers/yarn2-lock-parser';
+
 import {
   UnsupportedRuntimeError,
   InvalidUserInputError,

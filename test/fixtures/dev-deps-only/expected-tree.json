@@ -1,28 +1,32 @@
 {
+  "dependencies": {
+    "debug": {
+      "labels": {
+        "scope": "dev"
+      },
+      "name": "debug",
+      "version": "2.6.9",
+      "resolved": "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz",
+      "integrity": "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==",
+      "dependencies": {
+        "ms": {
+          "labels": {
+            "scope": "dev"
+          },
+          "name": "ms",
+          "version": "2.0.0",
+          "resolved": "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz",
+          "integrity": "sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g="
+        }
+      }
+    }
+  },
+  "hasDevDependencies": true,
   "name": "pkg-dev-deps-only",
   "size": 3,
   "version": "0.0.1",
   "meta": {
     "lockfileVersion": 1,
     "packageManager": "npm"
-  },
-  "hasDevDependencies": true,
-  "dependencies": {
-    "debug": {
-      "name": "debug",
-      "version": "2.6.9",
-      "labels": {
-        "scope": "dev"
-      },
-      "dependencies": {
-        "ms": {
-          "name": "ms",
-          "version": "2.0.0",
-          "labels": {
-            "scope": "dev"
-          }
-        }
-      }
-    }
   }
 }

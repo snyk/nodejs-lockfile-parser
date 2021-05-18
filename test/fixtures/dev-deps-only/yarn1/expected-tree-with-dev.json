@@ -1,26 +1,28 @@
 {
-  "name": "pkg-dev-deps-only",
-  "size": 3,
-  "version": "0.0.1",
-  "hasDevDependencies": true,
   "dependencies": {
     "debug": {
-      "name": "debug",
-      "version": "2.6.9",
       "labels": {
         "scope": "dev"
       },
+      "name": "debug",
+      "version": "2.6.9",
+      "resolved": "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f",
       "dependencies": {
         "ms": {
-          "name": "ms",
-          "version": "2.0.0",
           "labels": {
             "scope": "dev"
-          }
+          },
+          "name": "ms",
+          "version": "2.0.0",
+          "resolved": "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
         }
       }
     }
   },
+  "hasDevDependencies": true,
+  "name": "pkg-dev-deps-only",
+  "size": 3,
+  "version": "0.0.1",
   "meta": {
     "lockfileVersion": 1,
     "packageManager": "yarn"

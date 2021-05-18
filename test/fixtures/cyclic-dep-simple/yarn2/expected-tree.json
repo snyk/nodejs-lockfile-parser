@@ -6,6 +6,8 @@
       },
       "name": "debug",
       "version": "2.0.0",
+      "checksum": "2/0d3aafea6f4d2fac3e1ad295c17927aeb1188b51184cc1a39a061911fde969c1ff9139a14f895b592f2a82035fc507ef9ec78ebddcba6aba4be0fe6e195abde7",
+      "resolution": "debug@npm:2.0.0",
       "dependencies": {
         "ms": {
           "labels": {
@@ -13,6 +15,8 @@
           },
           "name": "ms",
           "version": "0.6.2",
+          "checksum": "2/58b15f75a33f042ce241d435c6eb218f46cd835f74db4f85b4dacf4143a92638cc0887be38423e79411da27dae103db3048a0d9aa4629607ab10c7d037b6f9e7",
+          "resolution": "ms@npm:0.6.2",
           "dependencies": {
             "debug": {
               "labels": {
@@ -20,7 +24,9 @@
                 "pruned": "cyclic"
               },
               "name": "debug",
-              "version": "2.0.0"
+              "version": "2.0.0",
+              "checksum": "2/0d3aafea6f4d2fac3e1ad295c17927aeb1188b51184cc1a39a061911fde969c1ff9139a14f895b592f2a82035fc507ef9ec78ebddcba6aba4be0fe6e195abde7",
+              "resolution": "debug@npm:2.0.0"
             }
           }
         }

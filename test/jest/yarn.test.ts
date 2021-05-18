@@ -1,7 +1,3 @@
-#!/usr/bin/env node_modules/.bin/ts-node
-// Shebang is required, and file *has* to be executable: chmod +x file.test.js
-// See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
-import { test } from 'tap';
 import * as path from 'path';
 
 import { load, readFixture } from '../utils';
@@ -110,51 +106,47 @@ const SCENARIOS_REJECTED = [
 
 for (const version of ['yarn1', 'yarn2'] as const) {
   for (const scenario of SCENARIOS_WITH_FILES) {
-    test(`${scenario.name} (${version})`, async (t) => {
+    test(`${scenario.name} (${version})`, async () => {
       // yarn 1 & 2 produce different dep trees
       // because yarn 2 now adds additional transitive required when compiling for example, node-gyp
+
       const expectedPath = path.join(
         scenario.workspace,
         version,
         `expected-tree${scenario.includeDev ? '-with-dev' : ''}.json`,
       );
       const expectedDepTree = load(expectedPath);
-      try {
-        const depTree = await buildDepTreeFromFiles(
-          `${__dirname}/../fixtures/${scenario.workspace}/`,
-          'package.json',
-          `${version}/yarn.lock`,
-          scenario.includeDev,
-          scenario.strict,
-        );
+      const depTree = await buildDepTreeFromFiles(
+        `${__dirname}/../fixtures/${scenario.workspace}/`,
+        'package.json',
+        `${version}/yarn.lock`,
+        scenario.includeDev,
+        scenario.strict,
+      );
 
-        t.same(depTree, expectedDepTree, 'Tree generated as expected');
-      } catch (err) {
-        t.fail(err);
-      }
+      expect(depTree).toEqual(expectedDepTree);
     });
   }
 
   for (const scenario of SCENARIOS_REJECTED) {
-    test(`${scenario.name} (${version})`, async (t) => {
+    test(`${scenario.name} (${version})`, async () => {
       const expectedError =
         version === 'yarn2'
           ? scenario.expectedErrorYarn2
           : scenario.expectedError;
-      t.rejects(
+
+      expect(
         buildDepTreeFromFiles(
           `${__dirname}/../fixtures/${scenario.workspace}/`,
           'package.json',
           `${version}/yarn.lock`,
         ),
-        expectedError,
-        'Error is thrown',
-      );
+      ).rejects.toThrow(expectedError.message);
     });
   }
 
   // buildDepTree
-  test(`buildDepTree from string yarn.lock (${version})`, async (t) => {
+  test(`buildDepTree from string yarn.lock (${version})`, async () => {
     // yarn 1 & 2 produce different dep trees
     // because yarn 2 now adds additional transitive required when compiling for example, node-gyp
     const expectedPath = path.join('goof', version, 'expected-tree.json');
@@ -163,45 +155,37 @@ for (const version of ['yarn1', 'yarn2'] as const) {
     const manifestFileContents = readFixture('goof/package.json');
     const lockFileContents = readFixture(`goof/${version}/yarn.lock`);
 
-    try {
-      const depTree = await buildDepTree(
-        manifestFileContents,
-        lockFileContents,
-        false,
-        version === 'yarn2' ? LockfileType.yarn2 : LockfileType.yarn,
-      );
+    const depTree = await buildDepTree(
+      manifestFileContents,
+      lockFileContents,
+      false,
+      version === 'yarn2' ? LockfileType.yarn2 : LockfileType.yarn,
+    );
 
-      t.same(depTree, expectedDepTree, 'Tree generated as expected');
-    } catch (err) {
-      t.fail();
-    }
+    expect(depTree).toEqual(expectedDepTree);
   });
 
   // special case
-  test(`Yarn Tree size exceeds the allowed limit of 500 dependencies (${version})`, async (t) => {
-    try {
-      config.YARN_TREE_SIZE_LIMIT = 500;
-      await buildDepTreeFromFiles(
+  test(`Yarn Tree size exceeds the allowed limit of 500 dependencies (${version})`, async () => {
+    config.YARN_TREE_SIZE_LIMIT = 500;
+    expect(
+      buildDepTreeFromFiles(
         `${__dirname}/../fixtures/goof/`,
         'package.json',
         `${version}/yarn.lock`,
-      );
-      t.fail('Expected TreeSizeLimitError to be thrown');
-    } catch (err) {
-      t.equals(err.constructor.name, 'TreeSizeLimitError');
-    } finally {
-      config.YARN_TREE_SIZE_LIMIT = 6.0e6;
-    }
+      ),
+    ).rejects.toThrow();
+    config.YARN_TREE_SIZE_LIMIT = 6.0e6;
   });
 }
 
 // // Yarn v2 specific test
-test('.yarnrc.yaml is missing, but still resolving to yarn2 version', async (t) => {
+test('.yarnrc.yaml is missing, but still resolving to yarn2 version', async () => {
   const depTree = await buildDepTreeFromFiles(
     `${__dirname}/../fixtures/missing-dot-yarnrc-yarn2/`,
     'package.json',
     `yarn.lock`,
   );
 
-  t.equal(depTree.meta?.lockfileVersion, 2, 'resolved to yarn v2');
+  expect(depTree.meta?.lockfileVersion).toEqual(2);
 });

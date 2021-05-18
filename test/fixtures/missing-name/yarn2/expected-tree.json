@@ -6,6 +6,8 @@
       },
       "name": "undefsafe",
       "version": "1.3.1",
+      "checksum": "2/4af7a673380a95eedd4b6f2b2b543cfa0dc894728a27becd8149a9ec5289a2e3f70e1d876f3c2bf24341346183e9c43ae48fbc0aa2ae79b0da7ae584864bc7fb",
+      "resolution": "undefsafe@npm:1.3.1",
       "dependencies": {
         "debug": {
           "labels": {
@@ -13,13 +15,17 @@
           },
           "name": "debug",
           "version": "2.6.9",
+          "checksum": "2/559f44f98cf25e2ee489022aec173afbff746564cb108c4493becb95bc3c017a67bdaa25a0ff64801fd32c35051d00af0e56cc7f762ae2c3bc089496e5a1c31b",
+          "resolution": "debug@npm:2.6.9",
           "dependencies": {
             "ms": {
               "labels": {
                 "scope": "prod"
               },
               "name": "ms",
-              "version": "2.0.0"
+              "version": "2.0.0",
+              "checksum": "2/1a230340cc7f322fbe916783d8c8d60455407c6b7fb7f901d6ee34eb272402302c5c7f070a97b8531245cbb4ca6a0a623f6a128d7e5a5440cefa2c669c0b35bb",
+              "resolution": "ms@npm:2.0.0"
             }
           }
         }
