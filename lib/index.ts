@@ -30,6 +30,7 @@ export {
   UnsupportedRuntimeError,
   InvalidUserInputError,
   OutOfSyncError,
+  ManifestFile,
 };
 
 async function buildDepTree(

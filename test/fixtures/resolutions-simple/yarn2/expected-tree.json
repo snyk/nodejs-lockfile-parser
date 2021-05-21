@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "debug": {
+      "labels": {
+        "scope": "prod"
+      },
+      "name": "debug",
+      "version": "4.3.1",
+      "dependencies": {
+        "ms": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "ms",
+          "version": "1.0.0"
+        }
+      }
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "resolutions-simple",
+  "size": 3,
+  "version": "0.0.1",
+  "meta": {
+    "lockfileVersion": 2,
+    "packageManager": "yarn"
+  }
+}

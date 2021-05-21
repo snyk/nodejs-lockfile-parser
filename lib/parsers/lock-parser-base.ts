@@ -14,6 +14,7 @@ import {
   Lockfile,
   LockfileParser,
   LockfileType,
+  ManifestDependencies,
   ManifestFile,
   PkgTree,
   Scope,
@@ -97,7 +98,7 @@ export abstract class LockParserBase implements LockfileParser {
     // prepare a flat map, where dependency path is a key to dependency object
     // path is an unique identifier for each dependency and corresponds to the
     // relative path on disc
-    const depMap: DepMap = this.getDepMap(yarnLock);
+    const depMap: DepMap = this.getDepMap(yarnLock, manifestFile.resolutions);
 
     // all paths are identified, we can create a graph representing what depends on what
     const depGraph: graphlib.Graph = this.createGraphOfDependencies(depMap);
@@ -411,8 +412,10 @@ export abstract class LockParserBase implements LockfileParser {
     return { depTrees, depTreesSizes };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected getDepMap(lockfile: Lockfile): DepMap {
+  protected getDepMap(
+    lockfile: Lockfile, // eslint-disable-line @typescript-eslint/no-unused-vars
+    resolutions?: ManifestDependencies, // eslint-disable-line @typescript-eslint/no-unused-vars
+  ): DepMap {
     throw new Error('Not implemented');
   }
 

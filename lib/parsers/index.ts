@@ -13,7 +13,7 @@ interface WorkspacesAlternateConfig {
   packages?: string[];
 }
 
-type ManifestDependencies = {
+export type ManifestDependencies = {
   [dep: string]: string;
 };
 
@@ -28,6 +28,7 @@ export interface ManifestFile {
   devDependencies?: ManifestDependencies;
   optionalDependencies?: ManifestDependencies;
   peerDependencies?: ManifestDependencies;
+  resolutions?: ManifestDependencies;
   version?: string;
 }
 
