@@ -1,0 +1,10 @@
+{
+  "name": "resolutions-simple",
+  "version": "0.0.1",
+  "dependencies": {
+    "@babel/core": "7.0.0"
+  },
+  "resolutions": {
+    "@babel/types": "7.0.0"
+  }
+}

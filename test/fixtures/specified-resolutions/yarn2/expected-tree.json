@@ -1,0 +1,167 @@
+{
+  "dependencies": {
+    "send": {
+      "labels": {
+        "scope": "prod"
+      },
+      "name": "send",
+      "version": "0.17.1",
+      "dependencies": {
+        "debug": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "debug",
+          "version": "2.6.9",
+          "dependencies": {
+            "ms": {
+              "labels": {
+                "scope": "prod"
+              },
+              "name": "ms",
+              "version": "1.0.0"
+            }
+          }
+        },
+        "depd": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "depd",
+          "version": "1.1.2"
+        },
+        "destroy": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "destroy",
+          "version": "1.0.4"
+        },
+        "encodeurl": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "encodeurl",
+          "version": "1.0.2"
+        },
+        "escape-html": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "escape-html",
+          "version": "1.0.3"
+        },
+        "etag": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "etag",
+          "version": "1.8.1"
+        },
+        "fresh": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "fresh",
+          "version": "0.5.2"
+        },
+        "http-errors": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "http-errors",
+          "version": "1.7.3",
+          "dependencies": {
+            "depd": {
+              "labels": {
+                "scope": "prod"
+              },
+              "name": "depd",
+              "version": "1.1.2"
+            },
+            "inherits": {
+              "labels": {
+                "scope": "prod"
+              },
+              "name": "inherits",
+              "version": "2.0.4"
+            },
+            "setprototypeof": {
+              "labels": {
+                "scope": "prod"
+              },
+              "name": "setprototypeof",
+              "version": "1.1.1"
+            },
+            "statuses": {
+              "labels": {
+                "scope": "prod"
+              },
+              "name": "statuses",
+              "version": "1.5.0"
+            },
+            "toidentifier": {
+              "labels": {
+                "scope": "prod"
+              },
+              "name": "toidentifier",
+              "version": "1.0.0"
+            }
+          }
+        },
+        "mime": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "mime",
+          "version": "1.6.0"
+        },
+        "ms": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "ms",
+          "version": "2.1.1"
+        },
+        "on-finished": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "on-finished",
+          "version": "2.3.0",
+          "dependencies": {
+            "ee-first": {
+              "labels": {
+                "scope": "prod"
+              },
+              "name": "ee-first",
+              "version": "1.1.1"
+            }
+          }
+        },
+        "range-parser": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "range-parser",
+          "version": "1.2.1"
+        },
+        "statuses": {
+          "labels": {
+            "scope": "prod"
+          },
+          "name": "statuses",
+          "version": "1.5.0"
+        }
+      }
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "resolutions-specified",
+  "size": 22,
+  "version": "0.0.1",
+  "meta": {
+    "lockfileVersion": 2,
+    "packageManager": "yarn"
+  }
+}

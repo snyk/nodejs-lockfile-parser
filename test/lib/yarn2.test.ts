@@ -81,13 +81,33 @@ const SCENARIOS_WITH_FILES = [
     workspace: 'missing-name',
     includeDev: false,
   },
+  {
+    name: 'Parse with a basic resolution.',
+    workspace: 'resolutions-simple',
+    includeDev: false,
+  },
+  {
+    name: 'Parse with a specified resolution.',
+    workspace: 'specified-resolutions',
+    includeDev: false,
+  },
+  {
+    name: 'Parse with a versioned resolution.',
+    workspace: 'versioned-resolutions',
+    includeDev: false,
+  },
+  {
+    name: 'Parse with a scoped resolution.',
+    workspace: 'scoped-resolutions',
+    includeDev: false,
+  },
 ];
 
 const SCENARIOS_REJECTED = [
   {
     name: 'Parse yarn.lock with missing dependency',
     workspace: 'missing-deps-in-lock',
-    expectedError: new OutOfSyncError('uptime', LockfileType.yarn),
+    expectedError: new OutOfSyncError('uptime', LockfileType.yarn2),
   },
   {
     name: 'Parse invalid yarn.lock',
@@ -99,17 +119,17 @@ const SCENARIOS_REJECTED = [
   {
     name: 'Out of sync yarn.lock strict mode',
     workspace: 'out-of-sync',
-    expectedError: new OutOfSyncError('lodash', LockfileType.yarn),
+    expectedError: new OutOfSyncError('lodash', LockfileType.yarn2),
   },
 ];
 
 for (const scenario of SCENARIOS_WITH_FILES) {
-  test(`${scenario.name} (yarn1)`, async (t) => {
+  test(`${scenario.name} (yarn2)`, async (t) => {
     // yarn 1 & 2 produce different dep trees
     // because yarn 2 now adds additional transitive required when compiling for example, node-gyp
     const expectedPath = path.join(
       scenario.workspace,
-      'yarn1',
+      'yarn2',
       `expected-tree${scenario.includeDev ? '-with-dev' : ''}.json`,
     );
     const expectedDepTree = load(expectedPath);
@@ -117,7 +137,7 @@ for (const scenario of SCENARIOS_WITH_FILES) {
       const depTree = await buildDepTreeFromFiles(
         `${__dirname}/../fixtures/${scenario.workspace}/`,
         'package.json',
-        `yarn1/yarn.lock`,
+        `yarn2/yarn.lock`,
         scenario.includeDev,
         scenario.strict,
       );
@@ -130,13 +150,13 @@ for (const scenario of SCENARIOS_WITH_FILES) {
 }
 
 for (const scenario of SCENARIOS_REJECTED) {
-  test(`${scenario.name} (yarn1)`, async (t) => {
+  test(`${scenario.name} (yarn2)`, async (t) => {
     const expectedError = scenario.expectedError;
     t.rejects(
       buildDepTreeFromFiles(
         `${__dirname}/../fixtures/${scenario.workspace}/`,
         'package.json',
-        `yarn1/yarn.lock`,
+        `yarn2/yarn.lock`,
       ),
       expectedError,
       'Error is thrown',
@@ -145,21 +165,21 @@ for (const scenario of SCENARIOS_REJECTED) {
 }
 
 // buildDepTree
-test(`buildDepTree from string yarn.lock (yarn1)`, async (t) => {
+test(`buildDepTree from string yarn.lock (yarn2)`, async (t) => {
   // yarn 1 & 2 produce different dep trees
   // because yarn 2 now adds additional transitive required when compiling for example, node-gyp
-  const expectedPath = path.join('goof', 'yarn1', 'expected-tree.json');
+  const expectedPath = path.join('goof', 'yarn2', 'expected-tree.json');
   const expectedDepTree = load(expectedPath);
 
   const manifestFileContents = readFixture('goof/package.json');
-  const lockFileContents = readFixture(`goof/yarn1/yarn.lock`);
+  const lockFileContents = readFixture(`goof/yarn2/yarn.lock`);
 
   try {
     const depTree = await buildDepTree(
       manifestFileContents,
       lockFileContents,
       false,
-      LockfileType.yarn,
+      LockfileType.yarn2,
     );
 
     t.same(depTree, expectedDepTree, 'Tree generated as expected');
@@ -169,13 +189,13 @@ test(`buildDepTree from string yarn.lock (yarn1)`, async (t) => {
 });
 
 // special case
-test(`Yarn Tree size exceeds the allowed limit of 500 dependencies (yarn1)`, async (t) => {
+test(`Yarn Tree size exceeds the allowed limit of 500 dependencies (yarn2)`, async (t) => {
   try {
     config.YARN_TREE_SIZE_LIMIT = 500;
     await buildDepTreeFromFiles(
       `${__dirname}/../fixtures/goof/`,
       'package.json',
-      `yarn1/yarn.lock`,
+      `yarn2/yarn.lock`,
     );
     t.fail('Expected TreeSizeLimitError to be thrown');
   } catch (err) {
@@ -183,4 +203,15 @@ test(`Yarn Tree size exceeds the allowed limit of 500 dependencies (yarn1)`, asy
   } finally {
     config.YARN_TREE_SIZE_LIMIT = 6.0e6;
   }
+});
+
+// Yarn v2 specific test
+test('.yarnrc.yaml is missing, but still resolving to yarn2 version', async (t) => {
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/../fixtures/missing-dot-yarnrc-yarn2/`,
+    'package.json',
+    `yarn.lock`,
+  );
+
+  t.equal(depTree.meta?.lockfileVersion, 2, 'resolved to yarn v2');
 });
