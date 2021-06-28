@@ -31,6 +31,7 @@
   ],
   "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
   "dependencies": {
+    "@snyk/dep-graph": "^1.28.0",
     "@snyk/graphlib": "2.1.9-patch.3",
     "@yarnpkg/core": "^2.4.0",
     "@yarnpkg/lockfile": "^1.1.0",
@@ -41,6 +42,7 @@
     "lodash.isempty": "^4.4.0",
     "lodash.set": "^4.3.2",
     "lodash.topairs": "^4.3.0",
+    "semver": "^7.3.5",
     "snyk-config": "^4.0.0-rc.2",
     "tslib": "^1.9.3",
     "uuid": "^8.3.0"
@@ -48,6 +50,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@types/node": "^12.0.0",
+    "@types/semver": "^7.3.6",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.0.0",

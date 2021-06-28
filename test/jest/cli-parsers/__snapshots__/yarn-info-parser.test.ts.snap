@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseYarnListOutput should return a correct flat map of the dependencies 1`] = `
+Object {
+  "dependencies": Map {
+    "accepts@npm:1.3.7" => Array [
+      "mime-types@npm:2.1.31",
+      "negotiator@npm:0.6.2",
+    ],
+    "mime-db@npm:1.48.0" => Array [],
+    "mime-types@npm:2.1.31" => Array [
+      "mime-db@npm:1.48.0",
+    ],
+    "negotiator@npm:0.6.2" => Array [],
+  },
+  "topLevelDeps": Array [
+    "accepts@npm:1.3.7",
+  ],
+}
+`;

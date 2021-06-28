@@ -1,0 +1,5 @@
+{"value":"accepts@npm:1.3.7","children":{"Version":"1.3.7","Dependents":["simple-tester-y2@workspace:."],"Dependencies":[{"descriptor":"mime-types@npm:~2.1.24","locator":"mime-types@npm:2.1.31"},{"descriptor":"negotiator@npm:0.6.2","locator":"negotiator@npm:0.6.2"}]}}
+{"value":"mime-db@npm:1.48.0","children":{"Version":"1.48.0","Dependents":["mime-types@npm:2.1.31"]}}
+{"value":"mime-types@npm:2.1.31","children":{"Version":"2.1.31","Dependents":["accepts@npm:1.3.7"],"Dependencies":[{"descriptor":"mime-db@npm:1.48.0","locator":"mime-db@npm:1.48.0"}]}}
+{"value":"negotiator@npm:0.6.2","children":{"Version":"0.6.2","Dependents":["accepts@npm:1.3.7"]}}
+{"value":"simple-tester-y2@workspace:.","children":{"Version":"0.0.0-use.local","Dependencies":[{"descriptor":"accepts@npm:1.3.7","locator":"accepts@npm:1.3.7"}]}}
