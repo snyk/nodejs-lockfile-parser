@@ -18,10 +18,12 @@ import {
   InvalidUserInputError,
   OutOfSyncError,
 } from './errors';
+import { buildDepGraphFromCliOutput } from './cli-parsers';
 
 export {
   buildDepTree,
   buildDepTreeFromFiles,
+  buildDepGraphFromCliOutput,
   getYarnWorkspacesFromFiles,
   getYarnWorkspaces,
   PkgTree,
@@ -154,7 +156,7 @@ function getYarnWorkspacesFromFiles(
   return getYarnWorkspaces(manifestFileContents);
 }
 
-function getYarnLockfileType(
+export function getYarnLockfileType(
   lockFileContents: string,
   root?: string,
   lockFilePath?: string,
