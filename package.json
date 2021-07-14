@@ -32,7 +32,9 @@
   "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
   "dependencies": {
     "@snyk/dep-graph": "^1.28.0",
+    "@pnpm/lockfile-file": "4.1.0",
     "@snyk/graphlib": "2.1.9-patch.3",
+    "@types/js-yaml": "4.0.2",
     "@yarnpkg/core": "^2.4.0",
     "@yarnpkg/lockfile": "^1.1.0",
     "event-loop-spinner": "^2.0.0",

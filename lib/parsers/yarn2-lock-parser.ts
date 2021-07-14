@@ -97,7 +97,7 @@ export class Yarn2LockParser extends LockParserBase {
     const yarnLockfile = lockfile as Yarn2Lock;
     const depMap: DepMap = {};
 
-    const dependencies = (lockfile.dependencies as YarnLockDeps) || {};
+    const dependencies = (yarnLockfile.dependencies as YarnLockDeps) || {};
 
     for (const [depName, dep] of Object.entries(yarnLockfile.object)) {
       const subDependencies = Object.entries({

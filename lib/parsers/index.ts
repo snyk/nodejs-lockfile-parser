@@ -2,6 +2,7 @@ import { PackageLock } from './package-lock-parser';
 import { YarnLock } from './yarn-lock-parser';
 import { InvalidUserInputError } from '../errors';
 import { Yarn2Lock } from './yarn2-lock-parser';
+import { PnpmFileLock } from './pnpm-lock-parser';
 
 export interface Dep {
   name: string;
@@ -80,6 +81,7 @@ export enum LockfileType {
   npm7 = 'npm7',
   yarn = 'yarn',
   yarn2 = 'yarn2',
+  pnpm = 'pnpm',
 }
 
 export interface LockfileParser {
@@ -92,7 +94,7 @@ export interface LockfileParser {
   ) => Promise<PkgTree>;
 }
 
-export type Lockfile = PackageLock | YarnLock | Yarn2Lock;
+export type Lockfile = PackageLock | YarnLock | Yarn2Lock | PnpmFileLock;
 
 export function parseManifestFile(manifestFileContents: string): ManifestFile {
   try {

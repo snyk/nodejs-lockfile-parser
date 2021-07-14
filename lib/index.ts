@@ -13,6 +13,7 @@ import {
 import { PackageLockParser } from './parsers/package-lock-parser';
 import { YarnLockParser } from './parsers/yarn-lock-parser';
 import { Yarn2LockParser } from './parsers/yarn2-lock-parser';
+import { PnpmPackageLockParser } from './parsers/pnpm-lock-parser';
 import {
   UnsupportedRuntimeError,
   InvalidUserInputError,
@@ -47,6 +48,8 @@ async function buildDepTree(
     lockfileType = LockfileType.npm;
   } else if (lockfileType === LockfileType.yarn) {
     lockfileType = getYarnLockfileType(lockFileContents);
+  } else if (lockfileType === LockfileType.pnpm) {
+    lockfileType = LockfileType.pnpm;
   }
 
   let lockfileParser: LockfileParser;
@@ -60,10 +63,13 @@ async function buildDepTree(
     case LockfileType.yarn2:
       lockfileParser = new Yarn2LockParser();
       break;
+    case LockfileType.pnpm:
+      lockfileParser = new PnpmPackageLockParser();
+      break;
     default:
       throw new InvalidUserInputError(
         'Unsupported lockfile type ' +
-          `${lockfileType} provided. Only 'npm' or 'yarn' is currently ` +
+          `${lockfileType} provided. Only 'npm', 'yarn' or 'pnpm' is currently ` +
           'supported.',
       );
   }
@@ -75,7 +81,9 @@ async function buildDepTree(
       : defaultManifestFileName;
   }
 
-  const lockFile: Lockfile = lockfileParser.parseLockFile(lockFileContents);
+  const lockFile: Lockfile = await lockfileParser.parseLockFile(
+    lockFileContents,
+  );
   return lockfileParser.getDependencyTree(
     manifestFile,
     lockFile,
@@ -118,10 +126,12 @@ async function buildDepTreeFromFiles(
     lockFileType = LockfileType.npm;
   } else if (lockFilePath.endsWith('yarn.lock')) {
     lockFileType = getYarnLockfileType(lockFileContents, root, lockFilePath);
+  } else if (lockFilePath.endsWith('pnpm-lock.yaml')) {
+    lockFileType = LockfileType.pnpm;
   } else {
     throw new InvalidUserInputError(
       `Unknown lockfile ${lockFilePath}. ` +
-        'Please provide either package-lock.json or yarn.lock.',
+        'Please provide either package-lock.json, yarn.lock or pnpm-lock.yaml.',
     );
   }
 
