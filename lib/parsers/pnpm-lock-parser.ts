@@ -40,11 +40,6 @@ export class PnpmPackageLockParser extends LockParserBase {
         type: LockfileType.pnpm,
       };
 
-<<<<<<< HEAD
-      console.log('****************', { lockfile });
-
-=======
->>>>>>> e08406abdce78fca1002242bcb4bacb243cf5eec
       return lockfile;
     } catch (e) {
       throw new InvalidUserInputError(
