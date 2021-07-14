@@ -40,8 +40,11 @@ export class PnpmPackageLockParser extends LockParserBase {
         type: LockfileType.pnpm,
       };
 
+<<<<<<< HEAD
       console.log('****************', { lockfile });
 
+=======
+>>>>>>> e08406abdce78fca1002242bcb4bacb243cf5eec
       return lockfile;
     } catch (e) {
       throw new InvalidUserInputError(
@@ -76,114 +79,17 @@ export class PnpmPackageLockParser extends LockParserBase {
     return depTreeWithMeta;
   }
 
-  // public getDepMap(lockfile: Lockfile): DepMap {
-
-  //   const pnpmLockfile = lockfile as PnpmFileLock;
-  //   const depMap: DepMap = {};
-
-  //   const flattenLockfileRec = (
-  //     lockfileDeps: PackageSnapshots,
-  //     path: string[],
-  //   ) => {
-  //     for (const [depName, dep] of Object.entries(lockfileDeps)) {
-  //       const name = getName(depName);
-  //       const version = getVersion(depName);
-  //       const depNode: DepMapItem = {
-  //         labels: {
-  //           scope: dep.dev ? Scope.dev : Scope.prod,
-  //         },
-  //         name,
-  //         requires: [],
-  //         version,
-  //       };
-
-  //       // if (name.includes('basic-auth'))
-  //       // {
-  //       //   console.log(depName)
-  //       //   console.log(dep)
-  //       // }
-
-  //       if (dep.dependencies) {
-  //         //depNode.requires = Object.keys(dep.dependencies);
-  //         for (const name of Object.keys(dep.dependencies)) {
-  //           const version = dep.dependencies[name];
-  //           depNode.requires.push(`${name}@${version}`)
-  //         }
-  //       }
-
-  //       //const depPath: string[] = []
-  //       // if (path.length == 0)
-  //       // {
-  //       //   depPath.push(`${name}@${version}`)
-  //       // }
-  //       // else
-  //       // {
-  //       //   depPath.push(path[0])
-  //       //   depPath.push(`${name}@${version}`)
-  //       // }
-  //       const depPath: string[] = [...path, `${name}@${version}`];
-  //       const depKey = depPath.join(this.pathDelimiter);
-  //       depMap[depKey] = depNode;
-
-  //       if (dep.dependencies) {
-  //         const transitivePackages: PackageSnapshots = {};
-  //         for (const name of Object.keys(dep.dependencies)) {
-  //           const version = dep.dependencies[name];
-  //           const snapshotName = `/${name}/${version}`;
-  //           transitivePackages[snapshotName] =
-  //             pnpmLockfile.packages[snapshotName];
-  //         }
-
-  //         flattenLockfileRec(transitivePackages, depPath);
-  //       }
-  //     }
-  //   };
-
-  //   flattenLockfileRec(pnpmLockfile.packages || {}, []);
-
-  //   // for (const [key, value] of  Object.entries(depMap)) {
-  //   //   if (key.includes('basic-auth'))
-  //   //   {
-  //   //     console.log(key)
-  //   //     console.log(value)
-  //   //   }
-  //   //   //console.log(key, value)
-  //   // }
-
-  //   return depMap;
-  // }
-
   public getDepMap(lockfile: Lockfile): DepMap {
-    // const pnpmLock = lockfile as PnpmFileLock;
-    // const depMap: DepMap = {};
-
-    // for (const [depName, dep] of Object.entries(pnpmLock.packages!)) {
-    //   const subDependencies = Object.entries({
-    //     ...(dep.dependencies || {}),
-    //   });
-    //   const packageName = this.getName(depName);
-    //   const packageVersion = this.getVersion(depName)
-
-    //   depMap[packageName] = {
-    //     labels: {
-    //       scope: Scope.prod,
-    //     },
-    //     name: packageName,
-    //     requires: subDependencies.map(([key, ver]) => key),
-    //     version: packageVersion,
-    //   };
-    // }
-
     const pnpmLock = lockfile as PnpmFileLock;
     const depMap: DepMap = {};
-
+    const allDependenciesData = pnpmLock.packages;
     const flattenLockfileRec = (
       lockfileDeps: pnpmLockfileLib.PackageSnapshots,
       path: string[],
     ) => {
       for (const [depName, dep] of Object.entries(lockfileDeps)) {
         const dependencyName = this.getName(depName);
-        const packageVersion = this.getVersion(depName)
+        const packageVersion = this.getVersion(depName);
 
         const depNode: DepMapItem = {
           labels: {
@@ -207,21 +113,18 @@ export class PnpmPackageLockParser extends LockParserBase {
           const transitiveMap: pnpmLockfileLib.PackageSnapshots = {};
           for (const t of Object.keys(transitives)) {
             const depName = `/${t}/${transitives[t]}`;
-            transitiveMap[depName] = lockfileDeps[depName];
+            transitiveMap[depName] = allDependenciesData[depName];
           }
           flattenLockfileRec(transitiveMap, depPath);
         }
       }
     };
 
-    flattenLockfileRec(pnpmLock.packages || {}, []);
-    console.log(JSON.stringify({ depMap }));
-
+    flattenLockfileRec(allDependenciesData || {}, []);
     return depMap;
   }
 
   protected getDepTreeKey(dep: Dep): string {
-    console.log({dep})
     return dep.name;
   }
 

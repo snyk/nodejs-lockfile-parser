@@ -126,7 +126,7 @@ export abstract class LockParserBase implements LockfileParser {
       depGraph,
     );
 
-    console.log(JSON.stringify({depTrees}));
+    // console.log(JSON.stringify({depTrees}));
 
 
     // get trees for dependencies from manifest file
@@ -136,7 +136,7 @@ export abstract class LockParserBase implements LockfileParser {
       lockfile,
     );
 
-    console.log(JSON.stringify({topLevelDeps}));
+    // console.log(JSON.stringify({topLevelDeps}));
 
 
     // number of dependencies including root one
@@ -149,7 +149,7 @@ export abstract class LockParserBase implements LockfileParser {
       // it now has a different item in the map
       const key = this.getDepTreeKey(dep);
       const depName = cycleStarts[key] || key;
-      console.log({depName, name: dep.name, found: depTrees[depName]})
+      // console.log({depName, name: dep.name, found: depTrees[depName]})
       if (depTrees[depName]) {
         // if the top level dependency is dev, all children are dev
         depTree.dependencies[dep.name] = dep.dev
