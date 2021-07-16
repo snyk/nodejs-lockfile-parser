@@ -494,14 +494,14 @@ Object {
                                             "scope": "prod",
                                           },
                                           "name": "safe-buffer",
-                                          "version": "5.1.2",
+                                          "version": "5.2.1",
                                         },
                                       },
                                       "labels": Object {
                                         "scope": "prod",
                                       },
                                       "name": "string_decoder",
-                                      "version": "1.1.1",
+                                      "version": "1.3.0",
                                     },
                                     "util-deprecate": Object {
                                       "labels": Object {
@@ -579,14 +579,14 @@ Object {
                                             "scope": "prod",
                                           },
                                           "name": "safe-buffer",
-                                          "version": "5.1.2",
+                                          "version": "5.2.1",
                                         },
                                       },
                                       "labels": Object {
                                         "scope": "prod",
                                       },
                                       "name": "string_decoder",
-                                      "version": "1.1.1",
+                                      "version": "1.3.0",
                                     },
                                     "util-deprecate": Object {
                                       "labels": Object {
@@ -689,14 +689,14 @@ Object {
                                             "scope": "prod",
                                           },
                                           "name": "safe-buffer",
-                                          "version": "5.1.2",
+                                          "version": "5.2.1",
                                         },
                                       },
                                       "labels": Object {
                                         "scope": "prod",
                                       },
                                       "name": "string_decoder",
-                                      "version": "1.1.1",
+                                      "version": "1.3.0",
                                     },
                                     "util-deprecate": Object {
                                       "labels": Object {
@@ -880,14 +880,14 @@ Object {
                                         "scope": "prod",
                                       },
                                       "name": "safe-buffer",
-                                      "version": "5.1.2",
+                                      "version": "5.2.1",
                                     },
                                   },
                                   "labels": Object {
                                     "scope": "prod",
                                   },
                                   "name": "string_decoder",
-                                  "version": "1.1.1",
+                                  "version": "1.3.0",
                                 },
                                 "util-deprecate": Object {
                                   "labels": Object {
@@ -1059,14 +1059,14 @@ Object {
                                         "scope": "prod",
                                       },
                                       "name": "safe-buffer",
-                                      "version": "5.1.2",
+                                      "version": "5.2.1",
                                     },
                                   },
                                   "labels": Object {
                                     "scope": "prod",
                                   },
                                   "name": "string_decoder",
-                                  "version": "1.1.1",
+                                  "version": "1.3.0",
                                 },
                                 "util-deprecate": Object {
                                   "labels": Object {
@@ -1144,14 +1144,14 @@ Object {
                                         "scope": "prod",
                                       },
                                       "name": "safe-buffer",
-                                      "version": "5.1.2",
+                                      "version": "5.2.1",
                                     },
                                   },
                                   "labels": Object {
                                     "scope": "prod",
                                   },
                                   "name": "string_decoder",
-                                  "version": "1.1.1",
+                                  "version": "1.3.0",
                                 },
                                 "util-deprecate": Object {
                                   "labels": Object {
@@ -1309,14 +1309,14 @@ Object {
                                             "scope": "prod",
                                           },
                                           "name": "safe-buffer",
-                                          "version": "5.1.2",
+                                          "version": "5.2.1",
                                         },
                                       },
                                       "labels": Object {
                                         "scope": "prod",
                                       },
                                       "name": "string_decoder",
-                                      "version": "1.1.1",
+                                      "version": "1.3.0",
                                     },
                                     "util-deprecate": Object {
                                       "labels": Object {
@@ -1394,14 +1394,14 @@ Object {
                                             "scope": "prod",
                                           },
                                           "name": "safe-buffer",
-                                          "version": "5.1.2",
+                                          "version": "5.2.1",
                                         },
                                       },
                                       "labels": Object {
                                         "scope": "prod",
                                       },
                                       "name": "string_decoder",
-                                      "version": "1.1.1",
+                                      "version": "1.3.0",
                                     },
                                     "util-deprecate": Object {
                                       "labels": Object {
@@ -1509,14 +1509,14 @@ Object {
                                         "scope": "prod",
                                       },
                                       "name": "safe-buffer",
-                                      "version": "5.1.2",
+                                      "version": "5.2.1",
                                     },
                                   },
                                   "labels": Object {
                                     "scope": "prod",
                                   },
                                   "name": "string_decoder",
-                                  "version": "1.1.1",
+                                  "version": "1.3.0",
                                 },
                                 "util-deprecate": Object {
                                   "labels": Object {
@@ -1847,14 +1847,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -1932,14 +1932,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -2042,14 +2042,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -2164,14 +2164,14 @@ Object {
                                             "scope": "prod",
                                           },
                                           "name": "safe-buffer",
-                                          "version": "5.1.2",
+                                          "version": "5.2.1",
                                         },
                                       },
                                       "labels": Object {
                                         "scope": "prod",
                                       },
                                       "name": "string_decoder",
-                                      "version": "1.1.1",
+                                      "version": "1.3.0",
                                     },
                                     "util-deprecate": Object {
                                       "labels": Object {
@@ -2297,14 +2297,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -2382,14 +2382,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -2547,14 +2547,14 @@ Object {
                                                     "scope": "prod",
                                                   },
                                                   "name": "safe-buffer",
-                                                  "version": "5.1.2",
+                                                  "version": "5.2.1",
                                                 },
                                               },
                                               "labels": Object {
                                                 "scope": "prod",
                                               },
                                               "name": "string_decoder",
-                                              "version": "1.1.1",
+                                              "version": "1.3.0",
                                             },
                                             "util-deprecate": Object {
                                               "labels": Object {
@@ -2632,14 +2632,14 @@ Object {
                                                     "scope": "prod",
                                                   },
                                                   "name": "safe-buffer",
-                                                  "version": "5.1.2",
+                                                  "version": "5.2.1",
                                                 },
                                               },
                                               "labels": Object {
                                                 "scope": "prod",
                                               },
                                               "name": "string_decoder",
-                                              "version": "1.1.1",
+                                              "version": "1.3.0",
                                             },
                                             "util-deprecate": Object {
                                               "labels": Object {
@@ -2747,14 +2747,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -2862,14 +2862,14 @@ Object {
                                             "scope": "prod",
                                           },
                                           "name": "safe-buffer",
-                                          "version": "5.1.2",
+                                          "version": "5.2.1",
                                         },
                                       },
                                       "labels": Object {
                                         "scope": "prod",
                                       },
                                       "name": "string_decoder",
-                                      "version": "1.1.1",
+                                      "version": "1.3.0",
                                     },
                                     "util-deprecate": Object {
                                       "labels": Object {
@@ -2980,14 +2980,14 @@ Object {
                             "scope": "prod",
                           },
                           "name": "safe-buffer",
-                          "version": "5.1.2",
+                          "version": "5.2.1",
                         },
                       },
                       "labels": Object {
                         "scope": "prod",
                       },
                       "name": "string_decoder",
-                      "version": "1.1.1",
+                      "version": "1.3.0",
                     },
                     "util-deprecate": Object {
                       "labels": Object {
@@ -3205,14 +3205,14 @@ Object {
                                     "scope": "prod",
                                   },
                                   "name": "safe-buffer",
-                                  "version": "5.1.2",
+                                  "version": "5.2.1",
                                 },
                               },
                               "labels": Object {
                                 "scope": "prod",
                               },
                               "name": "string_decoder",
-                              "version": "1.1.1",
+                              "version": "1.3.0",
                             },
                             "util-deprecate": Object {
                               "labels": Object {
@@ -3290,14 +3290,14 @@ Object {
                                     "scope": "prod",
                                   },
                                   "name": "safe-buffer",
-                                  "version": "5.1.2",
+                                  "version": "5.2.1",
                                 },
                               },
                               "labels": Object {
                                 "scope": "prod",
                               },
                               "name": "string_decoder",
-                              "version": "1.1.1",
+                              "version": "1.3.0",
                             },
                             "util-deprecate": Object {
                               "labels": Object {
@@ -3455,14 +3455,14 @@ Object {
                                         "scope": "prod",
                                       },
                                       "name": "safe-buffer",
-                                      "version": "5.1.2",
+                                      "version": "5.2.1",
                                     },
                                   },
                                   "labels": Object {
                                     "scope": "prod",
                                   },
                                   "name": "string_decoder",
-                                  "version": "1.1.1",
+                                  "version": "1.3.0",
                                 },
                                 "util-deprecate": Object {
                                   "labels": Object {
@@ -3540,14 +3540,14 @@ Object {
                                         "scope": "prod",
                                       },
                                       "name": "safe-buffer",
-                                      "version": "5.1.2",
+                                      "version": "5.2.1",
                                     },
                                   },
                                   "labels": Object {
                                     "scope": "prod",
                                   },
                                   "name": "string_decoder",
-                                  "version": "1.1.1",
+                                  "version": "1.3.0",
                                 },
                                 "util-deprecate": Object {
                                   "labels": Object {
@@ -3655,14 +3655,14 @@ Object {
                                     "scope": "prod",
                                   },
                                   "name": "safe-buffer",
-                                  "version": "5.1.2",
+                                  "version": "5.2.1",
                                 },
                               },
                               "labels": Object {
                                 "scope": "prod",
                               },
                               "name": "string_decoder",
-                              "version": "1.1.1",
+                              "version": "1.3.0",
                             },
                             "util-deprecate": Object {
                               "labels": Object {
@@ -3866,14 +3866,14 @@ Object {
                                         "scope": "prod",
                                       },
                                       "name": "safe-buffer",
-                                      "version": "5.1.2",
+                                      "version": "5.2.1",
                                     },
                                   },
                                   "labels": Object {
                                     "scope": "prod",
                                   },
                                   "name": "string_decoder",
-                                  "version": "1.1.1",
+                                  "version": "1.3.0",
                                 },
                                 "util-deprecate": Object {
                                   "labels": Object {
@@ -3951,14 +3951,14 @@ Object {
                                         "scope": "prod",
                                       },
                                       "name": "safe-buffer",
-                                      "version": "5.1.2",
+                                      "version": "5.2.1",
                                     },
                                   },
                                   "labels": Object {
                                     "scope": "prod",
                                   },
                                   "name": "string_decoder",
-                                  "version": "1.1.1",
+                                  "version": "1.3.0",
                                 },
                                 "util-deprecate": Object {
                                   "labels": Object {
@@ -4116,14 +4116,14 @@ Object {
                                             "scope": "prod",
                                           },
                                           "name": "safe-buffer",
-                                          "version": "5.1.2",
+                                          "version": "5.2.1",
                                         },
                                       },
                                       "labels": Object {
                                         "scope": "prod",
                                       },
                                       "name": "string_decoder",
-                                      "version": "1.1.1",
+                                      "version": "1.3.0",
                                     },
                                     "util-deprecate": Object {
                                       "labels": Object {
@@ -4201,14 +4201,14 @@ Object {
                                             "scope": "prod",
                                           },
                                           "name": "safe-buffer",
-                                          "version": "5.1.2",
+                                          "version": "5.2.1",
                                         },
                                       },
                                       "labels": Object {
                                         "scope": "prod",
                                       },
                                       "name": "string_decoder",
-                                      "version": "1.1.1",
+                                      "version": "1.3.0",
                                     },
                                     "util-deprecate": Object {
                                       "labels": Object {
@@ -4316,14 +4316,14 @@ Object {
                                         "scope": "prod",
                                       },
                                       "name": "safe-buffer",
-                                      "version": "5.1.2",
+                                      "version": "5.2.1",
                                     },
                                   },
                                   "labels": Object {
                                     "scope": "prod",
                                   },
                                   "name": "string_decoder",
-                                  "version": "1.1.1",
+                                  "version": "1.3.0",
                                 },
                                 "util-deprecate": Object {
                                   "labels": Object {
@@ -4431,14 +4431,14 @@ Object {
                                     "scope": "prod",
                                   },
                                   "name": "safe-buffer",
-                                  "version": "5.1.2",
+                                  "version": "5.2.1",
                                 },
                               },
                               "labels": Object {
                                 "scope": "prod",
                               },
                               "name": "string_decoder",
-                              "version": "1.1.1",
+                              "version": "1.3.0",
                             },
                             "util-deprecate": Object {
                               "labels": Object {
@@ -4619,14 +4619,14 @@ Object {
                                         "scope": "prod",
                                       },
                                       "name": "safe-buffer",
-                                      "version": "5.1.2",
+                                      "version": "5.2.1",
                                     },
                                   },
                                   "labels": Object {
                                     "scope": "prod",
                                   },
                                   "name": "string_decoder",
-                                  "version": "1.1.1",
+                                  "version": "1.3.0",
                                 },
                                 "util-deprecate": Object {
                                   "labels": Object {
@@ -4704,14 +4704,14 @@ Object {
                                         "scope": "prod",
                                       },
                                       "name": "safe-buffer",
-                                      "version": "5.1.2",
+                                      "version": "5.2.1",
                                     },
                                   },
                                   "labels": Object {
                                     "scope": "prod",
                                   },
                                   "name": "string_decoder",
-                                  "version": "1.1.1",
+                                  "version": "1.3.0",
                                 },
                                 "util-deprecate": Object {
                                   "labels": Object {
@@ -4915,14 +4915,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -5000,14 +5000,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -5110,14 +5110,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -5232,14 +5232,14 @@ Object {
                                             "scope": "prod",
                                           },
                                           "name": "safe-buffer",
-                                          "version": "5.1.2",
+                                          "version": "5.2.1",
                                         },
                                       },
                                       "labels": Object {
                                         "scope": "prod",
                                       },
                                       "name": "string_decoder",
-                                      "version": "1.1.1",
+                                      "version": "1.3.0",
                                     },
                                     "util-deprecate": Object {
                                       "labels": Object {
@@ -5365,14 +5365,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -5450,14 +5450,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -5615,14 +5615,14 @@ Object {
                                                     "scope": "prod",
                                                   },
                                                   "name": "safe-buffer",
-                                                  "version": "5.1.2",
+                                                  "version": "5.2.1",
                                                 },
                                               },
                                               "labels": Object {
                                                 "scope": "prod",
                                               },
                                               "name": "string_decoder",
-                                              "version": "1.1.1",
+                                              "version": "1.3.0",
                                             },
                                             "util-deprecate": Object {
                                               "labels": Object {
@@ -5700,14 +5700,14 @@ Object {
                                                     "scope": "prod",
                                                   },
                                                   "name": "safe-buffer",
-                                                  "version": "5.1.2",
+                                                  "version": "5.2.1",
                                                 },
                                               },
                                               "labels": Object {
                                                 "scope": "prod",
                                               },
                                               "name": "string_decoder",
-                                              "version": "1.1.1",
+                                              "version": "1.3.0",
                                             },
                                             "util-deprecate": Object {
                                               "labels": Object {
@@ -5815,14 +5815,14 @@ Object {
                                                 "scope": "prod",
                                               },
                                               "name": "safe-buffer",
-                                              "version": "5.1.2",
+                                              "version": "5.2.1",
                                             },
                                           },
                                           "labels": Object {
                                             "scope": "prod",
                                           },
                                           "name": "string_decoder",
-                                          "version": "1.1.1",
+                                          "version": "1.3.0",
                                         },
                                         "util-deprecate": Object {
                                           "labels": Object {
@@ -5930,14 +5930,14 @@ Object {
                                             "scope": "prod",
                                           },
                                           "name": "safe-buffer",
-                                          "version": "5.1.2",
+                                          "version": "5.2.1",
                                         },
                                       },
                                       "labels": Object {
                                         "scope": "prod",
                                       },
                                       "name": "string_decoder",
-                                      "version": "1.1.1",
+                                      "version": "1.3.0",
                                     },
                                     "util-deprecate": Object {
                                       "labels": Object {
@@ -23751,6 +23751,28 @@ Object {
   "name": "goof",
   "size": 1778,
   "version": "0.0.3",
+}
+`;
+
+exports[`buildDepTreeFromFiles simple pnpm 1`] = `
+Object {
+  "dependencies": Object {
+    "uuid": Object {
+      "labels": Object {
+        "scope": "prod",
+      },
+      "name": "uuid",
+      "version": "8.3.2",
+    },
+  },
+  "hasDevDependencies": false,
+  "meta": Object {
+    "lockfileVersion": 5.3,
+    "packageManager": "pnpm",
+  },
+  "name": "pnpm-simple",
+  "size": 2,
+  "version": "1.0.0",
 }
 `;
 

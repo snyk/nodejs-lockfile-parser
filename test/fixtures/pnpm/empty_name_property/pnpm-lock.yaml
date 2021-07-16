@@ -1,0 +1,55 @@
+lockfileVersion: 5.3
+
+specifiers:
+  asn1.js: ^4.10.1
+  npmconf: ^0.0.24
+  util: ^0.10.3
+
+dependencies:
+  asn1.js: 4.10.1
+  npmconf: 0.0.24
+  util: 0.10.3
+
+packages:
+
+  /asn1.js/4.10.1:
+    resolution: {integrity: sha512-p32cOF5q0Zqs9uBiONKYLm6BClCoBCM5O9JfeUSlnQLBTxYdTK+pW+nXflm8UkKd2UYlEbYz5qEi0JuZR9ckSw==}
+    dependencies:
+      bn.js: 4.11.8
+      inherits: 2.0.3
+      minimalistic-assert: 1.0.1
+    dev: true
+
+  /bn.js/4.11.8:
+    resolution: {integrity: sha512-ItfYfPLkWHUjckQCk8xC+LwxgK8NYcXywGigJgSwOP8Y2iyWT4f2vsZnoOXTTbo+o5yXmIUJ4gn5538SO5S3gA==}
+    dev: true
+
+  /inherits/1.0.2:
+    resolution: {integrity: sha1-ykMJ2t7mtUzAuNJH6NfHoJdb3Js=}
+    dev: false
+
+  /inherits/2.0.1:
+    resolution: {integrity: sha1-sX0I0ya0Qj5Wjv9xn5GwscvfafE=}
+    dev: true
+
+  /inherits/2.0.3:
+    resolution: {integrity: sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=}
+
+  /minimalistic-assert/1.0.1:
+    resolution: {integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==}
+    dev: true
+
+  /npmconf/0.0.24:
+    resolution: {integrity: sha1-t4h1sIjMw8Cvo+zrPOMkSxtSOQw=}
+    deprecated: this package has been reintegrated into npm and is now out of date with respect to npm
+    dependencies:
+      inherits: 1.0.2
+    dev: false
+
+  /util/0.10.3:
+    resolution: {integrity: sha1-evsa/lCAUkZInj23/g7TeTNqwPk=}
+    dependencies:
+      inherits: 2.0.1
+    dev: true
+
+
