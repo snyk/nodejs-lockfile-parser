@@ -100,7 +100,7 @@ export abstract class LockParserBase implements LockfileParser {
     // relative path on disc
     const depMap: DepMap = this.getDepMap(yarnLock, manifestFile.resolutions);
 
-    console.log(JSON.stringify({depMap}));
+    //console.log(JSON.stringify({depMap}));
 
     // all paths are identified, we can create a graph representing what depends on what
     const depGraph: graphlib.Graph = this.createGraphOfDependencies(depMap);
@@ -333,7 +333,7 @@ export abstract class LockParserBase implements LockfileParser {
     for (const [depPath, dep] of Object.entries(depMap)) {
       for (const depName of dep.requires) {
         const subDepPath = this.findDepsPath(depPath, depName, depMap);
-        console.log({subDepPath})
+        //console.log({subDepPath})
         // direction is from the dependency to the package requiring it
         depGraph.setEdge(subDepPath, depPath);
       }

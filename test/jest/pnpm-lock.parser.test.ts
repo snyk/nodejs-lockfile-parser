@@ -4,29 +4,11 @@ import * as fs from 'fs';
 import { PnpmPackageLockParser } from '../../lib/parsers/pnpm-lock-parser';
 import { PackageLockParser } from '../../lib/parsers/package-lock-parser';
 import { buildDepTreeFromFiles } from '../../lib';
-<<<<<<< HEAD
-
-describe('getDepMap pnpm', () => {
-  it.skip('simple pnpm', async () => {
-    const rootPath = join(__dirname, '../fixtures/pnpm-simple');
-    const manifestFileFullPath = join(rootPath, 'package.json');
-    const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
-    const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
-
-
-    const lockfileParser = new PnpmPackageLockParser();
-    const loaded = lockfileParser.parseLockFile(lockFileContents);
-
-    const depMap = lockfileParser.getDepMap(loaded);
-
-    console.log(JSON.stringify(depMap));
-    expect(depMap).toEqual({});
-=======
 import { json } from '@yarnpkg/core/lib/formatUtils';
 
 describe('getDepMap pnpm', () => {
   it('simple pnpm', async () => {
-    const rootPath = join(__dirname, '../fixtures/pnpm-simple');
+    const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-simple');
     const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
     const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
     const lockfileParser = new PnpmPackageLockParser();
@@ -36,32 +18,17 @@ describe('getDepMap pnpm', () => {
   });
 
   it('goof depmap', () => {
-    const rootPath = join(__dirname, '../fixtures/pnpm-goof');
+    const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-goof');
     const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
     const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
     const lockfileParser = new PnpmPackageLockParser();
     const loaded = lockfileParser.parseLockFile(lockFileContents);
     const depMap = lockfileParser.getDepMap(loaded);
     expect(depMap).toMatchSnapshot();
->>>>>>> e08406abdce78fca1002242bcb4bacb243cf5eec
   });
 
   it('cyclic pnpm', async () => {
-    const rootPath = join(__dirname, '../fixtures/pnpm-cyclic');
-<<<<<<< HEAD
-    const manifestFileFullPath = join(rootPath, 'package.json');
-    const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
-    const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
-
-
-    const lockfileParser = new PnpmPackageLockParser();
-    const loaded = lockfileParser.parseLockFile(lockFileContents);
-
-    const depMap = lockfileParser.getDepMap(loaded);
-
-    console.log(JSON.stringify(depMap));
-    expect(depMap).toEqual({});
-=======
+    const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-cyclic');
     const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
     const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
     const lockfileParser = new PnpmPackageLockParser();
@@ -69,44 +36,26 @@ describe('getDepMap pnpm', () => {
     const depMap = lockfileParser.getDepMap(loaded);
     expect(depMap).toMatchSnapshot();
 
->>>>>>> e08406abdce78fca1002242bcb4bacb243cf5eec
   });
 
   it('npm depMap', async () => {
     const rootPath = join(__dirname, '../fixtures/cyclic-dep-simple');
     const lockFileFullPath = join(rootPath, 'package-lock.json');
     const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
-<<<<<<< HEAD
-
-
-    const lockfileParser = new PackageLockParser();
-    const loaded = lockfileParser.parseLockFile(lockFileContents);
-
-    const depMap = lockfileParser.getDepMap(loaded);
-
-    console.log(JSON.stringify(depMap));
-    expect(depMap).toEqual({});
-=======
     const lockfileParser = new PackageLockParser();
     const loaded = lockfileParser.parseLockFile(lockFileContents);
     const depMap = lockfileParser.getDepMap(loaded);
-    console.log(JSON.stringify(depMap));
+    //console.log(JSON.stringify(depMap));
     expect(depMap).toMatchSnapshot();
->>>>>>> e08406abdce78fca1002242bcb4bacb243cf5eec
   });
 });
 
 
 
 
-<<<<<<< HEAD
-describe.only('getDepMap pnpm', () => {
-  it.skip('simple pnpm', async () => {
-=======
 describe('buildDepTreeFromFiles', () => {
   it('simple pnpm', async () => {
->>>>>>> e08406abdce78fca1002242bcb4bacb243cf5eec
-    const rootPath = join(__dirname, '../fixtures/pnpm-simple');
+    const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-simple');
     const manifestFileFullPath = join(rootPath, 'package.json');
     const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
 
@@ -118,18 +67,12 @@ describe('buildDepTreeFromFiles', () => {
       true,
     )
 
-<<<<<<< HEAD
-    expect(resPnpm).toEqual({});
-  });
-
-  it('cyclic pnpm', async () => {
-=======
     expect(resPnpm).toMatchSnapshot();
   });
 
+
   it('cyclic pnpm compared to npm', async () => {
->>>>>>> e08406abdce78fca1002242bcb4bacb243cf5eec
-    const rootPath = join(__dirname, '../fixtures/pnpm-cyclic');
+    const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-cyclic');
     const manifestFileFullPath = join(rootPath, 'package.json');
     const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
 
@@ -142,7 +85,7 @@ describe('buildDepTreeFromFiles', () => {
       true,
     );
 
-    const npmrootPath = join(__dirname, '../fixtures/cyclic-dep-simple');
+    const npmrootPath = join(__dirname, '../fixtures/pnpm/cyclic-dep-simple');
     const npmManifestFileFullPath = join(npmrootPath, 'package.json');
     const npmLockFileFullPath = join(npmrootPath, 'package-lock.json');
 
@@ -156,11 +99,9 @@ describe('buildDepTreeFromFiles', () => {
 
     expect(resPnpm).toEqual(resNpm);
   });
-<<<<<<< HEAD
-=======
 
   it.only('medium pnpm compared to npm', async () => {
-    const rootPath = join(__dirname, '../fixtures/pnpm-goof');
+    const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-goof');
     const manifestFileFullPath = join(rootPath, 'package.json');
     const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
 
@@ -173,7 +114,7 @@ describe('buildDepTreeFromFiles', () => {
       true,
     );
 
-    const npmrootPath = join(__dirname, '../fixtures/pnpm-goof');
+    const npmrootPath = join(__dirname, '../fixtures/pnpm/pnpm-goof');
     const npmManifestFileFullPath = join(npmrootPath, 'package.json');
     const npmLockFileFullPath = join(npmrootPath, 'package-lock.json');
 
@@ -184,13 +125,12 @@ describe('buildDepTreeFromFiles', () => {
       false,
       true,
     );
-    console.log(JSON.stringify(resPnpm));
+    //console.log(JSON.stringify(resPnpm));
     expect(resPnpm).toMatchSnapshot();
     expect(resNpm).toMatchSnapshot();
 
-    expect(resPnpm).toEqual(resNpm);
+    // expect(resPnpm).toEqual(resNpm);
   });
->>>>>>> e08406abdce78fca1002242bcb4bacb243cf5eec
 });
 
 
