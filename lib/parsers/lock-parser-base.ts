@@ -150,7 +150,6 @@ export abstract class LockParserBase implements LockfileParser {
 
     // console.log(JSON.stringify({topLevelDeps}));
 
-
     // number of dependencies including root one
     let treeSize = 1;
     for (const dep of topLevelDeps) {

@@ -3,6 +3,7 @@ import { YarnLock } from './yarn-lock-parser';
 import { InvalidUserInputError } from '../errors';
 import { Yarn2Lock } from './yarn2-lock-parser';
 import { PnpmFileLock } from './pnpm-lock-parser';
+import yaml = require('js-yaml');
 
 export interface Dep {
   name: string;
@@ -36,6 +37,10 @@ export interface ManifestFile {
   peerDependenciesMeta?: PeerDependenciesMeta;
   resolutions?: ManifestDependencies;
   version?: string;
+}
+
+export interface WorkspaceFile {
+  packages: string[];
 }
 
 // This is a copy/paste from https://github.com/snyk/dep-graph/blob/master/src/legacy/index.ts
@@ -106,6 +111,22 @@ export function parseManifestFile(manifestFileContents: string): ManifestFile {
   }
 }
 
+export function parseWorkspaceFile(
+  manifestFileContents: string,
+): WorkspaceFile {
+  try {
+    const workspaceFile = yaml.load(manifestFileContents, {
+      json: true,
+    });
+
+    return workspaceFile as WorkspaceFile;
+  } catch (e) {
+    throw new InvalidUserInputError(
+      'pnpm-workspace.yaml parsing failed with error ' + e.message,
+    );
+  }
+}
+
 export function getTopLevelDeps({
   targetFile,
   includeDev,
@@ -119,22 +140,43 @@ export function getTopLevelDeps({
 }): Dep[] {
   let dependencies: Dep[] = [];
 
-  const dependenciesIterator = Object.entries({
-    ...targetFile.dependencies,
-    ...(includeDev ? targetFile.devDependencies : null),
-    ...(targetFile.optionalDependencies || {}),
-  });
+  // if (lockfile.type === 'pnpm') {
+  //   const pnpmLockFile = lockfile as PnpmFileLock;
 
-  for (const [name, version] of dependenciesIterator) {
-    dependencies.push({
-      dev:
-        includeDev && targetFile.devDependencies
-          ? !!targetFile.devDependencies[name]
-          : false,
-      name,
-      version,
+
+  //   dependenciesIterator = Object.entries({
+  //     ...pnpmLockFile.dependencies,
+  //     ...(includeDev ? pnpmLockFile.devDependencies : null),
+  //   });
+
+  //   for (const [name, version] of dependenciesIterator) {
+  //     dependencies.push({
+  //       dev:
+  //         includeDev && pnpmLockFile.devDependencies
+  //           ? !!pnpmLockFile.devDependencies[name]
+  //           : false,
+  //       name,
+  //       version,
+  //     });
+  //   }
+  // } else {
+  const dependenciesIterator = Object.entries({
+      ...targetFile.dependencies,
+      ...(includeDev ? targetFile.devDependencies : null),
+      ...(targetFile.optionalDependencies || {}),
     });
-  }
+  
+    for (const [name, version] of dependenciesIterator) {
+      dependencies.push({
+        dev:
+          includeDev && targetFile.devDependencies
+            ? !!targetFile.devDependencies[name]
+            : false,
+        name,
+        version,
+      });
+    }
+//  }
 
   if (includePeerDeps && targetFile.peerDependencies) {
     for (const [name, version] of Object.entries(targetFile.peerDependencies)) {
@@ -181,6 +223,22 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
       const workspacesAlternateConfigPackages = (packageJson.workspaces as WorkspacesAlternateConfig)
         .packages;
       return [...(workspacesAlternateConfigPackages || workspacesPackages)];
+    }
+    return false;
+  } catch (e) {
+    throw new InvalidUserInputError(
+      'package.json parsing failed with ' + `error ${e.message}`,
+    );
+  }
+}
+
+export function getPnpmWorkspaces(targetFile: string): string[] | false {
+  try {
+    const workspaceFile: WorkspaceFile = parseWorkspaceFile(targetFile);
+    if (workspaceFile.packages) {
+      const workspacesPackages = workspaceFile.packages as string[];
+
+      return [...workspacesPackages];
     }
     return false;
   } catch (e) {

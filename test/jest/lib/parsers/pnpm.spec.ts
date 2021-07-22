@@ -3,12 +3,11 @@ import { buildDepTreeFromFiles } from '../../../../lib';
 
 describe('buildDepTreeFromFiles', () => {
   it('Parse pnpm package-lock.json', async () => {
-
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/../../../fixtures/goof`,
       'package.json',
       'pnpm-lock.yaml',
-      true
+      true,
     );
 
     expect(depTree).toMatchSnapshot();
@@ -43,7 +42,7 @@ describe('buildDepTreeFromFiles', () => {
         `${__dirname}/../../../fixtures/pnpm/no_deps/`,
         'package.json',
         'pnpm-lock.yaml',
-        true
+        true,
       ),
     ).rejects.toThrowError('Lockfile not found at location:');
   });
@@ -70,7 +69,7 @@ describe('buildDepTreeFromFiles', () => {
       true,
     );
 
-    expect(depTree.name).toMatch('package.json')
+    expect(depTree.name).toMatch('package.json');
     expect(depTree).toMatchSnapshot();
   });
 
@@ -89,26 +88,24 @@ describe('buildDepTreeFromFiles', () => {
       `${__dirname}/../../../fixtures/pnpm/mix_devdep_and_deps/`,
       'package.json',
       'pnpm-lock.yaml',
-      true, // includeDev 
+      true, // includeDev
     );
 
     expect(depTree).toMatchSnapshot();
   });
 
   it('Parse pnpm package-lock.json without devDependencies (--dev false)', async () => {
-
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/../../../fixtures/pnpm/mix_devdep_and_deps/`,
       'package.json',
       'pnpm-lock.yaml',
-      false, // includeDev 
+      false, // includeDev
     );
 
     expect(depTree).toMatchSnapshot();
   });
 
   it('with optional deps pnpm', async () => {
-
     const expectedDepTree = load('pnpm/optional_deps_only/expected-tree.json');
 
     const depTree = await buildDepTreeFromFiles(
@@ -121,9 +118,4 @@ describe('buildDepTreeFromFiles', () => {
 
     expect(depTree).toEqual(expectedDepTree);
   });
-
 });
-
-
-
-

@@ -1,0 +1,15 @@
+{
+  "name": "@beaver/common",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.5",
+    "typescript": "^3.1.6"
+  }
+}

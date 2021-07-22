@@ -9,6 +9,7 @@ import {
   parseManifestFile,
   LockfileType,
   getYarnWorkspaces,
+  getPnpmWorkspaces,
 } from './parsers';
 import { PackageLockParser } from './parsers/package-lock-parser';
 import { YarnLockParser } from './parsers/yarn-lock-parser';
@@ -27,6 +28,8 @@ export {
   buildDepGraphFromCliOutput,
   getYarnWorkspacesFromFiles,
   getYarnWorkspaces,
+  getPnpmWorkspacesFromFiles,
+  getPnpmWorkspaces,
   PkgTree,
   Scope,
   LockfileType,
@@ -166,7 +169,35 @@ function getYarnWorkspacesFromFiles(
   return getYarnWorkspaces(manifestFileContents);
 }
 
+<<<<<<< HEAD
 export function getYarnLockfileType(
+=======
+function getPnpmWorkspacesFromFiles(
+  root,
+  pnpmWorkspaceFilePath: string,
+): string[] | false {
+  if (!root || !pnpmWorkspaceFilePath) {
+    throw new Error(
+      'Missing required parameters for getPnpmWorkspacesFromFiles()',
+    );
+  }
+  const pnpmWorksapceFileFullPath = path.resolve(root, pnpmWorkspaceFilePath);
+
+  if (!fs.existsSync(pnpmWorksapceFileFullPath)) {
+    throw new InvalidUserInputError(
+      `Target file not found at : ${pnpmWorksapceFileFullPath}`,
+    );
+  }
+  const pnpmWorkspaceFileContents = fs.readFileSync(
+    pnpmWorksapceFileFullPath,
+    'utf-8',
+  );
+
+  return getPnpmWorkspaces(pnpmWorkspaceFileContents);
+}
+
+function getYarnLockfileType(
+>>>>>>> feat: adding test and workspaces handling
   lockFileContents: string,
   root?: string,
   lockFilePath?: string,

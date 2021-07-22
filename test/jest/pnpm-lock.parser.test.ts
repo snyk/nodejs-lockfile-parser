@@ -34,7 +34,6 @@ describe('getDepMap pnpm', () => {
     const loaded = lockfileParser.parseLockFile(lockFileContents);
     const depMap = lockfileParser.getDepMap(loaded);
     expect(depMap).toMatchSnapshot();
-
   });
 
   it('npm depMap', async () => {
@@ -49,9 +48,6 @@ describe('getDepMap pnpm', () => {
   });
 });
 
-
-
-
 describe('buildDepTreeFromFiles', () => {
   it('simple pnpm', async () => {
     const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-simple');
@@ -64,17 +60,15 @@ describe('buildDepTreeFromFiles', () => {
       lockFileFullPath,
       false,
       true,
-    )
+    );
 
     expect(resPnpm).toMatchSnapshot();
   });
-
 
   it('cyclic pnpm compared to npm', async () => {
     const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-cyclic');
     const manifestFileFullPath = join(rootPath, 'package.json');
     const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
-
 
     const resPnpm = await buildDepTreeFromFiles(
       rootPath,
@@ -94,7 +88,7 @@ describe('buildDepTreeFromFiles', () => {
       npmLockFileFullPath,
       false,
       true,
-    )
+    );
 
     expect(resPnpm).toEqual(resNpm);
   });
@@ -103,7 +97,6 @@ describe('buildDepTreeFromFiles', () => {
     const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-goof');
     const manifestFileFullPath = join(rootPath, 'package.json');
     const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
-
 
     const resPnpm = await buildDepTreeFromFiles(
       rootPath,
@@ -131,5 +124,3 @@ describe('buildDepTreeFromFiles', () => {
     // expect(resPnpm).toEqual(resNpm);
   });
 });
-
-
