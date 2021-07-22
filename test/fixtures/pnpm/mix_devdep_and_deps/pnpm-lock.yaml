@@ -10,7 +10,7 @@ dependencies:
   express: 4.17.1
   npmconf: 0.0.24
   
-devdependencies:
+devDependencies:
   util: 0.10.3
   asn1.js: 4.10.1
 

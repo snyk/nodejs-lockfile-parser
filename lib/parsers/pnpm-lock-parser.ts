@@ -35,6 +35,8 @@ export class PnpmPackageLockParser extends LockParserBase {
         json: true,
       }) as PnpmFileLock;
 
+      //console.log(lockFileContents)
+
       const lockfile = {
         ...pnpmLock,
         type: LockfileType.pnpm,

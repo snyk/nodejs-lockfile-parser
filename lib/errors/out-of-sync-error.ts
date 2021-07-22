@@ -4,14 +4,14 @@ const LOCK_FILE_NAME = {
   npm: 'package-lock.json',
   yarn: 'yarn.lock',
   yarn2: 'yarn.lock',
-  pnpm: 'pnpm-lock.yaml'
+  pnpm: 'pnpm-lock.yaml',
 };
 
 const INSTALL_COMMAND = {
   npm: 'npm install',
   yarn: 'yarn install',
   yarn2: 'yarn install',
-  pnpm: 'pnpm install'
+  pnpm: 'pnpm install',
 };
 
 export class OutOfSyncError extends Error {
