@@ -100,8 +100,6 @@ export abstract class LockParserBase implements LockfileParser {
     // relative path on disc
     const depMap: DepMap = this.getDepMap(yarnLock, manifestFile.resolutions);
 
-    //console.log(JSON.stringify({depMap}));
-
     // all paths are identified, we can create a graph representing what depends on what
     const depGraph: graphlib.Graph = this.createGraphOfDependencies(depMap);
 
@@ -126,16 +124,12 @@ export abstract class LockParserBase implements LockfileParser {
       depGraph,
     );
 
-    // console.log(JSON.stringify({depTrees}));
-
     // get trees for dependencies from manifest file
     const topLevelDeps: Dep[] = getTopLevelDeps(
       manifestFile,
       includeDev,
       lockfile,
     );
-
-    // console.log(JSON.stringify({topLevelDeps}));
 
     // number of dependencies including root one
     let treeSize = 1;
@@ -147,7 +141,6 @@ export abstract class LockParserBase implements LockfileParser {
       // it now has a different item in the map
       const key = this.getDepTreeKey(dep);
       const depName = cycleStarts[key] || key;
-      // console.log({depName, name: dep.name, found: depTrees[depName]})
       if (depTrees[depName]) {
         // if the top level dependency is dev, all children are dev
         depTree.dependencies[dep.name] = dep.dev
@@ -331,7 +324,6 @@ export abstract class LockParserBase implements LockfileParser {
     for (const [depPath, dep] of Object.entries(depMap)) {
       for (const depName of dep.requires) {
         const subDepPath = this.findDepsPath(depPath, depName, depMap);
-        //console.log({subDepPath})
         // direction is from the dependency to the package requiring it
         depGraph.setEdge(subDepPath, depPath);
       }

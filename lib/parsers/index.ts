@@ -3,7 +3,7 @@ import { YarnLock } from './yarn-lock-parser';
 import { InvalidUserInputError } from '../errors';
 import { Yarn2Lock } from './yarn2-lock-parser';
 import { PnpmFileLock } from './pnpm-lock-parser';
-import yaml = require('js-yaml');
+import * as yaml from 'js-yaml';
 
 export interface Dep {
   name: string;
@@ -129,43 +129,23 @@ export function getTopLevelDeps(
 ): Dep[] {
   const dependencies: Dep[] = [];
 
-  // if (lockfile.type === 'pnpm') {
-  //   const pnpmLockFile = lockfile as PnpmFileLock;
-
-
-  //   dependenciesIterator = Object.entries({
-  //     ...pnpmLockFile.dependencies,
-  //     ...(includeDev ? pnpmLockFile.devDependencies : null),
-  //   });
-
-  //   for (const [name, version] of dependenciesIterator) {
-  //     dependencies.push({
-  //       dev:
-  //         includeDev && pnpmLockFile.devDependencies
-  //           ? !!pnpmLockFile.devDependencies[name]
-  //           : false,
-  //       name,
-  //       version,
-  //     });
-  //   }
-  // } else {
   const dependenciesIterator = Object.entries({
-      ...targetFile.dependencies,
-      ...(includeDev ? targetFile.devDependencies : null),
-      ...(targetFile.optionalDependencies || {}),
+    ...targetFile.dependencies,
+    ...(includeDev ? targetFile.devDependencies : null),
+    ...(targetFile.optionalDependencies || {}),
+  });
+
+  for (const [name, version] of dependenciesIterator) {
+    dependencies.push({
+      dev:
+        includeDev && targetFile.devDependencies
+          ? !!targetFile.devDependencies[name]
+          : false,
+      name,
+      version,
     });
-  
-    for (const [name, version] of dependenciesIterator) {
-      dependencies.push({
-        dev:
-          includeDev && targetFile.devDependencies
-            ? !!targetFile.devDependencies[name]
-            : false,
-        name,
-        version,
-      });
-    }
-//  }
+  }
+  //  }
 
   // Only include peerDependencies if using npm and npm is at least
   // version 7 as npm v7 automatically installs peerDependencies

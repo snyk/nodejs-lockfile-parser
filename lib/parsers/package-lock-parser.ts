@@ -75,7 +75,7 @@ export class PackageLockParser extends LockParserBase {
     return depTreeWithMeta;
   }
 
-  public getDepMap(lockfile: Lockfile): DepMap {
+  protected getDepMap(lockfile: Lockfile): DepMap {
     const packageLock = lockfile as PackageLock;
     const depMap: DepMap = {};
 

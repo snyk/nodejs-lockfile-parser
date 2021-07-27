@@ -4,7 +4,6 @@ import * as fs from 'fs';
 import { PnpmPackageLockParser } from '../../lib/parsers/pnpm-lock-parser';
 import { PackageLockParser } from '../../lib/parsers/package-lock-parser';
 import { buildDepTreeFromFiles } from '../../lib';
-import { json } from '@yarnpkg/core/lib/formatUtils';
 
 describe('getDepMap pnpm', () => {
   it('simple pnpm', async () => {
@@ -37,16 +36,15 @@ describe('getDepMap pnpm', () => {
     expect(depMap).toMatchSnapshot();
   });
 
-  it('npm depMap', async () => {
-    const rootPath = join(__dirname, '../fixtures/cyclic-dep-simple');
-    const lockFileFullPath = join(rootPath, 'package-lock.json');
-    const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
-    const lockfileParser = new PackageLockParser();
-    const loaded = lockfileParser.parseLockFile(lockFileContents);
-    const depMap = lockfileParser.getDepMap(loaded);
-    //console.log(JSON.stringify(depMap));
-    expect(depMap).toMatchSnapshot();
-  });
+  // it('npm depMap', async () => {
+  //   const rootPath = join(__dirname, '../fixtures/cyclic-dep-simple');
+  //   const lockFileFullPath = join(rootPath, 'package-lock.json');
+  //   const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');
+  //   const lockfileParser = new PackageLockParser();
+  //   const loaded = lockfileParser.parseLockFile(lockFileContents);
+  //   const depMap = lockfileParser.getDepMap(loaded);
+  //   expect(depMap).toMatchSnapshot();
+  // });
 });
 
 describe('buildDepTreeFromFiles', () => {
@@ -118,7 +116,6 @@ describe('buildDepTreeFromFiles', () => {
       false,
       true,
     );
-    //console.log(JSON.stringify(resPnpm));
     expect(resPnpm).toMatchSnapshot();
     expect(resNpm).toMatchSnapshot();
 
