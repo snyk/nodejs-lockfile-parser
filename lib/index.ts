@@ -181,15 +181,15 @@ function getPnpmWorkspacesFromFiles(
       'Missing required parameters for getPnpmWorkspacesFromFiles()',
     );
   }
-  const pnpmWorksapceFileFullPath = path.resolve(root, pnpmWorkspaceFilePath);
+  const pnpmWorkspaceFileFullPath = path.resolve(root, pnpmWorkspaceFilePath);
 
-  if (!fs.existsSync(pnpmWorksapceFileFullPath)) {
+  if (!fs.existsSync(pnpmWorkspaceFileFullPath)) {
     throw new InvalidUserInputError(
-      `Target file not found at : ${pnpmWorksapceFileFullPath}`,
+      `Target file not found at : ${pnpmWorkspaceFileFullPath}`,
     );
   }
   const pnpmWorkspaceFileContents = fs.readFileSync(
-    pnpmWorksapceFileFullPath,
+    pnpmWorkspaceFileFullPath,
     'utf-8',
   );
 

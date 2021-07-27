@@ -106,8 +106,6 @@ export abstract class LockParserBase implements LockfileParser {
     // relative path on disc
     const depMap: DepMap = this.getDepMap(yarnLock, manifestFile.resolutions);
 
-    //console.log(JSON.stringify({depMap}));
-
     // all paths are identified, we can create a graph representing what depends on what
     const depGraph: graphlib.Graph = this.createGraphOfDependencies(
       depMap,
@@ -148,8 +146,6 @@ export abstract class LockParserBase implements LockfileParser {
     //console.log(JSON.stringify({topLevelDeps}));
 
 
-    // console.log(JSON.stringify({topLevelDeps}));
-
     // number of dependencies including root one
     let treeSize = 1;
     for (const dep of topLevelDeps) {
@@ -160,7 +156,6 @@ export abstract class LockParserBase implements LockfileParser {
       // it now has a different item in the map
       const key = this.getDepTreeKey(dep);
       const depName = cycleStarts[key] || key;
-      // console.log({depName, name: dep.name, found: depTrees[depName]})
       if (depTrees[depName]) {
         // if the top level dependency is dev, all children are dev
         depTree.dependencies[dep.name] = dep.dev

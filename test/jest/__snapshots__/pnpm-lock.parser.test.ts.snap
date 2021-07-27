@@ -61446,31 +61446,6 @@ Object {
 }
 `;
 
-exports[`getDepMap pnpm npm depMap 1`] = `
-Object {
-  "debug": Object {
-    "labels": Object {
-      "scope": "prod",
-    },
-    "name": "debug",
-    "requires": Array [
-      "ms",
-    ],
-    "version": "2.0.0",
-  },
-  "ms": Object {
-    "labels": Object {
-      "scope": "prod",
-    },
-    "name": "ms",
-    "requires": Array [
-      "debug",
-    ],
-    "version": "0.6.2",
-  },
-}
-`;
-
 exports[`getDepMap pnpm simple pnpm 1`] = `
 Object {
   "uuid": Object {

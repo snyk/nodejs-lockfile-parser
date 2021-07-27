@@ -1,5 +1,5 @@
 import * as pnpmLockfileLib from '@pnpm/lockfile-file';
-import yaml = require('js-yaml');
+import * as yaml from 'js-yaml';
 
 import {
   Dep,
@@ -34,8 +34,6 @@ export class PnpmPackageLockParser extends LockParserBase {
       const pnpmLock = yaml.load(lockFileContents, {
         json: true,
       }) as PnpmFileLock;
-
-      //console.log(lockFileContents)
 
       const lockfile = {
         ...pnpmLock,
