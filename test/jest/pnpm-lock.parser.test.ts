@@ -64,7 +64,7 @@ describe('buildDepTreeFromFiles', () => {
     expect(resPnpm).toMatchSnapshot();
   });
 
-  it('cyclic pnpm compared to npm', async () => {
+  it.skip('cyclic pnpm compared to npm', async () => {
     const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-cyclic');
     const manifestFileFullPath = join(rootPath, 'package.json');
     const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
@@ -77,7 +77,7 @@ describe('buildDepTreeFromFiles', () => {
       true,
     );
 
-    const npmrootPath = join(__dirname, '../fixtures/pnpm/cyclic-dep-simple');
+    const npmrootPath = join(__dirname, '../fixtures/cyclic-dep-simple');
     const npmManifestFileFullPath = join(npmrootPath, 'package.json');
     const npmLockFileFullPath = join(npmrootPath, 'package-lock.json');
 
@@ -92,7 +92,7 @@ describe('buildDepTreeFromFiles', () => {
     expect(resPnpm).toEqual(resNpm);
   });
 
-  it.only('medium pnpm compared to npm', async () => {
+  it('medium pnpm compared to npm', async () => {
     const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-goof');
     const manifestFileFullPath = join(rootPath, 'package.json');
     const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');

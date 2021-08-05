@@ -46,6 +46,7 @@ async function buildDepTree(
   lockfileType?: LockfileType,
   strictOutOfSync: boolean = true,
   defaultManifestFileName: string = 'package.json',
+  workspace?: string,
 ): Promise<PkgTree> {
   if (!lockfileType) {
     lockfileType = LockfileType.npm;
@@ -92,6 +93,7 @@ async function buildDepTree(
     lockFile,
     includeDev,
     strictOutOfSync,
+    workspace,
   );
 }
 
@@ -101,6 +103,7 @@ async function buildDepTreeFromFiles(
   lockFilePath: string,
   includeDev = false,
   strictOutOfSync = true,
+  workspace?: string,
 ): Promise<PkgTree> {
   if (!root || !manifestFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for buildDepTreeFromFiles()');
@@ -145,6 +148,7 @@ async function buildDepTreeFromFiles(
     lockFileType,
     strictOutOfSync,
     manifestFilePath,
+    workspace,
   );
 }
 
@@ -169,9 +173,6 @@ function getYarnWorkspacesFromFiles(
   return getYarnWorkspaces(manifestFileContents);
 }
 
-<<<<<<< HEAD
-export function getYarnLockfileType(
-=======
 function getPnpmWorkspacesFromFiles(
   root,
   pnpmWorkspaceFilePath: string,
@@ -196,8 +197,7 @@ function getPnpmWorkspacesFromFiles(
   return getPnpmWorkspaces(pnpmWorkspaceFileContents);
 }
 
-function getYarnLockfileType(
->>>>>>> feat: adding test and workspaces handling
+export function getYarnLockfileType(
   lockFileContents: string,
   root?: string,
   lockFilePath?: string,

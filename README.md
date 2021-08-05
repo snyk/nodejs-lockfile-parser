@@ -15,3 +15,4 @@ Lockfile supported:
 - `package-lock.json`
 - yarn 1 `yarn.lock`
 - yarn 2 `yarn.lock`
+- `pnpm-lock.json`

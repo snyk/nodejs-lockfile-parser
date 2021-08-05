@@ -1,0 +1,14 @@
+{
+  "name": "@withMorePackages/projects",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "uuid": "8.3.2"
+  }
+}
