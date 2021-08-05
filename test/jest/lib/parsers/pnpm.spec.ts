@@ -118,4 +118,32 @@ describe('buildDepTreeFromFiles', () => {
 
     expect(depTree).toEqual(expectedDepTree);
   });
+
+  it('with workspace pnpm-lock', async () => {
+    
+    const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/../../../fixtures/pnpm/workspacesWithPackages`,
+      'packages/web/package.json',
+      'pnpm-lock.yaml',
+      false,
+      false,
+      'web',
+    );
+
+    expect(depTree).toMatchSnapshot();
+  });
+
+  it('with another workspace pnpm-lock', async () => {
+    
+    const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/../../../fixtures/pnpm/workspacesWithMorePackages`,
+      'content-copy/package.json',
+      'pnpm-lock.yaml',
+      true,
+      false,
+      'content-copy',
+    );
+
+    expect(depTree).toMatchSnapshot();
+  });
 });

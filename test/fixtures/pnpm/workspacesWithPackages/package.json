@@ -1,0 +1,16 @@
+{
+  "name": "beaver",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm recursive run build",
+    "clean": "pnpm recursive exec -- rm -rf node_modules; rm shrinkwrap.yaml; rm -rf node_modules",
+    "server:start": "pnpm recursive run start --filter @beaver/server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "web:start": "pnpm recursive run start --filter @beaver/web"
+  }
+}

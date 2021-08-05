@@ -44,6 +44,7 @@ async function buildDepTree(
   lockfileType?: LockfileType,
   strict: boolean = true,
   defaultManifestFileName: string = 'package.json',
+  workspace?: string,
 ): Promise<PkgTree> {
   if (!lockfileType) {
     lockfileType = LockfileType.npm;
@@ -90,6 +91,7 @@ async function buildDepTree(
     lockFile,
     includeDev,
     strict,
+    workspace,
   );
 }
 
@@ -99,6 +101,7 @@ async function buildDepTreeFromFiles(
   lockFilePath: string,
   includeDev = false,
   strict = true,
+  workspace?: string,
 ): Promise<PkgTree> {
   if (!root || !manifestFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for buildDepTreeFromFiles()');
@@ -143,6 +146,7 @@ async function buildDepTreeFromFiles(
     lockFileType,
     strict,
     manifestFilePath,
+    workspace,
   );
 }
 

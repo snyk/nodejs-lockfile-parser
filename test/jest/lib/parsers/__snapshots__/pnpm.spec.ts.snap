@@ -8265,7 +8265,7 @@ Object {
         "scope": "prod",
       },
       "name": "ms",
-      "version": "2.0.0",
+      "version": "0.7.3",
     },
     "npmconf": Object {
       "dependencies": Object {
@@ -10227,5 +10227,349 @@ Object {
   "name": "package.json",
   "size": 9,
   "version": "1.0.0",
+}
+`;
+
+exports[`buildDepTreeFromFiles with another workspace pnpm-lock 1`] = `
+Object {
+  "dependencies": Object {
+    "asn1.js": Object {
+      "dependencies": Object {
+        "bn.js": Object {
+          "labels": Object {
+            "scope": "dev",
+          },
+          "name": "bn.js",
+          "version": "4.11.8",
+        },
+        "inherits": Object {
+          "labels": Object {
+            "scope": "dev",
+          },
+          "name": "inherits",
+          "version": "2.0.3",
+        },
+        "minimalistic-assert": Object {
+          "labels": Object {
+            "scope": "dev",
+          },
+          "name": "minimalistic-assert",
+          "version": "1.0.1",
+        },
+      },
+      "labels": Object {
+        "scope": "dev",
+      },
+      "name": "asn1.js",
+      "version": "4.10.1",
+    },
+    "util": Object {
+      "dependencies": Object {
+        "inherits": Object {
+          "labels": Object {
+            "scope": "dev",
+          },
+          "name": "inherits",
+          "version": "2.0.1",
+        },
+      },
+      "labels": Object {
+        "scope": "dev",
+      },
+      "name": "util",
+      "version": "0.10.3",
+    },
+  },
+  "hasDevDependencies": false,
+  "meta": Object {
+    "lockfileVersion": 5.3,
+    "packageManager": "pnpm",
+  },
+  "name": "@withMorePackages/content",
+  "size": 7,
+  "version": "1.0.0",
+}
+`;
+
+exports[`buildDepTreeFromFiles with workspace pnpm-lock 1`] = `
+Object {
+  "dependencies": Object {
+    "@types/react": Object {
+      "labels": Object {
+        "missingLockFileEntry": "true",
+        "scope": "prod",
+      },
+      "name": "@types/react",
+      "version": "16.7.2",
+    },
+    "@types/react-dom": Object {
+      "labels": Object {
+        "missingLockFileEntry": "true",
+        "scope": "prod",
+      },
+      "name": "@types/react-dom",
+      "version": "16.0.9",
+    },
+    "react": Object {
+      "dependencies": Object {
+        "loose-envify": Object {
+          "dependencies": Object {
+            "js-tokens": Object {
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "js-tokens",
+              "version": "4.0.0",
+            },
+          },
+          "labels": Object {
+            "scope": "prod",
+          },
+          "name": "loose-envify",
+          "version": "1.4.0",
+        },
+        "object-assign": Object {
+          "labels": Object {
+            "scope": "prod",
+          },
+          "name": "object-assign",
+          "version": "4.1.1",
+        },
+        "prop-types": Object {
+          "dependencies": Object {
+            "loose-envify": Object {
+              "dependencies": Object {
+                "js-tokens": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                  "name": "js-tokens",
+                  "version": "4.0.0",
+                },
+              },
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "loose-envify",
+              "version": "1.4.0",
+            },
+            "object-assign": Object {
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "object-assign",
+              "version": "4.1.1",
+            },
+            "react-is": Object {
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "react-is",
+              "version": "16.13.1",
+            },
+          },
+          "labels": Object {
+            "scope": "prod",
+          },
+          "name": "prop-types",
+          "version": "15.7.2",
+        },
+      },
+      "labels": Object {
+        "scope": "prod",
+      },
+      "name": "react",
+      "version": "16.14.0",
+    },
+    "react-dom": Object {
+      "dependencies": Object {
+        "loose-envify": Object {
+          "dependencies": Object {
+            "js-tokens": Object {
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "js-tokens",
+              "version": "4.0.0",
+            },
+          },
+          "labels": Object {
+            "scope": "prod",
+          },
+          "name": "loose-envify",
+          "version": "1.4.0",
+        },
+        "object-assign": Object {
+          "labels": Object {
+            "scope": "prod",
+          },
+          "name": "object-assign",
+          "version": "4.1.1",
+        },
+        "prop-types": Object {
+          "dependencies": Object {
+            "loose-envify": Object {
+              "dependencies": Object {
+                "js-tokens": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                  "name": "js-tokens",
+                  "version": "4.0.0",
+                },
+              },
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "loose-envify",
+              "version": "1.4.0",
+            },
+            "object-assign": Object {
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "object-assign",
+              "version": "4.1.1",
+            },
+            "react-is": Object {
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "react-is",
+              "version": "16.13.1",
+            },
+          },
+          "labels": Object {
+            "scope": "prod",
+          },
+          "name": "prop-types",
+          "version": "15.7.2",
+        },
+        "react": Object {
+          "dependencies": Object {
+            "loose-envify": Object {
+              "dependencies": Object {
+                "js-tokens": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                  "name": "js-tokens",
+                  "version": "4.0.0",
+                },
+              },
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "loose-envify",
+              "version": "1.4.0",
+            },
+            "object-assign": Object {
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "object-assign",
+              "version": "4.1.1",
+            },
+            "prop-types": Object {
+              "dependencies": Object {
+                "loose-envify": Object {
+                  "dependencies": Object {
+                    "js-tokens": Object {
+                      "labels": Object {
+                        "scope": "prod",
+                      },
+                      "name": "js-tokens",
+                      "version": "4.0.0",
+                    },
+                  },
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                  "name": "loose-envify",
+                  "version": "1.4.0",
+                },
+                "object-assign": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                  "name": "object-assign",
+                  "version": "4.1.1",
+                },
+                "react-is": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                  "name": "react-is",
+                  "version": "16.13.1",
+                },
+              },
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "prop-types",
+              "version": "15.7.2",
+            },
+          },
+          "labels": Object {
+            "scope": "prod",
+          },
+          "name": "react",
+          "version": "16.14.0",
+        },
+        "scheduler": Object {
+          "dependencies": Object {
+            "loose-envify": Object {
+              "dependencies": Object {
+                "js-tokens": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                  "name": "js-tokens",
+                  "version": "4.0.0",
+                },
+              },
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "loose-envify",
+              "version": "1.4.0",
+            },
+            "object-assign": Object {
+              "labels": Object {
+                "scope": "prod",
+              },
+              "name": "object-assign",
+              "version": "4.1.1",
+            },
+          },
+          "labels": Object {
+            "scope": "prod",
+          },
+          "name": "scheduler",
+          "version": "0.19.1",
+        },
+      },
+      "labels": Object {
+        "scope": "prod",
+      },
+      "name": "react-dom",
+      "version": "16.14.0_react@16.14.0",
+    },
+    "typescript": Object {
+      "labels": Object {
+        "scope": "dev",
+      },
+      "name": "typescript",
+      "version": "3.9.10",
+    },
+  },
+  "hasDevDependencies": true,
+  "meta": Object {
+    "lockfileVersion": 5.3,
+    "packageManager": "pnpm",
+  },
+  "name": "@beaver/web",
+  "size": 35,
+  "version": "0.1.0",
 }
 `;

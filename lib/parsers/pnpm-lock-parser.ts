@@ -5,6 +5,7 @@ import {
   Dep,
   Lockfile,
   LockfileType,
+  ManifestDependencies,
   ManifestFile,
   PkgTree,
   Scope,
@@ -13,15 +14,10 @@ import { InvalidUserInputError } from '../errors';
 import { DepMap, DepMapItem, LockParserBase } from './lock-parser-base';
 import { config } from '../config';
 
-export interface PnpmFileLock {
+export interface PnpmFileLock extends pnpmLockfileLib.Lockfile {
   type: string;
-  lockfileVersion: number;
   dependencies?: pnpmLockfileLib.ResolvedDependencies;
   devDependencies?: pnpmLockfileLib.ResolvedDependencies;
-  optionalDependencies?: pnpmLockfileLib.ResolvedDependencies;
-  packages: pnpmLockfileLib.PackageSnapshots;
-  specifiers: pnpmLockfileLib.ResolvedDependencies; // TODO: not yet resolved
-  overrides?: string;
 }
 
 export class PnpmPackageLockParser extends LockParserBase {
@@ -53,12 +49,14 @@ export class PnpmPackageLockParser extends LockParserBase {
     lockfile: Lockfile,
     includeDev: boolean = false,
     strict: boolean = true,
+    workspace?: string,
   ): Promise<PkgTree> {
     const dependencyTree = await super.getDependencyTree(
       manifestFile,
       lockfile,
       includeDev,
       strict,
+      workspace,
     );
     const meta = {
       // TODO: what versions do we support? Are older versions completely different?
@@ -74,10 +72,85 @@ export class PnpmPackageLockParser extends LockParserBase {
     return depTreeWithMeta;
   }
 
-  public getDepMap(lockfile: Lockfile): DepMap {
+
+  public getDepMap(lockfile: Lockfile, workspace?: string): DepMap {
     const pnpmLock = lockfile as PnpmFileLock;
     const depMap: DepMap = {};
+
+    let FirstTransitives = {};
+
+    if (workspace) {
+      // If this is a workspace project then the top level dependencies will be
+      // specified in importers[package_name]
+      for (const [PackageName, dep] of Object.entries(pnpmLock.importers)) {
+        // To make an accurate tree and avoid infinite loop we need to use only
+        // the top level deps of package we are building a tree for
+        if (PackageName.includes(workspace)) {
+          if (dep.dependencies != undefined) {
+            for (const [depKeys, depValue] of Object.entries(
+              dep.dependencies,
+            )) {
+              // If the package needs an other package it will look like
+              // packages/packagesName: link../packageName
+              // We delete the link and replace with the appropriate package deps
+              if (depValue.includes('link:..')) {
+                const linked = depValue.split('/')[1];
+                const linkedPkgName = `packages/${linked}`;
+                delete dep.dependencies[depKeys];
+                dep.dependencies = {
+                  ...dep.dependencies,
+                  ...pnpmLock.importers[linkedPkgName].dependencies,
+                };
+              }
+            }
+          }
+
+          // Same as above but for devDependencies
+          if (dep.devDependencies != undefined) {
+            for (const [depKeys, depValue] of Object.entries(
+              dep.devDependencies,
+            )) {
+              if (depValue.includes('link:..')) {
+                const linked = depValue.split('/')[1];
+                const linkedPkgName = `packages/${linked}`;
+                delete dep.devDependencies[depKeys];
+                dep.devDependencies = {
+                  ...dep.devDependencies,
+                  ...pnpmLock.importers[linkedPkgName].devDependencies,
+                };
+              }
+            }
+          }
+          // Getting of the topLevel dependencies
+          FirstTransitives = {
+            ...FirstTransitives,
+            ...dep.dependencies,
+            ...dep.devDependencies,
+          };
+        }
+      }
+    } else {
+      FirstTransitives = {
+        ...FirstTransitives,
+        ...pnpmLock.dependencies,
+        ...pnpmLock.devDependencies,
+      };
+    }
+
+    const startingDependenciesData: pnpmLockfileLib.PackageSnapshots = {};
+
     const allDependenciesData = pnpmLock.packages;
+
+    if (!FirstTransitives || !allDependenciesData) return {};
+
+    // Building the first dependencies data with the topLevel dependencies
+    // to start the building the depMap
+    for (const [depName, dep] of Object.entries(FirstTransitives)) {
+      const transitiveName = `/${depName}/${dep}`;
+      startingDependenciesData[transitiveName] =
+        allDependenciesData[transitiveName];
+    }
+
     const flattenLockfileRec = (
       lockfileDeps: pnpmLockfileLib.PackageSnapshots,
       path: string[],
@@ -102,7 +175,13 @@ export class PnpmPackageLockParser extends LockParserBase {
 
         const depPath: string[] = [...path, dependencyName];
         const depKey = depPath.join(this.pathDelimiter);
+
+        if (depMap[depKey]) {
+          //console.log('I already have this one : ' + depKey, depPath );
+        } //else {
         depMap[depKey] = depNode;
+        //}
+
         if (dep.dependencies) {
           const transitives = dep.dependencies;
           const transitiveMap: pnpmLockfileLib.PackageSnapshots = {};
@@ -115,7 +194,8 @@ export class PnpmPackageLockParser extends LockParserBase {
       }
     };
 
-    flattenLockfileRec(allDependenciesData || {}, []);
+    flattenLockfileRec(startingDependenciesData || {}, []);
+
     return depMap;
   }
 
