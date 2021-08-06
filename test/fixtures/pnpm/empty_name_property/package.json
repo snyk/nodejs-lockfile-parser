@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "description": "Empty name property",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "asn1.js": "4.10.1",
+    "npmconf": "0.0.24",
+    "util": "0.10.3"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@withMorePackages/projects/src",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "npmconf": "^0.0.24"
+  }
+}

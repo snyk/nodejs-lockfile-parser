@@ -1,0 +1,17 @@
+{
+  "name": "@withMorePackages/content",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "asn1.js": "^4.10.1"
+  },
+  "devdependencies": {
+    "util": "^0.10.3"
+  }
+}

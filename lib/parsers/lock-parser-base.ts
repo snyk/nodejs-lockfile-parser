@@ -67,11 +67,12 @@ export abstract class LockParserBase implements LockfileParser {
     lockfile: Lockfile,
     includeDev = false,
     strict = true,
+    workspace?: string,
   ): Promise<PkgTree> {
     if (lockfile.type !== this.type) {
       throw new InvalidUserInputError(
         'Unsupported lockfile provided. Please ' +
-          'provide `package-lock.json`.',
+          'provide `package-lock.json`, `yarn.lock` or `pnpm-lock.yaml`.',
       );
     }
     const yarnLock = lockfile as Lockfile;
@@ -95,10 +96,24 @@ export abstract class LockParserBase implements LockfileParser {
       return depTree;
     }
 
+    // get trees for dependencies from manifest file
+    const topLevelDeps: Dep[] = getTopLevelDeps(
+      manifestFile,
+      includeDev,
+      lockfile,
+      workspace,
+    );
+
     // prepare a flat map, where dependency path is a key to dependency object
     // path is an unique identifier for each dependency and corresponds to the
     // relative path on disc
-    const depMap: DepMap = this.getDepMap(yarnLock, manifestFile.resolutions);
+
+    let depMap: DepMap;
+    if (this.type === 'pnpm' && workspace) {
+      depMap = this.getDepMap(yarnLock, workspace);
+    } else {
+      depMap = this.getDepMap(yarnLock, manifestFile.resolutions);
+    }
 
     // all paths are identified, we can create a graph representing what depends on what
     const depGraph: graphlib.Graph = this.createGraphOfDependencies(depMap);
@@ -122,13 +137,6 @@ export abstract class LockParserBase implements LockfileParser {
     const { depTrees, depTreesSizes } = await this.createDepTrees(
       depMap,
       depGraph,
-    );
-
-    // get trees for dependencies from manifest file
-    const topLevelDeps: Dep[] = getTopLevelDeps(
-      manifestFile,
-      includeDev,
-      lockfile,
     );
 
     // number of dependencies including root one
@@ -169,6 +177,7 @@ export abstract class LockParserBase implements LockfileParser {
     }
 
     depTree.size = treeSize;
+
     return depTree;
   }
 
@@ -414,7 +423,7 @@ export abstract class LockParserBase implements LockfileParser {
 
   protected getDepMap(
     lockfile: Lockfile, // eslint-disable-line @typescript-eslint/no-unused-vars
-    resolutions?: ManifestDependencies, // eslint-disable-line @typescript-eslint/no-unused-vars
+    resolutions?: ManifestDependencies | string, // eslint-disable-line @typescript-eslint/no-unused-vars
   ): DepMap {
     throw new Error('Not implemented');
   }

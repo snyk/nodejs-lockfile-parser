@@ -1,0 +1,38 @@
+  
+  
+lockfileVersion: 5.3
+
+specifiers:
+  mongodb-core: ^1.2.19
+
+dependencies:
+  mongodb-core: 1.2.19
+
+packages:
+
+  /mongodb-core/1.2.19:
+    resolution: {integrity: sha1-/LNfa2q8XD3h8aSl21JrnjBvPrc=}
+    dependencies:
+      bson: 0.4.23
+    optionalDependencies:
+      kerberos: 0.0.24
+    dev: false
+
+  /bson/0.4.23:
+    resolution: {integrity: sha1-5louPHUH/63kEJvHV1p25Q+NqRU=}
+    engines: {node: '>=0.6.19'}
+    deprecated: Fixed a critical issue with BSON serialization documented in CVE-2019-2391, see https://bit.ly/2KcpXdo for more details
+    dev: false
+
+  /kerberos/0.0.24:
+    resolution: {integrity: sha512-QO6bFq9eETHB5zcA0OJiQtw137TH45OuUcGtI+QGg2ZJQIPCvwXL2kjCqZZMColcIdbPhj4X40EY5f3oOiBfiw==}
+    requiresBuild: true
+    dependencies:
+      nan: 2.10.0
+    dev: false
+    optional: true
+
+  /nan/2.10.0:
+    resolution: {integrity: sha512-bAdJv7fBLhWC+/Bls0Oza+mvTaNQtP+1RyhhhvD95pgUJz6XM5IzgmxOkItJ9tkoCiplvAnXI1tNmmUD/eScyA==}
+    dev: false
+    optional: true

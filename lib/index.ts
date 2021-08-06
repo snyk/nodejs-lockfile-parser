@@ -9,10 +9,12 @@ import {
   parseManifestFile,
   LockfileType,
   getYarnWorkspaces,
+  getPnpmWorkspaces,
 } from './parsers';
 import { PackageLockParser } from './parsers/package-lock-parser';
 import { YarnLockParser } from './parsers/yarn-lock-parser';
 import { Yarn2LockParser } from './parsers/yarn2-lock-parser';
+import { PnpmPackageLockParser } from './parsers/pnpm-lock-parser';
 import {
   UnsupportedRuntimeError,
   InvalidUserInputError,
@@ -24,6 +26,8 @@ export {
   buildDepTreeFromFiles,
   getYarnWorkspacesFromFiles,
   getYarnWorkspaces,
+  getPnpmWorkspacesFromFiles,
+  getPnpmWorkspaces,
   PkgTree,
   Scope,
   LockfileType,
@@ -40,11 +44,14 @@ async function buildDepTree(
   lockfileType?: LockfileType,
   strict: boolean = true,
   defaultManifestFileName: string = 'package.json',
+  workspace?: string,
 ): Promise<PkgTree> {
   if (!lockfileType) {
     lockfileType = LockfileType.npm;
   } else if (lockfileType === LockfileType.yarn) {
     lockfileType = getYarnLockfileType(lockFileContents);
+  } else if (lockfileType === LockfileType.pnpm) {
+    lockfileType = LockfileType.pnpm;
   }
 
   let lockfileParser: LockfileParser;
@@ -58,10 +65,13 @@ async function buildDepTree(
     case LockfileType.yarn2:
       lockfileParser = new Yarn2LockParser();
       break;
+    case LockfileType.pnpm:
+      lockfileParser = new PnpmPackageLockParser();
+      break;
     default:
       throw new InvalidUserInputError(
         'Unsupported lockfile type ' +
-          `${lockfileType} provided. Only 'npm' or 'yarn' is currently ` +
+          `${lockfileType} provided. Only 'npm', 'yarn' or 'pnpm' is currently ` +
           'supported.',
       );
   }
@@ -73,12 +83,15 @@ async function buildDepTree(
       : defaultManifestFileName;
   }
 
-  const lockFile: Lockfile = lockfileParser.parseLockFile(lockFileContents);
+  const lockFile: Lockfile = await lockfileParser.parseLockFile(
+    lockFileContents,
+  );
   return lockfileParser.getDependencyTree(
     manifestFile,
     lockFile,
     includeDev,
     strict,
+    workspace,
   );
 }
 
@@ -88,6 +101,7 @@ async function buildDepTreeFromFiles(
   lockFilePath: string,
   includeDev = false,
   strict = true,
+  workspace?: string,
 ): Promise<PkgTree> {
   if (!root || !manifestFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for buildDepTreeFromFiles()');
@@ -116,10 +130,12 @@ async function buildDepTreeFromFiles(
     lockFileType = LockfileType.npm;
   } else if (lockFilePath.endsWith('yarn.lock')) {
     lockFileType = getYarnLockfileType(lockFileContents, root, lockFilePath);
+  } else if (lockFilePath.endsWith('pnpm-lock.yaml')) {
+    lockFileType = LockfileType.pnpm;
   } else {
     throw new InvalidUserInputError(
       `Unknown lockfile ${lockFilePath}. ` +
-        'Please provide either package-lock.json or yarn.lock.',
+        'Please provide either package-lock.json, yarn.lock or pnpm-lock.yaml.',
     );
   }
 
@@ -130,6 +146,7 @@ async function buildDepTreeFromFiles(
     lockFileType,
     strict,
     manifestFilePath,
+    workspace,
   );
 }
 
@@ -152,6 +169,30 @@ function getYarnWorkspacesFromFiles(
   const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');
 
   return getYarnWorkspaces(manifestFileContents);
+}
+
+function getPnpmWorkspacesFromFiles(
+  root,
+  pnpmWorkspaceFilePath: string,
+): string[] | false {
+  if (!root || !pnpmWorkspaceFilePath) {
+    throw new Error(
+      'Missing required parameters for getPnpmWorkspacesFromFiles()',
+    );
+  }
+  const pnpmWorkspaceFileFullPath = path.resolve(root, pnpmWorkspaceFilePath);
+
+  if (!fs.existsSync(pnpmWorkspaceFileFullPath)) {
+    throw new InvalidUserInputError(
+      `Target file not found at : ${pnpmWorkspaceFileFullPath}`,
+    );
+  }
+  const pnpmWorkspaceFileContents = fs.readFileSync(
+    pnpmWorkspaceFileFullPath,
+    'utf-8',
+  );
+
+  return getPnpmWorkspaces(pnpmWorkspaceFileContents);
 }
 
 function getYarnLockfileType(
