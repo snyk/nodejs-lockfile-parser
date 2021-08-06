@@ -131,8 +131,7 @@ export function getTopLevelDeps(
 ): Dep[] {
   const dependencies: Dep[] = [];
 
-  if (lockfile.type === 'pnpm')
-  {
+  if (lockfile.type === 'pnpm') {
     const pnpmLock = lockfile as PnpmFileLock;
     let topLevelDeps = {};
 
@@ -178,13 +177,13 @@ export function getTopLevelDeps(
               }
             }
           }
-          
+
           // Getting the top level dependencies details
           const dependenciesIterator = Object.entries({
             ...dep.dependencies,
             ...(includeDev ? dep.devDependencies : null),
           });
-        
+
           for (const [name, version] of dependenciesIterator) {
             dependencies.push({
               dev:
@@ -203,7 +202,7 @@ export function getTopLevelDeps(
         ...pnpmLock.dependencies,
         ...(includeDev ? pnpmLock.devDependencies : null),
       });
-    
+
       for (const [name, version] of dependenciesIterator) {
         dependencies.push({
           dev:
@@ -221,7 +220,7 @@ export function getTopLevelDeps(
       ...(includeDev ? targetFile.devDependencies : null),
       ...(targetFile.optionalDependencies || {}),
     });
-  
+
     for (const [name, version] of dependenciesIterator) {
       dependencies.push({
         dev:
@@ -233,11 +232,13 @@ export function getTopLevelDeps(
       });
     }
     //  }
-  
+
     // Only include peerDependencies if using npm and npm is at least
     // version 7 as npm v7 automatically installs peerDependencies
     if (lockfile.type === LockfileType.npm7 && targetFile.peerDependencies) {
-      for (const [name, version] of Object.entries(targetFile.peerDependencies)) {
+      for (const [name, version] of Object.entries(
+        targetFile.peerDependencies,
+      )) {
         dependencies.push({
           name,
           version,

@@ -120,7 +120,6 @@ describe('buildDepTreeFromFiles', () => {
   });
 
   it('with workspace pnpm-lock', async () => {
-    
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/../../../fixtures/pnpm/workspacesWithPackages`,
       'packages/web/package.json',
@@ -134,7 +133,6 @@ describe('buildDepTreeFromFiles', () => {
   });
 
   it('with another workspace pnpm-lock', async () => {
-    
     const depTree = await buildDepTreeFromFiles(
       `${__dirname}/../../../fixtures/pnpm/workspacesWithMorePackages`,
       'content-copy/package.json',

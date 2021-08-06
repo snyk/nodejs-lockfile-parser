@@ -161,7 +161,7 @@ workflows:
                 - master
       - release:
           name: Release
-          context: nodejs-app-release
+          context: SNYK
           node_version: "10"
           filters:
             branches:

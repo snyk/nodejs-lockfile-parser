@@ -98,10 +98,10 @@ export abstract class LockParserBase implements LockfileParser {
 
     // get trees for dependencies from manifest file
     const topLevelDeps: Dep[] = getTopLevelDeps(
-        manifestFile,
-        includeDev,
-        lockfile,
-        workspace,
+      manifestFile,
+      includeDev,
+      lockfile,
+      workspace,
     );
 
     // prepare a flat map, where dependency path is a key to dependency object
