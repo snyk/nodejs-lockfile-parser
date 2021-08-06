@@ -1,5 +1,5 @@
 {
-  "name": "snyk-nodejs-lockfile-parser_TS_fork",
+  "name": "snyk-nodejs-lockfile-parser-ts-fork",
   "description": "Generate a dep tree given a lockfile",
   "main": "dist/index.js",
   "bin": {
@@ -18,7 +18,7 @@
   "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/snyk/nodejs-lockfile-parser.git"
+    "url": "https://github.com/snyk-tech-services/nodejs-lockfile-parser.git"
   },
   "author": "snyk.io",
   "license": "Apache-2.0",
@@ -29,7 +29,7 @@
     "bin",
     "dist"
   ],
-  "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
+  "homepage": "https://github.com/snyk-tech-services/nodejs-lockfile-parser#readme",
   "dependencies": {
     "@pnpm/lockfile-file": "4.1.0",
     "@snyk/graphlib": "2.1.9-patch.3",
