@@ -72,7 +72,6 @@ export class PnpmPackageLockParser extends LockParserBase {
     return depTreeWithMeta;
   }
 
-
   public getDepMap(lockfile: Lockfile, workspace?: string): DepMap {
     const pnpmLock = lockfile as PnpmFileLock;
     const depMap: DepMap = {};

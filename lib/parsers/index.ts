@@ -146,10 +146,8 @@ export function getTopLevelDeps({
 
   let dependencies: Dep[] = [];
 
-  if (lockfile.type === 'pnpm')
-  {
+  if (lockfile.type === 'pnpm') {
     const pnpmLock = lockfile as PnpmFileLock;
-    let topLevelDeps = {};
 
     if (workspace) {
       // If this is a workspace project then the top level dependencies will be
@@ -193,13 +191,13 @@ export function getTopLevelDeps({
               }
             }
           }
-          
+
           // Getting the top level dependencies details
           const dependenciesIterator = Object.entries({
             ...dep.dependencies,
             ...(includeDev ? dep.devDependencies : null),
           });
-        
+
           for (const [name, version] of dependenciesIterator) {
             dependencies.push({
               dev:
@@ -218,7 +216,7 @@ export function getTopLevelDeps({
         ...pnpmLock.dependencies,
         ...(includeDev ? pnpmLock.devDependencies : null),
       });
-    
+
       for (const [name, version] of dependenciesIterator) {
         dependencies.push({
           dev:
@@ -236,7 +234,7 @@ export function getTopLevelDeps({
       ...(includeDev ? targetFile.devDependencies : null),
       ...(targetFile.optionalDependencies || {}),
     });
-  
+
     for (const [name, version] of dependenciesIterator) {
       dependencies.push({
         dev:
