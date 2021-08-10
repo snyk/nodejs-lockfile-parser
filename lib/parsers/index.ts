@@ -102,7 +102,7 @@ export function parseManifestFile(manifestFileContents: string): ManifestFile {
 export function getTopLevelDeps(
   targetFile: ManifestFile,
   includeDev: boolean,
-  lockfile: Lockfile,
+  includePeerDeps = false,
 ): Dep[] {
   const dependencies: Dep[] = [];
 
@@ -123,9 +123,7 @@ export function getTopLevelDeps(
     });
   }
 
-  // Only include peerDependencies if using npm and npm is at least
-  // version 7 as npm v7 automatically installs peerDependencies
-  if (lockfile.type === LockfileType.npm7 && targetFile.peerDependencies) {
+  if (includePeerDeps && targetFile.peerDependencies) {
     for (const [name, version] of Object.entries(targetFile.peerDependencies)) {
       dependencies.push({
         name,
