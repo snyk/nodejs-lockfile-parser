@@ -5,6 +5,7 @@ import * as _toPairs from 'lodash.topairs';
 import * as graphlib from '@snyk/graphlib';
 import { v4 as uuid } from 'uuid';
 import { eventLoopSpinner } from 'event-loop-spinner';
+import * as baseDebug from 'debug';
 
 import {
   createDepTreeDepFromDep,
@@ -24,6 +25,8 @@ import {
   OutOfSyncError,
   TreeSizeLimitError,
 } from '../errors';
+
+const debug = baseDebug('snyk-nodejs-parser');
 
 export interface PackageLockDeps {
   [depName: string]: PackageLockDep;
@@ -101,7 +104,10 @@ export abstract class LockParserBase implements LockfileParser {
     const depMap: DepMap = this.getDepMap(yarnLock, manifestFile.resolutions);
 
     // all paths are identified, we can create a graph representing what depends on what
-    const depGraph: graphlib.Graph = this.createGraphOfDependencies(depMap);
+    const depGraph: graphlib.Graph = this.createGraphOfDependencies(
+      depMap,
+      strict,
+    );
 
     // topological sort will be applied and it requires acyclic graphs
     let cycleStarts: CycleStartMap = {};
@@ -318,14 +324,17 @@ export abstract class LockParserBase implements LockfileParser {
     return newNode;
   }
 
-  private createGraphOfDependencies(depMap: DepMap): graphlib.Graph {
+  private createGraphOfDependencies(
+    depMap: DepMap,
+    strict = true,
+  ): graphlib.Graph {
     const depGraph = new graphlib.Graph();
     for (const depKey of Object.keys(depMap)) {
       depGraph.setNode(depKey);
     }
     for (const [depPath, dep] of Object.entries(depMap)) {
       for (const depName of dep.requires) {
-        const subDepPath = this.findDepsPath(depPath, depName, depMap);
+        const subDepPath = this.findDepsPath(depPath, depName, depMap, strict);
         // direction is from the dependency to the package requiring it
         depGraph.setEdge(subDepPath, depPath);
       }
@@ -340,6 +349,7 @@ export abstract class LockParserBase implements LockfileParser {
     startPath: string,
     depName: string,
     depMap: DepMap,
+    strict = true,
   ): string {
     const depPath = startPath.split(this.pathDelimiter);
     while (depPath.length) {
@@ -349,9 +359,11 @@ export abstract class LockParserBase implements LockfileParser {
       }
       depPath.pop();
     }
-
     if (!depMap[depName]) {
-      throw new OutOfSyncError(depName, this.type);
+      debug(`Dependency ${depName} not found`);
+      if (strict) {
+        throw new OutOfSyncError(depName, this.type);
+      }
     }
 
     return depName;
@@ -382,16 +394,36 @@ export abstract class LockParserBase implements LockfileParser {
       const depKey = depOrder.shift() as string;
       const dep = depMap[depKey];
       let treeSize = 1;
-
+      if (!dep) {
+        debug(`Missing entry for ${depKey}`);
+        continue;
+      }
       // direction is from the dependency to the package requiring it, so we are
       // looking for predecessors
       for (const subDepPath of depGraph.predecessors(depKey)) {
-        const subDep = depTrees[subDepPath];
+        let subDep = depTrees[subDepPath];
         if (!dep.dependencies) {
           dep.dependencies = {};
         }
+        if (!subDep) {
+          debug(`Missing entry for ${subDepPath}`);
+          const index = subDepPath.indexOf('@', 1);
+          const name = subDepPath.slice(0, index);
+          const identifier = subDepPath.slice(index + 1);
+
+          subDep = {
+            name: name,
+            version: identifier,
+            dependencies: {},
+            labels: {
+              missingLockFileEntry: 'true',
+            },
+          };
+          treeSize += 1;
+        } else {
+          treeSize += depTreesSizes[subDepPath];
+        }
         dep.dependencies[subDep.name!] = subDep;
-        treeSize += depTreesSizes[subDepPath];
       }
       const depTreeDep: DepTreeDep = {
         labels: dep.labels,

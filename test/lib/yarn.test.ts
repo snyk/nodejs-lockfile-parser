@@ -151,7 +151,6 @@ for (const scenario of SCENARIOS_WITH_FILES) {
         scenario.includeDev,
         scenario.strictOutOfSync,
       );
-
       t.same(depTree, expectedDepTree, 'Tree generated as expected');
     } catch (err) {
       t.fail(err);
