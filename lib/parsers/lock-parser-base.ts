@@ -69,7 +69,7 @@ export abstract class LockParserBase implements LockfileParser {
     manifestFile: ManifestFile,
     lockfile: Lockfile,
     includeDev = false,
-    strict = true,
+    strictOutOfSync = true,
   ): Promise<PkgTree> {
     if (lockfile.type !== this.type) {
       throw new InvalidUserInputError(
@@ -106,7 +106,7 @@ export abstract class LockParserBase implements LockfileParser {
     // all paths are identified, we can create a graph representing what depends on what
     const depGraph: graphlib.Graph = this.createGraphOfDependencies(
       depMap,
-      strict,
+      strictOutOfSync,
     );
 
     // topological sort will be applied and it requires acyclic graphs
@@ -164,7 +164,7 @@ export abstract class LockParserBase implements LockfileParser {
       } else {
         // TODO: also check the package version
         // for a stricter check
-        if (strict) {
+        if (strictOutOfSync) {
           throw new OutOfSyncError(dep.name, this.type);
         }
         depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
@@ -326,7 +326,7 @@ export abstract class LockParserBase implements LockfileParser {
 
   private createGraphOfDependencies(
     depMap: DepMap,
-    strict = true,
+    strictOutOfSync = true,
   ): graphlib.Graph {
     const depGraph = new graphlib.Graph();
     for (const depKey of Object.keys(depMap)) {
@@ -334,7 +334,12 @@ export abstract class LockParserBase implements LockfileParser {
     }
     for (const [depPath, dep] of Object.entries(depMap)) {
       for (const depName of dep.requires) {
-        const subDepPath = this.findDepsPath(depPath, depName, depMap, strict);
+        const subDepPath = this.findDepsPath(
+          depPath,
+          depName,
+          depMap,
+          strictOutOfSync,
+        );
         // direction is from the dependency to the package requiring it
         depGraph.setEdge(subDepPath, depPath);
       }
@@ -349,7 +354,7 @@ export abstract class LockParserBase implements LockfileParser {
     startPath: string,
     depName: string,
     depMap: DepMap,
-    strict = true,
+    strictOutOfSync = true,
   ): string {
     const depPath = startPath.split(this.pathDelimiter);
     while (depPath.length) {
@@ -361,7 +366,7 @@ export abstract class LockParserBase implements LockfileParser {
     }
     if (!depMap[depName]) {
       debug(`Dependency ${depName} not found`);
-      if (strict) {
+      if (strictOutOfSync) {
         throw new OutOfSyncError(depName, this.type);
       }
     }
