@@ -57,13 +57,13 @@ export class YarnLockParser extends LockParserBase {
     manifestFile: ManifestFile,
     lockfile: Lockfile,
     includeDev = false,
-    strict = true,
+    strictOutOfSync = true,
   ): Promise<PkgTree> {
     const depTree = await super.getDependencyTree(
       manifestFile,
       lockfile,
       includeDev,
-      strict,
+      strictOutOfSync,
     );
 
     const meta = { lockfileVersion: 1, packageManager: 'yarn' };

@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "graphql": {
+      "labels": {
+        "scope": "prod"
+      },
+      "name": "graphql",
+      "version": "15.5.1"
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "core-app-api",
+  "size": 2,
+  "version": "1.0.0",
+  "meta": {
+    "lockfileVersion": 1,
+    "packageManager": "yarn"
+  }
+}

@@ -49,7 +49,7 @@ const SCENARIOS_WITH_FILES = [
     name: 'Out of sync yarn.lock generates tree',
     workspace: 'out-of-sync',
     includeDev: false,
-    strict: false,
+    strictOutOfSync: false,
   },
   {
     name: "'package.json' with file as version",
@@ -81,6 +81,27 @@ const SCENARIOS_WITH_FILES = [
     workspace: 'missing-name',
     includeDev: false,
   },
+  {
+    name:
+      'Parse yarn.lock with deeply out of sync app because of local workspaces (root)',
+    workspace: 'out-of-sync-app',
+    includeDev: false,
+    strictOutOfSync: false,
+  },
+  {
+    name:
+      'Parse gracefully yarn.lock with local workspaces packages that are not referenced in lock file if scriptOutOfSync is set to false',
+    workspace: 'out-of-sync-app/packages/app',
+    includeDev: false,
+    strictOutOfSync: false,
+  },
+  {
+    name:
+      'Parse gracefully yarn.lock with local workspaces (core-app-api) packages that are not referenced in lock file if scriptOutOfSync is set to false',
+    workspace: 'out-of-sync-app/plugins/core-app-api',
+    includeDev: false,
+    strictOutOfSync: false,
+  },
 ];
 
 const SCENARIOS_REJECTED = [
@@ -101,6 +122,15 @@ const SCENARIOS_REJECTED = [
     workspace: 'out-of-sync',
     expectedError: new OutOfSyncError('lodash', LockfileType.yarn),
   },
+  {
+    name:
+      'Out of sync in strict mode because of a transitive workspace package requirement (app)',
+    workspace: 'out-of-sync-app/packages/app',
+    expectedError: new OutOfSyncError(
+      '@backstage/core-app-api@^0.1.6',
+      LockfileType.yarn,
+    ),
+  },
 ];
 
 for (const scenario of SCENARIOS_WITH_FILES) {
@@ -119,9 +149,8 @@ for (const scenario of SCENARIOS_WITH_FILES) {
         'package.json',
         `yarn1/yarn.lock`,
         scenario.includeDev,
-        scenario.strict,
+        scenario.strictOutOfSync,
       );
-
       t.same(depTree, expectedDepTree, 'Tree generated as expected');
     } catch (err) {
       t.fail(err);

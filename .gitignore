@@ -8,3 +8,4 @@ dist
 /package-lock.json
 .idea
 .nyc_output/
+.dccache

@@ -83,7 +83,7 @@ export interface LockfileParser {
     manifestFile: ManifestFile,
     lockfile: Lockfile,
     includeDev?: boolean,
-    strict?: boolean,
+    strictOutOfSync?: boolean,
   ) => Promise<PkgTree>;
 }
 

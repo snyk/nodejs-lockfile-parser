@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "@roadiehq/backstage-plugin-travis-ci": {
+      "labels": {
+        "scope": "prod"
+      },
+      "name": "@roadiehq/backstage-plugin-travis-ci",
+      "version": "1.0.11",
+      "dependencies": {
+        "@backstage/core-app-api": {
+          "labels": {
+            "missingLockFileEntry": "true"
+          },
+          "name": "@backstage/core-app-api",
+          "version": "^0.1.6",
+          "dependencies": {}
+        }
+      }
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "app",
+  "size": 3,
+  "version": "1.0.0",
+  "meta": {
+    "lockfileVersion": 1,
+    "packageManager": "yarn"
+  }
+}

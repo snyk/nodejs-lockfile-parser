@@ -56,13 +56,13 @@ export class PackageLockParser extends LockParserBase {
     manifestFile: ManifestFile,
     lockfile: Lockfile,
     includeDev: boolean = false,
-    strict: boolean = true,
+    strictOutOfSync: boolean = true,
   ): Promise<PkgTree> {
     const dependencyTree = await super.getDependencyTree(
       manifestFile,
       lockfile,
       includeDev,
-      strict,
+      strictOutOfSync,
     );
     const meta = {
       lockfileVersion: (lockfile as PackageLock).lockfileVersion,
