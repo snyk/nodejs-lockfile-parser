@@ -1,0 +1,11 @@
+{
+  "dependencies": {},
+  "hasDevDependencies": false,
+  "name": "example",
+  "size": 1,
+  "version": "1.0.0",
+  "meta": {
+    "lockfileVersion": 1,
+    "packageManager": "yarn"
+  }
+}
