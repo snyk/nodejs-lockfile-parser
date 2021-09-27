@@ -23,6 +23,30 @@ export interface Yarn2Lock {
   lockfileType: LockfileType.yarn2;
 }
 
+
+export interface Yarn2LockDeps {
+  [depName: string]: Yarn2LockDep
+}
+
+export interface Yarn2LockDep {
+  version: string;
+
+  resolution?: string;
+  checksum?: string;
+  linkType?: string;
+  languageName?: string;
+
+  dependencies?: {
+    [depName: string]: string;
+  };
+
+  optionalDependencies?: {
+    [depName: string]: string;
+  }
+}
+
+
+
 export class Yarn2LockParser extends LockParserBase {
   constructor() {
     super(LockfileType.yarn2, config.YARN_TREE_SIZE_LIMIT);
@@ -97,9 +121,9 @@ export class Yarn2LockParser extends LockParserBase {
     const yarnLockfile = lockfile as Yarn2Lock;
     const depMap: DepMap = {};
 
-    const dependencies = (lockfile.dependencies as YarnLockDeps) || {};
+    const dependencies = (lockfile.dependencies as Yarn2LockDeps) || {};
 
-    for (const [depName, dep] of Object.entries(yarnLockfile.object)) {
+    for (const [depName, dep] of Object.entries(yarnLockfile)) {
       const subDependencies = Object.entries({
         ...(dep.dependencies || {}),
         ...(dep.optionalDependencies || {}),
@@ -116,6 +140,8 @@ export class Yarn2LockParser extends LockParserBase {
         name: getName(depName),
         requires: subDependencies,
         version: dep.version,
+        ...(dep.resolution && { resolution: dep.resolution }),
+        ...(dep.checksum && { checksum: dep.checksum }),
       };
     }
 
