@@ -133,11 +133,12 @@ export abstract class LockParserBase implements LockfileParser {
     // Only include peerDependencies if using npm and npm is at least
     // version 7 as npm v7 automatically installs peerDependencies
     // get trees for dependencies from manifest file
-    const topLevelDeps: Dep[] = getTopLevelDeps(
-      manifestFile,
+    const topLevelDeps: Dep[] = getTopLevelDeps({
+      targetFile: manifestFile,
       includeDev,
-      lockfile.type === LockfileType.npm7,
-    );
+      includePeerDeps: lockfile.type === LockfileType.npm7,
+      applyYarn2Resolutions: lockfile.type === LockfileType.yarn2,
+    });
 
     // number of dependencies including root one
     let treeSize = 1;

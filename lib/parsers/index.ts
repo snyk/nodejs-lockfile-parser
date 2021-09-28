@@ -99,12 +99,18 @@ export function parseManifestFile(manifestFileContents: string): ManifestFile {
   }
 }
 
-export function getTopLevelDeps(
-  targetFile: ManifestFile,
-  includeDev: boolean,
+export function getTopLevelDeps({
+  targetFile,
+  includeDev,
   includePeerDeps = false,
-): Dep[] {
-  const dependencies: Dep[] = [];
+  applyYarn2Resolutions = false,
+}: {
+  targetFile: ManifestFile;
+  includeDev: boolean;
+  includePeerDeps?: boolean;
+  applyYarn2Resolutions?: boolean;
+}): Dep[] {
+  let dependencies: Dep[] = [];
 
   const dependenciesIterator = Object.entries({
     ...targetFile.dependencies,
@@ -130,6 +136,19 @@ export function getTopLevelDeps(
         version,
       });
     }
+  }
+
+  if (applyYarn2Resolutions && targetFile.resolutions) {
+    const resMap = new Map(
+      Object.entries(targetFile.resolutions).map(([resName, resVersion]) => [
+        resName.replace(`${targetFile.name}/`, ''),
+        resVersion,
+      ]),
+    );
+
+    dependencies = dependencies.map((dep) =>
+      resMap.has(dep.name) ? { ...dep, version: resMap.get(dep.name)! } : dep,
+    );
   }
   return dependencies;
 }

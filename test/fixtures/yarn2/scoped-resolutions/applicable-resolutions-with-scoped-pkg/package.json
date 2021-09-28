@@ -1,0 +1,9 @@
+{
+  "name": "@scoped/testPkg",
+  "dependencies": {
+    "express": "4.0.0"
+  },
+  "resolutions": {
+    "@scoped/testPkg/express": "4.12.4"
+  }
+}

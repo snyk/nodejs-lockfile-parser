@@ -1,0 +1,9 @@
+{
+  "name": "testPkg",
+  "dependencies": {
+    "express": "4.0.0"
+  },
+  "resolutions": {
+    "testPkg/express": "4.12.4"
+  }
+}
