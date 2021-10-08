@@ -144,4 +144,43 @@ describe('buildDepTreeFromFiles', () => {
 
     expect(depTree).toMatchSnapshot();
   });
+
+  it('Parse coveo pnpm package-lock.json with devDependencies simple coveo (cyclic)', async () => {
+    const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/../../../fixtures/pnpm/coveo_react_simple/`,
+      'packages/demo/package.json',
+      'pnpm-lock.yaml',
+      true, // includeDev
+      false,
+      'packages/demo',
+    );
+
+    expect(depTree).toMatchSnapshot();
+  });
+
+  it('Parse coveo pnpm package-lock.json with devDependencies full coveo', async () => {
+    const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/../../../fixtures/pnpm/coveo_react/`,
+      'packages/demo/package.json',
+      'pnpm-lock.yaml',
+      false, // includeDev
+      false,
+      'packages/demo',
+    );
+
+    expect(depTree).toMatchSnapshot();
+  });
+
+  it('Parse coveo pnpm package-lock.json with devDependencies full coveo includeDev', async () => {
+    const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/../../../fixtures/pnpm/coveo_react/`,
+      'packages/demo/package.json',
+      'pnpm-lock.yaml',
+      true, // includeDev
+      false,
+      'packages/demo',
+    );
+
+    expect(depTree).toMatchSnapshot();
+  });
 });
