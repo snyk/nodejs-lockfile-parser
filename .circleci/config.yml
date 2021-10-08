@@ -113,7 +113,7 @@ workflows:
     jobs:
       - lint:
           name: Lint
-          context: nodejs-install
+          context: SNYK
           node_version: "10"
           filters:
             branches:
@@ -121,7 +121,7 @@ workflows:
                 - master
       - test-windows:
           name: Windows Tests for Node v12 support
-          context: nodejs-install
+          context: SNYK
           node_version: "12.0.0"
           requires:
             - Lint
@@ -131,7 +131,7 @@ workflows:
                 - master
       - test-windows:
           name: Windows Tests for Node v10 support
-          context: nodejs-install
+          context: SNYK
           node_version: "10.21.0"
           requires:
             - Lint
@@ -141,7 +141,7 @@ workflows:
                 - master
       - test-unix:
           name: Unix Tests for Node v12 support
-          context: nodejs-install
+          context: SNYK
           node_version: "12.16.2"
           requires:
             - Lint
@@ -151,7 +151,7 @@ workflows:
                 - master
       - test-unix:
           name: Unix Tests for Node v10 support
-          context: nodejs-install
+          context: SNYK
           node_version: "10"
           requires:
             - Lint
