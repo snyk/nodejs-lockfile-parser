@@ -1,0 +1,29 @@
+{
+  "name": "e2etesting",
+  "private": true,
+  "version": "24.10.1",
+  "description": "End to end tests for react-vapor",
+  "main": "index.js",
+  "scripts": {
+    "e2e:open": "cypress open",
+    "e2e:run": "cypress run",
+    "lintfix": "../../node_modules/.bin/prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,html}\""
+  },
+  "devDependencies": {
+    "@testing-library/cypress": "^7.0.6",
+    "cypress": "^7.1.0",
+    "typescript": "^4.2.4"
+  },
+  "author": "Coveo",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coveo/react-vapor.git"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,json,md,yml,html}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
