@@ -135,7 +135,6 @@ export function getTopLevelDeps(
 
   if (lockfile.type === 'pnpm') {
     const pnpmLock = lockfile as PnpmFileLock;
-    let topLevelDeps = {};
 
     if (workspace) {
       // If this is a workspace project then the top level dependencies will be

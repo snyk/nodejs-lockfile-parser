@@ -5,7 +5,6 @@ import {
   Dep,
   Lockfile,
   LockfileType,
-  ManifestDependencies,
   ManifestFile,
   PkgTree,
   Scope,
