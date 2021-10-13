@@ -2,7 +2,6 @@ import { join } from 'path';
 import * as fs from 'fs';
 
 import { PnpmPackageLockParser } from '../../lib/parsers/pnpm-lock-parser';
-import { PackageLockParser } from '../../lib/parsers/package-lock-parser';
 import { buildDepTreeFromFiles } from '../../lib';
 
 describe('getDepMap pnpm', () => {
