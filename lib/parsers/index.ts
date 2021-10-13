@@ -106,8 +106,9 @@ export function parseManifestFile(manifestFileContents: string): ManifestFile {
   try {
     return JSON.parse(manifestFileContents);
   } catch (e) {
+    const error = e as Error;
     throw new InvalidUserInputError(
-      'package.json parsing failed with error ' + e.message,
+      'package.json parsing failed with error ' + error.message,
     );
   }
 }
@@ -122,8 +123,9 @@ export function parseWorkspaceFile(
 
     return workspaceFile as WorkspaceFile;
   } catch (e) {
+    const error = e as Error;
     throw new InvalidUserInputError(
-      'pnpm-workspace.yaml parsing failed with error ' + e.message,
+      'pnpm-workspace.yaml parsing failed with error ' + error.message,
     );
   }
 }
@@ -295,8 +297,9 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
     }
     return false;
   } catch (e) {
+    const error = e as Error;
     throw new InvalidUserInputError(
-      'package.json parsing failed with ' + `error ${e.message}`,
+      'package.json parsing failed with ' + `error ${error.message}`,
     );
   }
 }
@@ -311,8 +314,9 @@ export function getPnpmWorkspaces(targetFile: string): string[] | false {
     }
     return false;
   } catch (e) {
+    const error = e as Error;
     throw new InvalidUserInputError(
-      'package.json parsing failed with ' + `error ${e.message}`,
+      'package.json parsing failed with ' + `error ${error.message}`,
     );
   }
 }
