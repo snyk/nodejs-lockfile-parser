@@ -124,7 +124,8 @@ for (const scenario of SCENARIOS_WITH_FILES) {
 
       t.same(depTree, expectedDepTree, 'Tree generated as expected');
     } catch (err) {
-      t.fail(err);
+      const error = err as Error;
+      t.fail(error);
     }
   });
 }
@@ -179,7 +180,8 @@ test(`Yarn Tree size exceeds the allowed limit of 500 dependencies (yarn1)`, asy
     );
     t.fail('Expected TreeSizeLimitError to be thrown');
   } catch (err) {
-    t.equals(err.constructor.name, 'TreeSizeLimitError');
+    const error = err as Error;
+    t.equals(error.constructor.name, 'TreeSizeLimitError');
   } finally {
     config.YARN_TREE_SIZE_LIMIT = 6.0e6;
   }
