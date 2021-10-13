@@ -38,8 +38,9 @@ export class PnpmPackageLockParser extends LockParserBase {
 
       return lockfile;
     } catch (e) {
+      const error = e as Error;
       throw new InvalidUserInputError(
-        `pnpm-lock.yml parsing failed with error ${e.message}`,
+        `pnpm-lock.yml parsing failed with error ${error.message}`,
       );
     }
   }
@@ -175,20 +176,24 @@ export class PnpmPackageLockParser extends LockParserBase {
         const depPath: string[] = [...path, dependencyName];
         const depKey = depPath.join(this.pathDelimiter);
 
-        if (depMap[depKey]) {
-          //console.log('I already have this one : ' + depKey, depPath );
-        } //else {
         depMap[depKey] = depNode;
-        //}
 
         if (dep.dependencies) {
           const transitives = dep.dependencies;
           const transitiveMap: pnpmLockfileLib.PackageSnapshots = {};
           for (const t of Object.keys(transitives)) {
             const depName = `/${t}/${transitives[t]}`;
-            transitiveMap[depName] = allDependenciesData[depName];
+            if (!depPath.includes(t)) {
+              transitiveMap[depName] = allDependenciesData[depName];
+            } else {
+              //console.log("I already have t", t)
+            }
           }
-          flattenLockfileRec(transitiveMap, depPath);
+          if (transitiveMap === {}) {
+            return;
+          } else {
+            flattenLockfileRec(transitiveMap, depPath);
+          }
         }
       }
     };
@@ -204,7 +209,8 @@ export class PnpmPackageLockParser extends LockParserBase {
 
   protected getName(depName: string): string {
     const fields = depName.split('/');
-    return fields[1];
+    fields.pop();
+    return fields.join('/').substring(1);
   }
 
   protected getVersion(depName: string): string {
