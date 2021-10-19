@@ -17,3 +17,5 @@ packages:
   /ms/0.6.2:
     resolution: {integrity: sha1-2JwhJMb9wTU9Zai3e/GqxLGTcIw=}
     dev: false
+    dependencies:
+      debug: 2.0.0

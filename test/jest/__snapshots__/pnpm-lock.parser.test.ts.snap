@@ -23793,7 +23793,9 @@ Object {
       "scope": "prod",
     },
     "name": "ms",
-    "requires": Array [],
+    "requires": Array [
+      "debug",
+    ],
     "version": "0.6.2",
   },
 }
