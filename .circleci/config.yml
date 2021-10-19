@@ -114,7 +114,7 @@ workflows:
       - lint:
           name: Lint
           context: SNYK
-          node_version: "10"
+          node_version: "14"
           filters:
             branches:
               ignore:
@@ -159,10 +159,20 @@ workflows:
             branches:
               ignore:
                 - master
+      - test-unix:
+          name: Unix Tests for Node v14 support
+          context: SNYK
+          node_version: "14"
+          requires:
+            - Lint
+          filters:
+            branches:
+              ignore:
+                - master
       - release:
           name: Release
           context: SNYK
-          node_version: "10"
+          node_version: "14"
           filters:
             branches:
               only:
