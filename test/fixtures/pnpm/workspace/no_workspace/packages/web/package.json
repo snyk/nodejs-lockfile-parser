@@ -8,9 +8,6 @@
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "dependencies": {
     "@types/jest": "23.3.9",
     "@types/node": "10.12.5",
