@@ -189,9 +189,7 @@ export class PnpmPackageLockParser extends LockParserBase {
             if (!depPath.includes(t)) {
               transitiveMap[depName] = allDependenciesData[depName];
             } else {
-              debug(
-                'Info: depMap already have transitive dep' + t + ' in the path',
-              );
+              debug('Info: Already have this transitive ' + t + ' in the path');
             }
           }
           if (transitiveMap === {}) {
