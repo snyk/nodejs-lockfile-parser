@@ -1,5 +1,6 @@
 import * as pnpmLockfileLib from '@pnpm/lockfile-file';
 import * as yaml from 'js-yaml';
+import Debug from 'debug';
 
 import {
   Dep,
@@ -36,6 +37,7 @@ export class PnpmPackageLockParser extends LockParserBase {
       };
 
       return lockfile;
+      1;
     } catch (e) {
       const error = e as Error;
       throw new InvalidUserInputError(
@@ -73,6 +75,8 @@ export class PnpmPackageLockParser extends LockParserBase {
   }
 
   public getDepMap(lockfile: Lockfile, workspace?: string): DepMap {
+    const debug = Debug('Snyk');
+
     const pnpmLock = lockfile as PnpmFileLock;
     const depMap: DepMap = {};
 
@@ -185,7 +189,9 @@ export class PnpmPackageLockParser extends LockParserBase {
             if (!depPath.includes(t)) {
               transitiveMap[depName] = allDependenciesData[depName];
             } else {
-              //console.log("I already have t", t)
+              debug(
+                'Info: depMap already have transitive dep' + t + ' in the path',
+              );
             }
           }
           if (transitiveMap === {}) {
