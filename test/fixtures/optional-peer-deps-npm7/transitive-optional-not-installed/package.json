@@ -1,0 +1,7 @@
+{
+  "name": "goof",
+  "version": "0.0.3",
+  "dependencies": {
+    "test-peer-deps-optional": "1.0.0"
+  }
+}

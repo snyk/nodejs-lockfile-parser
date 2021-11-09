@@ -1,0 +1,38 @@
+{
+  "dependencies": {
+    "test-peer-deps-optional": {
+      "labels": { "scope": "prod" },
+      "name": "test-peer-deps-optional",
+      "version": "1.0.0"
+    },
+    "react": {
+      "labels": { "scope": "prod" },
+      "name": "react",
+      "version": "17.0.2",
+      "dependencies": {
+        "loose-envify": {
+          "labels": { "scope": "prod" },
+          "name": "loose-envify",
+          "version": "1.4.0",
+          "dependencies": {
+            "js-tokens": {
+              "labels": { "scope": "prod" },
+              "name": "js-tokens",
+              "version": "4.0.0"
+            }
+          }
+        },
+        "object-assign": {
+          "labels": { "scope": "prod" },
+          "name": "object-assign",
+          "version": "4.1.1"
+        }
+      }
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "goof",
+  "size": 6,
+  "version": "0.0.3",
+  "meta": { "lockfileVersion": 2, "packageManager": "npm" }
+}

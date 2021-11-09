@@ -1,0 +1,189 @@
+{
+  "dependencies": {
+    "body-parser": {
+      "labels": { "scope": "prod" },
+      "name": "body-parser",
+      "version": "1.19.0",
+      "dependencies": {
+        "bytes": {
+          "labels": { "scope": "prod" },
+          "name": "bytes",
+          "version": "3.1.0"
+        },
+        "content-type": {
+          "labels": { "scope": "prod" },
+          "name": "content-type",
+          "version": "1.0.4"
+        },
+        "debug": {
+          "labels": { "scope": "prod" },
+          "name": "debug",
+          "version": "2.6.9",
+          "dependencies": {
+            "ms": {
+              "labels": { "scope": "prod" },
+              "name": "ms",
+              "version": "2.0.0"
+            }
+          }
+        },
+        "depd": {
+          "labels": { "scope": "prod" },
+          "name": "depd",
+          "version": "1.1.2"
+        },
+        "http-errors": {
+          "labels": { "scope": "prod" },
+          "name": "http-errors",
+          "version": "1.7.2",
+          "dependencies": {
+            "depd": {
+              "labels": { "scope": "prod" },
+              "name": "depd",
+              "version": "1.1.2"
+            },
+            "inherits": {
+              "labels": { "scope": "prod" },
+              "name": "inherits",
+              "version": "2.0.3"
+            },
+            "setprototypeof": {
+              "labels": { "scope": "prod" },
+              "name": "setprototypeof",
+              "version": "1.1.1"
+            },
+            "statuses": {
+              "labels": { "scope": "prod" },
+              "name": "statuses",
+              "version": "1.5.0"
+            },
+            "toidentifier": {
+              "labels": { "scope": "prod" },
+              "name": "toidentifier",
+              "version": "1.0.0"
+            }
+          }
+        },
+        "iconv-lite": {
+          "labels": { "scope": "prod" },
+          "name": "iconv-lite",
+          "version": "0.4.24",
+          "dependencies": {
+            "safer-buffer": {
+              "labels": { "scope": "prod" },
+              "name": "safer-buffer",
+              "version": "2.1.2"
+            }
+          }
+        },
+        "on-finished": {
+          "labels": { "scope": "prod" },
+          "name": "on-finished",
+          "version": "2.3.0",
+          "dependencies": {
+            "ee-first": {
+              "labels": { "scope": "prod" },
+              "name": "ee-first",
+              "version": "1.1.1"
+            }
+          }
+        },
+        "qs": {
+          "labels": { "scope": "prod" },
+          "name": "qs",
+          "version": "6.7.0"
+        },
+        "raw-body": {
+          "labels": { "scope": "prod" },
+          "name": "raw-body",
+          "version": "2.4.0",
+          "dependencies": {
+            "bytes": {
+              "labels": { "scope": "prod" },
+              "name": "bytes",
+              "version": "3.1.0"
+            },
+            "http-errors": {
+              "labels": { "scope": "prod" },
+              "name": "http-errors",
+              "version": "1.7.2",
+              "dependencies": {
+                "depd": {
+                  "labels": { "scope": "prod" },
+                  "name": "depd",
+                  "version": "1.1.2"
+                },
+                "inherits": {
+                  "labels": { "scope": "prod" },
+                  "name": "inherits",
+                  "version": "2.0.3"
+                },
+                "setprototypeof": {
+                  "labels": { "scope": "prod" },
+                  "name": "setprototypeof",
+                  "version": "1.1.1"
+                },
+                "statuses": {
+                  "labels": { "scope": "prod" },
+                  "name": "statuses",
+                  "version": "1.5.0"
+                },
+                "toidentifier": {
+                  "labels": { "scope": "prod" },
+                  "name": "toidentifier",
+                  "version": "1.0.0"
+                }
+              }
+            },
+            "iconv-lite": {
+              "labels": { "scope": "prod" },
+              "name": "iconv-lite",
+              "version": "0.4.24",
+              "dependencies": {
+                "safer-buffer": {
+                  "labels": { "scope": "prod" },
+                  "name": "safer-buffer",
+                  "version": "2.1.2"
+                }
+              }
+            },
+            "unpipe": {
+              "labels": { "scope": "prod" },
+              "name": "unpipe",
+              "version": "1.0.0"
+            }
+          }
+        },
+        "type-is": {
+          "labels": { "scope": "prod" },
+          "name": "type-is",
+          "version": "1.6.18",
+          "dependencies": {
+            "media-typer": {
+              "labels": { "scope": "prod" },
+              "name": "media-typer",
+              "version": "0.3.0"
+            },
+            "mime-types": {
+              "labels": { "scope": "prod" },
+              "name": "mime-types",
+              "version": "2.1.33",
+              "dependencies": {
+                "mime-db": {
+                  "labels": { "scope": "prod" },
+                  "name": "mime-db",
+                  "version": "1.50.0"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "goof",
+  "size": 33,
+  "version": "0.0.3",
+  "meta": { "lockfileVersion": 2, "packageManager": "npm" }
+}

@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "test-peer-deps-optional": {
+      "labels": { "scope": "prod" },
+      "name": "test-peer-deps-optional",
+      "version": "1.0.0"
+    }
+  },
+  "hasDevDependencies": false,
+  "name": "goof",
+  "size": 2,
+  "version": "0.0.3",
+  "meta": { "lockfileVersion": 2, "packageManager": "npm" }
+}
