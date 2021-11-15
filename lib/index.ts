@@ -33,6 +33,8 @@ export {
   InvalidUserInputError,
   OutOfSyncError,
   ManifestFile,
+  Yarn2LockParser,
+  YarnLockParser
 };
 
 async function buildDepTree(
