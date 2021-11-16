@@ -105,22 +105,28 @@ export abstract class LockParserBase implements LockfileParser {
     // Only include peerDependencies if using npm and npm is at least
     // version 7 as npm v7 automatically installs peerDependencies
     // get trees for dependencies from manifest file
-    const topLevelDeps: Dep[] = getTopLevelDeps({
+    const topLevelDepsResult = await getTopLevelDeps({
       targetFile: manifestFile,
       includeDev,
       includePeerDeps: lockfile.type === LockfileType.npm7,
       applyYarn2Resolutions: lockfile.type === LockfileType.yarn2,
       lockfile,
-      workspace
+      workspace,
     });
+
+    const topLevelDeps: Dep[] = topLevelDepsResult.dependenciesArray;
 
     // prepare a flat map, where dependency path is a key to dependency object
     // path is an unique identifier for each dependency and corresponds to the
     // relative path on disc
 
     let depMap: DepMap;
-    if (this.type === 'pnpm' && workspace) {
-      depMap = this.getDepMap(yarnLock, workspace);
+    if (this.type === 'pnpm') {
+      depMap = this.getDepMap(
+        yarnLock,
+        topLevelDepsResult.pnpmDependencies,
+        topLevelDepsResult.pnpmDevDeps,
+      );
     } else {
       depMap = this.getDepMap(yarnLock, manifestFile.resolutions);
     }
@@ -470,6 +476,7 @@ export abstract class LockParserBase implements LockfileParser {
   protected getDepMap(
     lockfile: Lockfile, // eslint-disable-line @typescript-eslint/no-unused-vars
     resolutions?: ManifestDependencies | string, // eslint-disable-line @typescript-eslint/no-unused-vars
+    pnpmDevDeps?: any, // eslint-disable-line @typescript-eslint/no-unused-vars
   ): DepMap {
     throw new Error('Not implemented');
   }

@@ -16,7 +16,7 @@ describe('getTopLevelDeps', () => {
 
       const expectedTopLevelDeps = require('../fixtures/yarn2/simple-resolutions/expected-top-level-deps.json');
 
-      expect(topLevelDeps).toStrictEqual(expectedTopLevelDeps);
+      expect(topLevelDeps.dependenciesArray).toStrictEqual(expectedTopLevelDeps);
     });
 
     it('applies resolutions correctly - applicable scoped resolution', () => {
@@ -33,7 +33,7 @@ describe('getTopLevelDeps', () => {
 
       const expectedTopLevelDeps = require('../fixtures/yarn2/scoped-resolutions/applicable-resolutions/expected-top-level-deps.json');
 
-      expect(topLevelDeps).toStrictEqual(expectedTopLevelDeps);
+      expect(topLevelDeps.dependenciesArray).toStrictEqual(expectedTopLevelDeps);
     });
 
     it('applies resolutions correctly - inapplicable scoped resolution', () => {
@@ -50,7 +50,7 @@ describe('getTopLevelDeps', () => {
 
       const expectedTopLevelDeps = require('../fixtures/yarn2/scoped-resolutions/inapplicable-resolutions/expected-top-level-deps.json');
 
-      expect(topLevelDeps).toStrictEqual(expectedTopLevelDeps);
+      expect(topLevelDeps.dependenciesArray).toStrictEqual(expectedTopLevelDeps);
     });
 
     it('applies resolutions correctly - applicable scoped resolution with a scoped pkg', () => {
@@ -67,7 +67,7 @@ describe('getTopLevelDeps', () => {
 
       const expectedTopLevelDeps = require('../fixtures/yarn2/scoped-resolutions/applicable-resolutions-with-scoped-pkg/expected-top-level-deps.json');
 
-      expect(topLevelDeps).toStrictEqual(expectedTopLevelDeps);
+      expect(topLevelDeps.dependenciesArray).toStrictEqual(expectedTopLevelDeps);
     });
 
     it('applies resolutions correctly - inapplicable scoped resolution', () => {
@@ -84,7 +84,7 @@ describe('getTopLevelDeps', () => {
 
       const expectedTopLevelDeps = require('../fixtures/yarn2/scoped-resolutions/inapplicable-resolutions-with-scoped-pkg/expected-top-level-deps.json');
 
-      expect(topLevelDeps).toStrictEqual(expectedTopLevelDeps);
+      expect(topLevelDeps.dependenciesArray).toStrictEqual(expectedTopLevelDeps);
     });
   });
 });

@@ -68,6 +68,9 @@ jobs:
   test-windows:
     <<: *defaults
     <<: *windows_defaults
+    environment:
+      - NODE_OPTIONS: --max_old_space_size=8196
+    parallelism: 10
     steps:
       - run: git config --global core.autocrlf false
       - install_node_npm:
@@ -79,12 +82,14 @@ jobs:
       - show_node_version
       - run:
           name: Run tests
-          command: npm test
+          command: npm --max-old-space-size=8196 test
+          no_output_timeout: 1200
 
   test-unix:
     <<: *defaults
     docker:
       - image: circleci/node:<< parameters.node_version >>
+    parallelism: 10
     steps:
       - checkout
       - attach_workspace:
@@ -120,9 +125,9 @@ workflows:
               ignore:
                 - master
       - test-windows:
-          name: Windows Tests for Node v12 support
+          name: Windows Tests for Node v14 support
           context: SNYK
-          node_version: "12.0.0"
+          node_version: "14.0.0"
           requires:
             - Lint
           filters:
@@ -130,29 +135,19 @@ workflows:
               ignore:
                 - master
       - test-windows:
-          name: Windows Tests for Node v10 support
+          name: Windows Tests for Node v16 support
           context: SNYK
-          node_version: "10.21.0"
+          node_version: "16.0.0"
           requires:
             - Lint
           filters:
             branches:
               ignore:
-                - master
+                - master          
       - test-unix:
-          name: Unix Tests for Node v12 support
+          name: Unix Tests for Node v16 support
           context: SNYK
-          node_version: "12.16.2"
-          requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-unix:
-          name: Unix Tests for Node v10 support
-          context: SNYK
-          node_version: "10"
+          node_version: "16"
           requires:
             - Lint
           filters:
