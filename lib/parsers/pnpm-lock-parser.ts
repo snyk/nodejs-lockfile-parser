@@ -74,7 +74,11 @@ export class PnpmPackageLockParser extends LockParserBase {
     return depTreeWithMeta;
   }
 
-  public getDepMap(lockfile: Lockfile, workspace?: string): DepMap {
+  public getDepMap(
+    lockfile: Lockfile,
+    pnpmTopLevelDeps?: pnpmLockfileLib.ResolvedDependencies,
+    pnpmTopLevelDevDeps?: pnpmLockfileLib.ResolvedDependencies,
+  ): DepMap {
     const debug = Debug('Snyk');
 
     const pnpmLock = lockfile as PnpmFileLock;
@@ -82,63 +86,21 @@ export class PnpmPackageLockParser extends LockParserBase {
 
     let FirstTransitives = {};
 
-    if (workspace) {
-      // If this is a workspace project then the top level dependencies will be
-      // specified in importers[package_name]
-      for (const [PackageName, dep] of Object.entries(pnpmLock.importers)) {
-        // To make an accurate tree and avoid infinite loop we need to use only
-        // the top level deps of package we are building a tree for
-        if (PackageName.includes(workspace)) {
-          if (dep.dependencies != undefined) {
-            for (const [depKeys, depValue] of Object.entries(
-              dep.dependencies,
-            )) {
-              // If the package needs an other package it will look like
-              // packages/packagesName: link../packageName
-              // We delete the link and replace with the appropriate package deps
-              if (depValue.includes('link:..')) {
-                const linked = depValue.split('/')[1];
-                const linkedPkgName = `packages/${linked}`;
-                delete dep.dependencies[depKeys];
-                dep.dependencies = {
-                  ...dep.dependencies,
-                  ...pnpmLock.importers[linkedPkgName].dependencies,
-                };
-              }
-            }
-          }
-
-          // Same as above but for devDependencies
-          if (dep.devDependencies != undefined) {
-            for (const [depKeys, depValue] of Object.entries(
-              dep.devDependencies,
-            )) {
-              if (depValue.includes('link:..')) {
-                const linked = depValue.split('/')[1];
-                const linkedPkgName = `packages/${linked}`;
-                delete dep.devDependencies[depKeys];
-                dep.devDependencies = {
-                  ...dep.devDependencies,
-                  ...pnpmLock.importers[linkedPkgName].devDependencies,
-                };
-              }
-            }
-          }
-          // Getting of the topLevel dependencies
-          FirstTransitives = {
-            ...FirstTransitives,
-            ...dep.dependencies,
-            ...dep.devDependencies,
-          };
-        }
-      }
-    } else {
-      FirstTransitives = {
-        ...FirstTransitives,
-        ...pnpmLock.dependencies,
-        ...pnpmLock.devDependencies,
-      };
+    // if pnpmTopLevelDeps or pnpmTopLevelDevDeps means this is  workspace
+    // use the the topLevel calculated before to generate the FirstTransitives
+    if (pnpmTopLevelDeps) {
+      pnpmLock.dependencies = pnpmTopLevelDeps;
     }
+
+    if (pnpmTopLevelDevDeps) {
+      pnpmLock.devDependencies = pnpmTopLevelDevDeps;
+    }
+
+    FirstTransitives = {
+      ...FirstTransitives,
+      ...pnpmLock.dependencies,
+      ...pnpmLock.devDependencies,
+    };
 
     const startingDependenciesData: pnpmLockfileLib.PackageSnapshots = {};
 

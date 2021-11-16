@@ -145,9 +145,9 @@ describe('buildDepTreeFromFiles', () => {
     expect(depTree).toMatchSnapshot();
   });
 
-  it('Parse coveo pnpm package-lock.json with devDependencies simple coveo (cyclic)', async () => {
+  it('Parse simple react pnpm package-lock.json with devDependencies (cyclic)', async () => {
     const depTree = await buildDepTreeFromFiles(
-      `${__dirname}/../../../fixtures/pnpm/coveo_react_simple/`,
+      `${__dirname}/../../../fixtures/pnpm/react_simple/`,
       'packages/demo/package.json',
       'pnpm-lock.yaml',
       true, // includeDev
@@ -158,9 +158,9 @@ describe('buildDepTreeFromFiles', () => {
     expect(depTree).toMatchSnapshot();
   });
 
-  it('Parse coveo pnpm package-lock.json with devDependencies full coveo', async () => {
+  it('Parse full demo package of react project pnpm package-lock.json without devDependencies (cyclic)', async () => {
     const depTree = await buildDepTreeFromFiles(
-      `${__dirname}/../../../fixtures/pnpm/coveo_react/`,
+      `${__dirname}/../../../fixtures/pnpm/react_project/`,
       'packages/demo/package.json',
       'pnpm-lock.yaml',
       false, // includeDev
@@ -171,14 +171,27 @@ describe('buildDepTreeFromFiles', () => {
     expect(depTree).toMatchSnapshot();
   });
 
-  it('Parse coveo pnpm package-lock.json with devDependencies full coveo includeDev', async () => {
+  it('Parse full demo package of react project pnpm package-lock.json with devDependencies full includeDev', async () => {
     const depTree = await buildDepTreeFromFiles(
-      `${__dirname}/../../../fixtures/pnpm/coveo_react/`,
+      `${__dirname}/../../../fixtures/pnpm/react_project/`,
       'packages/demo/package.json',
       'pnpm-lock.yaml',
       true, // includeDev
       false,
       'packages/demo',
+    );
+
+    expect(depTree).toMatchSnapshot();
+  });
+
+  it('Parse full demo react-vapor package of react project pnpm package-lock.json with devDependencies', async () => {
+    const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/../../../fixtures/pnpm/react_project/`,
+      'packages/demo/package.json',
+      'pnpm-lock.yaml',
+      false, // includeDev
+      false,
+      'packages/react-vapor',
     );
 
     expect(depTree).toMatchSnapshot();

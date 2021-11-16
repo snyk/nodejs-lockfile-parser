@@ -15,7 +15,7 @@ describe('getDepMap pnpm', () => {
     expect(depMap).toMatchSnapshot();
   });
 
-  it('goof depmap', () => {
+  it('goof depmap', async () => {
     const rootPath = join(__dirname, '../fixtures/pnpm/pnpm-goof');
     const lockFileFullPath = join(rootPath, 'pnpm-lock.yaml');
     const lockFileContents = fs.readFileSync(lockFileFullPath, 'utf-8');

@@ -1,0 +1,89 @@
+{
+  "name": "coveo-styleguide",
+  "version": "24.36.0",
+  "description": "Yet another CSS framework - but it's awesome & built by Coveo.",
+  "keywords": [
+    "coveo",
+    "styleguide",
+    "css",
+    "front-end",
+    "web"
+  ],
+  "homepage": "https://static.cloud.coveo.com/react-vapor/index.html",
+  "author": "Coveo",
+  "license": "Apache-2.0",
+  "main": "dist/js/VaporSVG.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "gulp clean && gulp && webpack",
+    "start": "concurrently \"gulp watch\" \"webpack --watch\"",
+    "precommit": "lint-staged",
+    "clean": "gulp clean",
+    "lintfix": "../../node_modules/.bin/stylelint --fix \"**/*.scss\" && ../../node_modules/.bin/prettier --write \"**/*.{scss,js,json,md,yml,html}\" && ../../node_modules/.bin/eslint -c ./.eslintrc.js \"**/*.js\" --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coveo/react-vapor.git"
+  },
+  "peerDependencies": {
+    "chosen-npm": "^1.4.2",
+    "coveo-slider": "^1.0.1",
+    "materialize-css": "^0.98.2"
+  },
+  "devDependencies": {
+    "ansi-colors": "3.2.4",
+    "autosize": "3.0.21",
+    "chosen-npm": "1.4.2",
+    "concurrently": "5.3.0",
+    "coveo-png-sprite": "1.0.1",
+    "coveo-slider": "1.0.2",
+    "css-loader": "3.6.0",
+    "cssnano": "4.1.11",
+    "del": "5.1.0",
+    "fancy-log": "1.3.3",
+    "file-loader": "5.1.0",
+    "gulp": "4.0.2",
+    "gulp-cheerio": "0.6.3",
+    "gulp-concat": "2.6.1",
+    "gulp-files-to-json": "0.2.1",
+    "gulp-gzip": "1.4.2",
+    "gulp-if": "2.0.2",
+    "gulp-rename": "1.4.0",
+    "gulp-svgmin": "3.0.0",
+    "gulp-uglify": "3.0.2",
+    "jquery": "3.6.0",
+    "lint-staged": "9.5.0",
+    "materialize-css": "0.98.2",
+    "merge-stream": "1.0.1",
+    "mini-css-extract-plugin": "0.12.0",
+    "minimist": "1.2.5",
+    "node-sass": "5.0.0",
+    "postcss-loader": "3.0.0",
+    "resolve-url-loader": "3.1.4",
+    "sass-loader": "10.1.0",
+    "style-loader": "1.1.3",
+    "underscore": "1.13.1",
+    "underscore.string": "3.3.5",
+    "webpack": "4.41.6",
+    "webpack-cli": "3.3.12"
+  },
+  "dependencies": {
+    "codemirror": "^5.59.4",
+    "rc-slider": "8.7.1"
+  },
+  "files": [
+    "dist",
+    "gulpTasks",
+    "scss/**/*.scss",
+    "lib",
+    "resources",
+    "gulpfile.js",
+    "LICENSE"
+  ],
+  "browserslist": [
+    "cover 90%",
+    "last 1 versions",
+    "IE 11",
+    "not dead"
+  ]
+}
