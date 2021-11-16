@@ -45,7 +45,8 @@
     "semver": "^7.3.5",
     "snyk-config": "^4.0.0-rc.2",
     "tslib": "^1.9.3",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "debug": "^4.3.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
