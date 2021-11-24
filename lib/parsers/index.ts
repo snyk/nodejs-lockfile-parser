@@ -17,6 +17,10 @@ export type ManifestDependencies = {
   [dep: string]: string;
 };
 
+export type PeerDependenciesMeta = {
+  [dep: string]: { optional: boolean };
+};
+
 export interface ManifestFile {
   name: string;
   private?: string;
@@ -28,6 +32,7 @@ export interface ManifestFile {
   devDependencies?: ManifestDependencies;
   optionalDependencies?: ManifestDependencies;
   peerDependencies?: ManifestDependencies;
+  peerDependenciesMeta?: PeerDependenciesMeta;
   resolutions?: ManifestDependencies;
   version?: string;
 }
@@ -131,6 +136,9 @@ export function getTopLevelDeps({
 
   if (includePeerDeps && targetFile.peerDependencies) {
     for (const [name, version] of Object.entries(targetFile.peerDependencies)) {
+      if (targetFile?.peerDependenciesMeta?.[name]?.optional) {
+        continue;
+      }
       dependencies.push({
         name,
         version,

@@ -342,3 +342,59 @@ test('Npm Tree size exceeds the allowed limit of 500 dependencies.', async (t) =
     'Expected error is thrown',
   );
 });
+
+test('`package.json` with direct optional peer (npm7) installed', async (t) => {
+  const expectedDepTree = load(
+    'optional-peer-deps-npm7/direct-optional-installed/expected-tree.json',
+  );
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/../fixtures/optional-peer-deps-npm7/direct-optional-installed`,
+    'package.json',
+    'package-lock.json',
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
+test('`package.json` with direct optional peer (npm7) not installed', async (t) => {
+  const expectedDepTree = load(
+    'optional-peer-deps-npm7/direct-optional-not-installed/expected-tree.json',
+  );
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/../fixtures/optional-peer-deps-npm7/direct-optional-not-installed`,
+    'package.json',
+    'package-lock.json',
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
+test('`package.json` with transitive optional peer (npm7) installed', async (t) => {
+  const expectedDepTree = load(
+    'optional-peer-deps-npm7/transitive-optional-installed/expected-tree.json',
+  );
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/../fixtures/optional-peer-deps-npm7/transitive-optional-installed`,
+    'package.json',
+    'package-lock.json',
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
+test('`package.json` with transitive optional peer (npm7) not installed', async (t) => {
+  const expectedDepTree = load(
+    'optional-peer-deps-npm7/transitive-optional-not-installed/expected-tree.json',
+  );
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/../fixtures/optional-peer-deps-npm7/transitive-optional-not-installed`,
+    'package.json',
+    'package-lock.json',
+  );
+
+  t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
