@@ -336,7 +336,16 @@ function getPnpmTopLevel(
         pnpmDependencies = dep.dependencies;
         pnpmDevDep = dep.devDependencies;
 
-        for (const [name, version] of dependenciesIterator) {
+        // eslint-disable-next-line prefer-const
+        for (let [name, version] of dependenciesIterator) {
+          // Detect packages added from local
+          // Those don't have a proper version
+          // (ie: rush, zip the project and add it as a package)
+          // https://pnpm.io/cli/add#install-from-local-file-system
+          if (version && version.includes('file')) {
+            version = '0.0.0';
+          }
+
           dependencies.push({
             dev:
               includeDev && pnpmLock.devDependencies
@@ -355,7 +364,16 @@ function getPnpmTopLevel(
       ...(includeDev ? pnpmLock.devDependencies : null),
     });
 
-    for (const [name, version] of dependenciesIterator) {
+    // Detect packages added from local
+    // Those don't have a proper version
+    // (ie: rush, zip the project and add it as a package)
+    // https://pnpm.io/cli/add#install-from-local-file-system
+    // eslint-disable-next-line prefer-const
+    for (let [name, version] of dependenciesIterator) {
+      if (version && version.includes('file:')) {
+        version = '0.0.0';
+      }
+
       dependencies.push({
         dev:
           includeDev && pnpmLock.devDependencies

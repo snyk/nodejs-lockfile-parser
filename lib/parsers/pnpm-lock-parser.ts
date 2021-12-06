@@ -111,9 +111,24 @@ export class PnpmPackageLockParser extends LockParserBase {
     // Building the first dependencies data with the topLevel dependencies
     // to start the building the depMap
     for (const [depName, dep] of Object.entries(FirstTransitives)) {
-      const transitiveName = `/${depName}/${dep}`;
-      startingDependenciesData[transitiveName] =
-        allDependenciesData[transitiveName];
+      let transitiveName;
+      const deptmp = dep as string;
+
+      // detect packages added from local (ie: rush, zip the project and add it as a package)
+      // https://pnpm.io/cli/add#install-from-local-file-system
+      // don't respect the same pattern
+      // in the dependencies list it looks like : '@rush-temp/goof': file:projects/goof.tgz
+      // and in the packages list : file:projects/goof.tgz
+      // see example pnpm/pnpm-rush-simple
+      if (deptmp.includes('file:')) {
+        // need to keep both depName dep string for later
+        transitiveName = `${depName}${dep}`;
+        startingDependenciesData[transitiveName] = allDependenciesData[deptmp];
+      } else {
+        transitiveName = `/${depName}/${dep}`;
+        startingDependenciesData[transitiveName] =
+          allDependenciesData[transitiveName];
+      }
     }
 
     const flattenLockfileRec = (
@@ -173,12 +188,19 @@ export class PnpmPackageLockParser extends LockParserBase {
   }
 
   protected getName(depName: string): string {
+    if (depName.includes('file:')) {
+      return depName.split('file:')[0];
+    }
     const fields = depName.split('/');
     fields.pop();
     return fields.join('/').substring(1);
   }
 
   protected getVersion(depName: string): string {
+    if (depName.includes('file:')) {
+      // setting default value for tarball file
+      return '0.0.0';
+    }
     const fields = depName.split('/');
     return fields[fields.length - 1];
   }

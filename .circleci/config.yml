@@ -70,7 +70,7 @@ jobs:
     <<: *windows_defaults
     environment:
       - NODE_OPTIONS: --max_old_space_size=8196
-    parallelism: 10
+    parallelism: 15
     steps:
       - run: git config --global core.autocrlf false
       - install_node_npm:
@@ -83,13 +83,13 @@ jobs:
       - run:
           name: Run tests
           command: npm --max-old-space-size=8196 test
-          no_output_timeout: 1200
+          no_output_timeout: 3500
 
   test-unix:
     <<: *defaults
     docker:
       - image: circleci/node:<< parameters.node_version >>
-    parallelism: 10
+    parallelism: 15
     steps:
       - checkout
       - attach_workspace:
@@ -98,7 +98,8 @@ jobs:
       - show_node_version
       - run:
           name: Run tests
-          command: npm test
+          command: npm --max-old-space-size=8196 test
+          no_output_timeout: 3500
 
   release:
     <<: *defaults
