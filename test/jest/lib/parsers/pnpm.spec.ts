@@ -196,4 +196,16 @@ describe('buildDepTreeFromFiles', () => {
 
     expect(depTree).toMatchSnapshot();
   });
+
+  it('Parse pnpm simple pnpm rush project', async () => {
+    const depTree = await buildDepTreeFromFiles(
+      `${__dirname}/../../../fixtures/pnpm/pnpm-rush-simple/`,
+      'package.json',
+      'pnpm-lock.yaml',
+      false, // includeDev
+      false,
+    );
+
+    expect(depTree).toMatchSnapshot();
+  });
 });

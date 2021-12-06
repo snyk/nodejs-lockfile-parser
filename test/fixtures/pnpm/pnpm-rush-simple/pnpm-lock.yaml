@@ -1,0 +1,29 @@
+lockfileVersion: 5.3
+
+specifiers:
+  '@rush-temp/goof': file:./projects/goof.tgz
+  uuid: 8.3.2
+
+dependencies:
+  '@rush-temp/goof': file:projects/goof.tgz
+  uuid: 8.3.2
+
+packages:
+
+  /uuid/8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
+    dev: false
+
+  /adm-zip/0.4.7:
+    resolution: {integrity: sha1-hgbCy/HEJs6MjsABdER/1Jtur8E=}
+    engines: {node: '>=0.3.0'}
+    dev: false
+  
+  file:projects/goof.tgz:
+    resolution: {integrity: sha512-7LWISx3BwBuxoxCOaBf/Mhucb9T+XCU/3t8VfcPZV5E9c6FY/XaPbWoWLtDswR/Ju7poHaA7RFGplHR7/ZMoRw==, tarball: file:projects/goof.tgz}
+    name: '@rush-temp/goof'
+    version: 0.0.0
+    dependencies:
+      adm-zip: 0.4.7
+    dev: false
