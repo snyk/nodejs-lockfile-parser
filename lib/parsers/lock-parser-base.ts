@@ -1,6 +1,5 @@
 import * as _cloneDeep from 'lodash.clonedeep';
 import * as _isEmpty from 'lodash.isempty';
-import * as _set from 'lodash.set';
 import * as _toPairs from 'lodash.topairs';
 import * as graphlib from '@snyk/graphlib';
 import { v4 as uuid } from 'uuid';
@@ -90,7 +89,11 @@ export abstract class LockParserBase implements LockfileParser {
     const nodeVersion = manifestFile?.engines?.node;
 
     if (nodeVersion) {
-      _set(depTree, 'meta.nodeVersion', nodeVersion);
+      if (!depTree.meta) {
+        depTree.meta = {};
+      }
+
+      depTree.meta.nodeVersion = nodeVersion;
     }
 
     // asked to process empty deps
