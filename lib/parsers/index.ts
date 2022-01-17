@@ -145,8 +145,7 @@ export function getTopLevelDeps({
   applyYarn2Resolutions?: boolean;
   lockfile: Lockfile;
   workspace?: string;
-}
-): {
+}): {
   dependenciesArray: Dep[];
   pnpmDependencies: pnpmLockfileLib.ResolvedDependencies | undefined;
   pnpmDevDeps: pnpmLockfileLib.ResolvedDependencies | undefined;
@@ -175,9 +174,11 @@ export function getTopLevelDeps({
         version,
       });
     }
-  
+
     if (includePeerDeps && targetFile.peerDependencies) {
-      for (const [name, version] of Object.entries(targetFile.peerDependencies)) {
+      for (const [name, version] of Object.entries(
+        targetFile.peerDependencies,
+      )) {
         if (targetFile?.peerDependenciesMeta?.[name]?.optional) {
           continue;
         }
@@ -187,15 +188,15 @@ export function getTopLevelDeps({
         });
       }
     }
-  
+
     if (applyYarn2Resolutions && targetFile.resolutions) {
       const resMap = new Map(
         Object.entries(targetFile.resolutions).map(([resName, resVersion]) => [
           resName.replace(`${targetFile.name}/`, ''),
           resVersion,
         ]),
-      )
-  
+      );
+
       dependencies = dependencies.map((dep) =>
         resMap.has(dep.name) ? { ...dep, version: resMap.get(dep.name)! } : dep,
       );

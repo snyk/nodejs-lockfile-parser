@@ -11,12 +11,14 @@ describe('getTopLevelDeps', () => {
         includeDev: false,
         applyYarn2Resolutions: true,
         lockfile: yarn2SimpleResolutionsLockfile,
-        workspace: "",
+        workspace: '',
       });
 
       const expectedTopLevelDeps = require('../fixtures/yarn2/simple-resolutions/expected-top-level-deps.json');
 
-      expect(topLevelDeps.dependenciesArray).toStrictEqual(expectedTopLevelDeps);
+      expect(topLevelDeps.dependenciesArray).toStrictEqual(
+        expectedTopLevelDeps,
+      );
     });
 
     it('applies resolutions correctly - applicable scoped resolution', () => {
@@ -28,12 +30,14 @@ describe('getTopLevelDeps', () => {
         includeDev: false,
         applyYarn2Resolutions: true,
         lockfile: yarn2SimpleResolutionsLockfile,
-        workspace: "",
+        workspace: '',
       });
 
       const expectedTopLevelDeps = require('../fixtures/yarn2/scoped-resolutions/applicable-resolutions/expected-top-level-deps.json');
 
-      expect(topLevelDeps.dependenciesArray).toStrictEqual(expectedTopLevelDeps);
+      expect(topLevelDeps.dependenciesArray).toStrictEqual(
+        expectedTopLevelDeps,
+      );
     });
 
     it('applies resolutions correctly - inapplicable scoped resolution', () => {
@@ -45,12 +49,14 @@ describe('getTopLevelDeps', () => {
         includeDev: false,
         applyYarn2Resolutions: true,
         lockfile: yarn2SimpleResolutionsLockfile,
-        workspace: "",
+        workspace: '',
       });
 
       const expectedTopLevelDeps = require('../fixtures/yarn2/scoped-resolutions/inapplicable-resolutions/expected-top-level-deps.json');
 
-      expect(topLevelDeps.dependenciesArray).toStrictEqual(expectedTopLevelDeps);
+      expect(topLevelDeps.dependenciesArray).toStrictEqual(
+        expectedTopLevelDeps,
+      );
     });
 
     it('applies resolutions correctly - applicable scoped resolution with a scoped pkg', () => {
@@ -62,12 +68,14 @@ describe('getTopLevelDeps', () => {
         includeDev: false,
         applyYarn2Resolutions: true,
         lockfile: yarn2SimpleResolutionsLockfile,
-        workspace: "",
+        workspace: '',
       });
 
       const expectedTopLevelDeps = require('../fixtures/yarn2/scoped-resolutions/applicable-resolutions-with-scoped-pkg/expected-top-level-deps.json');
 
-      expect(topLevelDeps.dependenciesArray).toStrictEqual(expectedTopLevelDeps);
+      expect(topLevelDeps.dependenciesArray).toStrictEqual(
+        expectedTopLevelDeps,
+      );
     });
 
     it('applies resolutions correctly - inapplicable scoped resolution', () => {
@@ -79,12 +87,14 @@ describe('getTopLevelDeps', () => {
         includeDev: false,
         applyYarn2Resolutions: true,
         lockfile: yarn2SimpleResolutionsLockfile,
-        workspace: "",
+        workspace: '',
       });
 
       const expectedTopLevelDeps = require('../fixtures/yarn2/scoped-resolutions/inapplicable-resolutions-with-scoped-pkg/expected-top-level-deps.json');
 
-      expect(topLevelDeps.dependenciesArray).toStrictEqual(expectedTopLevelDeps);
+      expect(topLevelDeps.dependenciesArray).toStrictEqual(
+        expectedTopLevelDeps,
+      );
     });
   });
 });
