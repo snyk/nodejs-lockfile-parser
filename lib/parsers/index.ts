@@ -9,8 +9,9 @@ export interface Dep {
   dev?: boolean;
 }
 
-interface WorkspacesAlternateConfig {
+interface WorkspacesConfig {
   packages?: string[];
+  nohoist?: string[];
 }
 
 export type ManifestDependencies = {
@@ -27,7 +28,7 @@ export interface ManifestFile {
   engines?: {
     node?: string;
   };
-  workspaces?: string[] | WorkspacesAlternateConfig;
+  workspaces?: string[] | WorkspacesConfig;
   dependencies?: ManifestDependencies;
   devDependencies?: ManifestDependencies;
   optionalDependencies?: ManifestDependencies;
@@ -175,10 +176,19 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
   try {
     const packageJson: ManifestFile = parseManifestFile(targetFile);
     if (!!packageJson.workspaces && !!packageJson.private) {
-      const workspacesPackages = packageJson.workspaces as string[];
-      const workspacesAlternateConfigPackages = (packageJson.workspaces as WorkspacesAlternateConfig)
-        .packages;
-      return [...(workspacesAlternateConfigPackages || workspacesPackages)];
+      const workspacesAsArrayOfStrings = packageJson.workspaces as string[];
+      const workspacesPackages =
+        (packageJson.workspaces as WorkspacesConfig).packages || [];
+      const workspacesNoHoist =
+        (packageJson.workspaces as WorkspacesConfig).nohoist || [];
+
+      const combinedWorkspaces = workspacesPackages.concat(workspacesNoHoist);
+
+      if (combinedWorkspaces.length) {
+        return combinedWorkspaces;
+      }
+
+      return workspacesAsArrayOfStrings;
     }
     return false;
   } catch (e) {
