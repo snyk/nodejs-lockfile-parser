@@ -43,6 +43,11 @@ export interface ManifestFile {
 export interface DepTreeDep {
   name?: string; // shouldn't, but might happen
   version?: string; // shouldn't, but might happen
+  resolved?: string;
+  integrity?: string;
+  // Specific for Yarn2 Lockfile
+  resolution?: string;
+  checksum?: string;
   dependencies?: {
     [depName: string]: DepTreeDep;
   };
