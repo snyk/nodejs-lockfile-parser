@@ -1,0 +1,21 @@
+lockfileVersion: 5.3
+
+specifiers:
+  debug: 2.0.x
+
+dependencies:
+  debug: 2.0.0
+
+packages:
+
+  /debug/2.0.0:
+    resolution: {integrity: sha1-ib2d9nMrUSVrxnBTQrugLtEhMe8=}
+    dependencies:
+      ms: 0.6.2
+    dev: false
+
+  /ms/0.6.2:
+    resolution: {integrity: sha1-2JwhJMb9wTU9Zai3e/GqxLGTcIw=}
+    dev: false
+    dependencies:
+      debug: 2.0.0

@@ -47,8 +47,9 @@ export class YarnLockParser extends LockParserBase {
       yarnLock.type = this.type;
       return yarnLock;
     } catch (e) {
+      const error = e as Error;
       throw new InvalidUserInputError(
-        `yarn.lock parsing failed with an error: ${e.message}`,
+        `yarn.lock parsing failed with an error: ${error.message}`,
       );
     }
   }

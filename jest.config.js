@@ -5,4 +5,5 @@ module.exports = {
     '<rootDir>/test/jest/**/*.test.ts',
     '<rootDir>/test/jest/**/*.spec.ts',
   ],
+  testTimeout: 1000000
 };

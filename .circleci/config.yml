@@ -68,6 +68,9 @@ jobs:
   test-windows:
     <<: *defaults
     <<: *windows_defaults
+    environment:
+      - NODE_OPTIONS: --max_old_space_size=8196
+    parallelism: 15
     steps:
       - run: git config --global core.autocrlf false
       - install_node_npm:
@@ -79,12 +82,14 @@ jobs:
       - show_node_version
       - run:
           name: Run tests
-          command: npm test
+          command: npm --max-old-space-size=8196 test
+          no_output_timeout: 3500
 
   test-unix:
     <<: *defaults
     docker:
       - image: circleci/node:<< parameters.node_version >>
+    parallelism: 15
     steps:
       - checkout
       - attach_workspace:
@@ -93,7 +98,8 @@ jobs:
       - show_node_version
       - run:
           name: Run tests
-          command: npm test
+          command: npm --max-old-space-size=8196 test
+          no_output_timeout: 3500
 
   release:
     <<: *defaults
@@ -113,16 +119,16 @@ workflows:
     jobs:
       - lint:
           name: Lint
-          context: nodejs-install
-          node_version: "10"
+          context: SNYK
+          node_version: "14"
           filters:
             branches:
               ignore:
                 - master
       - test-windows:
-          name: Windows Tests for Node v12 support
-          context: nodejs-install
-          node_version: "12.0.0"
+          name: Windows Tests for Node v14 support
+          context: SNYK
+          node_version: "14.0.0"
           requires:
             - Lint
           filters:
@@ -130,9 +136,19 @@ workflows:
               ignore:
                 - master
       - test-windows:
-          name: Windows Tests for Node v10 support
-          context: nodejs-install
-          node_version: "10.21.0"
+          name: Windows Tests for Node v16 support
+          context: SNYK
+          node_version: "16.0.0"
+          requires:
+            - Lint
+          filters:
+            branches:
+              ignore:
+                - master          
+      - test-unix:
+          name: Unix Tests for Node v16 support
+          context: SNYK
+          node_version: "16"
           requires:
             - Lint
           filters:
@@ -140,19 +156,9 @@ workflows:
               ignore:
                 - master
       - test-unix:
-          name: Unix Tests for Node v12 support
-          context: nodejs-install
-          node_version: "12.16.2"
-          requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-unix:
-          name: Unix Tests for Node v10 support
-          context: nodejs-install
-          node_version: "10"
+          name: Unix Tests for Node v14 support
+          context: SNYK
+          node_version: "14"
           requires:
             - Lint
           filters:
@@ -161,8 +167,8 @@ workflows:
                 - master
       - release:
           name: Release
-          context: nodejs-app-release
-          node_version: "10"
+          context: SNYK
+          node_version: "14"
           filters:
             branches:
               only:

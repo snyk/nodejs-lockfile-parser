@@ -46,8 +46,9 @@ export class PackageLockParser extends LockParserBase {
       this.type = packageLock.type;
       return packageLock;
     } catch (e) {
+      const error = e as Error;
       throw new InvalidUserInputError(
-        'package-lock.json parsing failed with ' + `error ${e.message}`,
+        'package-lock.json parsing failed with ' + `error ${error.message}`,
       );
     }
   }

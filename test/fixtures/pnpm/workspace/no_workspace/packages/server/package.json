@@ -1,0 +1,19 @@
+{
+  "name": "@beaver/server",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@beaver/common": "1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.5",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.6"
+  }
+}
