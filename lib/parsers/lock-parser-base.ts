@@ -1,9 +1,14 @@
 import * as _cloneDeep from 'lodash.clonedeep';
 import * as _isEmpty from 'lodash.isempty';
 import * as _toPairs from 'lodash.topairs';
+
+// @ts-ignore
 import * as graphlib from '@snyk/graphlib';
+
 import { v4 as uuid } from 'uuid';
 import { eventLoopSpinner } from 'event-loop-spinner';
+
+// @ts-ignore
 import * as baseDebug from 'debug';
 
 import {
