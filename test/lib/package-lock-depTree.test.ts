@@ -184,7 +184,7 @@ test('Performance: Parse big npm package-lock.json with cyclic deps and dev-deps
 
 test('Parse invalid npm package-lock.json', async (t) => {
   t.rejects(
-    await buildDepTreeFromFiles(
+    buildDepTreeFromFiles(
       `${__dirname}/../fixtures/invalid-files/`,
       'package.json',
       'package-lock.json',
