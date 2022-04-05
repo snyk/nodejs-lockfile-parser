@@ -3,9 +3,17 @@ import * as semver from 'semver';
 export const extractNameAndIdentifier = (
   candidate: string,
 ): { name: string; identifier: string } => {
-  const index = candidate.indexOf('@', 1);
-  const name = candidate.slice(0, index);
-  const identifier = candidate.slice(index + 1);
+  let name, identifier;
+
+  if (candidate.includes('@')) {
+    const index = candidate.indexOf('@', 1);
+    name = candidate.slice(0, index);
+    identifier = candidate.slice(index + 1);
+  } else {
+    name = candidate;
+    identifier = 'unknown';
+  }
+
   return { name, identifier };
 };
 

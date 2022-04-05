@@ -5,6 +5,7 @@ import * as graphlib from '@snyk/graphlib';
 import { v4 as uuid } from 'uuid';
 import { eventLoopSpinner } from 'event-loop-spinner';
 import * as baseDebug from 'debug';
+import { extractNameAndIdentifier } from '../cli-parsers/cli-parser-utils';
 
 import {
   createDepTreeDepFromDep,
@@ -416,9 +417,8 @@ export abstract class LockParserBase implements LockfileParser {
         }
         if (!subDep) {
           debug(`Missing entry for ${subDepPath}`);
-          const index = subDepPath.indexOf('@', 1);
-          const name = subDepPath.slice(0, index);
-          const identifier = subDepPath.slice(index + 1);
+
+          const { name, identifier } = extractNameAndIdentifier(subDepPath);
 
           subDep = {
             name: name,
@@ -428,6 +428,7 @@ export abstract class LockParserBase implements LockfileParser {
               missingLockFileEntry: 'true',
             },
           };
+
           treeSize += 1;
         } else {
           treeSize += depTreesSizes[subDepPath];
