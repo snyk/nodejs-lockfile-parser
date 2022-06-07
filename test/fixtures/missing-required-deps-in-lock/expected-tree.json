@@ -16,7 +16,7 @@
       "dependencies": {
         "ms": {
           "name": "ms",
-          "version": "unknown-version",
+          "version": "unknown",
           "dependencies": {},
           "labels": {
             "missingLockFileEntry": "true"
