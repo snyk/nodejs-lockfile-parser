@@ -100,6 +100,24 @@ test('Parse npm package-lock.json with empty dependencies and includeDev = false
   t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
 });
 
+test('Parse npm package-lock.json with missing required dependencies', async (t) => {
+  const expectedDepTree = load(
+    'missing-required-deps-in-lock/expected-tree.json',
+  );
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/../fixtures/missing-required-deps-in-lock/`,
+    'package.json',
+    'package-lock.json',
+    false,
+    false,
+  );
+  t.deepEqual(
+    depTree,
+    expectedDepTree,
+    'Tree is created with missing required deps',
+  );
+});
+
 test('Parse npm package-lock.json with empty dependencies and includeDev = true', async (t) => {
   const expectedDepTree = load('missing-deps/expected-tree.json');
   const depTree = await buildDepTreeFromFiles(

@@ -41,6 +41,7 @@
     "lodash.flatmap": "^4.5.0",
     "lodash.isempty": "^4.4.0",
     "lodash.topairs": "^4.3.0",
+    "npm-package-arg": "^9.0.2",
     "semver": "^7.3.5",
     "snyk-config": "^4.0.0-rc.2",
     "tslib": "^1.9.3",
