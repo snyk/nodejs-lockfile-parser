@@ -422,7 +422,7 @@ export abstract class LockParserBase implements LockfileParser {
 
           subDep = {
             name: name,
-            version: identifier || 'unknown',
+            version: identifier,
             dependencies: {},
             labels: {
               missingLockFileEntry: 'true',

@@ -1,11 +1,20 @@
 import * as semver from 'semver';
-import * as npa from 'npm-package-arg';
 
 export const extractNameAndIdentifier = (
   candidate: string,
 ): { name: string; identifier: string } => {
-  const parsed = npa(candidate);
-  return { name: parsed.name, identifier: parsed.rawSpec };
+  let name, identifier;
+
+  if (candidate.includes('@')) {
+    const index = candidate.indexOf('@', 1);
+    name = candidate.slice(0, index);
+    identifier = candidate.slice(index + 1);
+  } else {
+    name = candidate;
+    identifier = 'unknown';
+  }
+
+  return { name, identifier };
 };
 
 // This function will choose an item in a particular list that satisfies the semver provided
