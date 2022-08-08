@@ -41,7 +41,7 @@ function* pkgDependencyGenerator(
     This checks if we are on the version line
   */
   const isLineContainingVersion = (line: string) => {
-    return line.includes('version');
+    return line.trimStart().startsWith('version');
   };
 
   /*
