@@ -1,18 +1,16 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
 import { PackageJsonBase } from '../types';
+import {
+  addPkgNodeToGraph,
+  getGraphDependencies,
+  getTopLevelDeps,
+  PkgNode,
+} from '../util';
 
 enum Color {
   GRAY,
   BLACK,
 }
-
-type Node = {
-  id: string;
-  name: string;
-  version: string;
-  dependencies: Record<string, { version: string; isDev: boolean }>;
-  isDev: boolean;
-};
 
 // Parse a single workspace package using yarn.lock v1
 // workspaces feature
@@ -38,7 +36,8 @@ export const buildDepGraphYarnLockV1Workspace = (
   const topLevelDeps = getTopLevelDeps(pkgJson, {
     includeDevDeps: options.includeDevDeps,
   });
-  const rootNode = {
+
+  const rootNode: PkgNode = {
     id: 'root-node',
     name: pkgJson.name,
     version: pkgJson.version,
@@ -47,11 +46,11 @@ export const buildDepGraphYarnLockV1Workspace = (
   };
 
   dfsVisit(
+    depGraphBuilder,
     rootNode,
     colorMap,
     extractedYarnLockV1Pkgs,
     workspacePkgNameToVersion,
-    depGraphBuilder,
   );
 
   return depGraphBuilder.build();
@@ -65,9 +64,11 @@ export const buildDepGraphYarnLockV1Workspace = (
  *  - If a node is BLACK, it means its subtree has already been fully traversed.
  *  - When first exploring an edge, if it points to a GRAY node, a cycle is found and the GRAY node is pruned.
  *     - A pruned node has id `${originalId}|1`
+ * When coming across another workspace package as child node, simply add the node and edge to the graph and mark it as BLACK.
  */
 const dfsVisit = (
-  node: Node,
+  depGraphBuilder: DepGraphBuilder,
+  node: PkgNode,
   colorMap: Record<string, Color>,
   extractedYarnLockV1Pkgs: Record<
     string,
@@ -77,7 +78,6 @@ const dfsVisit = (
     }
   >,
   workspacePkgNameToVersion: Record<string, string>,
-  depGraphBuilder: DepGraphBuilder,
 ): void => {
   colorMap[node.id] = Color.GRAY;
 
@@ -88,7 +88,7 @@ const dfsVisit = (
       ? { version: workspacePkgNameToVersion[name], dependencies: {} }
       : extractedYarnLockV1Pkgs[`${name}@${depInfo.version}`];
 
-    const childNode: Node = {
+    const childNode: PkgNode = {
       id: `${name}@${depData.version}`,
       name: name,
       version: depData.version,
@@ -97,75 +97,26 @@ const dfsVisit = (
     };
 
     if (!colorMap.hasOwnProperty(childNode.id)) {
-      addPkgNodeToGraph(childNode, false, depGraphBuilder);
+      addPkgNodeToGraph(depGraphBuilder, childNode, false);
       if (!isWorkspacePkg) {
         dfsVisit(
+          depGraphBuilder,
           childNode,
           colorMap,
           extractedYarnLockV1Pkgs,
           workspacePkgNameToVersion,
-          depGraphBuilder,
         );
+      } else {
+        colorMap[childNode.id] = Color.BLACK;
       }
     } else if (colorMap[childNode.id] === Color.GRAY) {
       // cycle detected
       childNode.id = `${childNode.id}|1`;
-      addPkgNodeToGraph(childNode, true, depGraphBuilder);
+      addPkgNodeToGraph(depGraphBuilder, childNode, true);
     }
 
     depGraphBuilder.connectDep(node.id, childNode.id);
   }
 
   colorMap[node.id] = Color.BLACK;
-};
-
-/**
- * Get top level dependencies from the given package json object which is parsed from a package.json file.
- * This includes both prod dependencies and dev dependencies supposing includeDevDeps is supported.
- */
-const getTopLevelDeps = (
-  pkgJson: PackageJsonBase,
-  options: { includeDevDeps: boolean },
-): Record<string, { version: string; isDev: boolean }> => {
-  const prodDeps = getGraphDependencies(pkgJson.dependencies || {}, false);
-
-  const devDeps = options.includeDevDeps
-    ? getGraphDependencies(pkgJson.devDependencies || {}, true)
-    : {};
-
-  return { ...prodDeps, ...devDeps };
-};
-
-/**
- * Converts dependencies parsed from the yarn.lock file to a dependencies object required by the graph.
- * For example, { 'mime-db': '~1.12.0' } will be converted to { 'mime-db': { version: '~1.12.0', isDev: true/false } }.
- */
-const getGraphDependencies = (dependencies: Record<string, string>, isDev) => {
-  return Object.entries(dependencies).reduce(
-    (
-      acc: Record<string, { version: string; isDev: boolean }>,
-      [name, semver],
-    ) => {
-      acc[name] = { version: semver, isDev: isDev };
-      return acc;
-    },
-    {},
-  );
-};
-
-const addPkgNodeToGraph = (
-  node: Node,
-  isCyclic: boolean,
-  depGraphBuilder: DepGraphBuilder,
-): void => {
-  depGraphBuilder.addPkgNode(
-    { name: node.name, version: node.version },
-    node.id,
-    {
-      labels: {
-        scope: node.isDev ? 'dev' : 'prod',
-        ...(isCyclic && { pruned: 'cyclic' }),
-      },
-    },
-  );
 };
