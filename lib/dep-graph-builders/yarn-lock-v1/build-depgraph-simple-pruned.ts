@@ -7,7 +7,12 @@ import {
   PkgNode,
 } from '../util';
 
-export const buildDepGraphYarnLockV1Workspace = (
+enum Color {
+  GRAY,
+  BLACK,
+}
+
+export const buildDepGraphYarnLockV1SimpleCyclesPruned = (
   extractedYarnLockV1Pkgs: Record<
     string,
     {
@@ -16,7 +21,6 @@ export const buildDepGraphYarnLockV1Workspace = (
     }
   >,
   pkgJson: PackageJsonBase,
-  workspacePkgNameToVersion: Record<string, string>,
   options: { includeDevDeps: boolean },
 ) => {
   const depGraphBuilder = new DepGraphBuilder(
@@ -24,7 +28,7 @@ export const buildDepGraphYarnLockV1Workspace = (
     { name: pkgJson.name, version: pkgJson.version },
   );
 
-  const visitedMap: Set<string> = new Set();
+  const colorMap: Record<string, Color> = {};
 
   const topLevelDeps = getTopLevelDeps(pkgJson, {
     includeDevDeps: options.includeDevDeps,
@@ -38,13 +42,7 @@ export const buildDepGraphYarnLockV1Workspace = (
     isDev: false,
   };
 
-  dfsVisit(
-    depGraphBuilder,
-    rootNode,
-    visitedMap,
-    extractedYarnLockV1Pkgs,
-    workspacePkgNameToVersion,
-  );
+  dfsVisit(depGraphBuilder, rootNode, colorMap, extractedYarnLockV1Pkgs);
 
   return depGraphBuilder.build();
 };
@@ -57,12 +55,11 @@ export const buildDepGraphYarnLockV1Workspace = (
  *  - If a node is BLACK, it means its subtree has already been fully traversed.
  *  - When first exploring an edge, if it points to a GRAY node, a cycle is found and the GRAY node is pruned.
  *     - A pruned node has id `${originalId}|1`
- * When coming across another workspace package as child node, simply add the node and edge to the graph and mark it as BLACK.
  */
 const dfsVisit = (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
-  visitedMap: Set<string>,
+  colorMap: Record<string, Color>,
   extractedYarnLockV1Pkgs: Record<
     string,
     {
@@ -70,16 +67,11 @@ const dfsVisit = (
       dependencies: Record<string, string>;
     }
   >,
-  workspacePkgNameToVersion: Record<string, string>,
 ): void => {
-  visitedMap.add(node.id);
+  colorMap[node.id] = Color.GRAY;
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
-    const isWorkspacePkg = workspacePkgNameToVersion[name] ? true : false;
-
-    const depData = isWorkspacePkg
-      ? { version: workspacePkgNameToVersion[name], dependencies: {} }
-      : extractedYarnLockV1Pkgs[`${name}@${depInfo.version}`];
+    const depData = extractedYarnLockV1Pkgs[`${name}@${depInfo.version}`];
 
     const childNode: PkgNode = {
       id: `${name}@${depData.version}`,
@@ -89,21 +81,17 @@ const dfsVisit = (
       isDev: depInfo.isDev,
     };
 
-    if (!visitedMap.has(childNode.id)) {
-      addPkgNodeToGraph(depGraphBuilder, childNode, {
-        isCyclic: false,
-        isWorkspacePkg,
-      });
-      if (!isWorkspacePkg) {
-        dfsVisit(
-          depGraphBuilder,
-          childNode,
-          visitedMap,
-          extractedYarnLockV1Pkgs,
-          workspacePkgNameToVersion,
-        );
-      }
+    if (!colorMap.hasOwnProperty(childNode.id)) {
+      addPkgNodeToGraph(depGraphBuilder, childNode, { isCyclic: false });
+      dfsVisit(depGraphBuilder, childNode, colorMap, extractedYarnLockV1Pkgs);
+    } else if (colorMap[childNode.id] === Color.GRAY) {
+      // cycle detected
+      childNode.id = `${childNode.id}|1`;
+      addPkgNodeToGraph(depGraphBuilder, childNode, { isCyclic: true });
     }
+
     depGraphBuilder.connectDep(node.id, childNode.id);
   }
+
+  colorMap[node.id] = Color.BLACK;
 };

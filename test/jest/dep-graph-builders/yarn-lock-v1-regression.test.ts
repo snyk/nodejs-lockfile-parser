@@ -29,6 +29,7 @@ describe('dep-graph-builder yarn-lock-v1', () => {
       const newDepGraph = await parseYarnLockV1Project(
         pkgJsonContent,
         yarnLockContent,
+        { includeDevDeps: false, includeOptionalDeps: true, pruneCycles: true },
       );
       const oldDepTree = await buildDepTree(
         pkgJsonContent,

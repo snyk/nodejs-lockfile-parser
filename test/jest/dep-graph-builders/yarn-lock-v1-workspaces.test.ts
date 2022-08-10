@@ -39,6 +39,7 @@ describe('Dep Graph Builders -> Yarn Lock v1 Workspaces', () => {
     const newDepGraphs = await parseYarnLockV1WorkspaceProject(
       yarnLockContent,
       pkgJsons,
+      { includeDevDeps: false, includeOptionalDeps: true, pruneCycles: true },
     );
 
     // Standard Checks
@@ -58,6 +59,7 @@ describe('Dep Graph Builders -> Yarn Lock v1 Workspaces', () => {
     const newDepGraphs = await parseYarnLockV1WorkspaceProject(
       yarnLockContent,
       pkgJsons,
+      { includeDevDeps: false, includeOptionalDeps: true, pruneCycles: true },
     );
 
     // Standard Checks

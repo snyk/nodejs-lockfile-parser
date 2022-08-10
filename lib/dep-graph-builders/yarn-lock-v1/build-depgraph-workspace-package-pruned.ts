@@ -7,7 +7,14 @@ import {
   PkgNode,
 } from '../util';
 
-export const buildDepGraphYarnLockV1Workspace = (
+enum Color {
+  GRAY,
+  BLACK,
+}
+
+// Parse a single workspace package using yarn.lock v1
+// workspaces feature
+export const buildDepGraphYarnLockV1WorkspaceCyclesPruned = (
   extractedYarnLockV1Pkgs: Record<
     string,
     {
@@ -24,7 +31,7 @@ export const buildDepGraphYarnLockV1Workspace = (
     { name: pkgJson.name, version: pkgJson.version },
   );
 
-  const visitedMap: Set<string> = new Set();
+  const colorMap: Record<string, Color> = {};
 
   const topLevelDeps = getTopLevelDeps(pkgJson, {
     includeDevDeps: options.includeDevDeps,
@@ -41,7 +48,7 @@ export const buildDepGraphYarnLockV1Workspace = (
   dfsVisit(
     depGraphBuilder,
     rootNode,
-    visitedMap,
+    colorMap,
     extractedYarnLockV1Pkgs,
     workspacePkgNameToVersion,
   );
@@ -62,7 +69,7 @@ export const buildDepGraphYarnLockV1Workspace = (
 const dfsVisit = (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
-  visitedMap: Set<string>,
+  colorMap: Record<string, Color>,
   extractedYarnLockV1Pkgs: Record<
     string,
     {
@@ -72,7 +79,7 @@ const dfsVisit = (
   >,
   workspacePkgNameToVersion: Record<string, string>,
 ): void => {
-  visitedMap.add(node.id);
+  colorMap[node.id] = Color.GRAY;
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     const isWorkspacePkg = workspacePkgNameToVersion[name] ? true : false;
@@ -89,7 +96,7 @@ const dfsVisit = (
       isDev: depInfo.isDev,
     };
 
-    if (!visitedMap.has(childNode.id)) {
+    if (!colorMap.hasOwnProperty(childNode.id)) {
       addPkgNodeToGraph(depGraphBuilder, childNode, {
         isCyclic: false,
         isWorkspacePkg,
@@ -98,12 +105,24 @@ const dfsVisit = (
         dfsVisit(
           depGraphBuilder,
           childNode,
-          visitedMap,
+          colorMap,
           extractedYarnLockV1Pkgs,
           workspacePkgNameToVersion,
         );
+      } else {
+        colorMap[childNode.id] = Color.BLACK;
       }
+    } else if (colorMap[childNode.id] === Color.GRAY) {
+      // cycle detected
+      childNode.id = `${childNode.id}|1`;
+      addPkgNodeToGraph(depGraphBuilder, childNode, {
+        isCyclic: true,
+        isWorkspacePkg,
+      });
     }
+
     depGraphBuilder.connectDep(node.id, childNode.id);
   }
+
+  colorMap[node.id] = Color.BLACK;
 };
