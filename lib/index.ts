@@ -38,18 +38,22 @@ export {
 // New Parser Function **************
 // **********************************
 import {
+  extractPkgsFromYarnLockV1,
   parseYarnLockV1Project,
   parseYarnLockV1WorkspaceProject,
+  buildDepGraphYarnLockV1SimpleCyclesPruned,
   buildDepGraphYarnLockV1Simple,
+  buildDepGraphYarnLockV1WorkspaceCyclesPruned,
   buildDepGraphYarnLockV1Workspace,
-  extractPkgsFromYarnLockV1,
 } from './dep-graph-builders';
 export {
-  parseYarnLockV1Project,
-  buildDepGraphYarnLockV1Workspace,
-  buildDepGraphYarnLockV1Simple,
-  parseYarnLockV1WorkspaceProject,
   extractPkgsFromYarnLockV1,
+  parseYarnLockV1Project,
+  parseYarnLockV1WorkspaceProject,
+  buildDepGraphYarnLockV1SimpleCyclesPruned,
+  buildDepGraphYarnLockV1Simple,
+  buildDepGraphYarnLockV1WorkspaceCyclesPruned,
+  buildDepGraphYarnLockV1Workspace,
 };
 // **********************************
 
