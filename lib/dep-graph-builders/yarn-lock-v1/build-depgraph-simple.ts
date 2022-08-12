@@ -1,5 +1,4 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
-import { PackageJsonBase } from '../types';
 import {
   addPkgNodeToGraph,
   getGraphDependencies,
@@ -7,19 +6,11 @@ import {
   PkgNode,
 } from '../util';
 
-enum Color {
-  GRAY,
-  BLACK,
-}
+import type { PackageJsonBase } from '../types';
+import type { YarnLockPackages } from './types';
 
 export const buildDepGraphYarnLockV1Simple = (
-  extractedYarnLockV1Pkgs: Record<
-    string,
-    {
-      version: string;
-      dependencies: Record<string, string>;
-    }
-  >,
+  extractedYarnLockV1Pkgs: YarnLockPackages,
   pkgJson: PackageJsonBase,
   options: { includeDevDeps: boolean },
 ) => {
@@ -28,7 +19,7 @@ export const buildDepGraphYarnLockV1Simple = (
     { name: pkgJson.name, version: pkgJson.version },
   );
 
-  const colorMap: Record<string, Color> = {};
+  const visitedMap: Set<string> = new Set();
 
   const topLevelDeps = getTopLevelDeps(pkgJson, {
     includeDevDeps: options.includeDevDeps,
@@ -42,33 +33,24 @@ export const buildDepGraphYarnLockV1Simple = (
     isDev: false,
   };
 
-  dfsVisit(depGraphBuilder, rootNode, colorMap, extractedYarnLockV1Pkgs);
+  dfsVisit(depGraphBuilder, rootNode, visitedMap, extractedYarnLockV1Pkgs);
 
   return depGraphBuilder.build();
 };
 
 /**
  * Use DFS to add all nodes and edges to the depGraphBuilder and prune cyclic nodes.
- * The colorMap keep track of the state of node during traversal.
+ * The visitedMap keep track of which nodes have already been discovered during traversal.
  *  - If a node doesn't exist in the map, it means it hasn't been visited.
- *  - If a node is GRAY, it means it has already been discovered but its subtree hasn't been fully traversed.
- *  - If a node is BLACK, it means its subtree has already been fully traversed.
- *  - When first exploring an edge, if it points to a GRAY node, a cycle is found and the GRAY node is pruned.
- *     - A pruned node has id `${originalId}|1`
+ *  - If a node is already visited, simply connect the new node with this node.
  */
 const dfsVisit = (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
-  colorMap: Record<string, Color>,
-  extractedYarnLockV1Pkgs: Record<
-    string,
-    {
-      version: string;
-      dependencies: Record<string, string>;
-    }
-  >,
+  visitedMap: Set<string>,
+  extractedYarnLockV1Pkgs: YarnLockPackages,
 ): void => {
-  colorMap[node.id] = Color.GRAY;
+  visitedMap.add(node.id);
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     const depData = extractedYarnLockV1Pkgs[`${name}@${depInfo.version}`];
@@ -81,17 +63,11 @@ const dfsVisit = (
       isDev: depInfo.isDev,
     };
 
-    if (!colorMap.hasOwnProperty(childNode.id)) {
+    if (!visitedMap.has(childNode.id)) {
       addPkgNodeToGraph(depGraphBuilder, childNode, { isCyclic: false });
-      dfsVisit(depGraphBuilder, childNode, colorMap, extractedYarnLockV1Pkgs);
-    } else if (colorMap[childNode.id] === Color.GRAY) {
-      // cycle detected
-      childNode.id = `${childNode.id}|1`;
-      addPkgNodeToGraph(depGraphBuilder, childNode, { isCyclic: true });
+      dfsVisit(depGraphBuilder, childNode, visitedMap, extractedYarnLockV1Pkgs);
     }
 
     depGraphBuilder.connectDep(node.id, childNode.id);
   }
-
-  colorMap[node.id] = Color.BLACK;
 };

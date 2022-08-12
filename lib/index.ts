@@ -35,21 +35,39 @@ export {
   ManifestFile,
 };
 
-// New Parser Function **************
+// New Parser Functions *************
 // **********************************
 import {
+  extractPkgsFromYarnLockV1,
   parseYarnLockV1Project,
   parseYarnLockV1WorkspaceProject,
+  buildDepGraphYarnLockV1SimpleCyclesPruned,
   buildDepGraphYarnLockV1Simple,
+  buildDepGraphYarnLockV1WorkspaceCyclesPruned,
   buildDepGraphYarnLockV1Workspace,
-  extractPkgsFromYarnLockV1,
 } from './dep-graph-builders';
 export {
-  parseYarnLockV1Project,
-  buildDepGraphYarnLockV1Workspace,
-  buildDepGraphYarnLockV1Simple,
-  parseYarnLockV1WorkspaceProject,
   extractPkgsFromYarnLockV1,
+  parseYarnLockV1Project,
+  parseYarnLockV1WorkspaceProject,
+  buildDepGraphYarnLockV1SimpleCyclesPruned,
+  buildDepGraphYarnLockV1Simple,
+  buildDepGraphYarnLockV1WorkspaceCyclesPruned,
+  buildDepGraphYarnLockV1Workspace,
+};
+// **********************************
+
+// New Parser types *************
+// **********************************
+import type {
+  PackageJsonBase
+} from './dep-graph-builders/types';
+import type {
+  YarnLockPackages
+} from './dep-graph-builders/yarn-lock-v1/types';
+export {
+  PackageJsonBase,
+  YarnLockPackages
 };
 // **********************************
 

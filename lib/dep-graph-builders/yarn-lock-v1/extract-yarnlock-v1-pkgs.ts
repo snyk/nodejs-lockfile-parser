@@ -1,9 +1,10 @@
 import { eventLoopSpinner } from 'event-loop-spinner';
+import type { YarnLockPackages } from './types';
 
 export const extractPkgsFromYarnLockV1 = async (
   yarnLockContent: string,
   options: { includeOptionalDeps: boolean },
-) => {
+): Promise<YarnLockPackages> => {
   let allDeps: Record<
     string,
     {
