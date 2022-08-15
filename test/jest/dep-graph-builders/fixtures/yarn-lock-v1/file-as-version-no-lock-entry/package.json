@@ -1,0 +1,8 @@
+{
+  "name": "file-as-version-no-lock-entry",
+  "version": "0.0.1",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "shared": "file:./some-file"
+  }
+}

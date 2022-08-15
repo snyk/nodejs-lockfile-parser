@@ -1,13 +1,19 @@
 import { PackageJsonBase } from './types';
 import { DepGraphBuilder } from '@snyk/dep-graph';
 import { InvalidUserInputError } from '../errors';
+import { YarnLockPackages } from './yarn-lock-v1/types';
+import { OutOfSyncError } from '../errors';
+import { LockfileType } from '../parsers';
+
+export type Dependencies = Record<string, { version: string; isDev: boolean }>;
 
 export interface PkgNode {
   id: string;
   name: string;
   version: string;
-  dependencies: Record<string, { version: string; isDev: boolean }>;
+  dependencies: Dependencies;
   isDev: boolean;
+  missingLockFileEntry?: boolean;
 }
 
 export const addPkgNodeToGraph = (
@@ -26,6 +32,7 @@ export const addPkgNodeToGraph = (
         scope: node.isDev ? 'dev' : 'prod',
         ...(options.isCyclic && { pruned: 'cyclic' }),
         ...(options.isWorkspacePkg && { pruned: 'true' }),
+        ...(node.missingLockFileEntry && { missingLockFileEntry: 'true' }),
       },
     },
   );
@@ -38,7 +45,7 @@ export const addPkgNodeToGraph = (
 export const getTopLevelDeps = (
   pkgJson: PackageJsonBase,
   options: { includeDevDeps: boolean },
-): Record<string, { version: string; isDev: boolean }> => {
+): Dependencies => {
   const prodDeps = getGraphDependencies(pkgJson.dependencies || {}, false);
 
   const devDeps = options.includeDevDeps
@@ -55,12 +62,9 @@ export const getTopLevelDeps = (
 export const getGraphDependencies = (
   dependencies: Record<string, string>,
   isDev,
-) => {
+): Dependencies => {
   return Object.entries(dependencies).reduce(
-    (
-      acc: Record<string, { version: string; isDev: boolean }>,
-      [name, semver],
-    ) => {
+    (acc: Dependencies, [name, semver]) => {
       acc[name] = { version: semver, isDev: isDev };
       return acc;
     },
@@ -81,3 +85,74 @@ export function parsePkgJson(pkgJsonContent: string): PackageJsonBase {
     );
   }
 }
+
+export const getChildNode = (
+  name: string,
+  depInfo: { version: string; isDev: boolean },
+  pkgs: YarnLockPackages,
+  strictOutOfSync: boolean,
+) => {
+  const childNodeKey = `${name}@${depInfo.version}`;
+  let childNode: PkgNode;
+
+  if (!pkgs.hasOwnProperty(childNodeKey)) {
+    if (strictOutOfSync && !/^file:/.test(depInfo.version)) {
+      throw new OutOfSyncError(childNodeKey, LockfileType.yarn);
+    } else {
+      childNode = {
+        id: childNodeKey,
+        name: name,
+        version: depInfo.version,
+        dependencies: {},
+        isDev: depInfo.isDev,
+        missingLockFileEntry: true,
+      };
+    }
+  } else {
+    const depData = pkgs[childNodeKey];
+    childNode = {
+      id: `${name}@${depData.version}`,
+      name: name,
+      version: depData.version,
+      dependencies: getGraphDependencies(
+        depData.dependencies || {},
+        depInfo.isDev,
+      ),
+      isDev: depInfo.isDev,
+    };
+  }
+
+  return childNode;
+};
+
+export const getChildNodeWorkspace = (
+  name: string,
+  depInfo: { version: string; isDev: boolean },
+  workspacePkgNameToVersion: Record<string, string>,
+  pkgs: YarnLockPackages,
+  strictOutOfSync: boolean,
+) => {
+  let childNode: PkgNode;
+
+  if (workspacePkgNameToVersion[name]) {
+    const version = workspacePkgNameToVersion[name];
+
+    // This is just to mimic old behavior where when StrictOutOfSync is turned on,
+    // any cross referencing between workspace packages will lead to a throw
+    if (strictOutOfSync) {
+      throw new OutOfSyncError(`${name}@${version}`, LockfileType.yarn);
+    }
+
+    childNode = {
+      id: `${name}@${version}`,
+      name: name,
+      version: version,
+      dependencies: {},
+      isDev: depInfo.isDev,
+    };
+  } else {
+    childNode = getChildNode(name, depInfo, pkgs, strictOutOfSync);
+  }
+
+  return childNode;
+};

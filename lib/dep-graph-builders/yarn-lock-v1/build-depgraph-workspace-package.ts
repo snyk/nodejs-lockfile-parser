@@ -1,20 +1,21 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
 import {
   addPkgNodeToGraph,
-  getGraphDependencies,
+  getChildNodeWorkspace,
   getTopLevelDeps,
   PkgNode,
 } from '../util';
-
 import type { PackageJsonBase } from '../types';
-import type { YarnLockPackages } from './types';
+import type { DepGraphBuildOptions, YarnLockPackages } from './types';
 
 export const buildDepGraphYarnLockV1Workspace = (
   extractedYarnLockV1Pkgs: YarnLockPackages,
   pkgJson: PackageJsonBase,
   workspacePkgNameToVersion: Record<string, string>,
-  options: { includeDevDeps: boolean },
+  options: DepGraphBuildOptions,
 ) => {
+  const { includeDevDeps, strictOutOfSync } = options;
+
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
     { name: pkgJson.name, version: pkgJson.version },
@@ -22,9 +23,7 @@ export const buildDepGraphYarnLockV1Workspace = (
 
   const visitedMap: Set<string> = new Set();
 
-  const topLevelDeps = getTopLevelDeps(pkgJson, {
-    includeDevDeps: options.includeDevDeps,
-  });
+  const topLevelDeps = getTopLevelDeps(pkgJson, { includeDevDeps });
 
   const rootNode: PkgNode = {
     id: 'root-node',
@@ -40,6 +39,7 @@ export const buildDepGraphYarnLockV1Workspace = (
     visitedMap,
     extractedYarnLockV1Pkgs,
     workspacePkgNameToVersion,
+    strictOutOfSync,
   );
 
   return depGraphBuilder.build();
@@ -61,23 +61,20 @@ const dfsVisit = (
   visitedMap: Set<string>,
   extractedYarnLockV1Pkgs: YarnLockPackages,
   workspacePkgNameToVersion: Record<string, string>,
+  strictOutOfSync: boolean,
 ): void => {
   visitedMap.add(node.id);
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
-    const isWorkspacePkg = workspacePkgNameToVersion[name] ? true : false;
+    const isWorkspacePkg = !!workspacePkgNameToVersion[name];
 
-    const depData = isWorkspacePkg
-      ? { version: workspacePkgNameToVersion[name], dependencies: {} }
-      : extractedYarnLockV1Pkgs[`${name}@${depInfo.version}`];
-
-    const childNode: PkgNode = {
-      id: `${name}@${depData.version}`,
-      name: name,
-      version: depData.version,
-      dependencies: getGraphDependencies(depData.dependencies, depInfo.isDev),
-      isDev: depInfo.isDev,
-    };
+    const childNode = getChildNodeWorkspace(
+      name,
+      depInfo,
+      workspacePkgNameToVersion,
+      extractedYarnLockV1Pkgs,
+      strictOutOfSync,
+    );
 
     if (!visitedMap.has(childNode.id)) {
       addPkgNodeToGraph(depGraphBuilder, childNode, {
@@ -91,9 +88,11 @@ const dfsVisit = (
           visitedMap,
           extractedYarnLockV1Pkgs,
           workspacePkgNameToVersion,
+          strictOutOfSync,
         );
       }
     }
+
     depGraphBuilder.connectDep(node.id, childNode.id);
   }
 };

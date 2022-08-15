@@ -5,9 +5,9 @@
   },
   "pkgs": [
     {
-      "id": "pkg-dev-deps-only@0.0.1",
+      "id": "file-as-version@0.0.1",
       "info": {
-        "name": "pkg-dev-deps-only",
+        "name": "file-as-version",
         "version": "0.0.1"
       }
     },
@@ -38,7 +38,7 @@
     "nodes": [
       {
         "nodeId": "root-node",
-        "pkgId": "pkg-dev-deps-only@0.0.1",
+        "pkgId": "file-as-version@0.0.1",
         "deps": [
           {
             "nodeId": "debug@2.6.9"

@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "pkg-a@1.0.0",
+      "info": {
+        "name": "pkg-a",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "body-parser@^1.18.2",
+      "info": {
+        "name": "body-parser",
+        "version": "^1.18.2"
+      }
+    },
+    {
+      "id": "ms@0.6.2",
+      "info": {
+        "name": "ms",
+        "version": "0.6.2"
+      }
+    },
+    {
+      "id": "debug@2.0.0",
+      "info": {
+        "name": "debug",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "lodash@4.17.11",
+      "info": {
+        "name": "lodash",
+        "version": "4.17.11"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "pkg-a@1.0.0",
+        "deps": [
+          {
+            "nodeId": "body-parser@^1.18.2"
+          },
+          {
+            "nodeId": "debug@2.0.0"
+          },
+          {
+            "nodeId": "lodash@4.17.11"
+          }
+        ]
+      },
+      {
+        "nodeId": "body-parser@^1.18.2",
+        "pkgId": "body-parser@^1.18.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "missingLockFileEntry": "true"
+          }
+        }
+      },
+      {
+        "nodeId": "ms@0.6.2",
+        "pkgId": "ms@0.6.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "debug@2.0.0",
+        "pkgId": "debug@2.0.0",
+        "deps": [
+          {
+            "nodeId": "ms@0.6.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lodash@4.17.11",
+        "pkgId": "lodash@4.17.11",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "missingLockFileEntry": "true"
+          }
+        }
+      }
+    ]
+  }
+}
