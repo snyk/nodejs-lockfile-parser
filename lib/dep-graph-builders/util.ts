@@ -1,5 +1,6 @@
 import { PackageJsonBase } from './types';
 import { DepGraphBuilder } from '@snyk/dep-graph';
+import { InvalidUserInputError } from '../errors';
 
 export interface PkgNode {
   id: string;
@@ -66,3 +67,17 @@ export const getGraphDependencies = (
     {},
   );
 };
+
+export function parsePkgJson(pkgJsonContent: string): PackageJsonBase {
+  try {
+    const parsedPkgJson = JSON.parse(pkgJsonContent);
+    if (!parsedPkgJson.name) {
+      parsedPkgJson.name = 'package.json';
+    }
+    return parsedPkgJson;
+  } catch (e) {
+    throw new InvalidUserInputError(
+      'package.json parsing failed with error ' + e.message,
+    );
+  }
+}

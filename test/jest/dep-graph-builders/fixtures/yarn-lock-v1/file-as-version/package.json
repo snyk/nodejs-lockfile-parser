@@ -1,0 +1,8 @@
+{
+  "name": "pkg-dev-deps-only",
+  "version": "0.0.1",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "shared": "file:./some-file"
+  }
+}

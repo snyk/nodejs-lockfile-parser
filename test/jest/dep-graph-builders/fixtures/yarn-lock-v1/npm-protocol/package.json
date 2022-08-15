@@ -1,0 +1,7 @@
+{
+  "name": "test3",
+  "description": "https://yarnpkg.com/features/protocols",
+  "dependencies": {
+    "lodash": "npm:lodash@^4.17.15"
+  }
+}

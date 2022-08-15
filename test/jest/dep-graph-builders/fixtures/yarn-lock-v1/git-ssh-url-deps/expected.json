@@ -1,0 +1,279 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "git-ssh-url-deps@",
+      "info": {
+        "name": "git-ssh-url-deps"
+      }
+    },
+    {
+      "id": "body-parser@1.9.0",
+      "info": {
+        "name": "body-parser",
+        "version": "1.9.0"
+      }
+    },
+    {
+      "id": "bytes@1.0.0",
+      "info": {
+        "name": "bytes",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "depd@1.0.1",
+      "info": {
+        "name": "depd",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "iconv-lite@0.4.4",
+      "info": {
+        "name": "iconv-lite",
+        "version": "0.4.4"
+      }
+    },
+    {
+      "id": "media-typer@0.3.0",
+      "info": {
+        "name": "media-typer",
+        "version": "0.3.0"
+      }
+    },
+    {
+      "id": "on-finished@2.1.0",
+      "info": {
+        "name": "on-finished",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "ee-first@1.0.5",
+      "info": {
+        "name": "ee-first",
+        "version": "1.0.5"
+      }
+    },
+    {
+      "id": "qs@2.2.4",
+      "info": {
+        "name": "qs",
+        "version": "2.2.4"
+      }
+    },
+    {
+      "id": "raw-body@1.3.0",
+      "info": {
+        "name": "raw-body",
+        "version": "1.3.0"
+      }
+    },
+    {
+      "id": "type-is@1.5.7",
+      "info": {
+        "name": "type-is",
+        "version": "1.5.7"
+      }
+    },
+    {
+      "id": "mime-types@2.0.14",
+      "info": {
+        "name": "mime-types",
+        "version": "2.0.14"
+      }
+    },
+    {
+      "id": "mime-db@1.12.0",
+      "info": {
+        "name": "mime-db",
+        "version": "1.12.0"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "git-ssh-url-deps@",
+        "deps": [
+          {
+            "nodeId": "body-parser@1.9.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "body-parser@1.9.0",
+        "pkgId": "body-parser@1.9.0",
+        "deps": [
+          {
+            "nodeId": "bytes@1.0.0"
+          },
+          {
+            "nodeId": "depd@1.0.1"
+          },
+          {
+            "nodeId": "iconv-lite@0.4.4"
+          },
+          {
+            "nodeId": "media-typer@0.3.0"
+          },
+          {
+            "nodeId": "on-finished@2.1.0"
+          },
+          {
+            "nodeId": "qs@2.2.4"
+          },
+          {
+            "nodeId": "raw-body@1.3.0"
+          },
+          {
+            "nodeId": "type-is@1.5.7"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "bytes@1.0.0",
+        "pkgId": "bytes@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "depd@1.0.1",
+        "pkgId": "depd@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "iconv-lite@0.4.4",
+        "pkgId": "iconv-lite@0.4.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "media-typer@0.3.0",
+        "pkgId": "media-typer@0.3.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "on-finished@2.1.0",
+        "pkgId": "on-finished@2.1.0",
+        "deps": [
+          {
+            "nodeId": "ee-first@1.0.5"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ee-first@1.0.5",
+        "pkgId": "ee-first@1.0.5",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "qs@2.2.4",
+        "pkgId": "qs@2.2.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "raw-body@1.3.0",
+        "pkgId": "raw-body@1.3.0",
+        "deps": [
+          {
+            "nodeId": "bytes@1.0.0"
+          },
+          {
+            "nodeId": "iconv-lite@0.4.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "type-is@1.5.7",
+        "pkgId": "type-is@1.5.7",
+        "deps": [
+          {
+            "nodeId": "media-typer@0.3.0"
+          },
+          {
+            "nodeId": "mime-types@2.0.14"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mime-types@2.0.14",
+        "pkgId": "mime-types@2.0.14",
+        "deps": [
+          {
+            "nodeId": "mime-db@1.12.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mime-db@1.12.0",
+        "pkgId": "mime-db@1.12.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}
