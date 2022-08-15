@@ -1,0 +1,5881 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "trucolor@0.7.1",
+      "info": {
+        "name": "trucolor",
+        "version": "0.7.1"
+      }
+    },
+    {
+      "id": "@thebespokepixel/es-tinycolor@0.3.2",
+      "info": {
+        "name": "@thebespokepixel/es-tinycolor",
+        "version": "0.3.2"
+      }
+    },
+    {
+      "id": "@thebespokepixel/meta@0.2.5",
+      "info": {
+        "name": "@thebespokepixel/meta",
+        "version": "0.2.5"
+      }
+    },
+    {
+      "id": "read-pkg-up@4.0.0",
+      "info": {
+        "name": "read-pkg-up",
+        "version": "4.0.0"
+      }
+    },
+    {
+      "id": "find-up@3.0.0",
+      "info": {
+        "name": "find-up",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "locate-path@3.0.0",
+      "info": {
+        "name": "locate-path",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "p-locate@3.0.0",
+      "info": {
+        "name": "p-locate",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "p-limit@2.3.0",
+      "info": {
+        "name": "p-limit",
+        "version": "2.3.0"
+      }
+    },
+    {
+      "id": "p-try@2.2.0",
+      "info": {
+        "name": "p-try",
+        "version": "2.2.0"
+      }
+    },
+    {
+      "id": "path-exists@3.0.0",
+      "info": {
+        "name": "path-exists",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "read-pkg@3.0.0",
+      "info": {
+        "name": "read-pkg",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "load-json-file@4.0.0",
+      "info": {
+        "name": "load-json-file",
+        "version": "4.0.0"
+      }
+    },
+    {
+      "id": "graceful-fs@4.2.10",
+      "info": {
+        "name": "graceful-fs",
+        "version": "4.2.10"
+      }
+    },
+    {
+      "id": "parse-json@4.0.0",
+      "info": {
+        "name": "parse-json",
+        "version": "4.0.0"
+      }
+    },
+    {
+      "id": "error-ex@1.3.2",
+      "info": {
+        "name": "error-ex",
+        "version": "1.3.2"
+      }
+    },
+    {
+      "id": "is-arrayish@0.2.1",
+      "info": {
+        "name": "is-arrayish",
+        "version": "0.2.1"
+      }
+    },
+    {
+      "id": "json-parse-better-errors@1.0.2",
+      "info": {
+        "name": "json-parse-better-errors",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "pify@3.0.0",
+      "info": {
+        "name": "pify",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "strip-bom@3.0.0",
+      "info": {
+        "name": "strip-bom",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "normalize-package-data@2.5.0",
+      "info": {
+        "name": "normalize-package-data",
+        "version": "2.5.0"
+      }
+    },
+    {
+      "id": "hosted-git-info@2.8.9",
+      "info": {
+        "name": "hosted-git-info",
+        "version": "2.8.9"
+      }
+    },
+    {
+      "id": "resolve@1.22.1",
+      "info": {
+        "name": "resolve",
+        "version": "1.22.1"
+      }
+    },
+    {
+      "id": "is-core-module@2.10.0",
+      "info": {
+        "name": "is-core-module",
+        "version": "2.10.0"
+      }
+    },
+    {
+      "id": "has@1.0.3",
+      "info": {
+        "name": "has",
+        "version": "1.0.3"
+      }
+    },
+    {
+      "id": "function-bind@1.1.1",
+      "info": {
+        "name": "function-bind",
+        "version": "1.1.1"
+      }
+    },
+    {
+      "id": "path-parse@1.0.7",
+      "info": {
+        "name": "path-parse",
+        "version": "1.0.7"
+      }
+    },
+    {
+      "id": "supports-preserve-symlinks-flag@1.0.0",
+      "info": {
+        "name": "supports-preserve-symlinks-flag",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "semver@5.7.1",
+      "info": {
+        "name": "semver",
+        "version": "5.7.1"
+      }
+    },
+    {
+      "id": "validate-npm-package-license@3.0.4",
+      "info": {
+        "name": "validate-npm-package-license",
+        "version": "3.0.4"
+      }
+    },
+    {
+      "id": "spdx-correct@3.1.1",
+      "info": {
+        "name": "spdx-correct",
+        "version": "3.1.1"
+      }
+    },
+    {
+      "id": "spdx-expression-parse@3.0.1",
+      "info": {
+        "name": "spdx-expression-parse",
+        "version": "3.0.1"
+      }
+    },
+    {
+      "id": "spdx-exceptions@2.3.0",
+      "info": {
+        "name": "spdx-exceptions",
+        "version": "2.3.0"
+      }
+    },
+    {
+      "id": "spdx-license-ids@3.0.11",
+      "info": {
+        "name": "spdx-license-ids",
+        "version": "3.0.11"
+      }
+    },
+    {
+      "id": "path-type@3.0.0",
+      "info": {
+        "name": "path-type",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "@thebespokepixel/string@0.5.10",
+      "info": {
+        "name": "@thebespokepixel/string",
+        "version": "0.5.10"
+      }
+    },
+    {
+      "id": "boxen@4.2.0",
+      "info": {
+        "name": "boxen",
+        "version": "4.2.0"
+      }
+    },
+    {
+      "id": "ansi-align@3.0.1",
+      "info": {
+        "name": "ansi-align",
+        "version": "3.0.1"
+      }
+    },
+    {
+      "id": "string-width@4.2.3",
+      "info": {
+        "name": "string-width",
+        "version": "4.2.3"
+      }
+    },
+    {
+      "id": "emoji-regex@8.0.0",
+      "info": {
+        "name": "emoji-regex",
+        "version": "8.0.0"
+      }
+    },
+    {
+      "id": "is-fullwidth-code-point@3.0.0",
+      "info": {
+        "name": "is-fullwidth-code-point",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "strip-ansi@6.0.1",
+      "info": {
+        "name": "strip-ansi",
+        "version": "6.0.1"
+      }
+    },
+    {
+      "id": "ansi-regex@5.0.1",
+      "info": {
+        "name": "ansi-regex",
+        "version": "5.0.1"
+      }
+    },
+    {
+      "id": "camelcase@5.3.1",
+      "info": {
+        "name": "camelcase",
+        "version": "5.3.1"
+      }
+    },
+    {
+      "id": "chalk@3.0.0",
+      "info": {
+        "name": "chalk",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "ansi-styles@4.3.0",
+      "info": {
+        "name": "ansi-styles",
+        "version": "4.3.0"
+      }
+    },
+    {
+      "id": "color-convert@2.0.1",
+      "info": {
+        "name": "color-convert",
+        "version": "2.0.1"
+      }
+    },
+    {
+      "id": "color-name@1.1.4",
+      "info": {
+        "name": "color-name",
+        "version": "1.1.4"
+      }
+    },
+    {
+      "id": "supports-color@7.2.0",
+      "info": {
+        "name": "supports-color",
+        "version": "7.2.0"
+      }
+    },
+    {
+      "id": "has-flag@4.0.0",
+      "info": {
+        "name": "has-flag",
+        "version": "4.0.0"
+      }
+    },
+    {
+      "id": "cli-boxes@2.2.1",
+      "info": {
+        "name": "cli-boxes",
+        "version": "2.2.1"
+      }
+    },
+    {
+      "id": "term-size@2.2.1",
+      "info": {
+        "name": "term-size",
+        "version": "2.2.1"
+      }
+    },
+    {
+      "id": "type-fest@0.8.1",
+      "info": {
+        "name": "type-fest",
+        "version": "0.8.1"
+      }
+    },
+    {
+      "id": "widest-line@3.1.0",
+      "info": {
+        "name": "widest-line",
+        "version": "3.1.0"
+      }
+    },
+    {
+      "id": "term-ng@1.0.5",
+      "info": {
+        "name": "term-ng",
+        "version": "1.0.5"
+      }
+    },
+    {
+      "id": "@thebespokepixel/meta@1.0.5",
+      "info": {
+        "name": "@thebespokepixel/meta",
+        "version": "1.0.5"
+      }
+    },
+    {
+      "id": "read-pkg-up@6.0.0",
+      "info": {
+        "name": "read-pkg-up",
+        "version": "6.0.0"
+      }
+    },
+    {
+      "id": "find-up@4.1.0",
+      "info": {
+        "name": "find-up",
+        "version": "4.1.0"
+      }
+    },
+    {
+      "id": "locate-path@5.0.0",
+      "info": {
+        "name": "locate-path",
+        "version": "5.0.0"
+      }
+    },
+    {
+      "id": "p-locate@4.1.0",
+      "info": {
+        "name": "p-locate",
+        "version": "4.1.0"
+      }
+    },
+    {
+      "id": "path-exists@4.0.0",
+      "info": {
+        "name": "path-exists",
+        "version": "4.0.0"
+      }
+    },
+    {
+      "id": "read-pkg@5.2.0",
+      "info": {
+        "name": "read-pkg",
+        "version": "5.2.0"
+      }
+    },
+    {
+      "id": "@types/normalize-package-data@2.4.1",
+      "info": {
+        "name": "@types/normalize-package-data",
+        "version": "2.4.1"
+      }
+    },
+    {
+      "id": "parse-json@5.2.0",
+      "info": {
+        "name": "parse-json",
+        "version": "5.2.0"
+      }
+    },
+    {
+      "id": "@babel/code-frame@7.18.6",
+      "info": {
+        "name": "@babel/code-frame",
+        "version": "7.18.6"
+      }
+    },
+    {
+      "id": "@babel/highlight@7.18.6",
+      "info": {
+        "name": "@babel/highlight",
+        "version": "7.18.6"
+      }
+    },
+    {
+      "id": "@babel/helper-validator-identifier@7.18.6",
+      "info": {
+        "name": "@babel/helper-validator-identifier",
+        "version": "7.18.6"
+      }
+    },
+    {
+      "id": "chalk@2.4.2",
+      "info": {
+        "name": "chalk",
+        "version": "2.4.2"
+      }
+    },
+    {
+      "id": "ansi-styles@3.2.1",
+      "info": {
+        "name": "ansi-styles",
+        "version": "3.2.1"
+      }
+    },
+    {
+      "id": "color-convert@1.9.3",
+      "info": {
+        "name": "color-convert",
+        "version": "1.9.3"
+      }
+    },
+    {
+      "id": "color-name@1.1.3",
+      "info": {
+        "name": "color-name",
+        "version": "1.1.3"
+      }
+    },
+    {
+      "id": "escape-string-regexp@1.0.5",
+      "info": {
+        "name": "escape-string-regexp",
+        "version": "1.0.5"
+      }
+    },
+    {
+      "id": "supports-color@5.5.0",
+      "info": {
+        "name": "supports-color",
+        "version": "5.5.0"
+      }
+    },
+    {
+      "id": "has-flag@3.0.0",
+      "info": {
+        "name": "has-flag",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "js-tokens@4.0.0",
+      "info": {
+        "name": "js-tokens",
+        "version": "4.0.0"
+      }
+    },
+    {
+      "id": "json-parse-even-better-errors@2.3.1",
+      "info": {
+        "name": "json-parse-even-better-errors",
+        "version": "2.3.1"
+      }
+    },
+    {
+      "id": "lines-and-columns@1.2.4",
+      "info": {
+        "name": "lines-and-columns",
+        "version": "1.2.4"
+      }
+    },
+    {
+      "id": "type-fest@0.6.0",
+      "info": {
+        "name": "type-fest",
+        "version": "0.6.0"
+      }
+    },
+    {
+      "id": "type-fest@0.5.2",
+      "info": {
+        "name": "type-fest",
+        "version": "0.5.2"
+      }
+    },
+    {
+      "id": "trucolor@1.0.6",
+      "info": {
+        "name": "trucolor",
+        "version": "1.0.6"
+      }
+    },
+    {
+      "id": "@thebespokepixel/es-tinycolor@1.0.7",
+      "info": {
+        "name": "@thebespokepixel/es-tinycolor",
+        "version": "1.0.7"
+      }
+    },
+    {
+      "id": "common-tags@1.8.2",
+      "info": {
+        "name": "common-tags",
+        "version": "1.8.2"
+      }
+    },
+    {
+      "id": "escape-string-regexp@2.0.0",
+      "info": {
+        "name": "escape-string-regexp",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "lodash@4.17.21",
+      "info": {
+        "name": "lodash",
+        "version": "4.17.21"
+      }
+    },
+    {
+      "id": "sgr-composer@1.0.5",
+      "info": {
+        "name": "sgr-composer",
+        "version": "1.0.5"
+      }
+    },
+    {
+      "id": "truwrap@1.0.5",
+      "info": {
+        "name": "truwrap",
+        "version": "1.0.5"
+      }
+    },
+    {
+      "id": "@thebespokepixel/n-selector@1.0.5",
+      "info": {
+        "name": "@thebespokepixel/n-selector",
+        "version": "1.0.5"
+      }
+    },
+    {
+      "id": "sparkles@1.0.1",
+      "info": {
+        "name": "sparkles",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "ansi-regex@4.1.1",
+      "info": {
+        "name": "ansi-regex",
+        "version": "4.1.1"
+      }
+    },
+    {
+      "id": "columnify@1.6.0",
+      "info": {
+        "name": "columnify",
+        "version": "1.6.0"
+      }
+    },
+    {
+      "id": "wcwidth@1.0.1",
+      "info": {
+        "name": "wcwidth",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "defaults@1.0.3",
+      "info": {
+        "name": "defaults",
+        "version": "1.0.3"
+      }
+    },
+    {
+      "id": "clone@1.0.4",
+      "info": {
+        "name": "clone",
+        "version": "1.0.4"
+      }
+    },
+    {
+      "id": "deep-assign@3.0.0",
+      "info": {
+        "name": "deep-assign",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "is-obj@1.0.1",
+      "info": {
+        "name": "is-obj",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "es6-promisify@6.1.1",
+      "info": {
+        "name": "es6-promisify",
+        "version": "6.1.1"
+      }
+    },
+    {
+      "id": "get-stdin@7.0.0",
+      "info": {
+        "name": "get-stdin",
+        "version": "7.0.0"
+      }
+    },
+    {
+      "id": "os-locale@4.0.0",
+      "info": {
+        "name": "os-locale",
+        "version": "4.0.0"
+      }
+    },
+    {
+      "id": "execa@1.0.0",
+      "info": {
+        "name": "execa",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "cross-spawn@6.0.5",
+      "info": {
+        "name": "cross-spawn",
+        "version": "6.0.5"
+      }
+    },
+    {
+      "id": "nice-try@1.0.5",
+      "info": {
+        "name": "nice-try",
+        "version": "1.0.5"
+      }
+    },
+    {
+      "id": "path-key@2.0.1",
+      "info": {
+        "name": "path-key",
+        "version": "2.0.1"
+      }
+    },
+    {
+      "id": "shebang-command@1.2.0",
+      "info": {
+        "name": "shebang-command",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "id": "shebang-regex@1.0.0",
+      "info": {
+        "name": "shebang-regex",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "which@1.3.1",
+      "info": {
+        "name": "which",
+        "version": "1.3.1"
+      }
+    },
+    {
+      "id": "isexe@2.0.0",
+      "info": {
+        "name": "isexe",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "get-stream@4.1.0",
+      "info": {
+        "name": "get-stream",
+        "version": "4.1.0"
+      }
+    },
+    {
+      "id": "pump@3.0.0",
+      "info": {
+        "name": "pump",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "end-of-stream@1.4.4",
+      "info": {
+        "name": "end-of-stream",
+        "version": "1.4.4"
+      }
+    },
+    {
+      "id": "once@1.4.0",
+      "info": {
+        "name": "once",
+        "version": "1.4.0"
+      }
+    },
+    {
+      "id": "wrappy@1.0.2",
+      "info": {
+        "name": "wrappy",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "is-stream@1.1.0",
+      "info": {
+        "name": "is-stream",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "id": "npm-run-path@2.0.2",
+      "info": {
+        "name": "npm-run-path",
+        "version": "2.0.2"
+      }
+    },
+    {
+      "id": "p-finally@1.0.0",
+      "info": {
+        "name": "p-finally",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "signal-exit@3.0.7",
+      "info": {
+        "name": "signal-exit",
+        "version": "3.0.7"
+      }
+    },
+    {
+      "id": "strip-eof@1.0.0",
+      "info": {
+        "name": "strip-eof",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "lcid@3.1.1",
+      "info": {
+        "name": "lcid",
+        "version": "3.1.1"
+      }
+    },
+    {
+      "id": "invert-kv@3.0.1",
+      "info": {
+        "name": "invert-kv",
+        "version": "3.0.1"
+      }
+    },
+    {
+      "id": "mem@5.1.1",
+      "info": {
+        "name": "mem",
+        "version": "5.1.1"
+      }
+    },
+    {
+      "id": "map-age-cleaner@0.1.3",
+      "info": {
+        "name": "map-age-cleaner",
+        "version": "0.1.3"
+      }
+    },
+    {
+      "id": "p-defer@1.0.0",
+      "info": {
+        "name": "p-defer",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "mimic-fn@2.1.0",
+      "info": {
+        "name": "mimic-fn",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "p-is-promise@2.1.0",
+      "info": {
+        "name": "p-is-promise",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "update-notifier@3.0.1",
+      "info": {
+        "name": "update-notifier",
+        "version": "3.0.1"
+      }
+    },
+    {
+      "id": "boxen@3.2.0",
+      "info": {
+        "name": "boxen",
+        "version": "3.2.0"
+      }
+    },
+    {
+      "id": "string-width@3.1.0",
+      "info": {
+        "name": "string-width",
+        "version": "3.1.0"
+      }
+    },
+    {
+      "id": "emoji-regex@7.0.3",
+      "info": {
+        "name": "emoji-regex",
+        "version": "7.0.3"
+      }
+    },
+    {
+      "id": "is-fullwidth-code-point@2.0.0",
+      "info": {
+        "name": "is-fullwidth-code-point",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "strip-ansi@5.2.0",
+      "info": {
+        "name": "strip-ansi",
+        "version": "5.2.0"
+      }
+    },
+    {
+      "id": "term-size@1.2.0",
+      "info": {
+        "name": "term-size",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "id": "execa@0.7.0",
+      "info": {
+        "name": "execa",
+        "version": "0.7.0"
+      }
+    },
+    {
+      "id": "cross-spawn@5.1.0",
+      "info": {
+        "name": "cross-spawn",
+        "version": "5.1.0"
+      }
+    },
+    {
+      "id": "lru-cache@4.1.5",
+      "info": {
+        "name": "lru-cache",
+        "version": "4.1.5"
+      }
+    },
+    {
+      "id": "pseudomap@1.0.2",
+      "info": {
+        "name": "pseudomap",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "yallist@2.1.2",
+      "info": {
+        "name": "yallist",
+        "version": "2.1.2"
+      }
+    },
+    {
+      "id": "get-stream@3.0.0",
+      "info": {
+        "name": "get-stream",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "type-fest@0.3.1",
+      "info": {
+        "name": "type-fest",
+        "version": "0.3.1"
+      }
+    },
+    {
+      "id": "widest-line@2.0.1",
+      "info": {
+        "name": "widest-line",
+        "version": "2.0.1"
+      }
+    },
+    {
+      "id": "string-width@2.1.1",
+      "info": {
+        "name": "string-width",
+        "version": "2.1.1"
+      }
+    },
+    {
+      "id": "strip-ansi@4.0.0",
+      "info": {
+        "name": "strip-ansi",
+        "version": "4.0.0"
+      }
+    },
+    {
+      "id": "ansi-regex@3.0.1",
+      "info": {
+        "name": "ansi-regex",
+        "version": "3.0.1"
+      }
+    },
+    {
+      "id": "configstore@4.0.0",
+      "info": {
+        "name": "configstore",
+        "version": "4.0.0"
+      }
+    },
+    {
+      "id": "dot-prop@4.2.1",
+      "info": {
+        "name": "dot-prop",
+        "version": "4.2.1"
+      }
+    },
+    {
+      "id": "make-dir@1.3.0",
+      "info": {
+        "name": "make-dir",
+        "version": "1.3.0"
+      }
+    },
+    {
+      "id": "unique-string@1.0.0",
+      "info": {
+        "name": "unique-string",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "crypto-random-string@1.0.0",
+      "info": {
+        "name": "crypto-random-string",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "write-file-atomic@2.4.3",
+      "info": {
+        "name": "write-file-atomic",
+        "version": "2.4.3"
+      }
+    },
+    {
+      "id": "imurmurhash@0.1.4",
+      "info": {
+        "name": "imurmurhash",
+        "version": "0.1.4"
+      }
+    },
+    {
+      "id": "xdg-basedir@3.0.0",
+      "info": {
+        "name": "xdg-basedir",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "has-yarn@2.1.0",
+      "info": {
+        "name": "has-yarn",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "import-lazy@2.1.0",
+      "info": {
+        "name": "import-lazy",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "is-ci@2.0.0",
+      "info": {
+        "name": "is-ci",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "ci-info@2.0.0",
+      "info": {
+        "name": "ci-info",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "is-installed-globally@0.1.0",
+      "info": {
+        "name": "is-installed-globally",
+        "version": "0.1.0"
+      }
+    },
+    {
+      "id": "global-dirs@0.1.1",
+      "info": {
+        "name": "global-dirs",
+        "version": "0.1.1"
+      }
+    },
+    {
+      "id": "ini@1.3.8",
+      "info": {
+        "name": "ini",
+        "version": "1.3.8"
+      }
+    },
+    {
+      "id": "is-path-inside@1.0.1",
+      "info": {
+        "name": "is-path-inside",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "path-is-inside@1.0.2",
+      "info": {
+        "name": "path-is-inside",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "is-npm@3.0.0",
+      "info": {
+        "name": "is-npm",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "is-yarn-global@0.3.0",
+      "info": {
+        "name": "is-yarn-global",
+        "version": "0.3.0"
+      }
+    },
+    {
+      "id": "latest-version@5.1.0",
+      "info": {
+        "name": "latest-version",
+        "version": "5.1.0"
+      }
+    },
+    {
+      "id": "package-json@6.5.0",
+      "info": {
+        "name": "package-json",
+        "version": "6.5.0"
+      }
+    },
+    {
+      "id": "got@9.6.0",
+      "info": {
+        "name": "got",
+        "version": "9.6.0"
+      }
+    },
+    {
+      "id": "@sindresorhus/is@0.14.0",
+      "info": {
+        "name": "@sindresorhus/is",
+        "version": "0.14.0"
+      }
+    },
+    {
+      "id": "@szmarczak/http-timer@1.1.2",
+      "info": {
+        "name": "@szmarczak/http-timer",
+        "version": "1.1.2"
+      }
+    },
+    {
+      "id": "defer-to-connect@1.1.3",
+      "info": {
+        "name": "defer-to-connect",
+        "version": "1.1.3"
+      }
+    },
+    {
+      "id": "cacheable-request@6.1.0",
+      "info": {
+        "name": "cacheable-request",
+        "version": "6.1.0"
+      }
+    },
+    {
+      "id": "clone-response@1.0.3",
+      "info": {
+        "name": "clone-response",
+        "version": "1.0.3"
+      }
+    },
+    {
+      "id": "mimic-response@1.0.1",
+      "info": {
+        "name": "mimic-response",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "get-stream@5.2.0",
+      "info": {
+        "name": "get-stream",
+        "version": "5.2.0"
+      }
+    },
+    {
+      "id": "http-cache-semantics@4.1.0",
+      "info": {
+        "name": "http-cache-semantics",
+        "version": "4.1.0"
+      }
+    },
+    {
+      "id": "keyv@3.1.0",
+      "info": {
+        "name": "keyv",
+        "version": "3.1.0"
+      }
+    },
+    {
+      "id": "json-buffer@3.0.0",
+      "info": {
+        "name": "json-buffer",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "lowercase-keys@2.0.0",
+      "info": {
+        "name": "lowercase-keys",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "normalize-url@4.5.1",
+      "info": {
+        "name": "normalize-url",
+        "version": "4.5.1"
+      }
+    },
+    {
+      "id": "responselike@1.0.2",
+      "info": {
+        "name": "responselike",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "lowercase-keys@1.0.1",
+      "info": {
+        "name": "lowercase-keys",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "decompress-response@3.3.0",
+      "info": {
+        "name": "decompress-response",
+        "version": "3.3.0"
+      }
+    },
+    {
+      "id": "duplexer3@0.1.5",
+      "info": {
+        "name": "duplexer3",
+        "version": "0.1.5"
+      }
+    },
+    {
+      "id": "p-cancelable@1.1.0",
+      "info": {
+        "name": "p-cancelable",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "id": "to-readable-stream@1.0.0",
+      "info": {
+        "name": "to-readable-stream",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "url-parse-lax@3.0.0",
+      "info": {
+        "name": "url-parse-lax",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "prepend-http@2.0.0",
+      "info": {
+        "name": "prepend-http",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "registry-auth-token@4.2.2",
+      "info": {
+        "name": "registry-auth-token",
+        "version": "4.2.2"
+      }
+    },
+    {
+      "id": "rc@1.2.8",
+      "info": {
+        "name": "rc",
+        "version": "1.2.8"
+      }
+    },
+    {
+      "id": "deep-extend@0.6.0",
+      "info": {
+        "name": "deep-extend",
+        "version": "0.6.0"
+      }
+    },
+    {
+      "id": "minimist@1.2.6",
+      "info": {
+        "name": "minimist",
+        "version": "1.2.6"
+      }
+    },
+    {
+      "id": "strip-json-comments@2.0.1",
+      "info": {
+        "name": "strip-json-comments",
+        "version": "2.0.1"
+      }
+    },
+    {
+      "id": "registry-url@5.1.0",
+      "info": {
+        "name": "registry-url",
+        "version": "5.1.0"
+      }
+    },
+    {
+      "id": "semver@6.3.0",
+      "info": {
+        "name": "semver",
+        "version": "6.3.0"
+      }
+    },
+    {
+      "id": "semver-diff@2.1.0",
+      "info": {
+        "name": "semver-diff",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "verbosity@1.2.0",
+      "info": {
+        "name": "verbosity",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "id": "@thebespokepixel/time@0.5.6",
+      "info": {
+        "name": "@thebespokepixel/time",
+        "version": "0.5.6"
+      }
+    },
+    {
+      "id": "dateformat@3.0.3",
+      "info": {
+        "name": "dateformat",
+        "version": "3.0.3"
+      }
+    },
+    {
+      "id": "luxon@1.28.0",
+      "info": {
+        "name": "luxon",
+        "version": "1.28.0"
+      }
+    },
+    {
+      "id": "moment@2.29.4",
+      "info": {
+        "name": "moment",
+        "version": "2.29.4"
+      }
+    },
+    {
+      "id": "yargs@13.3.2",
+      "info": {
+        "name": "yargs",
+        "version": "13.3.2"
+      }
+    },
+    {
+      "id": "cliui@5.0.0",
+      "info": {
+        "name": "cliui",
+        "version": "5.0.0"
+      }
+    },
+    {
+      "id": "wrap-ansi@5.1.0",
+      "info": {
+        "name": "wrap-ansi",
+        "version": "5.1.0"
+      }
+    },
+    {
+      "id": "get-caller-file@2.0.5",
+      "info": {
+        "name": "get-caller-file",
+        "version": "2.0.5"
+      }
+    },
+    {
+      "id": "require-directory@2.1.1",
+      "info": {
+        "name": "require-directory",
+        "version": "2.1.1"
+      }
+    },
+    {
+      "id": "require-main-filename@2.0.0",
+      "info": {
+        "name": "require-main-filename",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "set-blocking@2.0.0",
+      "info": {
+        "name": "set-blocking",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "which-module@2.0.0",
+      "info": {
+        "name": "which-module",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "y18n@4.0.3",
+      "info": {
+        "name": "y18n",
+        "version": "4.0.3"
+      }
+    },
+    {
+      "id": "yargs-parser@13.1.2",
+      "info": {
+        "name": "yargs-parser",
+        "version": "13.1.2"
+      }
+    },
+    {
+      "id": "decamelize@1.2.0",
+      "info": {
+        "name": "decamelize",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "id": "deep-assign@2.0.0",
+      "info": {
+        "name": "deep-assign",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "sgr-composer@0.5.3",
+      "info": {
+        "name": "sgr-composer",
+        "version": "0.5.3"
+      }
+    },
+    {
+      "id": "term-ng@0.8.5",
+      "info": {
+        "name": "term-ng",
+        "version": "0.8.5"
+      }
+    },
+    {
+      "id": "read-pkg@4.0.1",
+      "info": {
+        "name": "read-pkg",
+        "version": "4.0.1"
+      }
+    },
+    {
+      "id": "trucolor@0.7.5",
+      "info": {
+        "name": "trucolor",
+        "version": "0.7.5"
+      }
+    },
+    {
+      "id": "truwrap@0.8.4",
+      "info": {
+        "name": "truwrap",
+        "version": "0.8.4"
+      }
+    },
+    {
+      "id": "@thebespokepixel/n-selector@0.2.3",
+      "info": {
+        "name": "@thebespokepixel/n-selector",
+        "version": "0.2.3"
+      }
+    },
+    {
+      "id": "get-stdin@6.0.0",
+      "info": {
+        "name": "get-stdin",
+        "version": "6.0.0"
+      }
+    },
+    {
+      "id": "os-locale@3.1.0",
+      "info": {
+        "name": "os-locale",
+        "version": "3.1.0"
+      }
+    },
+    {
+      "id": "lcid@2.0.0",
+      "info": {
+        "name": "lcid",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "invert-kv@2.0.0",
+      "info": {
+        "name": "invert-kv",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "mem@4.3.0",
+      "info": {
+        "name": "mem",
+        "version": "4.3.0"
+      }
+    },
+    {
+      "id": "update-notifier@2.5.0",
+      "info": {
+        "name": "update-notifier",
+        "version": "2.5.0"
+      }
+    },
+    {
+      "id": "boxen@1.3.0",
+      "info": {
+        "name": "boxen",
+        "version": "1.3.0"
+      }
+    },
+    {
+      "id": "ansi-align@2.0.0",
+      "info": {
+        "name": "ansi-align",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "camelcase@4.1.0",
+      "info": {
+        "name": "camelcase",
+        "version": "4.1.0"
+      }
+    },
+    {
+      "id": "cli-boxes@1.0.0",
+      "info": {
+        "name": "cli-boxes",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "configstore@3.1.5",
+      "info": {
+        "name": "configstore",
+        "version": "3.1.5"
+      }
+    },
+    {
+      "id": "is-ci@1.2.1",
+      "info": {
+        "name": "is-ci",
+        "version": "1.2.1"
+      }
+    },
+    {
+      "id": "ci-info@1.6.0",
+      "info": {
+        "name": "ci-info",
+        "version": "1.6.0"
+      }
+    },
+    {
+      "id": "is-npm@1.0.0",
+      "info": {
+        "name": "is-npm",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "latest-version@3.1.0",
+      "info": {
+        "name": "latest-version",
+        "version": "3.1.0"
+      }
+    },
+    {
+      "id": "package-json@4.0.1",
+      "info": {
+        "name": "package-json",
+        "version": "4.0.1"
+      }
+    },
+    {
+      "id": "got@6.7.1",
+      "info": {
+        "name": "got",
+        "version": "6.7.1"
+      }
+    },
+    {
+      "id": "create-error-class@3.0.2",
+      "info": {
+        "name": "create-error-class",
+        "version": "3.0.2"
+      }
+    },
+    {
+      "id": "capture-stack-trace@1.0.1",
+      "info": {
+        "name": "capture-stack-trace",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "is-redirect@1.0.0",
+      "info": {
+        "name": "is-redirect",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "is-retry-allowed@1.2.0",
+      "info": {
+        "name": "is-retry-allowed",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "id": "safe-buffer@5.2.1",
+      "info": {
+        "name": "safe-buffer",
+        "version": "5.2.1"
+      }
+    },
+    {
+      "id": "timed-out@4.0.1",
+      "info": {
+        "name": "timed-out",
+        "version": "4.0.1"
+      }
+    },
+    {
+      "id": "unzip-response@2.0.1",
+      "info": {
+        "name": "unzip-response",
+        "version": "2.0.1"
+      }
+    },
+    {
+      "id": "url-parse-lax@1.0.0",
+      "info": {
+        "name": "url-parse-lax",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "prepend-http@1.0.4",
+      "info": {
+        "name": "prepend-http",
+        "version": "1.0.4"
+      }
+    },
+    {
+      "id": "registry-auth-token@3.4.0",
+      "info": {
+        "name": "registry-auth-token",
+        "version": "3.4.0"
+      }
+    },
+    {
+      "id": "registry-url@3.1.0",
+      "info": {
+        "name": "registry-url",
+        "version": "3.1.0"
+      }
+    },
+    {
+      "id": "verbosity@0.10.1",
+      "info": {
+        "name": "verbosity",
+        "version": "0.10.1"
+      }
+    },
+    {
+      "id": "@thebespokepixel/time@0.4.1",
+      "info": {
+        "name": "@thebespokepixel/time",
+        "version": "0.4.1"
+      }
+    },
+    {
+      "id": "verbosity@0.9.2",
+      "info": {
+        "name": "verbosity",
+        "version": "0.9.2"
+      }
+    },
+    {
+      "id": "yargs@11.1.1",
+      "info": {
+        "name": "yargs",
+        "version": "11.1.1"
+      }
+    },
+    {
+      "id": "cliui@4.1.0",
+      "info": {
+        "name": "cliui",
+        "version": "4.1.0"
+      }
+    },
+    {
+      "id": "wrap-ansi@2.1.0",
+      "info": {
+        "name": "wrap-ansi",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "string-width@1.0.2",
+      "info": {
+        "name": "string-width",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "code-point-at@1.1.0",
+      "info": {
+        "name": "code-point-at",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "id": "is-fullwidth-code-point@1.0.0",
+      "info": {
+        "name": "is-fullwidth-code-point",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "number-is-nan@1.0.1",
+      "info": {
+        "name": "number-is-nan",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "strip-ansi@3.0.1",
+      "info": {
+        "name": "strip-ansi",
+        "version": "3.0.1"
+      }
+    },
+    {
+      "id": "ansi-regex@2.1.1",
+      "info": {
+        "name": "ansi-regex",
+        "version": "2.1.1"
+      }
+    },
+    {
+      "id": "find-up@2.1.0",
+      "info": {
+        "name": "find-up",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "locate-path@2.0.0",
+      "info": {
+        "name": "locate-path",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "p-locate@2.0.0",
+      "info": {
+        "name": "p-locate",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "p-limit@1.3.0",
+      "info": {
+        "name": "p-limit",
+        "version": "1.3.0"
+      }
+    },
+    {
+      "id": "p-try@1.0.0",
+      "info": {
+        "name": "p-try",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "get-caller-file@1.0.3",
+      "info": {
+        "name": "get-caller-file",
+        "version": "1.0.3"
+      }
+    },
+    {
+      "id": "require-main-filename@1.0.1",
+      "info": {
+        "name": "require-main-filename",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "y18n@3.2.2",
+      "info": {
+        "name": "y18n",
+        "version": "3.2.2"
+      }
+    },
+    {
+      "id": "yargs-parser@9.0.2",
+      "info": {
+        "name": "yargs-parser",
+        "version": "9.0.2"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "trucolor@0.7.1",
+        "deps": [
+          {
+            "nodeId": "@thebespokepixel/es-tinycolor@0.3.2"
+          },
+          {
+            "nodeId": "@thebespokepixel/meta@0.2.5"
+          },
+          {
+            "nodeId": "@thebespokepixel/string@0.5.10"
+          },
+          {
+            "nodeId": "color-convert@1.9.3"
+          },
+          {
+            "nodeId": "common-tags@1.8.2"
+          },
+          {
+            "nodeId": "deep-assign@2.0.0"
+          },
+          {
+            "nodeId": "escape-string-regexp@1.0.5"
+          },
+          {
+            "nodeId": "lodash@4.17.21"
+          },
+          {
+            "nodeId": "read-pkg-up@4.0.0"
+          },
+          {
+            "nodeId": "sgr-composer@0.5.3"
+          },
+          {
+            "nodeId": "term-ng@0.8.5"
+          },
+          {
+            "nodeId": "truwrap@0.8.4"
+          },
+          {
+            "nodeId": "update-notifier@2.5.0"
+          },
+          {
+            "nodeId": "verbosity@0.9.2"
+          },
+          {
+            "nodeId": "yargs@11.1.1"
+          }
+        ]
+      },
+      {
+        "nodeId": "@thebespokepixel/es-tinycolor@0.3.2",
+        "pkgId": "@thebespokepixel/es-tinycolor@0.3.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@thebespokepixel/meta@0.2.5",
+        "pkgId": "@thebespokepixel/meta@0.2.5",
+        "deps": [
+          {
+            "nodeId": "read-pkg-up@4.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "read-pkg-up@4.0.0",
+        "pkgId": "read-pkg-up@4.0.0",
+        "deps": [
+          {
+            "nodeId": "find-up@3.0.0"
+          },
+          {
+            "nodeId": "read-pkg@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "find-up@3.0.0",
+        "pkgId": "find-up@3.0.0",
+        "deps": [
+          {
+            "nodeId": "locate-path@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "locate-path@3.0.0",
+        "pkgId": "locate-path@3.0.0",
+        "deps": [
+          {
+            "nodeId": "p-locate@3.0.0"
+          },
+          {
+            "nodeId": "path-exists@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-locate@3.0.0",
+        "pkgId": "p-locate@3.0.0",
+        "deps": [
+          {
+            "nodeId": "p-limit@2.3.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-limit@2.3.0",
+        "pkgId": "p-limit@2.3.0",
+        "deps": [
+          {
+            "nodeId": "p-try@2.2.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-try@2.2.0",
+        "pkgId": "p-try@2.2.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-exists@3.0.0",
+        "pkgId": "path-exists@3.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "read-pkg@3.0.0",
+        "pkgId": "read-pkg@3.0.0",
+        "deps": [
+          {
+            "nodeId": "load-json-file@4.0.0"
+          },
+          {
+            "nodeId": "normalize-package-data@2.5.0"
+          },
+          {
+            "nodeId": "path-type@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "load-json-file@4.0.0",
+        "pkgId": "load-json-file@4.0.0",
+        "deps": [
+          {
+            "nodeId": "graceful-fs@4.2.10"
+          },
+          {
+            "nodeId": "parse-json@4.0.0"
+          },
+          {
+            "nodeId": "pify@3.0.0"
+          },
+          {
+            "nodeId": "strip-bom@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "graceful-fs@4.2.10",
+        "pkgId": "graceful-fs@4.2.10",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "parse-json@4.0.0",
+        "pkgId": "parse-json@4.0.0",
+        "deps": [
+          {
+            "nodeId": "error-ex@1.3.2"
+          },
+          {
+            "nodeId": "json-parse-better-errors@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "error-ex@1.3.2",
+        "pkgId": "error-ex@1.3.2",
+        "deps": [
+          {
+            "nodeId": "is-arrayish@0.2.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-arrayish@0.2.1",
+        "pkgId": "is-arrayish@0.2.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "json-parse-better-errors@1.0.2",
+        "pkgId": "json-parse-better-errors@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "pify@3.0.0",
+        "pkgId": "pify@3.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "strip-bom@3.0.0",
+        "pkgId": "strip-bom@3.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "normalize-package-data@2.5.0",
+        "pkgId": "normalize-package-data@2.5.0",
+        "deps": [
+          {
+            "nodeId": "hosted-git-info@2.8.9"
+          },
+          {
+            "nodeId": "resolve@1.22.1"
+          },
+          {
+            "nodeId": "semver@5.7.1"
+          },
+          {
+            "nodeId": "validate-npm-package-license@3.0.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "hosted-git-info@2.8.9",
+        "pkgId": "hosted-git-info@2.8.9",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "resolve@1.22.1",
+        "pkgId": "resolve@1.22.1",
+        "deps": [
+          {
+            "nodeId": "is-core-module@2.10.0"
+          },
+          {
+            "nodeId": "path-parse@1.0.7"
+          },
+          {
+            "nodeId": "supports-preserve-symlinks-flag@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-core-module@2.10.0",
+        "pkgId": "is-core-module@2.10.0",
+        "deps": [
+          {
+            "nodeId": "has@1.0.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "has@1.0.3",
+        "pkgId": "has@1.0.3",
+        "deps": [
+          {
+            "nodeId": "function-bind@1.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "function-bind@1.1.1",
+        "pkgId": "function-bind@1.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-parse@1.0.7",
+        "pkgId": "path-parse@1.0.7",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "supports-preserve-symlinks-flag@1.0.0",
+        "pkgId": "supports-preserve-symlinks-flag@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "semver@5.7.1",
+        "pkgId": "semver@5.7.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "validate-npm-package-license@3.0.4",
+        "pkgId": "validate-npm-package-license@3.0.4",
+        "deps": [
+          {
+            "nodeId": "spdx-correct@3.1.1"
+          },
+          {
+            "nodeId": "spdx-expression-parse@3.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "spdx-correct@3.1.1",
+        "pkgId": "spdx-correct@3.1.1",
+        "deps": [
+          {
+            "nodeId": "spdx-expression-parse@3.0.1"
+          },
+          {
+            "nodeId": "spdx-license-ids@3.0.11"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "spdx-expression-parse@3.0.1",
+        "pkgId": "spdx-expression-parse@3.0.1",
+        "deps": [
+          {
+            "nodeId": "spdx-exceptions@2.3.0"
+          },
+          {
+            "nodeId": "spdx-license-ids@3.0.11"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "spdx-exceptions@2.3.0",
+        "pkgId": "spdx-exceptions@2.3.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "spdx-license-ids@3.0.11",
+        "pkgId": "spdx-license-ids@3.0.11",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-type@3.0.0",
+        "pkgId": "path-type@3.0.0",
+        "deps": [
+          {
+            "nodeId": "pify@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@thebespokepixel/string@0.5.10",
+        "pkgId": "@thebespokepixel/string@0.5.10",
+        "deps": [
+          {
+            "nodeId": "boxen@4.2.0"
+          },
+          {
+            "nodeId": "term-ng@1.0.5"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "boxen@4.2.0",
+        "pkgId": "boxen@4.2.0",
+        "deps": [
+          {
+            "nodeId": "ansi-align@3.0.1"
+          },
+          {
+            "nodeId": "camelcase@5.3.1"
+          },
+          {
+            "nodeId": "chalk@3.0.0"
+          },
+          {
+            "nodeId": "cli-boxes@2.2.1"
+          },
+          {
+            "nodeId": "string-width@4.2.3"
+          },
+          {
+            "nodeId": "term-size@2.2.1"
+          },
+          {
+            "nodeId": "type-fest@0.8.1"
+          },
+          {
+            "nodeId": "widest-line@3.1.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ansi-align@3.0.1",
+        "pkgId": "ansi-align@3.0.1",
+        "deps": [
+          {
+            "nodeId": "string-width@4.2.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "string-width@4.2.3",
+        "pkgId": "string-width@4.2.3",
+        "deps": [
+          {
+            "nodeId": "emoji-regex@8.0.0"
+          },
+          {
+            "nodeId": "is-fullwidth-code-point@3.0.0"
+          },
+          {
+            "nodeId": "strip-ansi@6.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "emoji-regex@8.0.0",
+        "pkgId": "emoji-regex@8.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-fullwidth-code-point@3.0.0",
+        "pkgId": "is-fullwidth-code-point@3.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "strip-ansi@6.0.1",
+        "pkgId": "strip-ansi@6.0.1",
+        "deps": [
+          {
+            "nodeId": "ansi-regex@5.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ansi-regex@5.0.1",
+        "pkgId": "ansi-regex@5.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "camelcase@5.3.1",
+        "pkgId": "camelcase@5.3.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "chalk@3.0.0",
+        "pkgId": "chalk@3.0.0",
+        "deps": [
+          {
+            "nodeId": "ansi-styles@4.3.0"
+          },
+          {
+            "nodeId": "supports-color@7.2.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ansi-styles@4.3.0",
+        "pkgId": "ansi-styles@4.3.0",
+        "deps": [
+          {
+            "nodeId": "color-convert@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "color-convert@2.0.1",
+        "pkgId": "color-convert@2.0.1",
+        "deps": [
+          {
+            "nodeId": "color-name@1.1.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "color-name@1.1.4",
+        "pkgId": "color-name@1.1.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "supports-color@7.2.0",
+        "pkgId": "supports-color@7.2.0",
+        "deps": [
+          {
+            "nodeId": "has-flag@4.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "has-flag@4.0.0",
+        "pkgId": "has-flag@4.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "cli-boxes@2.2.1",
+        "pkgId": "cli-boxes@2.2.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "term-size@2.2.1",
+        "pkgId": "term-size@2.2.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "type-fest@0.8.1",
+        "pkgId": "type-fest@0.8.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "widest-line@3.1.0",
+        "pkgId": "widest-line@3.1.0",
+        "deps": [
+          {
+            "nodeId": "string-width@4.2.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "term-ng@1.0.5",
+        "pkgId": "term-ng@1.0.5",
+        "deps": [
+          {
+            "nodeId": "@thebespokepixel/meta@1.0.5"
+          },
+          {
+            "nodeId": "read-pkg@5.2.0"
+          },
+          {
+            "nodeId": "trucolor@1.0.6"
+          },
+          {
+            "nodeId": "truwrap@1.0.5"
+          },
+          {
+            "nodeId": "update-notifier@3.0.1"
+          },
+          {
+            "nodeId": "yargs@13.3.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@thebespokepixel/meta@1.0.5",
+        "pkgId": "@thebespokepixel/meta@1.0.5",
+        "deps": [
+          {
+            "nodeId": "read-pkg-up@6.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "read-pkg-up@6.0.0",
+        "pkgId": "read-pkg-up@6.0.0",
+        "deps": [
+          {
+            "nodeId": "find-up@4.1.0"
+          },
+          {
+            "nodeId": "read-pkg@5.2.0"
+          },
+          {
+            "nodeId": "type-fest@0.5.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "find-up@4.1.0",
+        "pkgId": "find-up@4.1.0",
+        "deps": [
+          {
+            "nodeId": "locate-path@5.0.0"
+          },
+          {
+            "nodeId": "path-exists@4.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "locate-path@5.0.0",
+        "pkgId": "locate-path@5.0.0",
+        "deps": [
+          {
+            "nodeId": "p-locate@4.1.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-locate@4.1.0",
+        "pkgId": "p-locate@4.1.0",
+        "deps": [
+          {
+            "nodeId": "p-limit@2.3.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-exists@4.0.0",
+        "pkgId": "path-exists@4.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "read-pkg@5.2.0",
+        "pkgId": "read-pkg@5.2.0",
+        "deps": [
+          {
+            "nodeId": "@types/normalize-package-data@2.4.1"
+          },
+          {
+            "nodeId": "normalize-package-data@2.5.0"
+          },
+          {
+            "nodeId": "parse-json@5.2.0"
+          },
+          {
+            "nodeId": "type-fest@0.6.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@types/normalize-package-data@2.4.1",
+        "pkgId": "@types/normalize-package-data@2.4.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "parse-json@5.2.0",
+        "pkgId": "parse-json@5.2.0",
+        "deps": [
+          {
+            "nodeId": "@babel/code-frame@7.18.6"
+          },
+          {
+            "nodeId": "error-ex@1.3.2"
+          },
+          {
+            "nodeId": "json-parse-even-better-errors@2.3.1"
+          },
+          {
+            "nodeId": "lines-and-columns@1.2.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@babel/code-frame@7.18.6",
+        "pkgId": "@babel/code-frame@7.18.6",
+        "deps": [
+          {
+            "nodeId": "@babel/highlight@7.18.6"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@babel/highlight@7.18.6",
+        "pkgId": "@babel/highlight@7.18.6",
+        "deps": [
+          {
+            "nodeId": "@babel/helper-validator-identifier@7.18.6"
+          },
+          {
+            "nodeId": "chalk@2.4.2"
+          },
+          {
+            "nodeId": "js-tokens@4.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@babel/helper-validator-identifier@7.18.6",
+        "pkgId": "@babel/helper-validator-identifier@7.18.6",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "chalk@2.4.2",
+        "pkgId": "chalk@2.4.2",
+        "deps": [
+          {
+            "nodeId": "ansi-styles@3.2.1"
+          },
+          {
+            "nodeId": "escape-string-regexp@1.0.5"
+          },
+          {
+            "nodeId": "supports-color@5.5.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ansi-styles@3.2.1",
+        "pkgId": "ansi-styles@3.2.1",
+        "deps": [
+          {
+            "nodeId": "color-convert@1.9.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "color-convert@1.9.3",
+        "pkgId": "color-convert@1.9.3",
+        "deps": [
+          {
+            "nodeId": "color-name@1.1.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "color-name@1.1.3",
+        "pkgId": "color-name@1.1.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "escape-string-regexp@1.0.5",
+        "pkgId": "escape-string-regexp@1.0.5",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "supports-color@5.5.0",
+        "pkgId": "supports-color@5.5.0",
+        "deps": [
+          {
+            "nodeId": "has-flag@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "has-flag@3.0.0",
+        "pkgId": "has-flag@3.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "js-tokens@4.0.0",
+        "pkgId": "js-tokens@4.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "json-parse-even-better-errors@2.3.1",
+        "pkgId": "json-parse-even-better-errors@2.3.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lines-and-columns@1.2.4",
+        "pkgId": "lines-and-columns@1.2.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "type-fest@0.6.0",
+        "pkgId": "type-fest@0.6.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "type-fest@0.5.2",
+        "pkgId": "type-fest@0.5.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "trucolor@1.0.6",
+        "pkgId": "trucolor@1.0.6",
+        "deps": [
+          {
+            "nodeId": "@thebespokepixel/es-tinycolor@1.0.7"
+          },
+          {
+            "nodeId": "@thebespokepixel/meta@1.0.5"
+          },
+          {
+            "nodeId": "@thebespokepixel/string@0.5.10"
+          },
+          {
+            "nodeId": "color-convert@2.0.1"
+          },
+          {
+            "nodeId": "common-tags@1.8.2"
+          },
+          {
+            "nodeId": "escape-string-regexp@2.0.0"
+          },
+          {
+            "nodeId": "lodash@4.17.21"
+          },
+          {
+            "nodeId": "sgr-composer@1.0.5"
+          },
+          {
+            "nodeId": "term-ng@1.0.5"
+          },
+          {
+            "nodeId": "truwrap@1.0.5"
+          },
+          {
+            "nodeId": "update-notifier@3.0.1"
+          },
+          {
+            "nodeId": "verbosity@1.2.0"
+          },
+          {
+            "nodeId": "yargs@13.3.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@thebespokepixel/es-tinycolor@1.0.7",
+        "pkgId": "@thebespokepixel/es-tinycolor@1.0.7",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "common-tags@1.8.2",
+        "pkgId": "common-tags@1.8.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "escape-string-regexp@2.0.0",
+        "pkgId": "escape-string-regexp@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lodash@4.17.21",
+        "pkgId": "lodash@4.17.21",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "sgr-composer@1.0.5",
+        "pkgId": "sgr-composer@1.0.5",
+        "deps": [
+          {
+            "nodeId": "color-convert@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "truwrap@1.0.5",
+        "pkgId": "truwrap@1.0.5",
+        "deps": [
+          {
+            "nodeId": "@thebespokepixel/meta@1.0.5"
+          },
+          {
+            "nodeId": "@thebespokepixel/n-selector@1.0.5"
+          },
+          {
+            "nodeId": "@thebespokepixel/string@0.5.10"
+          },
+          {
+            "nodeId": "ansi-regex@4.1.1"
+          },
+          {
+            "nodeId": "columnify@1.6.0"
+          },
+          {
+            "nodeId": "common-tags@1.8.2"
+          },
+          {
+            "nodeId": "deep-assign@3.0.0"
+          },
+          {
+            "nodeId": "es6-promisify@6.1.1"
+          },
+          {
+            "nodeId": "get-stdin@7.0.0"
+          },
+          {
+            "nodeId": "lodash@4.17.21"
+          },
+          {
+            "nodeId": "os-locale@4.0.0"
+          },
+          {
+            "nodeId": "read-pkg-up@6.0.0"
+          },
+          {
+            "nodeId": "term-ng@1.0.5"
+          },
+          {
+            "nodeId": "trucolor@1.0.6"
+          },
+          {
+            "nodeId": "update-notifier@3.0.1"
+          },
+          {
+            "nodeId": "verbosity@1.2.0"
+          },
+          {
+            "nodeId": "yargs@13.3.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@thebespokepixel/n-selector@1.0.5",
+        "pkgId": "@thebespokepixel/n-selector@1.0.5",
+        "deps": [
+          {
+            "nodeId": "lodash@4.17.21"
+          },
+          {
+            "nodeId": "sparkles@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "sparkles@1.0.1",
+        "pkgId": "sparkles@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ansi-regex@4.1.1",
+        "pkgId": "ansi-regex@4.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "columnify@1.6.0",
+        "pkgId": "columnify@1.6.0",
+        "deps": [
+          {
+            "nodeId": "strip-ansi@6.0.1"
+          },
+          {
+            "nodeId": "wcwidth@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "wcwidth@1.0.1",
+        "pkgId": "wcwidth@1.0.1",
+        "deps": [
+          {
+            "nodeId": "defaults@1.0.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "defaults@1.0.3",
+        "pkgId": "defaults@1.0.3",
+        "deps": [
+          {
+            "nodeId": "clone@1.0.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "clone@1.0.4",
+        "pkgId": "clone@1.0.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "deep-assign@3.0.0",
+        "pkgId": "deep-assign@3.0.0",
+        "deps": [
+          {
+            "nodeId": "is-obj@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-obj@1.0.1",
+        "pkgId": "is-obj@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "es6-promisify@6.1.1",
+        "pkgId": "es6-promisify@6.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "get-stdin@7.0.0",
+        "pkgId": "get-stdin@7.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "os-locale@4.0.0",
+        "pkgId": "os-locale@4.0.0",
+        "deps": [
+          {
+            "nodeId": "execa@1.0.0"
+          },
+          {
+            "nodeId": "lcid@3.1.1"
+          },
+          {
+            "nodeId": "mem@5.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "execa@1.0.0",
+        "pkgId": "execa@1.0.0",
+        "deps": [
+          {
+            "nodeId": "cross-spawn@6.0.5"
+          },
+          {
+            "nodeId": "get-stream@4.1.0"
+          },
+          {
+            "nodeId": "is-stream@1.1.0"
+          },
+          {
+            "nodeId": "npm-run-path@2.0.2"
+          },
+          {
+            "nodeId": "p-finally@1.0.0"
+          },
+          {
+            "nodeId": "signal-exit@3.0.7"
+          },
+          {
+            "nodeId": "strip-eof@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "cross-spawn@6.0.5",
+        "pkgId": "cross-spawn@6.0.5",
+        "deps": [
+          {
+            "nodeId": "nice-try@1.0.5"
+          },
+          {
+            "nodeId": "path-key@2.0.1"
+          },
+          {
+            "nodeId": "semver@5.7.1"
+          },
+          {
+            "nodeId": "shebang-command@1.2.0"
+          },
+          {
+            "nodeId": "which@1.3.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "nice-try@1.0.5",
+        "pkgId": "nice-try@1.0.5",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-key@2.0.1",
+        "pkgId": "path-key@2.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "shebang-command@1.2.0",
+        "pkgId": "shebang-command@1.2.0",
+        "deps": [
+          {
+            "nodeId": "shebang-regex@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "shebang-regex@1.0.0",
+        "pkgId": "shebang-regex@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "which@1.3.1",
+        "pkgId": "which@1.3.1",
+        "deps": [
+          {
+            "nodeId": "isexe@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "isexe@2.0.0",
+        "pkgId": "isexe@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "get-stream@4.1.0",
+        "pkgId": "get-stream@4.1.0",
+        "deps": [
+          {
+            "nodeId": "pump@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "pump@3.0.0",
+        "pkgId": "pump@3.0.0",
+        "deps": [
+          {
+            "nodeId": "end-of-stream@1.4.4"
+          },
+          {
+            "nodeId": "once@1.4.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "end-of-stream@1.4.4",
+        "pkgId": "end-of-stream@1.4.4",
+        "deps": [
+          {
+            "nodeId": "once@1.4.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "once@1.4.0",
+        "pkgId": "once@1.4.0",
+        "deps": [
+          {
+            "nodeId": "wrappy@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "wrappy@1.0.2",
+        "pkgId": "wrappy@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-stream@1.1.0",
+        "pkgId": "is-stream@1.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "npm-run-path@2.0.2",
+        "pkgId": "npm-run-path@2.0.2",
+        "deps": [
+          {
+            "nodeId": "path-key@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-finally@1.0.0",
+        "pkgId": "p-finally@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "signal-exit@3.0.7",
+        "pkgId": "signal-exit@3.0.7",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "strip-eof@1.0.0",
+        "pkgId": "strip-eof@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lcid@3.1.1",
+        "pkgId": "lcid@3.1.1",
+        "deps": [
+          {
+            "nodeId": "invert-kv@3.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "invert-kv@3.0.1",
+        "pkgId": "invert-kv@3.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mem@5.1.1",
+        "pkgId": "mem@5.1.1",
+        "deps": [
+          {
+            "nodeId": "map-age-cleaner@0.1.3"
+          },
+          {
+            "nodeId": "mimic-fn@2.1.0"
+          },
+          {
+            "nodeId": "p-is-promise@2.1.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "map-age-cleaner@0.1.3",
+        "pkgId": "map-age-cleaner@0.1.3",
+        "deps": [
+          {
+            "nodeId": "p-defer@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-defer@1.0.0",
+        "pkgId": "p-defer@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mimic-fn@2.1.0",
+        "pkgId": "mimic-fn@2.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-is-promise@2.1.0",
+        "pkgId": "p-is-promise@2.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "update-notifier@3.0.1",
+        "pkgId": "update-notifier@3.0.1",
+        "deps": [
+          {
+            "nodeId": "boxen@3.2.0"
+          },
+          {
+            "nodeId": "chalk@2.4.2"
+          },
+          {
+            "nodeId": "configstore@4.0.0"
+          },
+          {
+            "nodeId": "has-yarn@2.1.0"
+          },
+          {
+            "nodeId": "import-lazy@2.1.0"
+          },
+          {
+            "nodeId": "is-ci@2.0.0"
+          },
+          {
+            "nodeId": "is-installed-globally@0.1.0"
+          },
+          {
+            "nodeId": "is-npm@3.0.0"
+          },
+          {
+            "nodeId": "is-yarn-global@0.3.0"
+          },
+          {
+            "nodeId": "latest-version@5.1.0"
+          },
+          {
+            "nodeId": "semver-diff@2.1.0"
+          },
+          {
+            "nodeId": "xdg-basedir@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "boxen@3.2.0",
+        "pkgId": "boxen@3.2.0",
+        "deps": [
+          {
+            "nodeId": "ansi-align@3.0.1"
+          },
+          {
+            "nodeId": "camelcase@5.3.1"
+          },
+          {
+            "nodeId": "chalk@2.4.2"
+          },
+          {
+            "nodeId": "cli-boxes@2.2.1"
+          },
+          {
+            "nodeId": "string-width@3.1.0"
+          },
+          {
+            "nodeId": "term-size@1.2.0"
+          },
+          {
+            "nodeId": "type-fest@0.3.1"
+          },
+          {
+            "nodeId": "widest-line@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "string-width@3.1.0",
+        "pkgId": "string-width@3.1.0",
+        "deps": [
+          {
+            "nodeId": "emoji-regex@7.0.3"
+          },
+          {
+            "nodeId": "is-fullwidth-code-point@2.0.0"
+          },
+          {
+            "nodeId": "strip-ansi@5.2.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "emoji-regex@7.0.3",
+        "pkgId": "emoji-regex@7.0.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-fullwidth-code-point@2.0.0",
+        "pkgId": "is-fullwidth-code-point@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "strip-ansi@5.2.0",
+        "pkgId": "strip-ansi@5.2.0",
+        "deps": [
+          {
+            "nodeId": "ansi-regex@4.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "term-size@1.2.0",
+        "pkgId": "term-size@1.2.0",
+        "deps": [
+          {
+            "nodeId": "execa@0.7.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "execa@0.7.0",
+        "pkgId": "execa@0.7.0",
+        "deps": [
+          {
+            "nodeId": "cross-spawn@5.1.0"
+          },
+          {
+            "nodeId": "get-stream@3.0.0"
+          },
+          {
+            "nodeId": "is-stream@1.1.0"
+          },
+          {
+            "nodeId": "npm-run-path@2.0.2"
+          },
+          {
+            "nodeId": "p-finally@1.0.0"
+          },
+          {
+            "nodeId": "signal-exit@3.0.7"
+          },
+          {
+            "nodeId": "strip-eof@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "cross-spawn@5.1.0",
+        "pkgId": "cross-spawn@5.1.0",
+        "deps": [
+          {
+            "nodeId": "lru-cache@4.1.5"
+          },
+          {
+            "nodeId": "shebang-command@1.2.0"
+          },
+          {
+            "nodeId": "which@1.3.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lru-cache@4.1.5",
+        "pkgId": "lru-cache@4.1.5",
+        "deps": [
+          {
+            "nodeId": "pseudomap@1.0.2"
+          },
+          {
+            "nodeId": "yallist@2.1.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "pseudomap@1.0.2",
+        "pkgId": "pseudomap@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "yallist@2.1.2",
+        "pkgId": "yallist@2.1.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "get-stream@3.0.0",
+        "pkgId": "get-stream@3.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "type-fest@0.3.1",
+        "pkgId": "type-fest@0.3.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "widest-line@2.0.1",
+        "pkgId": "widest-line@2.0.1",
+        "deps": [
+          {
+            "nodeId": "string-width@2.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "string-width@2.1.1",
+        "pkgId": "string-width@2.1.1",
+        "deps": [
+          {
+            "nodeId": "is-fullwidth-code-point@2.0.0"
+          },
+          {
+            "nodeId": "strip-ansi@4.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "strip-ansi@4.0.0",
+        "pkgId": "strip-ansi@4.0.0",
+        "deps": [
+          {
+            "nodeId": "ansi-regex@3.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ansi-regex@3.0.1",
+        "pkgId": "ansi-regex@3.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "configstore@4.0.0",
+        "pkgId": "configstore@4.0.0",
+        "deps": [
+          {
+            "nodeId": "dot-prop@4.2.1"
+          },
+          {
+            "nodeId": "graceful-fs@4.2.10"
+          },
+          {
+            "nodeId": "make-dir@1.3.0"
+          },
+          {
+            "nodeId": "unique-string@1.0.0"
+          },
+          {
+            "nodeId": "write-file-atomic@2.4.3"
+          },
+          {
+            "nodeId": "xdg-basedir@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "dot-prop@4.2.1",
+        "pkgId": "dot-prop@4.2.1",
+        "deps": [
+          {
+            "nodeId": "is-obj@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "make-dir@1.3.0",
+        "pkgId": "make-dir@1.3.0",
+        "deps": [
+          {
+            "nodeId": "pify@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "unique-string@1.0.0",
+        "pkgId": "unique-string@1.0.0",
+        "deps": [
+          {
+            "nodeId": "crypto-random-string@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "crypto-random-string@1.0.0",
+        "pkgId": "crypto-random-string@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "write-file-atomic@2.4.3",
+        "pkgId": "write-file-atomic@2.4.3",
+        "deps": [
+          {
+            "nodeId": "graceful-fs@4.2.10"
+          },
+          {
+            "nodeId": "imurmurhash@0.1.4"
+          },
+          {
+            "nodeId": "signal-exit@3.0.7"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "imurmurhash@0.1.4",
+        "pkgId": "imurmurhash@0.1.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "xdg-basedir@3.0.0",
+        "pkgId": "xdg-basedir@3.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "has-yarn@2.1.0",
+        "pkgId": "has-yarn@2.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "import-lazy@2.1.0",
+        "pkgId": "import-lazy@2.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-ci@2.0.0",
+        "pkgId": "is-ci@2.0.0",
+        "deps": [
+          {
+            "nodeId": "ci-info@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ci-info@2.0.0",
+        "pkgId": "ci-info@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-installed-globally@0.1.0",
+        "pkgId": "is-installed-globally@0.1.0",
+        "deps": [
+          {
+            "nodeId": "global-dirs@0.1.1"
+          },
+          {
+            "nodeId": "is-path-inside@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "global-dirs@0.1.1",
+        "pkgId": "global-dirs@0.1.1",
+        "deps": [
+          {
+            "nodeId": "ini@1.3.8"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ini@1.3.8",
+        "pkgId": "ini@1.3.8",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-path-inside@1.0.1",
+        "pkgId": "is-path-inside@1.0.1",
+        "deps": [
+          {
+            "nodeId": "path-is-inside@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-is-inside@1.0.2",
+        "pkgId": "path-is-inside@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-npm@3.0.0",
+        "pkgId": "is-npm@3.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-yarn-global@0.3.0",
+        "pkgId": "is-yarn-global@0.3.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "latest-version@5.1.0",
+        "pkgId": "latest-version@5.1.0",
+        "deps": [
+          {
+            "nodeId": "package-json@6.5.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "package-json@6.5.0",
+        "pkgId": "package-json@6.5.0",
+        "deps": [
+          {
+            "nodeId": "got@9.6.0"
+          },
+          {
+            "nodeId": "registry-auth-token@4.2.2"
+          },
+          {
+            "nodeId": "registry-url@5.1.0"
+          },
+          {
+            "nodeId": "semver@6.3.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "got@9.6.0",
+        "pkgId": "got@9.6.0",
+        "deps": [
+          {
+            "nodeId": "@sindresorhus/is@0.14.0"
+          },
+          {
+            "nodeId": "@szmarczak/http-timer@1.1.2"
+          },
+          {
+            "nodeId": "cacheable-request@6.1.0"
+          },
+          {
+            "nodeId": "decompress-response@3.3.0"
+          },
+          {
+            "nodeId": "duplexer3@0.1.5"
+          },
+          {
+            "nodeId": "get-stream@4.1.0"
+          },
+          {
+            "nodeId": "lowercase-keys@1.0.1"
+          },
+          {
+            "nodeId": "mimic-response@1.0.1"
+          },
+          {
+            "nodeId": "p-cancelable@1.1.0"
+          },
+          {
+            "nodeId": "to-readable-stream@1.0.0"
+          },
+          {
+            "nodeId": "url-parse-lax@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@sindresorhus/is@0.14.0",
+        "pkgId": "@sindresorhus/is@0.14.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@szmarczak/http-timer@1.1.2",
+        "pkgId": "@szmarczak/http-timer@1.1.2",
+        "deps": [
+          {
+            "nodeId": "defer-to-connect@1.1.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "defer-to-connect@1.1.3",
+        "pkgId": "defer-to-connect@1.1.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "cacheable-request@6.1.0",
+        "pkgId": "cacheable-request@6.1.0",
+        "deps": [
+          {
+            "nodeId": "clone-response@1.0.3"
+          },
+          {
+            "nodeId": "get-stream@5.2.0"
+          },
+          {
+            "nodeId": "http-cache-semantics@4.1.0"
+          },
+          {
+            "nodeId": "keyv@3.1.0"
+          },
+          {
+            "nodeId": "lowercase-keys@2.0.0"
+          },
+          {
+            "nodeId": "normalize-url@4.5.1"
+          },
+          {
+            "nodeId": "responselike@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "clone-response@1.0.3",
+        "pkgId": "clone-response@1.0.3",
+        "deps": [
+          {
+            "nodeId": "mimic-response@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mimic-response@1.0.1",
+        "pkgId": "mimic-response@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "get-stream@5.2.0",
+        "pkgId": "get-stream@5.2.0",
+        "deps": [
+          {
+            "nodeId": "pump@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "http-cache-semantics@4.1.0",
+        "pkgId": "http-cache-semantics@4.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "keyv@3.1.0",
+        "pkgId": "keyv@3.1.0",
+        "deps": [
+          {
+            "nodeId": "json-buffer@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "json-buffer@3.0.0",
+        "pkgId": "json-buffer@3.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lowercase-keys@2.0.0",
+        "pkgId": "lowercase-keys@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "normalize-url@4.5.1",
+        "pkgId": "normalize-url@4.5.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "responselike@1.0.2",
+        "pkgId": "responselike@1.0.2",
+        "deps": [
+          {
+            "nodeId": "lowercase-keys@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lowercase-keys@1.0.1",
+        "pkgId": "lowercase-keys@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "decompress-response@3.3.0",
+        "pkgId": "decompress-response@3.3.0",
+        "deps": [
+          {
+            "nodeId": "mimic-response@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "duplexer3@0.1.5",
+        "pkgId": "duplexer3@0.1.5",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-cancelable@1.1.0",
+        "pkgId": "p-cancelable@1.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "to-readable-stream@1.0.0",
+        "pkgId": "to-readable-stream@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "url-parse-lax@3.0.0",
+        "pkgId": "url-parse-lax@3.0.0",
+        "deps": [
+          {
+            "nodeId": "prepend-http@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "prepend-http@2.0.0",
+        "pkgId": "prepend-http@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "registry-auth-token@4.2.2",
+        "pkgId": "registry-auth-token@4.2.2",
+        "deps": [
+          {
+            "nodeId": "rc@1.2.8"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "rc@1.2.8",
+        "pkgId": "rc@1.2.8",
+        "deps": [
+          {
+            "nodeId": "deep-extend@0.6.0"
+          },
+          {
+            "nodeId": "ini@1.3.8"
+          },
+          {
+            "nodeId": "minimist@1.2.6"
+          },
+          {
+            "nodeId": "strip-json-comments@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "deep-extend@0.6.0",
+        "pkgId": "deep-extend@0.6.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "minimist@1.2.6",
+        "pkgId": "minimist@1.2.6",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "strip-json-comments@2.0.1",
+        "pkgId": "strip-json-comments@2.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "registry-url@5.1.0",
+        "pkgId": "registry-url@5.1.0",
+        "deps": [
+          {
+            "nodeId": "rc@1.2.8"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "semver@6.3.0",
+        "pkgId": "semver@6.3.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "semver-diff@2.1.0",
+        "pkgId": "semver-diff@2.1.0",
+        "deps": [
+          {
+            "nodeId": "semver@5.7.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "verbosity@1.2.0",
+        "pkgId": "verbosity@1.2.0",
+        "deps": [
+          {
+            "nodeId": "@thebespokepixel/meta@1.0.5"
+          },
+          {
+            "nodeId": "@thebespokepixel/time@0.5.6"
+          },
+          {
+            "nodeId": "chalk@2.4.2"
+          },
+          {
+            "nodeId": "sparkles@1.0.1"
+          },
+          {
+            "nodeId": "term-ng@1.0.5"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@thebespokepixel/time@0.5.6",
+        "pkgId": "@thebespokepixel/time@0.5.6",
+        "deps": [
+          {
+            "nodeId": "dateformat@3.0.3"
+          },
+          {
+            "nodeId": "luxon@1.28.0"
+          },
+          {
+            "nodeId": "moment@2.29.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "dateformat@3.0.3",
+        "pkgId": "dateformat@3.0.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "luxon@1.28.0",
+        "pkgId": "luxon@1.28.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "moment@2.29.4",
+        "pkgId": "moment@2.29.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "yargs@13.3.2",
+        "pkgId": "yargs@13.3.2",
+        "deps": [
+          {
+            "nodeId": "cliui@5.0.0"
+          },
+          {
+            "nodeId": "find-up@3.0.0"
+          },
+          {
+            "nodeId": "get-caller-file@2.0.5"
+          },
+          {
+            "nodeId": "require-directory@2.1.1"
+          },
+          {
+            "nodeId": "require-main-filename@2.0.0"
+          },
+          {
+            "nodeId": "set-blocking@2.0.0"
+          },
+          {
+            "nodeId": "string-width@3.1.0"
+          },
+          {
+            "nodeId": "which-module@2.0.0"
+          },
+          {
+            "nodeId": "y18n@4.0.3"
+          },
+          {
+            "nodeId": "yargs-parser@13.1.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "cliui@5.0.0",
+        "pkgId": "cliui@5.0.0",
+        "deps": [
+          {
+            "nodeId": "string-width@3.1.0"
+          },
+          {
+            "nodeId": "strip-ansi@5.2.0"
+          },
+          {
+            "nodeId": "wrap-ansi@5.1.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "wrap-ansi@5.1.0",
+        "pkgId": "wrap-ansi@5.1.0",
+        "deps": [
+          {
+            "nodeId": "ansi-styles@3.2.1"
+          },
+          {
+            "nodeId": "string-width@3.1.0"
+          },
+          {
+            "nodeId": "strip-ansi@5.2.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "get-caller-file@2.0.5",
+        "pkgId": "get-caller-file@2.0.5",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "require-directory@2.1.1",
+        "pkgId": "require-directory@2.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "require-main-filename@2.0.0",
+        "pkgId": "require-main-filename@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "set-blocking@2.0.0",
+        "pkgId": "set-blocking@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "which-module@2.0.0",
+        "pkgId": "which-module@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "y18n@4.0.3",
+        "pkgId": "y18n@4.0.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "yargs-parser@13.1.2",
+        "pkgId": "yargs-parser@13.1.2",
+        "deps": [
+          {
+            "nodeId": "camelcase@5.3.1"
+          },
+          {
+            "nodeId": "decamelize@1.2.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "decamelize@1.2.0",
+        "pkgId": "decamelize@1.2.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "deep-assign@2.0.0",
+        "pkgId": "deep-assign@2.0.0",
+        "deps": [
+          {
+            "nodeId": "is-obj@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "sgr-composer@0.5.3",
+        "pkgId": "sgr-composer@0.5.3",
+        "deps": [
+          {
+            "nodeId": "color-convert@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "term-ng@0.8.5",
+        "pkgId": "term-ng@0.8.5",
+        "deps": [
+          {
+            "nodeId": "@thebespokepixel/meta@0.2.5"
+          },
+          {
+            "nodeId": "read-pkg@4.0.1"
+          },
+          {
+            "nodeId": "trucolor@0.7.5"
+          },
+          {
+            "nodeId": "truwrap@0.8.4"
+          },
+          {
+            "nodeId": "update-notifier@2.5.0"
+          },
+          {
+            "nodeId": "yargs@13.3.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "read-pkg@4.0.1",
+        "pkgId": "read-pkg@4.0.1",
+        "deps": [
+          {
+            "nodeId": "normalize-package-data@2.5.0"
+          },
+          {
+            "nodeId": "parse-json@4.0.0"
+          },
+          {
+            "nodeId": "pify@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "trucolor@0.7.5",
+        "pkgId": "trucolor@0.7.5",
+        "deps": [
+          {
+            "nodeId": "@thebespokepixel/es-tinycolor@0.3.2"
+          },
+          {
+            "nodeId": "@thebespokepixel/meta@0.2.5"
+          },
+          {
+            "nodeId": "@thebespokepixel/string@0.5.10"
+          },
+          {
+            "nodeId": "color-convert@2.0.1"
+          },
+          {
+            "nodeId": "common-tags@1.8.2"
+          },
+          {
+            "nodeId": "escape-string-regexp@1.0.5"
+          },
+          {
+            "nodeId": "lodash@4.17.21"
+          },
+          {
+            "nodeId": "sgr-composer@0.5.3"
+          },
+          {
+            "nodeId": "term-ng@0.8.5"
+          },
+          {
+            "nodeId": "truwrap@0.8.4"
+          },
+          {
+            "nodeId": "update-notifier@2.5.0"
+          },
+          {
+            "nodeId": "verbosity@0.10.1"
+          },
+          {
+            "nodeId": "yargs@13.3.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "truwrap@0.8.4",
+        "pkgId": "truwrap@0.8.4",
+        "deps": [
+          {
+            "nodeId": "@thebespokepixel/meta@0.2.5"
+          },
+          {
+            "nodeId": "@thebespokepixel/n-selector@0.2.3"
+          },
+          {
+            "nodeId": "@thebespokepixel/string@0.5.10"
+          },
+          {
+            "nodeId": "ansi-regex@4.1.1"
+          },
+          {
+            "nodeId": "columnify@1.6.0"
+          },
+          {
+            "nodeId": "common-tags@1.8.2"
+          },
+          {
+            "nodeId": "deep-assign@3.0.0"
+          },
+          {
+            "nodeId": "es6-promisify@6.1.1"
+          },
+          {
+            "nodeId": "get-stdin@6.0.0"
+          },
+          {
+            "nodeId": "lodash@4.17.21"
+          },
+          {
+            "nodeId": "os-locale@3.1.0"
+          },
+          {
+            "nodeId": "read-pkg-up@4.0.0"
+          },
+          {
+            "nodeId": "semver@5.7.1"
+          },
+          {
+            "nodeId": "term-ng@0.8.5"
+          },
+          {
+            "nodeId": "trucolor@0.7.5"
+          },
+          {
+            "nodeId": "update-notifier@2.5.0"
+          },
+          {
+            "nodeId": "verbosity@0.10.1"
+          },
+          {
+            "nodeId": "yargs@13.3.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@thebespokepixel/n-selector@0.2.3",
+        "pkgId": "@thebespokepixel/n-selector@0.2.3",
+        "deps": [
+          {
+            "nodeId": "lodash@4.17.21"
+          },
+          {
+            "nodeId": "sparkles@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "get-stdin@6.0.0",
+        "pkgId": "get-stdin@6.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "os-locale@3.1.0",
+        "pkgId": "os-locale@3.1.0",
+        "deps": [
+          {
+            "nodeId": "execa@1.0.0"
+          },
+          {
+            "nodeId": "lcid@2.0.0"
+          },
+          {
+            "nodeId": "mem@4.3.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lcid@2.0.0",
+        "pkgId": "lcid@2.0.0",
+        "deps": [
+          {
+            "nodeId": "invert-kv@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "invert-kv@2.0.0",
+        "pkgId": "invert-kv@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mem@4.3.0",
+        "pkgId": "mem@4.3.0",
+        "deps": [
+          {
+            "nodeId": "map-age-cleaner@0.1.3"
+          },
+          {
+            "nodeId": "mimic-fn@2.1.0"
+          },
+          {
+            "nodeId": "p-is-promise@2.1.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "update-notifier@2.5.0",
+        "pkgId": "update-notifier@2.5.0",
+        "deps": [
+          {
+            "nodeId": "boxen@1.3.0"
+          },
+          {
+            "nodeId": "chalk@2.4.2"
+          },
+          {
+            "nodeId": "configstore@3.1.5"
+          },
+          {
+            "nodeId": "import-lazy@2.1.0"
+          },
+          {
+            "nodeId": "is-ci@1.2.1"
+          },
+          {
+            "nodeId": "is-installed-globally@0.1.0"
+          },
+          {
+            "nodeId": "is-npm@1.0.0"
+          },
+          {
+            "nodeId": "latest-version@3.1.0"
+          },
+          {
+            "nodeId": "semver-diff@2.1.0"
+          },
+          {
+            "nodeId": "xdg-basedir@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "boxen@1.3.0",
+        "pkgId": "boxen@1.3.0",
+        "deps": [
+          {
+            "nodeId": "ansi-align@2.0.0"
+          },
+          {
+            "nodeId": "camelcase@4.1.0"
+          },
+          {
+            "nodeId": "chalk@2.4.2"
+          },
+          {
+            "nodeId": "cli-boxes@1.0.0"
+          },
+          {
+            "nodeId": "string-width@2.1.1"
+          },
+          {
+            "nodeId": "term-size@1.2.0"
+          },
+          {
+            "nodeId": "widest-line@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ansi-align@2.0.0",
+        "pkgId": "ansi-align@2.0.0",
+        "deps": [
+          {
+            "nodeId": "string-width@2.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "camelcase@4.1.0",
+        "pkgId": "camelcase@4.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "cli-boxes@1.0.0",
+        "pkgId": "cli-boxes@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "configstore@3.1.5",
+        "pkgId": "configstore@3.1.5",
+        "deps": [
+          {
+            "nodeId": "dot-prop@4.2.1"
+          },
+          {
+            "nodeId": "graceful-fs@4.2.10"
+          },
+          {
+            "nodeId": "make-dir@1.3.0"
+          },
+          {
+            "nodeId": "unique-string@1.0.0"
+          },
+          {
+            "nodeId": "write-file-atomic@2.4.3"
+          },
+          {
+            "nodeId": "xdg-basedir@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-ci@1.2.1",
+        "pkgId": "is-ci@1.2.1",
+        "deps": [
+          {
+            "nodeId": "ci-info@1.6.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ci-info@1.6.0",
+        "pkgId": "ci-info@1.6.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-npm@1.0.0",
+        "pkgId": "is-npm@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "latest-version@3.1.0",
+        "pkgId": "latest-version@3.1.0",
+        "deps": [
+          {
+            "nodeId": "package-json@4.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "package-json@4.0.1",
+        "pkgId": "package-json@4.0.1",
+        "deps": [
+          {
+            "nodeId": "got@6.7.1"
+          },
+          {
+            "nodeId": "registry-auth-token@3.4.0"
+          },
+          {
+            "nodeId": "registry-url@3.1.0"
+          },
+          {
+            "nodeId": "semver@5.7.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "got@6.7.1",
+        "pkgId": "got@6.7.1",
+        "deps": [
+          {
+            "nodeId": "create-error-class@3.0.2"
+          },
+          {
+            "nodeId": "duplexer3@0.1.5"
+          },
+          {
+            "nodeId": "get-stream@3.0.0"
+          },
+          {
+            "nodeId": "is-redirect@1.0.0"
+          },
+          {
+            "nodeId": "is-retry-allowed@1.2.0"
+          },
+          {
+            "nodeId": "is-stream@1.1.0"
+          },
+          {
+            "nodeId": "lowercase-keys@1.0.1"
+          },
+          {
+            "nodeId": "safe-buffer@5.2.1"
+          },
+          {
+            "nodeId": "timed-out@4.0.1"
+          },
+          {
+            "nodeId": "unzip-response@2.0.1"
+          },
+          {
+            "nodeId": "url-parse-lax@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "create-error-class@3.0.2",
+        "pkgId": "create-error-class@3.0.2",
+        "deps": [
+          {
+            "nodeId": "capture-stack-trace@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "capture-stack-trace@1.0.1",
+        "pkgId": "capture-stack-trace@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-redirect@1.0.0",
+        "pkgId": "is-redirect@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-retry-allowed@1.2.0",
+        "pkgId": "is-retry-allowed@1.2.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "safe-buffer@5.2.1",
+        "pkgId": "safe-buffer@5.2.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "timed-out@4.0.1",
+        "pkgId": "timed-out@4.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "unzip-response@2.0.1",
+        "pkgId": "unzip-response@2.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "url-parse-lax@1.0.0",
+        "pkgId": "url-parse-lax@1.0.0",
+        "deps": [
+          {
+            "nodeId": "prepend-http@1.0.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "prepend-http@1.0.4",
+        "pkgId": "prepend-http@1.0.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "registry-auth-token@3.4.0",
+        "pkgId": "registry-auth-token@3.4.0",
+        "deps": [
+          {
+            "nodeId": "rc@1.2.8"
+          },
+          {
+            "nodeId": "safe-buffer@5.2.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "registry-url@3.1.0",
+        "pkgId": "registry-url@3.1.0",
+        "deps": [
+          {
+            "nodeId": "rc@1.2.8"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "verbosity@0.10.1",
+        "pkgId": "verbosity@0.10.1",
+        "deps": [
+          {
+            "nodeId": "@thebespokepixel/meta@0.2.5"
+          },
+          {
+            "nodeId": "@thebespokepixel/time@0.4.1"
+          },
+          {
+            "nodeId": "chalk@2.4.2"
+          },
+          {
+            "nodeId": "sparkles@1.0.1"
+          },
+          {
+            "nodeId": "term-ng@0.8.5"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@thebespokepixel/time@0.4.1",
+        "pkgId": "@thebespokepixel/time@0.4.1",
+        "deps": [
+          {
+            "nodeId": "dateformat@3.0.3"
+          },
+          {
+            "nodeId": "moment@2.29.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "verbosity@0.9.2",
+        "pkgId": "verbosity@0.9.2",
+        "deps": [
+          {
+            "nodeId": "@thebespokepixel/meta@0.2.5"
+          },
+          {
+            "nodeId": "@thebespokepixel/time@0.4.1"
+          },
+          {
+            "nodeId": "chalk@2.4.2"
+          },
+          {
+            "nodeId": "sparkles@1.0.1"
+          },
+          {
+            "nodeId": "term-ng@0.8.5"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "yargs@11.1.1",
+        "pkgId": "yargs@11.1.1",
+        "deps": [
+          {
+            "nodeId": "cliui@4.1.0"
+          },
+          {
+            "nodeId": "decamelize@1.2.0"
+          },
+          {
+            "nodeId": "find-up@2.1.0"
+          },
+          {
+            "nodeId": "get-caller-file@1.0.3"
+          },
+          {
+            "nodeId": "os-locale@3.1.0"
+          },
+          {
+            "nodeId": "require-directory@2.1.1"
+          },
+          {
+            "nodeId": "require-main-filename@1.0.1"
+          },
+          {
+            "nodeId": "set-blocking@2.0.0"
+          },
+          {
+            "nodeId": "string-width@2.1.1"
+          },
+          {
+            "nodeId": "which-module@2.0.0"
+          },
+          {
+            "nodeId": "y18n@3.2.2"
+          },
+          {
+            "nodeId": "yargs-parser@9.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "cliui@4.1.0",
+        "pkgId": "cliui@4.1.0",
+        "deps": [
+          {
+            "nodeId": "string-width@2.1.1"
+          },
+          {
+            "nodeId": "strip-ansi@4.0.0"
+          },
+          {
+            "nodeId": "wrap-ansi@2.1.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "wrap-ansi@2.1.0",
+        "pkgId": "wrap-ansi@2.1.0",
+        "deps": [
+          {
+            "nodeId": "string-width@1.0.2"
+          },
+          {
+            "nodeId": "strip-ansi@3.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "string-width@1.0.2",
+        "pkgId": "string-width@1.0.2",
+        "deps": [
+          {
+            "nodeId": "code-point-at@1.1.0"
+          },
+          {
+            "nodeId": "is-fullwidth-code-point@1.0.0"
+          },
+          {
+            "nodeId": "strip-ansi@3.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "code-point-at@1.1.0",
+        "pkgId": "code-point-at@1.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-fullwidth-code-point@1.0.0",
+        "pkgId": "is-fullwidth-code-point@1.0.0",
+        "deps": [
+          {
+            "nodeId": "number-is-nan@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "number-is-nan@1.0.1",
+        "pkgId": "number-is-nan@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "strip-ansi@3.0.1",
+        "pkgId": "strip-ansi@3.0.1",
+        "deps": [
+          {
+            "nodeId": "ansi-regex@2.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ansi-regex@2.1.1",
+        "pkgId": "ansi-regex@2.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "find-up@2.1.0",
+        "pkgId": "find-up@2.1.0",
+        "deps": [
+          {
+            "nodeId": "locate-path@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "locate-path@2.0.0",
+        "pkgId": "locate-path@2.0.0",
+        "deps": [
+          {
+            "nodeId": "p-locate@2.0.0"
+          },
+          {
+            "nodeId": "path-exists@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-locate@2.0.0",
+        "pkgId": "p-locate@2.0.0",
+        "deps": [
+          {
+            "nodeId": "p-limit@1.3.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-limit@1.3.0",
+        "pkgId": "p-limit@1.3.0",
+        "deps": [
+          {
+            "nodeId": "p-try@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-try@1.0.0",
+        "pkgId": "p-try@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "get-caller-file@1.0.3",
+        "pkgId": "get-caller-file@1.0.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "require-main-filename@1.0.1",
+        "pkgId": "require-main-filename@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "y18n@3.2.2",
+        "pkgId": "y18n@3.2.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "yargs-parser@9.0.2",
+        "pkgId": "yargs-parser@9.0.2",
+        "deps": [
+          {
+            "nodeId": "camelcase@4.1.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}

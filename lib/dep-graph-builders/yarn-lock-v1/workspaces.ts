@@ -3,6 +3,7 @@ import { PackageJsonBase } from '../types';
 import { buildDepGraphYarnLockV1WorkspaceCyclesPruned } from './build-depgraph-workspace-package-pruned';
 import { buildDepGraphYarnLockV1Workspace } from './build-depgraph-workspace-package';
 import { extractPkgsFromYarnLockV1 } from './extract-yarnlock-v1-pkgs';
+import { parsePkgJson } from '../util';
 
 export const parseYarnLockV1WorkspaceProject = async (
   yarnLockContent: string,
@@ -26,7 +27,7 @@ export const parseYarnLockV1WorkspaceProject = async (
   const workspacePkgNameToVersion = {};
   const parsedWorkspacePkgJsons = workspacePackagesPkgJsons.map(
     (wsPkgJsonContent) => {
-      const parsedPkgJson: PackageJsonBase = JSON.parse(wsPkgJsonContent);
+      const parsedPkgJson: PackageJsonBase = parsePkgJson(wsPkgJsonContent);
       workspacePkgNameToVersion[parsedPkgJson.name] = parsedPkgJson.version;
       return parsedPkgJson;
     },

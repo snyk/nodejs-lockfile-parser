@@ -1,5 +1,6 @@
 import { buildDepGraphYarnLockV1Simple } from '.';
 import { PackageJsonBase } from '../types';
+import { parsePkgJson } from '../util';
 import { buildDepGraphYarnLockV1SimpleCyclesPruned } from './build-depgraph-simple-pruned';
 import { extractPkgsFromYarnLockV1 } from './extract-yarnlock-v1-pkgs';
 
@@ -17,7 +18,9 @@ export const parseYarnLockV1Project = async (
   const pkgs = await extractPkgsFromYarnLockV1(yarnLockContent, {
     includeOptionalDeps,
   });
-  const pkgJson: PackageJsonBase = JSON.parse(pkgJsonContent);
+
+  const pkgJson: PackageJsonBase = parsePkgJson(pkgJsonContent);
+
   const depGraph = pruneCycles
     ? buildDepGraphYarnLockV1SimpleCyclesPruned(pkgs, pkgJson, {
         includeDevDeps,
