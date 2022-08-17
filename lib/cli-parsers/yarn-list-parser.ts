@@ -9,8 +9,8 @@ export const parseYarnListOutput = (
   rawYarnListOutput: string,
   manifestDependencies: Record<string, string>,
 ): FormattedCliOutput => {
-  const formattedYarnList: YarnListTree[] = JSON.parse(rawYarnListOutput).data
-    .trees;
+  const formattedYarnList: YarnListTree[] =
+    JSON.parse(rawYarnListOutput).data.trees;
 
   // Reference to all (resolved) dep names to help cleanup in next step
   const names = formattedYarnList.map((tree) => tree.name);
