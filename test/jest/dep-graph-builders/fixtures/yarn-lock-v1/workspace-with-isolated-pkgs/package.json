@@ -1,5 +1,5 @@
 {
-  "name": "yarn-1-workspace-with-cross-ref",
+  "name": "yarn-1-workspace-with-isolated-pkgs",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
