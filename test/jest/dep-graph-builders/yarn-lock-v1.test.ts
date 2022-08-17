@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import { createFromJSON } from '@snyk/dep-graph';
 
 import { parseYarnLockV1Project } from '../../../lib';

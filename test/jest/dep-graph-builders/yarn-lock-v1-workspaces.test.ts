@@ -71,15 +71,11 @@ describe('Dep Graph Builders -> Yarn Lock v1 Workspaces', () => {
     // Check if interdependencies handled well
     const pkgAGraphAsJson = depGraphsAsJson.find((graph) => {
       return graph.graph.nodes.find((node) => {
-        return node.nodeId === 'root-node' && node.pkgId === 'pkg-a@1.0.0'
-          ? true
-          : false;
+        return node.nodeId === 'root-node' && node.pkgId === 'pkg-a@1.0.0';
       });
     });
     const pkgBNode = pkgAGraphAsJson?.graph.nodes.find((node) => {
-      return node.nodeId === 'pkg-b@1.0.0' && node.pkgId === 'pkg-b@1.0.0'
-        ? true
-        : false;
+      return node.nodeId === 'pkg-b@1.0.0' && node.pkgId === 'pkg-b@1.0.0';
     });
     expect(pkgBNode?.deps.length).toBe(0);
     expect(pkgBNode?.info?.labels?.pruned).toBe('true');

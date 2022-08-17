@@ -59,16 +59,9 @@ export {
 
 // New Parser types *************
 // **********************************
-import type {
-  PackageJsonBase
-} from './dep-graph-builders/types';
-import type {
-  YarnLockPackages
-} from './dep-graph-builders/yarn-lock-v1/types';
-export {
-  PackageJsonBase,
-  YarnLockPackages
-};
+import type { PackageJsonBase } from './dep-graph-builders/types';
+import type { YarnLockPackages } from './dep-graph-builders/yarn-lock-v1/types';
+export { PackageJsonBase, YarnLockPackages };
 // **********************************
 
 async function buildDepTree(

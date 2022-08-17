@@ -106,13 +106,11 @@ function* pkgDependencyGenerator(
             matchesFrontWhitespace(lines[0], dependencyFrontWhitespaceCount)
           ) {
             const dependencyLine = lines.shift() as string;
-            const [
-              dependencyName,
-              dependencyVersionWithQualifiers,
-            ] = dependencyLine
-              .trimStart()
-              .replace(new RegExp('"', 'g'), '')
-              .split(/(?<=^\S+)\s/);
+            const [dependencyName, dependencyVersionWithQualifiers] =
+              dependencyLine
+                .trimStart()
+                .replace(new RegExp('"', 'g'), '')
+                .split(/(?<=^\S+)\s/);
             dependencies[dependencyName] = dependencyVersionWithQualifiers;
           }
         }
@@ -126,13 +124,11 @@ function* pkgDependencyGenerator(
             matchesFrontWhitespace(lines[0], dependencyFrontWhitespaceCount)
           ) {
             const dependencyLine = lines.shift() as string;
-            const [
-              dependencyName,
-              dependencyVersionWithQualifiers,
-            ] = dependencyLine
-              .trimStart()
-              .replace(new RegExp('"', 'g'), '')
-              .split(/(?<=^\S+)\s/);
+            const [dependencyName, dependencyVersionWithQualifiers] =
+              dependencyLine
+                .trimStart()
+                .replace(new RegExp('"', 'g'), '')
+                .split(/(?<=^\S+)\s/);
             dependencies[dependencyName] = dependencyVersionWithQualifiers;
           }
         }
