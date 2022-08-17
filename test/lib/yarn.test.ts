@@ -82,22 +82,19 @@ const SCENARIOS_WITH_FILES = [
     includeDev: false,
   },
   {
-    name:
-      'Parse yarn.lock with deeply out of sync app because of local workspaces (root)',
+    name: 'Parse yarn.lock with deeply out of sync app because of local workspaces (root)',
     workspace: 'out-of-sync-app',
     includeDev: false,
     strictOutOfSync: false,
   },
   {
-    name:
-      'Parse gracefully yarn.lock with local workspaces packages that are not referenced in lock file if scriptOutOfSync is set to false',
+    name: 'Parse gracefully yarn.lock with local workspaces packages that are not referenced in lock file if scriptOutOfSync is set to false',
     workspace: 'out-of-sync-app/packages/app',
     includeDev: false,
     strictOutOfSync: false,
   },
   {
-    name:
-      'Parse gracefully yarn.lock with local workspaces (core-app-api) packages that are not referenced in lock file if scriptOutOfSync is set to false',
+    name: 'Parse gracefully yarn.lock with local workspaces (core-app-api) packages that are not referenced in lock file if scriptOutOfSync is set to false',
     workspace: 'out-of-sync-app/plugins/core-app-api',
     includeDev: false,
     strictOutOfSync: false,
@@ -123,8 +120,7 @@ const SCENARIOS_REJECTED = [
     expectedError: new OutOfSyncError('lodash', LockfileType.yarn),
   },
   {
-    name:
-      'Out of sync in strict mode because of a transitive workspace package requirement (app)',
+    name: 'Out of sync in strict mode because of a transitive workspace package requirement (app)',
     workspace: 'out-of-sync-app/packages/app',
     expectedError: new OutOfSyncError(
       '@backstage/core-app-api@^0.1.6',

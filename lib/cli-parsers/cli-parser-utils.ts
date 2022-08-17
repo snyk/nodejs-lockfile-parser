@@ -25,10 +25,8 @@ export const extractCorrectIdentifierBySemver = (
   possibleMatches: string[],
   versionToMatch: string,
 ): string => {
-  const {
-    name: nameToMatch,
-    identifier: identifierToMatch,
-  } = extractNameAndIdentifier(versionToMatch);
+  const { name: nameToMatch, identifier: identifierToMatch } =
+    extractNameAndIdentifier(versionToMatch);
 
   const hasQualifiers = isNaN(parseInt(identifierToMatch[0]));
   if (!hasQualifiers) {
