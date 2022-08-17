@@ -227,9 +227,9 @@ export abstract class LockParserBase implements LockfileParser {
       nodeCopy,
     ) => {
       // 2. For every cyclic dependency of entry node...
-      const edgesToProcess = (depGraph.inEdges(
-        node,
-      ) as graphlib.Edge[]).filter((e) => currentCycle.includes(e.v));
+      const edgesToProcess = (depGraph.inEdges(node) as graphlib.Edge[]).filter(
+        (e) => currentCycle.includes(e.v),
+      );
       for (const edge of edgesToProcess) {
         // ... create a duplicate of the dependency...
         const child = edge.v;

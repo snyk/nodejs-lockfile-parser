@@ -16,9 +16,8 @@ export const buildDepGraphFromCliOutput = (
 
   const lockfileType = getYarnLockfileType(lockfileContent);
 
-  const { name: rootName, version: rootVersion } = JSON.parse(
-    manifestFileContent,
-  );
+  const { name: rootName, version: rootVersion } =
+    JSON.parse(manifestFileContent);
 
   const pkgManagerVersion: '1' | '2' =
     lockfileType === LockfileType.yarn ? '1' : '2';
@@ -44,9 +43,8 @@ export const buildDepGraphFromCliOutput = (
 
   // Add all nodes
   [...depMap.keys()].forEach((name) => {
-    const { name: pkgName, identifier: pkgVersion } = extractNameAndIdentifier(
-      name,
-    );
+    const { name: pkgName, identifier: pkgVersion } =
+      extractNameAndIdentifier(name);
     builder.addPkgNode(
       { name: pkgName, version: pkgVersion.split(':').pop() as string },
       name,

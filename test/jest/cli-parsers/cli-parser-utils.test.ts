@@ -11,16 +11,14 @@ describe('Cli Parser Utils', () => {
       expect(identifier).toBe('0.0.1');
     });
     it('should correctly return components of a scoped pkg string', () => {
-      const { name, identifier } = extractNameAndIdentifier(
-        '@scoped/pkg@0.0.1',
-      );
+      const { name, identifier } =
+        extractNameAndIdentifier('@scoped/pkg@0.0.1');
       expect(name).toBe('@scoped/pkg');
       expect(identifier).toBe('0.0.1');
     });
     it('should correctly return components of a pkg with a semver version', () => {
-      const { name, identifier } = extractNameAndIdentifier(
-        '@scoped/pkg@^0.0.1',
-      );
+      const { name, identifier } =
+        extractNameAndIdentifier('@scoped/pkg@^0.0.1');
       expect(name).toBe('@scoped/pkg');
       expect(identifier).toBe('^0.0.1');
     });
