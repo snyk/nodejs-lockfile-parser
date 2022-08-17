@@ -1,7 +1,6 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
 import { createFromJSON } from '@snyk/dep-graph';
-
 import { parseYarnLockV1Project } from '../../../lib';
 
 describe('dep-graph-builder yarn-lock-v1', () => {
@@ -12,8 +11,11 @@ describe('dep-graph-builder yarn-lock-v1', () => {
         'goof',
         'external-tarball',
         'file-as-version',
+        'file-as-version-no-lock-entry',
         'git-ssh-url-deps',
         'npm-protocol',
+        'simple-top-level-out-of-sync',
+        'lock-file-deps-out-of-sync',
       ])('[simple tests] project: %s ', (fixtureName) => {
         test('matches expected', async () => {
           const pkgJsonContent = readFileSync(
@@ -35,6 +37,7 @@ describe('dep-graph-builder yarn-lock-v1', () => {
               includeDevDeps: false,
               includeOptionalDeps: true,
               pruneCycles: true,
+              strictOutOfSync: false,
             },
           );
           const expectedDepGraphJson = JSON.parse(
@@ -47,7 +50,6 @@ describe('dep-graph-builder yarn-lock-v1', () => {
             ),
           );
           const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-
           expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
         });
       });
@@ -79,6 +81,7 @@ describe('dep-graph-builder yarn-lock-v1', () => {
                 includeDevDeps: true,
                 includeOptionalDeps: true,
                 pruneCycles: true,
+                strictOutOfSync: false,
               },
             );
 
@@ -89,6 +92,7 @@ describe('dep-graph-builder yarn-lock-v1', () => {
                 includeDevDeps: false,
                 includeOptionalDeps: true,
                 pruneCycles: true,
+                strictOutOfSync: false,
               },
             );
             const expectedDepGraphJsonDevIncluded = JSON.parse(
@@ -153,6 +157,7 @@ describe('dep-graph-builder yarn-lock-v1', () => {
                 includeDevDeps: false,
                 includeOptionalDeps: true,
                 pruneCycles: true,
+                strictOutOfSync: false,
               },
             );
 
@@ -163,6 +168,7 @@ describe('dep-graph-builder yarn-lock-v1', () => {
                 includeDevDeps: false,
                 includeOptionalDeps: true,
                 pruneCycles: false,
+                strictOutOfSync: false,
               },
             );
             const expectedDepGraphJsonPruned = JSON.parse(
@@ -223,6 +229,7 @@ describe('dep-graph-builder yarn-lock-v1', () => {
             includeDevDeps: false,
             includeOptionalDeps: true,
             pruneCycles: true,
+            strictOutOfSync: false,
           },
         );
         expect(newDepGraph.rootPkg.name).toBe('package.json');
@@ -230,7 +237,7 @@ describe('dep-graph-builder yarn-lock-v1', () => {
     });
   });
 
-  describe('Unhappy path', () => {
+  describe('Unhappy path tests', () => {
     it('project: invalid-pkg-json -> fails as expected', async () => {
       const fixtureName = 'invalid-pkg-json';
       const pkgJsonContent = readFileSync(
@@ -246,12 +253,63 @@ describe('dep-graph-builder yarn-lock-v1', () => {
           includeDevDeps: false,
           includeOptionalDeps: true,
           pruneCycles: true,
+          strictOutOfSync: false,
         });
       } catch (err) {
         expect(err.message).toBe(
           'package.json parsing failed with error Unexpected token } in JSON at position 100',
         );
         expect(err.name).toBe('InvalidUserInputError');
+      }
+    });
+
+    it('project: simple-top-level-out-of-sync -> throws OutOfSyncError', async () => {
+      const fixtureName = 'simple-top-level-out-of-sync';
+      const pkgJsonContent = readFileSync(
+        join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/package.json`),
+        'utf8',
+      );
+      const yarnLockContent = readFileSync(
+        join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/yarn.lock`),
+        'utf8',
+      );
+      try {
+        await parseYarnLockV1Project(pkgJsonContent, yarnLockContent, {
+          includeDevDeps: false,
+          includeOptionalDeps: true,
+          pruneCycles: true,
+          strictOutOfSync: true,
+        });
+      } catch (err) {
+        expect(err.message).toBe(
+          'Dependency lodash@4.17.11 was not found in yarn.lock. Your package.json and yarn.lock are probably out of sync. Please run "yarn install" and try again.',
+        );
+        expect(err.name).toBe('OutOfSyncError');
+      }
+    });
+
+    it('project: lock-file-deps-out-of-sync -> throws OutOfSyncError', async () => {
+      const fixtureName = 'lock-file-deps-out-of-sync';
+      const pkgJsonContent = readFileSync(
+        join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/package.json`),
+        'utf8',
+      );
+      const yarnLockContent = readFileSync(
+        join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/yarn.lock`),
+        'utf8',
+      );
+      try {
+        await parseYarnLockV1Project(pkgJsonContent, yarnLockContent, {
+          includeDevDeps: false,
+          includeOptionalDeps: true,
+          pruneCycles: true,
+          strictOutOfSync: true,
+        });
+      } catch (err) {
+        expect(err.message).toBe(
+          'Dependency ms@0.6.2 was not found in yarn.lock. Your package.json and yarn.lock are probably out of sync. Please run "yarn install" and try again.',
+        );
+        expect(err.name).toBe('OutOfSyncError');
       }
     });
   });

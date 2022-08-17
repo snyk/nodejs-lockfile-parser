@@ -1,23 +1,23 @@
 import { eventLoopSpinner } from 'event-loop-spinner';
-import type { YarnLockPackages } from './types';
+import type { LockFileParseOptions, YarnLockPackages } from './types';
 
 export const extractPkgsFromYarnLockV1 = async (
   yarnLockContent: string,
-  options: { includeOptionalDeps: boolean },
+  options: LockFileParseOptions,
 ): Promise<YarnLockPackages> => {
-  let allDeps: Record<
-    string,
-    {
-      version: string;
-      dependencies: Record<string, string>;
-    }
-  > = {};
-  for (const newDeps of pkgDependencyGenerator(yarnLockContent, options)) {
+  const { includeOptionalDeps } = options;
+
+  let allDeps: YarnLockPackages = {};
+
+  for (const newDeps of pkgDependencyGenerator(yarnLockContent, {
+    includeOptionalDeps,
+  })) {
     if (eventLoopSpinner.isStarving()) {
       await eventLoopSpinner.spin();
     }
     allDeps = { ...allDeps, ...newDeps };
   }
+
   return allDeps;
 };
 

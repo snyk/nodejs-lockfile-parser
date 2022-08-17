@@ -1,19 +1,20 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
 import {
   addPkgNodeToGraph,
-  getGraphDependencies,
+  getChildNode,
   getTopLevelDeps,
   PkgNode,
 } from '../util';
-
+import type { DepGraphBuildOptions, YarnLockPackages } from './types';
 import type { PackageJsonBase } from '../types';
-import type { YarnLockPackages } from './types';
 
 export const buildDepGraphYarnLockV1Simple = (
   extractedYarnLockV1Pkgs: YarnLockPackages,
   pkgJson: PackageJsonBase,
-  options: { includeDevDeps: boolean },
+  options: DepGraphBuildOptions,
 ) => {
+  const { includeDevDeps, strictOutOfSync } = options;
+
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
     { name: pkgJson.name, version: pkgJson.version },
@@ -21,9 +22,7 @@ export const buildDepGraphYarnLockV1Simple = (
 
   const visitedMap: Set<string> = new Set();
 
-  const topLevelDeps = getTopLevelDeps(pkgJson, {
-    includeDevDeps: options.includeDevDeps,
-  });
+  const topLevelDeps = getTopLevelDeps(pkgJson, { includeDevDeps });
 
   const rootNode: PkgNode = {
     id: 'root-node',
@@ -33,7 +32,13 @@ export const buildDepGraphYarnLockV1Simple = (
     isDev: false,
   };
 
-  dfsVisit(depGraphBuilder, rootNode, visitedMap, extractedYarnLockV1Pkgs);
+  dfsVisit(
+    depGraphBuilder,
+    rootNode,
+    visitedMap,
+    extractedYarnLockV1Pkgs,
+    strictOutOfSync,
+  );
 
   return depGraphBuilder.build();
 };
@@ -49,23 +54,27 @@ const dfsVisit = (
   node: PkgNode,
   visitedMap: Set<string>,
   extractedYarnLockV1Pkgs: YarnLockPackages,
+  strictOutOfSync: boolean,
 ): void => {
   visitedMap.add(node.id);
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
-    const depData = extractedYarnLockV1Pkgs[`${name}@${depInfo.version}`];
-
-    const childNode: PkgNode = {
-      id: `${name}@${depData.version}`,
-      name: name,
-      version: depData.version,
-      dependencies: getGraphDependencies(depData.dependencies, depInfo.isDev),
-      isDev: depInfo.isDev,
-    };
+    const childNode = getChildNode(
+      name,
+      depInfo,
+      extractedYarnLockV1Pkgs,
+      strictOutOfSync,
+    );
 
     if (!visitedMap.has(childNode.id)) {
-      addPkgNodeToGraph(depGraphBuilder, childNode, { isCyclic: false });
-      dfsVisit(depGraphBuilder, childNode, visitedMap, extractedYarnLockV1Pkgs);
+      addPkgNodeToGraph(depGraphBuilder, childNode, {});
+      dfsVisit(
+        depGraphBuilder,
+        childNode,
+        visitedMap,
+        extractedYarnLockV1Pkgs,
+        strictOutOfSync,
+      );
     }
 
     depGraphBuilder.connectDep(node.id, childNode.id);

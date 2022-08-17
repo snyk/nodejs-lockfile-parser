@@ -1,13 +1,12 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
 import {
   addPkgNodeToGraph,
-  getGraphDependencies,
+  getChildNode,
   getTopLevelDeps,
   PkgNode,
 } from '../util';
-
 import type { PackageJsonBase } from '../types';
-import type { YarnLockPackages } from './types';
+import type { DepGraphBuildOptions, YarnLockPackages } from './types';
 
 enum Color {
   GRAY,
@@ -17,8 +16,10 @@ enum Color {
 export const buildDepGraphYarnLockV1SimpleCyclesPruned = (
   extractedYarnLockV1Pkgs: YarnLockPackages,
   pkgJson: PackageJsonBase,
-  options: { includeDevDeps: boolean },
+  options: DepGraphBuildOptions,
 ) => {
+  const { includeDevDeps, strictOutOfSync } = options;
+
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
     { name: pkgJson.name, version: pkgJson.version },
@@ -26,9 +27,7 @@ export const buildDepGraphYarnLockV1SimpleCyclesPruned = (
 
   const colorMap: Record<string, Color> = {};
 
-  const topLevelDeps = getTopLevelDeps(pkgJson, {
-    includeDevDeps: options.includeDevDeps,
-  });
+  const topLevelDeps = getTopLevelDeps(pkgJson, { includeDevDeps });
 
   const rootNode: PkgNode = {
     id: 'root-node',
@@ -38,7 +37,13 @@ export const buildDepGraphYarnLockV1SimpleCyclesPruned = (
     isDev: false,
   };
 
-  dfsVisit(depGraphBuilder, rootNode, colorMap, extractedYarnLockV1Pkgs);
+  dfsVisit(
+    depGraphBuilder,
+    rootNode,
+    colorMap,
+    extractedYarnLockV1Pkgs,
+    strictOutOfSync,
+  );
 
   return depGraphBuilder.build();
 };
@@ -57,23 +62,27 @@ const dfsVisit = (
   node: PkgNode,
   colorMap: Record<string, Color>,
   extractedYarnLockV1Pkgs: YarnLockPackages,
+  strictOutOfSync: boolean,
 ): void => {
   colorMap[node.id] = Color.GRAY;
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
-    const depData = extractedYarnLockV1Pkgs[`${name}@${depInfo.version}`];
-
-    const childNode: PkgNode = {
-      id: `${name}@${depData.version}`,
-      name: name,
-      version: depData.version,
-      dependencies: getGraphDependencies(depData.dependencies, depInfo.isDev),
-      isDev: depInfo.isDev,
-    };
+    const childNode = getChildNode(
+      name,
+      depInfo,
+      extractedYarnLockV1Pkgs,
+      strictOutOfSync,
+    );
 
     if (!colorMap.hasOwnProperty(childNode.id)) {
-      addPkgNodeToGraph(depGraphBuilder, childNode, { isCyclic: false });
-      dfsVisit(depGraphBuilder, childNode, colorMap, extractedYarnLockV1Pkgs);
+      addPkgNodeToGraph(depGraphBuilder, childNode, {});
+      dfsVisit(
+        depGraphBuilder,
+        childNode,
+        colorMap,
+        extractedYarnLockV1Pkgs,
+        strictOutOfSync,
+      );
     } else if (colorMap[childNode.id] === Color.GRAY) {
       // cycle detected
       childNode.id = `${childNode.id}|1`;
