@@ -1,0 +1,7 @@
+{
+  "name": "external-tarball",
+  "description": "external-tarball dep fixtures",
+  "dependencies": {
+    "body-parser": "https://github.com/expressjs/body-parser/archive/1.9.0.tar.gz"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "trucolor@0.7.1",
+      "info": {
+        "name": "trucolor",
+        "version": "0.7.1"
+      }
+    },
+    {
+      "id": "debug@2.0.0",
+      "info": {
+        "name": "debug",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "ms@0.6.2",
+      "info": {
+        "name": "ms",
+        "version": "0.6.2"
+      }
+    },
+    {
+      "id": "lodash@4.17.11",
+      "info": {
+        "name": "lodash",
+        "version": "4.17.11"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "trucolor@0.7.1",
+        "deps": [
+          {
+            "nodeId": "debug@2.0.0"
+          },
+          {
+            "nodeId": "lodash@4.17.11"
+          }
+        ]
+      },
+      {
+        "nodeId": "debug@2.0.0",
+        "pkgId": "debug@2.0.0",
+        "deps": [
+          {
+            "nodeId": "ms@0.6.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ms@0.6.2",
+        "pkgId": "ms@0.6.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "missingLockFileEntry": "true"
+          }
+        }
+      },
+      {
+        "nodeId": "lodash@4.17.11",
+        "pkgId": "lodash@4.17.11",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}

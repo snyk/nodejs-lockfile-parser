@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "pkg-a@1.0.0",
+      "info": {
+        "name": "pkg-a",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "@roadiehq/backstage-plugin-travis-ci@1.0.11",
+      "info": {
+        "name": "@roadiehq/backstage-plugin-travis-ci",
+        "version": "1.0.11"
+      }
+    },
+    {
+      "id": "@backstage/core-app-api@^0.1.6",
+      "info": {
+        "name": "@backstage/core-app-api",
+        "version": "^0.1.6"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "pkg-a@1.0.0",
+        "deps": [
+          {
+            "nodeId": "@roadiehq/backstage-plugin-travis-ci@1.0.11"
+          }
+        ]
+      },
+      {
+        "nodeId": "@roadiehq/backstage-plugin-travis-ci@1.0.11",
+        "pkgId": "@roadiehq/backstage-plugin-travis-ci@1.0.11",
+        "deps": [
+          {
+            "nodeId": "@backstage/core-app-api@^0.1.6"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@backstage/core-app-api@^0.1.6",
+        "pkgId": "@backstage/core-app-api@^0.1.6",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "missingLockFileEntry": "true"
+          }
+        }
+      }
+    ]
+  }
+}

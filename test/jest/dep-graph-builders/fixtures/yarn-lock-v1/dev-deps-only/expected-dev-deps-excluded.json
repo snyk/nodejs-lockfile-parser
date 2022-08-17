@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "pkg-dev-deps-only@0.0.1",
+      "info": {
+        "name": "pkg-dev-deps-only",
+        "version": "0.0.1"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "pkg-dev-deps-only@0.0.1",
+        "deps": []
+      }
+    ]
+  }
+}
