@@ -10,7 +10,7 @@ export const parseYarnLockV1WorkspaceProject = async (
   yarnLockContent: string,
   workspacePackagesPkgJsons: string[],
   options: ProjectParseOptions,
-): Promise<DepGraph[]> => {
+): Promise<{ packageJsonName: string; depGraph: DepGraph }[]> => {
   const { includeDevDeps, includeOptionalDeps, pruneCycles, strictOutOfSync } =
     options;
 
@@ -31,8 +31,8 @@ export const parseYarnLockV1WorkspaceProject = async (
     },
   );
 
-  const depGraphs = parsedWorkspacePkgJsons.map((parsedPkgJson) => {
-    return pruneCycles
+  const parsedResults = parsedWorkspacePkgJsons.map((parsedPkgJson) => {
+    const depGraph = pruneCycles
       ? buildDepGraphYarnLockV1WorkspaceCyclesPruned(
           extractedYarnLockV1Pkgs,
           parsedPkgJson,
@@ -51,7 +51,8 @@ export const parseYarnLockV1WorkspaceProject = async (
             strictOutOfSync,
           },
         );
+    return { packageJsonName: parsedPkgJson.name, depGraph: depGraph };
   });
 
-  return depGraphs;
+  return parsedResults;
 };

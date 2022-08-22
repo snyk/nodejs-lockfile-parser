@@ -39,7 +39,7 @@ describe('Dep Graph Builders -> Yarn Lock v1 Workspaces', () => {
 
     const pkgJsons = readWorkspacePkgJsons(fixtureName);
 
-    const newDepGraphs = await parseYarnLockV1WorkspaceProject(
+    const newParsedResults = await parseYarnLockV1WorkspaceProject(
       yarnLockContent,
       pkgJsons,
       {
@@ -51,8 +51,8 @@ describe('Dep Graph Builders -> Yarn Lock v1 Workspaces', () => {
     );
 
     // Standard Checks
-    expect(newDepGraphs).toBeTruthy();
-    expect(newDepGraphs.length).toBe(3);
+    expect(newParsedResults).toBeTruthy();
+    expect(newParsedResults.length).toBe(3);
   });
 
   test('project: workspace-with-cross-ref', async () => {
@@ -64,7 +64,7 @@ describe('Dep Graph Builders -> Yarn Lock v1 Workspaces', () => {
 
     const pkgJsons = readWorkspacePkgJsons(fixtureName);
 
-    const newDepGraphs = await parseYarnLockV1WorkspaceProject(
+    const newParsedResults = await parseYarnLockV1WorkspaceProject(
       yarnLockContent,
       pkgJsons,
       {
@@ -76,10 +76,12 @@ describe('Dep Graph Builders -> Yarn Lock v1 Workspaces', () => {
     );
 
     // Standard Checks
-    expect(newDepGraphs).toBeTruthy();
-    expect(newDepGraphs.length).toBe(3);
+    expect(newParsedResults).toBeTruthy();
+    expect(newParsedResults.length).toBe(3);
 
-    const depGraphsAsJson = newDepGraphs.map((graph) => graph.toJSON());
+    const depGraphsAsJson = newParsedResults.map((result) =>
+      result.depGraph.toJSON(),
+    );
 
     // Check if interdependencies handled well
     const pkgAGraphAsJson = depGraphsAsJson.find((graph) => {
@@ -280,7 +282,7 @@ describe('Workspace out of sync tests', () => {
             'utf8',
           );
 
-          const depGraphs = await parseYarnLockV1WorkspaceProject(
+          const parsedResults = await parseYarnLockV1WorkspaceProject(
             yarnLockContent,
             [rootPkgJsonContent, pkgJsonContent],
             {
@@ -300,14 +302,17 @@ describe('Workspace out of sync tests', () => {
             ),
           );
 
-          const depGraph = depGraphs.filter(
-            (g) =>
-              !(g.getPkgs().length === 1 && g.getPkgs()[0].name === 'root'),
+          const depGraph = parsedResults.filter(
+            (r) =>
+              !(
+                r.depGraph.getPkgs().length === 1 &&
+                r.depGraph.getPkgs()[0].name === 'root'
+              ),
           )[0];
 
           const expectedDepGraph = createFromJSON(expectedDepGraphJson);
 
-          expect(depGraph.equals(expectedDepGraph)).toBeTruthy();
+          expect(depGraph.depGraph.equals(expectedDepGraph)).toBeTruthy();
         });
       },
     );
@@ -371,19 +376,29 @@ describe('Workspace out of sync tests', () => {
             ),
           );
 
-          const depGraphAllowOutOfSync = depGraphsAllowOutOfSync.filter(
-            (g) =>
-              !(g.getPkgs().length === 1 && g.getPkgs()[0].name === 'root'),
+          const parsedResultAllowOutOfSync = depGraphsAllowOutOfSync.filter(
+            (r) =>
+              !(
+                r.depGraph.getPkgs().length === 1 &&
+                r.depGraph.getPkgs()[0].name === 'root'
+              ),
           )[0];
-          const depGraphStrictOutOfSync = depGraphsStrictOutOfSync.filter(
-            (g) =>
-              !(g.getPkgs().length === 1 && g.getPkgs()[0].name === 'root'),
+          const parsedResultStrictOutOfSync = depGraphsStrictOutOfSync.filter(
+            (r) =>
+              !(
+                r.depGraph.getPkgs().length === 1 &&
+                r.depGraph.getPkgs()[0].name === 'root'
+              ),
           )[0];
 
           const expectedDepGraph = createFromJSON(expectedDepGraphJson);
 
-          expect(depGraphAllowOutOfSync.equals(expectedDepGraph)).toBeTruthy();
-          expect(depGraphStrictOutOfSync.equals(expectedDepGraph)).toBeTruthy();
+          expect(
+            parsedResultAllowOutOfSync.depGraph.equals(expectedDepGraph),
+          ).toBeTruthy();
+          expect(
+            parsedResultStrictOutOfSync.depGraph.equals(expectedDepGraph),
+          ).toBeTruthy();
         });
       },
     );
