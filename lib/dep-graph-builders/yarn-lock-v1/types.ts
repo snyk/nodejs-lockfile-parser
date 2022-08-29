@@ -3,11 +3,13 @@ export type YarnLockPackages = Record<
   {
     version: string;
     dependencies: Record<string, string>;
+    optionalDependencies: Record<string, string>;
   }
 >;
 
 export type DepGraphBuildOptions = {
   includeDevDeps: boolean;
+  includeOptionalDeps: boolean;
   strictOutOfSync: boolean;
 };
 

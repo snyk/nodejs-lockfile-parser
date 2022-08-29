@@ -13,9 +13,7 @@ export const parseYarnLockV1Project = async (
   const { includeDevDeps, includeOptionalDeps, pruneCycles, strictOutOfSync } =
     options;
 
-  const pkgs = await extractPkgsFromYarnLockV1(yarnLockContent, {
-    includeOptionalDeps,
-  });
+  const pkgs = extractPkgsFromYarnLockV1(yarnLockContent);
 
   const pkgJson: PackageJsonBase = parsePkgJson(pkgJsonContent);
 
@@ -23,10 +21,12 @@ export const parseYarnLockV1Project = async (
     ? buildDepGraphYarnLockV1SimpleCyclesPruned(pkgs, pkgJson, {
         includeDevDeps,
         strictOutOfSync,
+        includeOptionalDeps,
       })
     : buildDepGraphYarnLockV1Simple(pkgs, pkgJson, {
         includeDevDeps,
         strictOutOfSync,
+        includeOptionalDeps,
       });
 
   return depGraph;

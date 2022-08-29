@@ -18,7 +18,7 @@ export const buildDepGraphYarnLockV1SimpleCyclesPruned = (
   pkgJson: PackageJsonBase,
   options: DepGraphBuildOptions,
 ) => {
-  const { includeDevDeps, strictOutOfSync } = options;
+  const { includeDevDeps, strictOutOfSync, includeOptionalDeps } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
@@ -43,6 +43,7 @@ export const buildDepGraphYarnLockV1SimpleCyclesPruned = (
     colorMap,
     extractedYarnLockV1Pkgs,
     strictOutOfSync,
+    includeOptionalDeps,
   );
 
   return depGraphBuilder.build();
@@ -63,6 +64,7 @@ const dfsVisit = (
   colorMap: Record<string, Color>,
   extractedYarnLockV1Pkgs: YarnLockPackages,
   strictOutOfSync: boolean,
+  includeOptionalDeps: boolean,
 ): void => {
   colorMap[node.id] = Color.GRAY;
 
@@ -72,6 +74,8 @@ const dfsVisit = (
       depInfo,
       extractedYarnLockV1Pkgs,
       strictOutOfSync,
+
+      includeOptionalDeps,
     );
 
     if (!colorMap.hasOwnProperty(childNode.id)) {
@@ -82,6 +86,7 @@ const dfsVisit = (
         colorMap,
         extractedYarnLockV1Pkgs,
         strictOutOfSync,
+        includeOptionalDeps,
       );
     } else if (colorMap[childNode.id] === Color.GRAY) {
       // cycle detected
