@@ -91,11 +91,12 @@ export const getChildNode = (
   depInfo: { version: string; isDev: boolean },
   pkgs: YarnLockPackages,
   strictOutOfSync: boolean,
+  includeOptionalDeps: boolean,
 ) => {
   const childNodeKey = `${name}@${depInfo.version}`;
   let childNode: PkgNode;
 
-  if (!pkgs.hasOwnProperty(childNodeKey)) {
+  if (!pkgs[childNodeKey]) {
     if (strictOutOfSync && !/^file:/.test(depInfo.version)) {
       throw new OutOfSyncError(childNodeKey, LockfileType.yarn);
     } else {
@@ -110,14 +111,18 @@ export const getChildNode = (
     }
   } else {
     const depData = pkgs[childNodeKey];
+    const dependencies = getGraphDependencies(
+      depData.dependencies || {},
+      depInfo.isDev,
+    );
+    const optionalDependencies = includeOptionalDeps
+      ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
+      : {};
     childNode = {
       id: `${name}@${depData.version}`,
       name: name,
       version: depData.version,
-      dependencies: getGraphDependencies(
-        depData.dependencies || {},
-        depInfo.isDev,
-      ),
+      dependencies: { ...dependencies, ...optionalDependencies },
       isDev: depInfo.isDev,
     };
   }
@@ -131,6 +136,7 @@ export const getChildNodeWorkspace = (
   workspacePkgNameToVersion: Record<string, string>,
   pkgs: YarnLockPackages,
   strictOutOfSync: boolean,
+  includeOptionalDeps: boolean,
 ) => {
   let childNode: PkgNode;
 
@@ -151,7 +157,13 @@ export const getChildNodeWorkspace = (
       isDev: depInfo.isDev,
     };
   } else {
-    childNode = getChildNode(name, depInfo, pkgs, strictOutOfSync);
+    childNode = getChildNode(
+      name,
+      depInfo,
+      pkgs,
+      strictOutOfSync,
+      includeOptionalDeps,
+    );
   }
 
   return childNode;

@@ -14,12 +14,7 @@ export const parseYarnLockV1WorkspaceProject = async (
   const { includeDevDeps, includeOptionalDeps, pruneCycles, strictOutOfSync } =
     options;
 
-  const extractedYarnLockV1Pkgs = await extractPkgsFromYarnLockV1(
-    yarnLockContent,
-    {
-      includeOptionalDeps,
-    },
-  );
+  const extractedYarnLockV1Pkgs = extractPkgsFromYarnLockV1(yarnLockContent);
 
   // Parse all package.json files and also extract names cross referencing later
   const workspacePkgNameToVersion = {};
@@ -40,6 +35,7 @@ export const parseYarnLockV1WorkspaceProject = async (
           {
             includeDevDeps,
             strictOutOfSync,
+            includeOptionalDeps,
           },
         )
       : buildDepGraphYarnLockV1Workspace(
@@ -49,6 +45,7 @@ export const parseYarnLockV1WorkspaceProject = async (
           {
             includeDevDeps,
             strictOutOfSync,
+            includeOptionalDeps,
           },
         );
   });

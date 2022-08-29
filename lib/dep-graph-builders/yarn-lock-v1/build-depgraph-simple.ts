@@ -13,7 +13,7 @@ export const buildDepGraphYarnLockV1Simple = (
   pkgJson: PackageJsonBase,
   options: DepGraphBuildOptions,
 ) => {
-  const { includeDevDeps, strictOutOfSync } = options;
+  const { includeDevDeps, strictOutOfSync, includeOptionalDeps } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
@@ -38,6 +38,7 @@ export const buildDepGraphYarnLockV1Simple = (
     visitedMap,
     extractedYarnLockV1Pkgs,
     strictOutOfSync,
+    includeOptionalDeps,
   );
 
   return depGraphBuilder.build();
@@ -55,6 +56,7 @@ const dfsVisit = (
   visitedMap: Set<string>,
   extractedYarnLockV1Pkgs: YarnLockPackages,
   strictOutOfSync: boolean,
+  includeOptionalDeps: boolean,
 ): void => {
   visitedMap.add(node.id);
 
@@ -64,6 +66,7 @@ const dfsVisit = (
       depInfo,
       extractedYarnLockV1Pkgs,
       strictOutOfSync,
+      includeOptionalDeps,
     );
 
     if (!visitedMap.has(childNode.id)) {
@@ -74,6 +77,7 @@ const dfsVisit = (
         visitedMap,
         extractedYarnLockV1Pkgs,
         strictOutOfSync,
+        includeOptionalDeps,
       );
     }
 
