@@ -175,11 +175,15 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
   try {
     const packageJson: ManifestFile = parseManifestFile(targetFile);
     if (!!packageJson.workspaces && !!packageJson.private) {
-      const workspacesPackages = packageJson.workspaces as string[];
-      const workspacesAlternateConfigPackages = (
-        packageJson.workspaces as WorkspacesAlternateConfig
-      ).packages;
-      return [...(workspacesAlternateConfigPackages || workspacesPackages)];
+      if (Array.isArray(packageJson.workspaces)) {
+        return packageJson.workspaces;
+      }
+      if (
+        'packages' in packageJson.workspaces &&
+        Array.isArray(packageJson.workspaces.packages)
+      ) {
+        return packageJson.workspaces.packages;
+      }
     }
     return false;
   } catch (e) {

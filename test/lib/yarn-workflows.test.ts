@@ -4,7 +4,7 @@
 import { test } from 'tap';
 import { getYarnWorkspacesFromFiles } from '../../lib';
 
-test('Identify package.json as a yarn workspace', async (t) => {
+test('identify package.json as a yarn workspace', async (t) => {
   const workspaces = getYarnWorkspacesFromFiles(
     `${__dirname}/../fixtures/yarn-workspace/`,
     'package.json',
@@ -16,7 +16,7 @@ test('Identify package.json as a yarn workspace', async (t) => {
   );
 });
 
-test('Identify package.json as a yarn workspace when using alternate configuration format', async (t) => {
+test('identify package.json as a yarn workspace when using alternate configuration format', async (t) => {
   const workspaces = getYarnWorkspacesFromFiles(
     `${__dirname}/../fixtures/yarn-workspace-alternate-config/`,
     'package.json',
@@ -27,6 +27,14 @@ test('Identify package.json as a yarn workspace when using alternate configurati
 test('identify package.json as Not a workspace project', async (t) => {
   const workspaces = getYarnWorkspacesFromFiles(
     `${__dirname}/../fixtures/external-tarball/`,
+    'package.json',
+  );
+  t.is(workspaces, false, 'Not a yarn workspace');
+});
+
+test('identify package.json as non workspace project when workspaces config does not have managed packages', async (t) => {
+  const workspaces = getYarnWorkspacesFromFiles(
+    `${__dirname}/../fixtures/yarn-workspace-missing-packages-config/`,
     'package.json',
   );
   t.is(workspaces, false, 'Not a yarn workspace');
