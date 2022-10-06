@@ -8,8 +8,8 @@ import {
 import type { DepGraphBuildOptions } from '../types';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
 
-export const buildDepGraphYarnLockV1Simple = (
-  extractedYarnLockV1Pkgs: NormalisedPkgs,
+export const buildDepGraphYarnLockV2Simple = (
+  extractedYarnLockV2Pkgs: NormalisedPkgs,
   pkgJson: PackageJsonBase,
   options: DepGraphBuildOptions,
 ) => {
@@ -36,7 +36,7 @@ export const buildDepGraphYarnLockV1Simple = (
     depGraphBuilder,
     rootNode,
     visitedMap,
-    extractedYarnLockV1Pkgs,
+    extractedYarnLockV2Pkgs,
     strictOutOfSync,
     includeOptionalDeps,
   );
@@ -54,7 +54,7 @@ const dfsVisit = (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
   visitedMap: Set<string>,
-  extractedYarnLockV1Pkgs: NormalisedPkgs,
+  extractedYarnLockV2Pkgs: NormalisedPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
 ): void => {
@@ -64,7 +64,7 @@ const dfsVisit = (
     const childNode = getChildNode(
       name,
       depInfo,
-      extractedYarnLockV1Pkgs,
+      extractedYarnLockV2Pkgs,
       strictOutOfSync,
       includeOptionalDeps,
     );
@@ -75,7 +75,7 @@ const dfsVisit = (
         depGraphBuilder,
         childNode,
         visitedMap,
-        extractedYarnLockV1Pkgs,
+        extractedYarnLockV2Pkgs,
         strictOutOfSync,
         includeOptionalDeps,
       );

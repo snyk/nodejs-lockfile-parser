@@ -1,8 +1,8 @@
 import * as yarnLockfileParser from '@yarnpkg/lockfile';
-import type { YarnLockPackages } from './types';
+import { NormalisedPkgs } from '../types';
 
 export const extractPkgsFromYarnLockV1 = (
   yarnLockContent: string,
-): YarnLockPackages => {
+): NormalisedPkgs => {
   return yarnLockfileParser.parse(yarnLockContent).object;
 };

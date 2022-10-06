@@ -3,7 +3,7 @@ import { PackageJsonBase } from '../types';
 import { parsePkgJson } from '../util';
 import { buildDepGraphYarnLockV1SimpleCyclesPruned } from './build-depgraph-simple-pruned';
 import { extractPkgsFromYarnLockV1 } from './extract-yarnlock-v1-pkgs';
-import { ProjectParseOptions } from './types';
+import { ProjectParseOptions } from '../types';
 
 export const parseYarnLockV1Project = async (
   pkgJsonContent: string,

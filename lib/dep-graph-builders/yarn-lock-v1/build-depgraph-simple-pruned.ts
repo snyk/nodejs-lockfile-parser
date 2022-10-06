@@ -5,8 +5,8 @@ import {
   getTopLevelDeps,
   PkgNode,
 } from '../util';
-import type { PackageJsonBase } from '../types';
-import type { DepGraphBuildOptions, YarnLockPackages } from './types';
+import type { NormalisedPkgs, PackageJsonBase } from '../types';
+import type { DepGraphBuildOptions } from '../types';
 
 enum Color {
   GRAY,
@@ -14,7 +14,7 @@ enum Color {
 }
 
 export const buildDepGraphYarnLockV1SimpleCyclesPruned = (
-  extractedYarnLockV1Pkgs: YarnLockPackages,
+  extractedYarnLockV1Pkgs: NormalisedPkgs,
   pkgJson: PackageJsonBase,
   options: DepGraphBuildOptions,
 ) => {
@@ -62,7 +62,7 @@ const dfsVisit = (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
   colorMap: Record<string, Color>,
-  extractedYarnLockV1Pkgs: YarnLockPackages,
+  extractedYarnLockV1Pkgs: NormalisedPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
 ): void => {
