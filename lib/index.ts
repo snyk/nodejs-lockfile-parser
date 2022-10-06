@@ -67,7 +67,19 @@ export {
 // **********************************
 import type { PackageJsonBase } from './dep-graph-builders/types';
 import type { NormalisedPkgs } from './dep-graph-builders/types';
+import {
+  getLockfileVersionFromFile,
+  getNpmLockfileVersion,
+  getYarnLockfileVersion,
+  NodeLockfileVersion,
+} from './utils';
 export { PackageJsonBase, NormalisedPkgs, NormalisedPkgs as YarnLockPackages };
+export {
+  getLockfileVersionFromFile,
+  getNpmLockfileVersion,
+  getYarnLockfileVersion,
+  NodeLockfileVersion,
+};
 // **********************************
 
 async function buildDepTree(

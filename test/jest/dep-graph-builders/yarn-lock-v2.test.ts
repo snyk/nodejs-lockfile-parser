@@ -1,6 +1,5 @@
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import { join } from 'path';
-import { parseYarnLockV1Project } from '../../../lib';
 import { parseYarnLockV2Project } from '../../../lib/dep-graph-builders/yarn-lock-v2/simple';
 
 describe('dep-graph-builder yarn-lock-v1', () => {
