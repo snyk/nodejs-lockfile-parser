@@ -100,12 +100,31 @@ test('Parse npm package-lock.json with empty dependencies and includeDev = false
   t.deepEqual(depTree, expectedDepTree, 'Tree is created with empty deps');
 });
 
-test('Parse npm package-lock.json with missing required dependencies', async (t) => {
+test('Parse npm package-lock.json with missing top level dependencies', async (t) => {
   const expectedDepTree = load(
-    'missing-required-deps-in-lock/expected-tree.json',
+    'missing-deps-in-lock/npm/missing-top-level-deps-in-lock/expected-tree.json',
   );
   const depTree = await buildDepTreeFromFiles(
-    `${__dirname}/../fixtures/missing-required-deps-in-lock/`,
+    `${__dirname}/../fixtures/missing-deps-in-lock/npm/missing-top-level-deps-in-lock/`,
+    'package.json',
+    'package-lock.json',
+    false,
+    false,
+  );
+
+  t.deepEqual(
+    depTree,
+    expectedDepTree,
+    'Tree is created with missing required deps',
+  );
+});
+
+test('Parse npm package-lock.json with missing required dependencies', async (t) => {
+  const expectedDepTree = load(
+    'missing-deps-in-lock/npm/missing-required-deps-in-lock/expected-tree.json',
+  );
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/../fixtures/missing-deps-in-lock/npm/missing-required-deps-in-lock/`,
     'package.json',
     'package-lock.json',
     false,
@@ -115,6 +134,43 @@ test('Parse npm package-lock.json with missing required dependencies', async (t)
     depTree,
     expectedDepTree,
     'Tree is created with missing required deps',
+  );
+});
+
+test('Parse npm package-lock.json with missing required dependencies for dev deps', async (t) => {
+  const expectedDepTree = load(
+    'missing-deps-in-lock/npm/missing-required-dev-deps-in-lock/expected-tree.json',
+  );
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/../fixtures/missing-deps-in-lock/npm/missing-required-dev-deps-in-lock/`,
+    'package.json',
+    'package-lock.json',
+    true,
+    false,
+  );
+  t.deepEqual(
+    depTree,
+    expectedDepTree,
+    'Tree is created with missing required deps for dev',
+  );
+});
+
+test('Parse npm package-lock.json with missing top level dev dependencies ', async (t) => {
+  const expectedDepTree = load(
+    'missing-deps-in-lock/npm/missing-top-level-dev-deps-in-lock/expected-tree.json',
+  );
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/../fixtures/missing-deps-in-lock/npm/missing-top-level-dev-deps-in-lock/`,
+    'package.json',
+    'package-lock.json',
+    true,
+    false,
+  );
+  console.log(JSON.stringify(depTree));
+  t.deepEqual(
+    depTree,
+    expectedDepTree,
+    'Tree is created with missing top level dev deps',
   );
 });
 

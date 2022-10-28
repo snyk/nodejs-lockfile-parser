@@ -190,6 +190,7 @@ export abstract class LockParserBase implements LockfileParser {
       pkgTree.dependencies![name] = this.setDevDepRec(subTree);
     }
     pkgTree.labels = {
+      ...pkgTree.labels,
       scope: Scope.dev,
     };
 
@@ -426,6 +427,7 @@ export abstract class LockParserBase implements LockfileParser {
             dependencies: {},
             labels: {
               missingLockFileEntry: 'true',
+              ...(dep.labels?.scope && { scope: dep.labels.scope }),
             },
           };
 

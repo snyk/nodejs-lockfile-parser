@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  win: circleci/windows@2.2.0
+  win: circleci/windows@2.4.0
 
 defaults: &defaults
   parameters:
@@ -54,7 +54,7 @@ jobs:
   lint:
     <<: *defaults
     docker:
-      - image: circleci/node:<< parameters.node_version >>
+      - image: cimg/node:<< parameters.node_version >>
     steps:
       - show_node_version
       - checkout
@@ -84,7 +84,7 @@ jobs:
   test-unix:
     <<: *defaults
     docker:
-      - image: circleci/node:<< parameters.node_version >>
+      - image: cimg/node:<< parameters.node_version >>
     steps:
       - checkout
       - attach_workspace:
@@ -98,7 +98,7 @@ jobs:
   release:
     <<: *defaults
     docker:
-      - image: circleci/node:<< parameters.node_version >>
+      - image: cimg/node:<< parameters.node_version >>
     resource_class: small
     steps:
       - install_deps
@@ -114,15 +114,15 @@ workflows:
       - lint:
           name: Lint
           context: nodejs-install
-          node_version: "10"
+          node_version: "16.13.2"
           filters:
             branches:
               ignore:
                 - master
       - test-windows:
-          name: Windows Tests for Node v12 support
+          name: Windows Tests for Node v16 support
           context: nodejs-install
-          node_version: "12.0.0"
+          node_version: "16.13.2"
           requires:
             - Lint
           filters:
@@ -130,9 +130,9 @@ workflows:
               ignore:
                 - master
       - test-windows:
-          name: Windows Tests for Node v10 support
+          name: Windows Tests for Node v14 support
           context: nodejs-install
-          node_version: "10.21.0"
+          node_version: "14.17.6"
           requires:
             - Lint
           filters:
@@ -140,9 +140,9 @@ workflows:
               ignore:
                 - master
       - test-unix:
-          name: Unix Tests for Node v12 support
+          name: Unix Tests for Node v16 support
           context: nodejs-install
-          node_version: "12.16.2"
+          node_version: "16.13.2"
           requires:
             - Lint
           filters:
@@ -150,9 +150,9 @@ workflows:
               ignore:
                 - master
       - test-unix:
-          name: Unix Tests for Node v10 support
+          name: Unix Tests for Node v14 support
           context: nodejs-install
-          node_version: "10"
+          node_version: "14.17.6"
           requires:
             - Lint
           filters:
@@ -162,7 +162,7 @@ workflows:
       - release:
           name: Release
           context: nodejs-app-release
-          node_version: "10"
+          node_version: "16.13.2"
           filters:
             branches:
               only:
