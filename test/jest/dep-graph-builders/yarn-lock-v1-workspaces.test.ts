@@ -2,6 +2,7 @@ import { join } from 'path';
 import { readdirSync, readFileSync } from 'fs';
 import { createFromJSON } from '@snyk/dep-graph';
 import {
+  OutOfSyncError,
   parseYarnLockV1Project,
   parseYarnLockV1WorkspaceProject,
 } from '../../../lib';
@@ -229,10 +230,10 @@ describe('Workspace out of sync tests', () => {
               strictOutOfSync: false,
             });
           } catch (err) {
-            expect(err.message).toBe(
+            expect((err as OutOfSyncError).message).toBe(
               'Dependency pkg-b@1.0.0 was not found in yarn.lock. Your package.json and yarn.lock are probably out of sync. Please run "yarn install" and try again.',
             );
-            expect(err.name).toBe('OutOfSyncError');
+            expect((err as OutOfSyncError).name).toBe('OutOfSyncError');
           }
 
           try {
@@ -243,10 +244,10 @@ describe('Workspace out of sync tests', () => {
               strictOutOfSync: true,
             });
           } catch (err) {
-            expect(err.message).toBe(
+            expect((err as OutOfSyncError).message).toBe(
               'Dependency pkg-b@1.0.0 was not found in yarn.lock. Your package.json and yarn.lock are probably out of sync. Please run "yarn install" and try again.',
             );
-            expect(err.name).toBe('OutOfSyncError');
+            expect((err as OutOfSyncError).name).toBe('OutOfSyncError');
           }
         });
       },
@@ -426,10 +427,10 @@ describe('Workspace out of sync tests', () => {
               },
             );
           } catch (err) {
-            expect(err.message).toBe(
+            expect((err as OutOfSyncError).message).toBe(
               'Dependency pkg-b@1.0.0 was not found in yarn.lock. Your package.json and yarn.lock are probably out of sync. Please run "yarn install" and try again.',
             );
-            expect(err.name).toBe('OutOfSyncError');
+            expect((err as OutOfSyncError).name).toBe('OutOfSyncError');
           }
 
           try {
@@ -444,10 +445,10 @@ describe('Workspace out of sync tests', () => {
               },
             );
           } catch (err) {
-            expect(err.message).toBe(
+            expect((err as OutOfSyncError).message).toBe(
               'Dependency pkg-b@1.0.0 was not found in yarn.lock. Your package.json and yarn.lock are probably out of sync. Please run "yarn install" and try again.',
             );
-            expect(err.name).toBe('OutOfSyncError');
+            expect((err as OutOfSyncError).name).toBe('OutOfSyncError');
           }
         });
       },

@@ -99,7 +99,7 @@ export function parseManifestFile(manifestFileContents: string): ManifestFile {
     return JSON.parse(manifestFileContents);
   } catch (e) {
     throw new InvalidUserInputError(
-      'package.json parsing failed with error ' + e.message,
+      'package.json parsing failed with error ' + (e as Error).message,
     );
   }
 }
@@ -188,7 +188,7 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
     return false;
   } catch (e) {
     throw new InvalidUserInputError(
-      'package.json parsing failed with ' + `error ${e.message}`,
+      'package.json parsing failed with ' + `error ${(e as Error).message}`,
     );
   }
 }
