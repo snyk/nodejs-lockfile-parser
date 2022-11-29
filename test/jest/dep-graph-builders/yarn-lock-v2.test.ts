@@ -1,3 +1,4 @@
+import { createFromJSON } from '@snyk/dep-graph';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { parseYarnLockV2Project } from '../../../lib/dep-graph-builders/yarn-lock-v2/simple';
@@ -6,15 +7,10 @@ describe('dep-graph-builder yarn-lock-v1', () => {
   describe('happy path tests', () => {
     describe('Expected Result tests', () => {
       describe.each([
-        // 'git-remote-url',
+        'git-remote-url',
         'goof',
-        // 'external-tarball',
-        // 'file-as-version',
-        // 'file-as-version-no-lock-entry',
-        // 'git-ssh-url-deps',
-        // 'npm-protocol',
-        // 'simple-top-level-out-of-sync',
-        // 'lock-file-deps-out-of-sync',
+        'resolutions-simple',
+        'resolutions-scoped',
       ])('[simple tests] project: %s ', (fixtureName) => {
         test('matches expected', async () => {
           const pkgJsonContent = readFileSync(
@@ -35,13 +31,26 @@ describe('dep-graph-builder yarn-lock-v1', () => {
             strictOutOfSync: false,
           };
 
-          const dgV2 = parseYarnLockV2Project(
+          const dg = parseYarnLockV2Project(
             pkgJsonContent,
             yarnLockContent,
             opts,
           );
 
-          expect(dgV2).toBeTruthy();
+          const expectedDepGraphJson = JSON.parse(
+            readFileSync(
+              join(
+                __dirname,
+                `./fixtures/yarn-lock-v2/${fixtureName}/expected.json`,
+              ),
+              'utf8',
+            ),
+          );
+
+          expect(dg).toBeTruthy();
+
+          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+          expect(dg.equals(expectedDepGraph)).toBeTruthy();
         });
       });
     });

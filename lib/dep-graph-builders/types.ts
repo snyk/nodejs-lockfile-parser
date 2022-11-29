@@ -4,6 +4,7 @@ export type PackageJsonBase = {
   version: string;
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
+  resolutions?: Record<string, string>;
 };
 
 // Npm Lock V2
