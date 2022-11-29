@@ -9,6 +9,7 @@
       "dependencies": {
         "@backstage/core-app-api": {
           "labels": {
+            "scope": "prod",
             "missingLockFileEntry": "true"
           },
           "name": "@backstage/core-app-api",

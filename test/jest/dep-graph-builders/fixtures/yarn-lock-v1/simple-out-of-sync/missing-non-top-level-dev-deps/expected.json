@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "goof@0.0.3",
+      "info": {
+        "name": "goof",
+        "version": "0.0.3"
+      }
+    },
+    {
+      "id": "adm-zip@0.4.7",
+      "info": {
+        "name": "adm-zip",
+        "version": "0.4.7"
+      }
+    },
+    {
+      "id": "debug@2.6.9",
+      "info": {
+        "name": "debug",
+        "version": "2.6.9"
+      }
+    },
+    {
+      "id": "ms@2.0.0",
+      "info": {
+        "name": "ms",
+        "version": "2.0.0"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "goof@0.0.3",
+        "deps": [
+          {
+            "nodeId": "adm-zip@0.4.7"
+          },
+          {
+            "nodeId": "debug@2.6.9"
+          }
+        ]
+      },
+      {
+        "nodeId": "adm-zip@0.4.7",
+        "pkgId": "adm-zip@0.4.7",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "dev"
+          }
+        }
+      },
+      {
+        "nodeId": "debug@2.6.9",
+        "pkgId": "debug@2.6.9",
+        "deps": [
+          {
+            "nodeId": "ms@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "dev"
+          }
+        }
+      },
+      {
+        "nodeId": "ms@2.0.0",
+        "pkgId": "ms@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "dev",
+            "missingLockFileEntry": "true"
+          }
+        }
+      }
+    ]
+  }
+}

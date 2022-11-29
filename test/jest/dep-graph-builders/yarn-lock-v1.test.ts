@@ -14,8 +14,6 @@ describe('dep-graph-builder yarn-lock-v1', () => {
         'file-as-version-no-lock-entry',
         'git-ssh-url-deps',
         'npm-protocol',
-        'simple-top-level-out-of-sync',
-        'lock-file-deps-out-of-sync',
       ])('[simple tests] project: %s ', (fixtureName) => {
         test('matches expected', async () => {
           const pkgJsonContent = readFileSync(
@@ -205,6 +203,54 @@ describe('dep-graph-builder yarn-lock-v1', () => {
           });
         },
       );
+
+      // out-of-sync tests
+      describe.each([
+        'missing-top-level-deps',
+        'missing-non-top-level-deps',
+        'missing-top-level-dev-deps',
+        'missing-non-top-level-dev-deps',
+      ])('[out-of-sync tests] project: %s ', (fixtureName) => {
+        test('matches expected', async () => {
+          const pkgJsonContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/yarn-lock-v1/simple-out-of-sync/${fixtureName}/package.json`,
+            ),
+            'utf8',
+          );
+          const yarnLockContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/yarn-lock-v1/simple-out-of-sync/${fixtureName}/yarn.lock`,
+            ),
+            'utf8',
+          );
+
+          const newDepGraph = await parseYarnLockV1Project(
+            pkgJsonContent,
+            yarnLockContent,
+            {
+              includeDevDeps: true,
+              includeOptionalDeps: true,
+              pruneCycles: true,
+              strictOutOfSync: false,
+            },
+          );
+
+          const expectedDepGraphJson = JSON.parse(
+            readFileSync(
+              join(
+                __dirname,
+                `./fixtures/yarn-lock-v1/simple-out-of-sync/${fixtureName}/expected.json`,
+              ),
+              'utf8',
+            ),
+          );
+          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+        });
+      });
     });
 
     describe('Functional / Specific Cases', () => {
@@ -256,21 +302,27 @@ describe('dep-graph-builder yarn-lock-v1', () => {
           strictOutOfSync: false,
         });
       } catch (err) {
-        expect(err.message).toBe(
+        expect((err as Error).message).toBe(
           'package.json parsing failed with error Unexpected token } in JSON at position 100',
         );
-        expect(err.name).toBe('InvalidUserInputError');
+        expect((err as Error).name).toBe('InvalidUserInputError');
       }
     });
 
     it('project: simple-top-level-out-of-sync -> throws OutOfSyncError', async () => {
-      const fixtureName = 'simple-top-level-out-of-sync';
+      const fixtureName = 'missing-top-level-deps';
       const pkgJsonContent = readFileSync(
-        join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/package.json`),
+        join(
+          __dirname,
+          `./fixtures/yarn-lock-v1/simple-out-of-sync/${fixtureName}/package.json`,
+        ),
         'utf8',
       );
       const yarnLockContent = readFileSync(
-        join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/yarn.lock`),
+        join(
+          __dirname,
+          `./fixtures/yarn-lock-v1/simple-out-of-sync/${fixtureName}/yarn.lock`,
+        ),
         'utf8',
       );
       try {
@@ -281,21 +333,27 @@ describe('dep-graph-builder yarn-lock-v1', () => {
           strictOutOfSync: true,
         });
       } catch (err) {
-        expect(err.message).toBe(
+        expect((err as Error).message).toBe(
           'Dependency lodash@4.17.11 was not found in yarn.lock. Your package.json and yarn.lock are probably out of sync. Please run "yarn install" and try again.',
         );
-        expect(err.name).toBe('OutOfSyncError');
+        expect((err as Error).name).toBe('OutOfSyncError');
       }
     });
 
-    it('project: lock-file-deps-out-of-sync -> throws OutOfSyncError', async () => {
-      const fixtureName = 'lock-file-deps-out-of-sync';
+    it('project: simple-non-top-level-out-of-sync -> throws OutOfSyncError', async () => {
+      const fixtureName = 'missing-non-top-level-deps';
       const pkgJsonContent = readFileSync(
-        join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/package.json`),
+        join(
+          __dirname,
+          `./fixtures/yarn-lock-v1/simple-out-of-sync/${fixtureName}/package.json`,
+        ),
         'utf8',
       );
       const yarnLockContent = readFileSync(
-        join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/yarn.lock`),
+        join(
+          __dirname,
+          `./fixtures/yarn-lock-v1/simple-out-of-sync/${fixtureName}/yarn.lock`,
+        ),
         'utf8',
       );
       try {
@@ -306,10 +364,10 @@ describe('dep-graph-builder yarn-lock-v1', () => {
           strictOutOfSync: true,
         });
       } catch (err) {
-        expect(err.message).toBe(
+        expect((err as Error).message).toBe(
           'Dependency ms@0.6.2 was not found in yarn.lock. Your package.json and yarn.lock are probably out of sync. Please run "yarn install" and try again.',
         );
-        expect(err.name).toBe('OutOfSyncError');
+        expect((err as Error).name).toBe('OutOfSyncError');
       }
     });
   });

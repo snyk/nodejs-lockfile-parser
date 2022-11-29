@@ -47,6 +47,8 @@ export function getNpmLockfileVersion(
     return NodeLockfileVersion.NpmLockV2;
   } else if (lockFileContents.includes(`"lockfileVersion": 3,`)) {
     return NodeLockfileVersion.NpmLockV3;
+  } else if (!lockFileContents.includes(`"lockfileVersion":`)) {
+    return NodeLockfileVersion.NpmLockV1;
   } else {
     throw new InvalidUserInputError(
       `Unsupported npm lockfile version in package-lock.json. ` +

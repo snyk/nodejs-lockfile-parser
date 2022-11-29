@@ -107,7 +107,7 @@ const SCENARIOS_REJECTED = [
   {
     name: 'Parse yarn.lock with missing dependency',
     workspace: 'missing-deps-in-lock',
-    expectedError: new OutOfSyncError('uptime', LockfileType.yarn2),
+    lockFilePath: 'yarn2-missing-top-level-deps/yarn.lock',
   },
   {
     name: 'Parse invalid yarn.lock',
@@ -120,6 +120,41 @@ const SCENARIOS_REJECTED = [
     name: 'Out of sync yarn.lock strict mode',
     workspace: 'out-of-sync',
     expectedError: new OutOfSyncError('lodash', LockfileType.yarn2),
+  },
+];
+
+const SCENARIOS_WITH_MISSING_DEPS = [
+  {
+    name: 'Missing top level deps',
+    workspace: 'missing-deps-in-lock',
+    manifestFilePath: 'package.json',
+    lockFilePath: 'yarn2/yarn2-missing-top-level-deps/yarn.lock',
+    includeDev: false,
+    strict: false,
+  },
+  {
+    name: 'Missing non top level deps',
+    workspace: 'missing-deps-in-lock',
+    manifestFilePath: 'yarn2/yarn2-missing-non-top-level-deps/package.json',
+    lockFilePath: 'yarn2/yarn2-missing-non-top-level-deps/yarn.lock',
+    includeDev: false,
+    strict: false,
+  },
+  {
+    name: 'Missing top level dev deps',
+    workspace: 'missing-deps-in-lock',
+    manifestFilePath: 'yarn2/yarn2-missing-top-level-dev-deps/package.json',
+    lockFilePath: 'yarn2/yarn2-missing-top-level-dev-deps/yarn.lock',
+    includeDev: true,
+    strict: false,
+  },
+  {
+    name: 'Missing non top level dev deps',
+    workspace: 'missing-deps-in-lock',
+    manifestFilePath: 'yarn2/yarn2-missing-non-top-level-dev-deps/package.json',
+    lockFilePath: 'yarn2/yarn2-missing-non-top-level-dev-deps/yarn.lock',
+    includeDev: true,
+    strict: false,
   },
 ];
 
@@ -156,11 +191,39 @@ for (const scenario of SCENARIOS_REJECTED) {
       buildDepTreeFromFiles(
         `${__dirname}/../fixtures/${scenario.workspace}/`,
         'package.json',
-        `yarn2/yarn.lock`,
+        `${scenario.lockFilePath || 'yarn2'}/yarn.lock`,
       ),
       expectedError,
       'Error is thrown',
     );
+  });
+}
+
+for (const scenario of SCENARIOS_WITH_MISSING_DEPS) {
+  test(`${scenario.name} (yarn2)`, async (t) => {
+    const expectedPath = path.join(
+      scenario.workspace,
+      path.dirname(scenario.lockFilePath),
+      `expected-tree${scenario.includeDev ? '-with-dev' : ''}.json`,
+    );
+    const expectedDepTree = load(expectedPath);
+    try {
+      const depTree = await buildDepTreeFromFiles(
+        `${__dirname}/../fixtures/${scenario.workspace}/`,
+        scenario.manifestFilePath,
+        scenario.lockFilePath,
+        scenario.includeDev,
+        scenario.strict,
+      );
+
+      t.same(
+        depTree,
+        expectedDepTree,
+        'Tree generated with missing deps as expected',
+      );
+    } catch (err) {
+      t.fail(err);
+    }
   });
 }
 
@@ -199,7 +262,7 @@ test(`Yarn Tree size exceeds the allowed limit of 500 dependencies (yarn2)`, asy
     );
     t.fail('Expected TreeSizeLimitError to be thrown');
   } catch (err) {
-    t.equals(err.constructor.name, 'TreeSizeLimitError');
+    t.equal((err as Error).constructor.name, 'TreeSizeLimitError');
   } finally {
     config.YARN_TREE_SIZE_LIMIT = 6.0e6;
   }

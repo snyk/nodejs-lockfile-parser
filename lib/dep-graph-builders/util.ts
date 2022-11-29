@@ -81,7 +81,7 @@ export function parsePkgJson(pkgJsonContent: string): PackageJsonBase {
     return parsedPkgJson;
   } catch (e) {
     throw new InvalidUserInputError(
-      'package.json parsing failed with error ' + e.message,
+      'package.json parsing failed with error ' + (e as Error).message,
     );
   }
 }
