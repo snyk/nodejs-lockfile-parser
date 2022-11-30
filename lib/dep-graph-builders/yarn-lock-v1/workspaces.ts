@@ -4,7 +4,7 @@ import { buildDepGraphYarnLockV1WorkspaceCyclesPruned } from './build-depgraph-w
 import { buildDepGraphYarnLockV1Workspace } from './build-depgraph-workspace-package';
 import { extractPkgsFromYarnLockV1 } from './extract-yarnlock-v1-pkgs';
 import { parsePkgJson } from '../util';
-import { ProjectParseOptions } from './types';
+import { ProjectParseOptions } from '../types';
 
 export const parseYarnLockV1WorkspaceProject = async (
   yarnLockContent: string,

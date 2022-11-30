@@ -45,6 +45,9 @@ import {
   buildDepGraphYarnLockV1Simple,
   buildDepGraphYarnLockV1WorkspaceCyclesPruned,
   buildDepGraphYarnLockV1Workspace,
+  extractPkgsFromYarnLockV2,
+  parseYarnLockV2Project,
+  buildDepGraphYarnLockV2Simple,
 } from './dep-graph-builders';
 export {
   extractPkgsFromYarnLockV1,
@@ -54,14 +57,29 @@ export {
   buildDepGraphYarnLockV1Simple,
   buildDepGraphYarnLockV1WorkspaceCyclesPruned,
   buildDepGraphYarnLockV1Workspace,
+  extractPkgsFromYarnLockV2,
+  parseYarnLockV2Project,
+  buildDepGraphYarnLockV2Simple,
 };
 // **********************************
 
 // New Parser types *************
 // **********************************
 import type { PackageJsonBase } from './dep-graph-builders/types';
-import type { YarnLockPackages } from './dep-graph-builders/yarn-lock-v1/types';
-export { PackageJsonBase, YarnLockPackages };
+import type { NormalisedPkgs } from './dep-graph-builders/types';
+import {
+  getLockfileVersionFromFile,
+  getNpmLockfileVersion,
+  getYarnLockfileVersion,
+  NodeLockfileVersion,
+} from './utils';
+export { PackageJsonBase, NormalisedPkgs, NormalisedPkgs as YarnLockPackages };
+export {
+  getLockfileVersionFromFile,
+  getNpmLockfileVersion,
+  getYarnLockfileVersion,
+  NodeLockfileVersion,
+};
 // **********************************
 
 async function buildDepTree(

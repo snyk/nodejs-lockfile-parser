@@ -1,13 +1,9 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
-import {
-  addPkgNodeToGraph,
-  getChildNodeWorkspace,
-  getTopLevelDeps,
-  PkgNode,
-} from '../util';
+import { addPkgNodeToGraph, getTopLevelDeps, PkgNode } from '../util';
 
-import type { PackageJsonBase } from '../types';
-import type { DepGraphBuildOptions, YarnLockPackages } from './types';
+import type { NormalisedPkgs, PackageJsonBase } from '../types';
+import type { DepGraphBuildOptions } from '../types';
+import { getChildNodeYarnLockV1Workspace } from './util';
 
 enum Color {
   GRAY,
@@ -17,7 +13,7 @@ enum Color {
 // Parse a single workspace package using yarn.lock v1
 // workspaces feature
 export const buildDepGraphYarnLockV1WorkspaceCyclesPruned = (
-  extractedYarnLockV1Pkgs: YarnLockPackages,
+  extractedYarnLockV1Pkgs: NormalisedPkgs,
   pkgJson: PackageJsonBase,
   workspacePkgNameToVersion: Record<string, string>,
   options: DepGraphBuildOptions,
@@ -68,7 +64,7 @@ const dfsVisit = (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
   colorMap: Record<string, Color>,
-  extractedYarnLockV1Pkgs: YarnLockPackages,
+  extractedYarnLockV1Pkgs: NormalisedPkgs,
   workspacePkgNameToVersion: Record<string, string>,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
@@ -78,7 +74,7 @@ const dfsVisit = (
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     const isWorkspacePkg = !!workspacePkgNameToVersion[name];
 
-    const childNode = getChildNodeWorkspace(
+    const childNode = getChildNodeYarnLockV1Workspace(
       name,
       depInfo,
       workspacePkgNameToVersion,

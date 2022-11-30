@@ -1,15 +1,11 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
-import {
-  addPkgNodeToGraph,
-  getChildNode,
-  getTopLevelDeps,
-  PkgNode,
-} from '../util';
+import { addPkgNodeToGraph, getTopLevelDeps, PkgNode } from '../util';
 import type { DepGraphBuildOptions } from '../types';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
+import { getYarnLockV2ChildNode } from './utils';
 
-export const buildDepGraphYarnLockV1Simple = (
-  extractedYarnLockV1Pkgs: NormalisedPkgs,
+export const buildDepGraphYarnLockV2Simple = (
+  extractedYarnLockV2Pkgs: NormalisedPkgs,
   pkgJson: PackageJsonBase,
   options: DepGraphBuildOptions,
 ) => {
@@ -36,9 +32,10 @@ export const buildDepGraphYarnLockV1Simple = (
     depGraphBuilder,
     rootNode,
     visitedMap,
-    extractedYarnLockV1Pkgs,
+    extractedYarnLockV2Pkgs,
     strictOutOfSync,
     includeOptionalDeps,
+    pkgJson.resolutions || {},
   );
 
   return depGraphBuilder.build();
@@ -54,19 +51,22 @@ const dfsVisit = (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
   visitedMap: Set<string>,
-  extractedYarnLockV1Pkgs: NormalisedPkgs,
+  extractedYarnLockV2Pkgs: NormalisedPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
+  resolutions: Record<string, string>,
 ): void => {
   visitedMap.add(node.id);
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
-    const childNode = getChildNode(
+    const childNode = getYarnLockV2ChildNode(
       name,
       depInfo,
-      extractedYarnLockV1Pkgs,
+      extractedYarnLockV2Pkgs,
       strictOutOfSync,
       includeOptionalDeps,
+      resolutions,
+      node,
     );
 
     if (!visitedMap.has(childNode.id)) {
@@ -75,9 +75,10 @@ const dfsVisit = (
         depGraphBuilder,
         childNode,
         visitedMap,
-        extractedYarnLockV1Pkgs,
+        extractedYarnLockV2Pkgs,
         strictOutOfSync,
         includeOptionalDeps,
+        resolutions,
       );
     }
 
