@@ -65,15 +65,23 @@ export {
 
 // New Parser types *************
 // **********************************
-import type { PackageJsonBase } from './dep-graph-builders/types';
-import type { NormalisedPkgs } from './dep-graph-builders/types';
+import type {
+  PackageJsonBase,
+  NormalisedPkgs,
+  ProjectParseOptions,
+} from './dep-graph-builders/types';
 import {
   getLockfileVersionFromFile,
   getNpmLockfileVersion,
   getYarnLockfileVersion,
   NodeLockfileVersion,
 } from './utils';
-export { PackageJsonBase, NormalisedPkgs, NormalisedPkgs as YarnLockPackages };
+export {
+  PackageJsonBase,
+  ProjectParseOptions,
+  NormalisedPkgs,
+  NormalisedPkgs as YarnLockPackages,
+};
 export {
   getLockfileVersionFromFile,
   getNpmLockfileVersion,
