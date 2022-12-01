@@ -35,8 +35,8 @@ export {
   ManifestFile,
 };
 
-// New Parser Functions *************
-// **********************************
+// Straight to Depgraph Functionality *************
+// ************************************************
 import {
   extractPkgsFromYarnLockV1,
   parseYarnLockV1Project,
@@ -49,22 +49,6 @@ import {
   parseYarnLockV2Project,
   buildDepGraphYarnLockV2Simple,
 } from './dep-graph-builders';
-export {
-  extractPkgsFromYarnLockV1,
-  parseYarnLockV1Project,
-  parseYarnLockV1WorkspaceProject,
-  buildDepGraphYarnLockV1SimpleCyclesPruned,
-  buildDepGraphYarnLockV1Simple,
-  buildDepGraphYarnLockV1WorkspaceCyclesPruned,
-  buildDepGraphYarnLockV1Workspace,
-  extractPkgsFromYarnLockV2,
-  parseYarnLockV2Project,
-  buildDepGraphYarnLockV2Simple,
-};
-// **********************************
-
-// New Parser types *************
-// **********************************
 import type {
   PackageJsonBase,
   NormalisedPkgs,
@@ -77,12 +61,20 @@ import {
   NodeLockfileVersion,
 } from './utils';
 export {
+  extractPkgsFromYarnLockV1,
+  parseYarnLockV1Project,
+  parseYarnLockV1WorkspaceProject,
+  buildDepGraphYarnLockV1SimpleCyclesPruned,
+  buildDepGraphYarnLockV1Simple,
+  buildDepGraphYarnLockV1WorkspaceCyclesPruned,
+  buildDepGraphYarnLockV1Workspace,
+  extractPkgsFromYarnLockV2,
+  parseYarnLockV2Project,
+  buildDepGraphYarnLockV2Simple,
   PackageJsonBase,
   ProjectParseOptions,
   NormalisedPkgs,
   NormalisedPkgs as YarnLockPackages,
-};
-export {
   getLockfileVersionFromFile,
   getNpmLockfileVersion,
   getYarnLockfileVersion,
