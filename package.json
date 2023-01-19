@@ -42,7 +42,7 @@
     "lodash.isempty": "^4.4.0",
     "lodash.topairs": "^4.3.0",
     "semver": "^7.3.5",
-    "snyk-config": "^4.0.0-rc.2",
+    "snyk-config": "^5.0.0",
     "tslib": "^1.9.3",
     "uuid": "^8.3.0"
   },
