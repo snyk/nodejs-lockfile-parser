@@ -18,7 +18,9 @@ export const buildDepGraphYarnLockV2Simple = (
 
   const visitedMap: Set<string> = new Set();
 
-  const topLevelDeps = getTopLevelDeps(pkgJson, { includeDevDeps });
+  const topLevelDeps = getTopLevelDeps(pkgJson, {
+    includeDevDeps,
+  });
 
   const rootNode: PkgNode = {
     id: 'root-node',

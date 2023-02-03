@@ -12,8 +12,10 @@ import {
   parseYarnLockV2Project,
   extractPkgsFromYarnLockV2,
 } from './yarn-lock-v2';
+import { parseNpmLockV2Project } from './npm-lock-v2';
 
 export {
+  parseNpmLockV2Project,
   parseYarnLockV1Project,
   buildDepGraphYarnLockV1Workspace,
   buildDepGraphYarnLockV1SimpleCyclesPruned,

@@ -38,6 +38,7 @@ export {
 // Straight to Depgraph Functionality *************
 // ************************************************
 import {
+  parseNpmLockV2Project,
   extractPkgsFromYarnLockV1,
   parseYarnLockV1Project,
   parseYarnLockV1WorkspaceProject,
@@ -61,6 +62,7 @@ import {
   NodeLockfileVersion,
 } from './utils';
 export {
+  parseNpmLockV2Project,
   extractPkgsFromYarnLockV1,
   parseYarnLockV1Project,
   parseYarnLockV1WorkspaceProject,
