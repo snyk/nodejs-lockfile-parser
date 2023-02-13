@@ -44,11 +44,9 @@ export const buildDepGraphNpmLockV2 = (
 ) => {
   const { includeDevDeps, strictOutOfSync, includeOptionalDeps } = options;
 
-  const rootPkg = npmLockPkgs[''];
-
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'npm' },
-    { name: rootPkg.name as string, version: rootPkg.version },
+    { name: pkgJson.name as string, version: pkgJson.version },
   );
 
   const topLevelDeps = getTopLevelDeps(pkgJson, {
@@ -59,8 +57,8 @@ export const buildDepGraphNpmLockV2 = (
 
   const rootNode: PkgNode = {
     id: 'root-node',
-    name: rootPkg.name as string,
-    version: rootPkg.version,
+    name: pkgJson.name,
+    version: pkgJson.version,
     dependencies: topLevelDeps,
     isDev: false,
   };
