@@ -44,7 +44,11 @@ export const addPkgNodeToGraph = (
  */
 export const getTopLevelDeps = (
   pkgJson: PackageJsonBase,
-  options: { includeDevDeps: boolean },
+  options: {
+    includeDevDeps: boolean;
+    includeOptionalDeps?: boolean;
+    includePeerDeps?: boolean;
+  },
 ): Dependencies => {
   const prodDeps = getGraphDependencies(pkgJson.dependencies || {}, false);
 
@@ -52,7 +56,15 @@ export const getTopLevelDeps = (
     ? getGraphDependencies(pkgJson.devDependencies || {}, true)
     : {};
 
-  return { ...prodDeps, ...devDeps };
+  const optionalDeps = options.includeOptionalDeps
+    ? getGraphDependencies(pkgJson.optionalDependencies || {}, false)
+    : {};
+
+  const peerDeps = options.includePeerDeps
+    ? getGraphDependencies(pkgJson.peerDependencies || {}, false)
+    : {};
+
+  return { ...prodDeps, ...devDeps, ...optionalDeps, ...peerDeps };
 };
 
 /**
