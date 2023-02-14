@@ -41,18 +41,27 @@ export function getNpmLockfileVersion(
   | NodeLockfileVersion.NpmLockV1
   | NodeLockfileVersion.NpmLockV2
   | NodeLockfileVersion.NpmLockV3 {
-  if (lockFileContents.includes(`"lockfileVersion": 1,`)) {
-    return NodeLockfileVersion.NpmLockV1;
-  } else if (lockFileContents.includes(`"lockfileVersion": 2,`)) {
-    return NodeLockfileVersion.NpmLockV2;
-  } else if (lockFileContents.includes(`"lockfileVersion": 3,`)) {
-    return NodeLockfileVersion.NpmLockV3;
-  } else if (!lockFileContents.includes(`"lockfileVersion":`)) {
-    return NodeLockfileVersion.NpmLockV1;
-  } else {
+  try {
+    const lockfileJson = JSON.parse(lockFileContents);
+    const lockfileVersion: number | null = lockfileJson.lockfileVersion || null;
+
+    switch (lockfileVersion) {
+      case null:
+      case 1:
+        return NodeLockfileVersion.NpmLockV1;
+      case 2:
+        return NodeLockfileVersion.NpmLockV2;
+      case 3:
+        return NodeLockfileVersion.NpmLockV3;
+      default:
+        throw new InvalidUserInputError(
+          `Unsupported npm lockfile version in package-lock.json. ` +
+            'Please provide a package-lock.json with lockfileVersion 1, 2 or 3',
+        );
+    }
+  } catch (e) {
     throw new InvalidUserInputError(
-      `Unsupported npm lockfile version in package-lock.json. ` +
-        'Please provide a package-lock.json with lockfileVersion 1, 2 or 3',
+      `Problem parsing package-lock.json - make sure the package-lock.json is a valid JSON file`,
     );
   }
 }
