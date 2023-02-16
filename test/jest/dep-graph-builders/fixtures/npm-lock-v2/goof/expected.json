@@ -1594,10 +1594,24 @@
       }
     },
     {
-      "id": "default-require-extensions@^1.0.0",
+      "id": "default-require-extensions@1.0.0",
       "info": {
         "name": "default-require-extensions",
-        "version": "^1.0.0"
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "strip-bom@2.0.0",
+      "info": {
+        "name": "strip-bom",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "is-utf8@0.2.1",
+      "info": {
+        "name": "is-utf8",
+        "version": "0.2.1"
       }
     },
     {
@@ -1615,181 +1629,6 @@
       }
     },
     {
-      "id": "md5-hex@^1.2.0",
-      "info": {
-        "name": "md5-hex",
-        "version": "^1.2.0"
-      }
-    },
-    {
-      "id": "write-file-atomic@^1.1.4",
-      "info": {
-        "name": "write-file-atomic",
-        "version": "^1.1.4"
-      }
-    },
-    {
-      "id": "convert-source-map@1.2.0",
-      "info": {
-        "name": "convert-source-map",
-        "version": "1.2.0"
-      }
-    },
-    {
-      "id": "default-require-extensions@1.0.0",
-      "info": {
-        "name": "default-require-extensions",
-        "version": "1.0.0"
-      }
-    },
-    {
-      "id": "strip-bom@^2.0.0",
-      "info": {
-        "name": "strip-bom",
-        "version": "^2.0.0"
-      }
-    },
-    {
-      "id": "find-cache-dir@0.1.1",
-      "info": {
-        "name": "find-cache-dir",
-        "version": "0.1.1"
-      }
-    },
-    {
-      "id": "commondir@^1.0.1",
-      "info": {
-        "name": "commondir",
-        "version": "^1.0.1"
-      }
-    },
-    {
-      "id": "pkg-dir@^1.0.0",
-      "info": {
-        "name": "pkg-dir",
-        "version": "^1.0.0"
-      }
-    },
-    {
-      "id": "find-up@1.1.2",
-      "info": {
-        "name": "find-up",
-        "version": "1.1.2"
-      }
-    },
-    {
-      "id": "path-exists@^2.0.0",
-      "info": {
-        "name": "path-exists",
-        "version": "^2.0.0"
-      }
-    },
-    {
-      "id": "foreground-child@1.5.1",
-      "info": {
-        "name": "foreground-child",
-        "version": "1.5.1"
-      }
-    },
-    {
-      "id": "cross-spawn-async@^2.1.1",
-      "info": {
-        "name": "cross-spawn-async",
-        "version": "^2.1.1"
-      }
-    },
-    {
-      "id": "glob@7.0.3",
-      "info": {
-        "name": "glob",
-        "version": "7.0.3"
-      }
-    },
-    {
-      "id": "istanbul@0.4.3",
-      "info": {
-        "name": "istanbul",
-        "version": "0.4.3"
-      }
-    },
-    {
-      "id": "escodegen@1.8.x",
-      "info": {
-        "name": "escodegen",
-        "version": "1.8.x"
-      }
-    },
-    {
-      "id": "fileset@0.2.x",
-      "info": {
-        "name": "fileset",
-        "version": "0.2.x"
-      }
-    },
-    {
-      "id": "handlebars@^4.0.1",
-      "info": {
-        "name": "handlebars",
-        "version": "^4.0.1"
-      }
-    },
-    {
-      "id": "resolve@1.22.1",
-      "info": {
-        "name": "resolve",
-        "version": "1.22.1"
-      }
-    },
-    {
-      "id": "is-core-module@2.11.0",
-      "info": {
-        "name": "is-core-module",
-        "version": "2.11.0"
-      }
-    },
-    {
-      "id": "has@1.0.3",
-      "info": {
-        "name": "has",
-        "version": "1.0.3"
-      }
-    },
-    {
-      "id": "function-bind@1.1.1",
-      "info": {
-        "name": "function-bind",
-        "version": "1.1.1"
-      }
-    },
-    {
-      "id": "path-parse@1.0.7",
-      "info": {
-        "name": "path-parse",
-        "version": "1.0.7"
-      }
-    },
-    {
-      "id": "supports-preserve-symlinks-flag@1.0.0",
-      "info": {
-        "name": "supports-preserve-symlinks-flag",
-        "version": "1.0.0"
-      }
-    },
-    {
-      "id": "supports-color@1.3.1",
-      "info": {
-        "name": "supports-color",
-        "version": "1.3.1"
-      }
-    },
-    {
-      "id": "wordwrap@^1.0.0",
-      "info": {
-        "name": "wordwrap",
-        "version": "^1.0.0"
-      }
-    },
-    {
       "id": "md5-hex@1.3.0",
       "info": {
         "name": "md5-hex",
@@ -1797,108 +1636,10 @@
       }
     },
     {
-      "id": "md5-o-matic@^0.1.1",
+      "id": "md5-o-matic@0.1.1",
       "info": {
         "name": "md5-o-matic",
-        "version": "^0.1.1"
-      }
-    },
-    {
-      "id": "micromatch@2.3.8",
-      "info": {
-        "name": "micromatch",
-        "version": "2.3.8"
-      }
-    },
-    {
-      "id": "arr-diff@^2.0.0",
-      "info": {
-        "name": "arr-diff",
-        "version": "^2.0.0"
-      }
-    },
-    {
-      "id": "array-unique@^0.2.1",
-      "info": {
-        "name": "array-unique",
-        "version": "^0.2.1"
-      }
-    },
-    {
-      "id": "braces@^1.8.2",
-      "info": {
-        "name": "braces",
-        "version": "^1.8.2"
-      }
-    },
-    {
-      "id": "expand-brackets@^0.1.4",
-      "info": {
-        "name": "expand-brackets",
-        "version": "^0.1.4"
-      }
-    },
-    {
-      "id": "extglob@^0.3.1",
-      "info": {
-        "name": "extglob",
-        "version": "^0.3.1"
-      }
-    },
-    {
-      "id": "filename-regex@^2.0.0",
-      "info": {
-        "name": "filename-regex",
-        "version": "^2.0.0"
-      }
-    },
-    {
-      "id": "is-extglob@^1.0.0",
-      "info": {
-        "name": "is-extglob",
-        "version": "^1.0.0"
-      }
-    },
-    {
-      "id": "is-glob@^2.0.1",
-      "info": {
-        "name": "is-glob",
-        "version": "^2.0.1"
-      }
-    },
-    {
-      "id": "kind-of@^3.0.2",
-      "info": {
-        "name": "kind-of",
-        "version": "^3.0.2"
-      }
-    },
-    {
-      "id": "normalize-path@^2.0.1",
-      "info": {
-        "name": "normalize-path",
-        "version": "^2.0.1"
-      }
-    },
-    {
-      "id": "object.omit@^2.0.0",
-      "info": {
-        "name": "object.omit",
-        "version": "^2.0.0"
-      }
-    },
-    {
-      "id": "parse-glob@^3.0.4",
-      "info": {
-        "name": "parse-glob",
-        "version": "^3.0.4"
-      }
-    },
-    {
-      "id": "regex-cache@^0.4.2",
-      "info": {
-        "name": "regex-cache",
-        "version": "^0.4.2"
+        "version": "0.1.1"
       }
     },
     {
@@ -1909,10 +1650,710 @@
       }
     },
     {
-      "id": "minimist@1.2.7",
+      "id": "minimist@0.0.8",
       "info": {
         "name": "minimist",
-        "version": "1.2.7"
+        "version": "0.0.8"
+      }
+    },
+    {
+      "id": "write-file-atomic@1.1.4",
+      "info": {
+        "name": "write-file-atomic",
+        "version": "1.1.4"
+      }
+    },
+    {
+      "id": "graceful-fs@4.1.4",
+      "info": {
+        "name": "graceful-fs",
+        "version": "4.1.4"
+      }
+    },
+    {
+      "id": "imurmurhash@0.1.4",
+      "info": {
+        "name": "imurmurhash",
+        "version": "0.1.4"
+      }
+    },
+    {
+      "id": "slide@1.1.6",
+      "info": {
+        "name": "slide",
+        "version": "1.1.6"
+      }
+    },
+    {
+      "id": "convert-source-map@1.2.0",
+      "info": {
+        "name": "convert-source-map",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "id": "find-cache-dir@0.1.1",
+      "info": {
+        "name": "find-cache-dir",
+        "version": "0.1.1"
+      }
+    },
+    {
+      "id": "commondir@1.0.1",
+      "info": {
+        "name": "commondir",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "pkg-dir@1.0.0",
+      "info": {
+        "name": "pkg-dir",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "find-up@1.1.2",
+      "info": {
+        "name": "find-up",
+        "version": "1.1.2"
+      }
+    },
+    {
+      "id": "path-exists@2.1.0",
+      "info": {
+        "name": "path-exists",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "foreground-child@1.5.1",
+      "info": {
+        "name": "foreground-child",
+        "version": "1.5.1"
+      }
+    },
+    {
+      "id": "cross-spawn-async@2.2.4",
+      "info": {
+        "name": "cross-spawn-async",
+        "version": "2.2.4"
+      }
+    },
+    {
+      "id": "lru-cache@4.0.1",
+      "info": {
+        "name": "lru-cache",
+        "version": "4.0.1"
+      }
+    },
+    {
+      "id": "yallist@2.0.0",
+      "info": {
+        "name": "yallist",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "which@1.2.10",
+      "info": {
+        "name": "which",
+        "version": "1.2.10"
+      }
+    },
+    {
+      "id": "signal-exit@2.1.2",
+      "info": {
+        "name": "signal-exit",
+        "version": "2.1.2"
+      }
+    },
+    {
+      "id": "glob@7.0.3",
+      "info": {
+        "name": "glob",
+        "version": "7.0.3"
+      }
+    },
+    {
+      "id": "inflight@1.0.5",
+      "info": {
+        "name": "inflight",
+        "version": "1.0.5"
+      }
+    },
+    {
+      "id": "once@1.3.3",
+      "info": {
+        "name": "once",
+        "version": "1.3.3"
+      }
+    },
+    {
+      "id": "inherits@2.0.1",
+      "info": {
+        "name": "inherits",
+        "version": "2.0.1"
+      }
+    },
+    {
+      "id": "minimatch@3.0.0",
+      "info": {
+        "name": "minimatch",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "brace-expansion@1.1.4",
+      "info": {
+        "name": "brace-expansion",
+        "version": "1.1.4"
+      }
+    },
+    {
+      "id": "balanced-match@0.4.1",
+      "info": {
+        "name": "balanced-match",
+        "version": "0.4.1"
+      }
+    },
+    {
+      "id": "path-is-absolute@1.0.0",
+      "info": {
+        "name": "path-is-absolute",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "istanbul@0.4.3",
+      "info": {
+        "name": "istanbul",
+        "version": "0.4.3"
+      }
+    },
+    {
+      "id": "abbrev@1.0.7",
+      "info": {
+        "name": "abbrev",
+        "version": "1.0.7"
+      }
+    },
+    {
+      "id": "async@1.5.2",
+      "info": {
+        "name": "async",
+        "version": "1.5.2"
+      }
+    },
+    {
+      "id": "escodegen@1.8.0",
+      "info": {
+        "name": "escodegen",
+        "version": "1.8.0"
+      }
+    },
+    {
+      "id": "esprima@2.7.2",
+      "info": {
+        "name": "esprima",
+        "version": "2.7.2"
+      }
+    },
+    {
+      "id": "estraverse@1.9.3",
+      "info": {
+        "name": "estraverse",
+        "version": "1.9.3"
+      }
+    },
+    {
+      "id": "esutils@2.0.2",
+      "info": {
+        "name": "esutils",
+        "version": "2.0.2"
+      }
+    },
+    {
+      "id": "optionator@0.8.1",
+      "info": {
+        "name": "optionator",
+        "version": "0.8.1"
+      }
+    },
+    {
+      "id": "deep-is@0.1.3",
+      "info": {
+        "name": "deep-is",
+        "version": "0.1.3"
+      }
+    },
+    {
+      "id": "fast-levenshtein@1.1.3",
+      "info": {
+        "name": "fast-levenshtein",
+        "version": "1.1.3"
+      }
+    },
+    {
+      "id": "levn@0.3.0",
+      "info": {
+        "name": "levn",
+        "version": "0.3.0"
+      }
+    },
+    {
+      "id": "prelude-ls@1.1.2",
+      "info": {
+        "name": "prelude-ls",
+        "version": "1.1.2"
+      }
+    },
+    {
+      "id": "type-check@0.3.2",
+      "info": {
+        "name": "type-check",
+        "version": "0.3.2"
+      }
+    },
+    {
+      "id": "wordwrap@1.0.0",
+      "info": {
+        "name": "wordwrap",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "source-map@0.2.0",
+      "info": {
+        "name": "source-map",
+        "version": "0.2.0"
+      }
+    },
+    {
+      "id": "amdefine@1.0.0",
+      "info": {
+        "name": "amdefine",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "fileset@0.2.1",
+      "info": {
+        "name": "fileset",
+        "version": "0.2.1"
+      }
+    },
+    {
+      "id": "glob@5.0.15",
+      "info": {
+        "name": "glob",
+        "version": "5.0.15"
+      }
+    },
+    {
+      "id": "minimatch@2.0.10",
+      "info": {
+        "name": "minimatch",
+        "version": "2.0.10"
+      }
+    },
+    {
+      "id": "handlebars@4.0.5",
+      "info": {
+        "name": "handlebars",
+        "version": "4.0.5"
+      }
+    },
+    {
+      "id": "optimist@0.6.1",
+      "info": {
+        "name": "optimist",
+        "version": "0.6.1"
+      }
+    },
+    {
+      "id": "minimist@0.0.10",
+      "info": {
+        "name": "minimist",
+        "version": "0.0.10"
+      }
+    },
+    {
+      "id": "wordwrap@0.0.3",
+      "info": {
+        "name": "wordwrap",
+        "version": "0.0.3"
+      }
+    },
+    {
+      "id": "source-map@0.4.4",
+      "info": {
+        "name": "source-map",
+        "version": "0.4.4"
+      }
+    },
+    {
+      "id": "uglify-js@2.6.2",
+      "info": {
+        "name": "uglify-js",
+        "version": "2.6.2"
+      }
+    },
+    {
+      "id": "async@0.2.10",
+      "info": {
+        "name": "async",
+        "version": "0.2.10"
+      }
+    },
+    {
+      "id": "source-map@0.5.6",
+      "info": {
+        "name": "source-map",
+        "version": "0.5.6"
+      }
+    },
+    {
+      "id": "uglify-to-browserify@1.0.2",
+      "info": {
+        "name": "uglify-to-browserify",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "yargs@3.10.0",
+      "info": {
+        "name": "yargs",
+        "version": "3.10.0"
+      }
+    },
+    {
+      "id": "camelcase@1.2.1",
+      "info": {
+        "name": "camelcase",
+        "version": "1.2.1"
+      }
+    },
+    {
+      "id": "cliui@2.1.0",
+      "info": {
+        "name": "cliui",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "center-align@0.1.3",
+      "info": {
+        "name": "center-align",
+        "version": "0.1.3"
+      }
+    },
+    {
+      "id": "align-text@0.1.4",
+      "info": {
+        "name": "align-text",
+        "version": "0.1.4"
+      }
+    },
+    {
+      "id": "kind-of@3.0.3",
+      "info": {
+        "name": "kind-of",
+        "version": "3.0.3"
+      }
+    },
+    {
+      "id": "is-buffer@1.1.3",
+      "info": {
+        "name": "is-buffer",
+        "version": "1.1.3"
+      }
+    },
+    {
+      "id": "longest@1.0.1",
+      "info": {
+        "name": "longest",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "repeat-string@1.5.4",
+      "info": {
+        "name": "repeat-string",
+        "version": "1.5.4"
+      }
+    },
+    {
+      "id": "lazy-cache@1.0.4",
+      "info": {
+        "name": "lazy-cache",
+        "version": "1.0.4"
+      }
+    },
+    {
+      "id": "right-align@0.1.3",
+      "info": {
+        "name": "right-align",
+        "version": "0.1.3"
+      }
+    },
+    {
+      "id": "wordwrap@0.0.2",
+      "info": {
+        "name": "wordwrap",
+        "version": "0.0.2"
+      }
+    },
+    {
+      "id": "decamelize@1.2.0",
+      "info": {
+        "name": "decamelize",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "id": "window-size@0.1.0",
+      "info": {
+        "name": "window-size",
+        "version": "0.1.0"
+      }
+    },
+    {
+      "id": "nopt@3.0.6",
+      "info": {
+        "name": "nopt",
+        "version": "3.0.6"
+      }
+    },
+    {
+      "id": "resolve@1.1.7",
+      "info": {
+        "name": "resolve",
+        "version": "1.1.7"
+      }
+    },
+    {
+      "id": "supports-color@3.1.2",
+      "info": {
+        "name": "supports-color",
+        "version": "3.1.2"
+      }
+    },
+    {
+      "id": "has-flag@1.0.0",
+      "info": {
+        "name": "has-flag",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "micromatch@2.3.8",
+      "info": {
+        "name": "micromatch",
+        "version": "2.3.8"
+      }
+    },
+    {
+      "id": "arr-diff@2.0.0",
+      "info": {
+        "name": "arr-diff",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "arr-flatten@1.0.1",
+      "info": {
+        "name": "arr-flatten",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "array-unique@0.2.1",
+      "info": {
+        "name": "array-unique",
+        "version": "0.2.1"
+      }
+    },
+    {
+      "id": "braces@1.8.5",
+      "info": {
+        "name": "braces",
+        "version": "1.8.5"
+      }
+    },
+    {
+      "id": "expand-range@1.8.2",
+      "info": {
+        "name": "expand-range",
+        "version": "1.8.2"
+      }
+    },
+    {
+      "id": "fill-range@2.2.3",
+      "info": {
+        "name": "fill-range",
+        "version": "2.2.3"
+      }
+    },
+    {
+      "id": "is-number@2.1.0",
+      "info": {
+        "name": "is-number",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "isobject@2.1.0",
+      "info": {
+        "name": "isobject",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "randomatic@1.1.5",
+      "info": {
+        "name": "randomatic",
+        "version": "1.1.5"
+      }
+    },
+    {
+      "id": "repeat-element@1.1.2",
+      "info": {
+        "name": "repeat-element",
+        "version": "1.1.2"
+      }
+    },
+    {
+      "id": "preserve@0.2.0",
+      "info": {
+        "name": "preserve",
+        "version": "0.2.0"
+      }
+    },
+    {
+      "id": "expand-brackets@0.1.5",
+      "info": {
+        "name": "expand-brackets",
+        "version": "0.1.5"
+      }
+    },
+    {
+      "id": "is-posix-bracket@0.1.1",
+      "info": {
+        "name": "is-posix-bracket",
+        "version": "0.1.1"
+      }
+    },
+    {
+      "id": "extglob@0.3.2",
+      "info": {
+        "name": "extglob",
+        "version": "0.3.2"
+      }
+    },
+    {
+      "id": "is-extglob@1.0.0",
+      "info": {
+        "name": "is-extglob",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "filename-regex@2.0.0",
+      "info": {
+        "name": "filename-regex",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "is-glob@2.0.1",
+      "info": {
+        "name": "is-glob",
+        "version": "2.0.1"
+      }
+    },
+    {
+      "id": "normalize-path@2.0.1",
+      "info": {
+        "name": "normalize-path",
+        "version": "2.0.1"
+      }
+    },
+    {
+      "id": "object.omit@2.0.0",
+      "info": {
+        "name": "object.omit",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "for-own@0.1.4",
+      "info": {
+        "name": "for-own",
+        "version": "0.1.4"
+      }
+    },
+    {
+      "id": "for-in@0.1.5",
+      "info": {
+        "name": "for-in",
+        "version": "0.1.5"
+      }
+    },
+    {
+      "id": "is-extendable@0.1.1",
+      "info": {
+        "name": "is-extendable",
+        "version": "0.1.1"
+      }
+    },
+    {
+      "id": "parse-glob@3.0.4",
+      "info": {
+        "name": "parse-glob",
+        "version": "3.0.4"
+      }
+    },
+    {
+      "id": "glob-base@0.3.0",
+      "info": {
+        "name": "glob-base",
+        "version": "0.3.0"
+      }
+    },
+    {
+      "id": "glob-parent@2.0.0",
+      "info": {
+        "name": "glob-parent",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "is-dotfile@1.0.2",
+      "info": {
+        "name": "is-dotfile",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "regex-cache@0.4.3",
+      "info": {
+        "name": "regex-cache",
+        "version": "0.4.3"
+      }
+    },
+    {
+      "id": "is-equal-shallow@0.1.3",
+      "info": {
+        "name": "is-equal-shallow",
+        "version": "0.1.3"
+      }
+    },
+    {
+      "id": "is-primitive@2.0.0",
+      "info": {
+        "name": "is-primitive",
+        "version": "2.0.0"
       }
     },
     {
@@ -1920,13 +2361,6 @@
       "info": {
         "name": "pkg-up",
         "version": "1.0.0"
-      }
-    },
-    {
-      "id": "find-up@^1.0.0",
-      "info": {
-        "name": "find-up",
-        "version": "^1.0.0"
       }
     },
     {
@@ -1951,13 +2385,6 @@
       }
     },
     {
-      "id": "source-map@0.5.6",
-      "info": {
-        "name": "source-map",
-        "version": "0.5.6"
-      }
-    },
-    {
       "id": "spawn-wrap@1.2.3",
       "info": {
         "name": "spawn-wrap",
@@ -1965,17 +2392,10 @@
       }
     },
     {
-      "id": "os-homedir@^1.0.1",
+      "id": "os-homedir@1.0.1",
       "info": {
         "name": "os-homedir",
-        "version": "^1.0.1"
-      }
-    },
-    {
-      "id": "signal-exit@2.1.2",
-      "info": {
-        "name": "signal-exit",
-        "version": "2.1.2"
+        "version": "1.0.1"
       }
     },
     {
@@ -1986,38 +2406,157 @@
       }
     },
     {
-      "id": "arrify@^1.0.1",
-      "info": {
-        "name": "arrify",
-        "version": "^1.0.1"
-      }
-    },
-    {
-      "id": "lodash.assign@^4.0.9",
+      "id": "lodash.assign@4.0.9",
       "info": {
         "name": "lodash.assign",
-        "version": "^4.0.9"
+        "version": "4.0.9"
       }
     },
     {
-      "id": "micromatch@^2.3.8",
+      "id": "lodash.keys@4.0.7",
       "info": {
-        "name": "micromatch",
-        "version": "^2.3.8"
+        "name": "lodash.keys",
+        "version": "4.0.7"
       }
     },
     {
-      "id": "read-pkg-up@^1.0.1",
+      "id": "lodash.rest@4.0.3",
+      "info": {
+        "name": "lodash.rest",
+        "version": "4.0.3"
+      }
+    },
+    {
+      "id": "read-pkg-up@1.0.1",
       "info": {
         "name": "read-pkg-up",
-        "version": "^1.0.1"
+        "version": "1.0.1"
       }
     },
     {
-      "id": "require-main-filename@^1.0.1",
+      "id": "read-pkg@1.1.0",
+      "info": {
+        "name": "read-pkg",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "id": "load-json-file@1.1.0",
+      "info": {
+        "name": "load-json-file",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "id": "parse-json@2.2.0",
+      "info": {
+        "name": "parse-json",
+        "version": "2.2.0"
+      }
+    },
+    {
+      "id": "error-ex@1.3.0",
+      "info": {
+        "name": "error-ex",
+        "version": "1.3.0"
+      }
+    },
+    {
+      "id": "is-arrayish@0.2.1",
+      "info": {
+        "name": "is-arrayish",
+        "version": "0.2.1"
+      }
+    },
+    {
+      "id": "pify@2.3.0",
+      "info": {
+        "name": "pify",
+        "version": "2.3.0"
+      }
+    },
+    {
+      "id": "normalize-package-data@2.3.5",
+      "info": {
+        "name": "normalize-package-data",
+        "version": "2.3.5"
+      }
+    },
+    {
+      "id": "hosted-git-info@2.1.5",
+      "info": {
+        "name": "hosted-git-info",
+        "version": "2.1.5"
+      }
+    },
+    {
+      "id": "is-builtin-module@1.0.0",
+      "info": {
+        "name": "is-builtin-module",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "builtin-modules@1.1.1",
+      "info": {
+        "name": "builtin-modules",
+        "version": "1.1.1"
+      }
+    },
+    {
+      "id": "semver@5.1.0",
+      "info": {
+        "name": "semver",
+        "version": "5.1.0"
+      }
+    },
+    {
+      "id": "validate-npm-package-license@3.0.1",
+      "info": {
+        "name": "validate-npm-package-license",
+        "version": "3.0.1"
+      }
+    },
+    {
+      "id": "spdx-correct@1.0.2",
+      "info": {
+        "name": "spdx-correct",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "spdx-license-ids@1.2.1",
+      "info": {
+        "name": "spdx-license-ids",
+        "version": "1.2.1"
+      }
+    },
+    {
+      "id": "spdx-expression-parse@1.0.2",
+      "info": {
+        "name": "spdx-expression-parse",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "spdx-exceptions@1.0.4",
+      "info": {
+        "name": "spdx-exceptions",
+        "version": "1.0.4"
+      }
+    },
+    {
+      "id": "path-type@1.1.0",
+      "info": {
+        "name": "path-type",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "id": "require-main-filename@1.0.1",
       "info": {
         "name": "require-main-filename",
-        "version": "^1.0.1"
+        "version": "1.0.1"
       }
     },
     {
@@ -2028,73 +2567,129 @@
       }
     },
     {
-      "id": "camelcase@^3.0.0",
+      "id": "camelcase@3.0.0",
       "info": {
         "name": "camelcase",
-        "version": "^3.0.0"
+        "version": "3.0.0"
       }
     },
     {
-      "id": "cliui@^3.2.0",
+      "id": "cliui@3.2.0",
       "info": {
         "name": "cliui",
-        "version": "^3.2.0"
+        "version": "3.2.0"
       }
     },
     {
-      "id": "decamelize@^1.1.1",
-      "info": {
-        "name": "decamelize",
-        "version": "^1.1.1"
-      }
-    },
-    {
-      "id": "os-locale@^1.4.0",
-      "info": {
-        "name": "os-locale",
-        "version": "^1.4.0"
-      }
-    },
-    {
-      "id": "pkg-conf@^1.1.2",
-      "info": {
-        "name": "pkg-conf",
-        "version": "^1.1.2"
-      }
-    },
-    {
-      "id": "set-blocking@^1.0.0",
-      "info": {
-        "name": "set-blocking",
-        "version": "^1.0.0"
-      }
-    },
-    {
-      "id": "string-width@^1.0.1",
+      "id": "string-width@1.0.1",
       "info": {
         "name": "string-width",
-        "version": "^1.0.1"
+        "version": "1.0.1"
       }
     },
     {
-      "id": "window-size@^0.2.0",
+      "id": "code-point-at@1.0.0",
+      "info": {
+        "name": "code-point-at",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "number-is-nan@1.0.0",
+      "info": {
+        "name": "number-is-nan",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "is-fullwidth-code-point@1.0.0",
+      "info": {
+        "name": "is-fullwidth-code-point",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "wrap-ansi@2.0.0",
+      "info": {
+        "name": "wrap-ansi",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "os-locale@1.4.0",
+      "info": {
+        "name": "os-locale",
+        "version": "1.4.0"
+      }
+    },
+    {
+      "id": "lcid@1.0.0",
+      "info": {
+        "name": "lcid",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "invert-kv@1.0.0",
+      "info": {
+        "name": "invert-kv",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "pkg-conf@1.1.3",
+      "info": {
+        "name": "pkg-conf",
+        "version": "1.1.3"
+      }
+    },
+    {
+      "id": "object-assign@4.1.0",
+      "info": {
+        "name": "object-assign",
+        "version": "4.1.0"
+      }
+    },
+    {
+      "id": "symbol@0.2.3",
+      "info": {
+        "name": "symbol",
+        "version": "0.2.3"
+      }
+    },
+    {
+      "id": "set-blocking@1.0.0",
+      "info": {
+        "name": "set-blocking",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "window-size@0.2.0",
       "info": {
         "name": "window-size",
-        "version": "^0.2.0"
+        "version": "0.2.0"
       }
     },
     {
-      "id": "y18n@^3.2.1",
+      "id": "y18n@3.2.1",
       "info": {
         "name": "y18n",
-        "version": "^3.2.1"
+        "version": "3.2.1"
       }
     },
     {
-      "id": "yargs-parser@^2.4.0",
+      "id": "yargs-parser@2.4.0",
       "info": {
         "name": "yargs-parser",
-        "version": "^2.4.0"
+        "version": "2.4.0"
+      }
+    },
+    {
+      "id": "camelcase@2.1.1",
+      "info": {
+        "name": "camelcase",
+        "version": "2.1.1"
       }
     },
     {
@@ -2137,6 +2732,13 @@
       "info": {
         "name": "stack-utils",
         "version": "0.4.0"
+      }
+    },
+    {
+      "id": "supports-color@1.3.1",
+      "info": {
+        "name": "supports-color",
+        "version": "1.3.1"
       }
     },
     {
@@ -5562,7 +6164,7 @@
         "pkgId": "append-transform@0.4.0",
         "deps": [
           {
-            "nodeId": "node_modules/default-require-extensions"
+            "nodeId": "default-require-extensions@1.0.0"
           }
         ],
         "info": {
@@ -5572,13 +6174,40 @@
         }
       },
       {
-        "nodeId": "node_modules/default-require-extensions",
-        "pkgId": "default-require-extensions@^1.0.0",
+        "nodeId": "default-require-extensions@1.0.0",
+        "pkgId": "default-require-extensions@1.0.0",
+        "deps": [
+          {
+            "nodeId": "strip-bom@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "strip-bom@2.0.0",
+        "pkgId": "strip-bom@2.0.0",
+        "deps": [
+          {
+            "nodeId": "is-utf8@0.2.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-utf8@0.2.1",
+        "pkgId": "is-utf8@0.2.1",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
@@ -5597,13 +6226,13 @@
         "pkgId": "caching-transform@1.0.1",
         "deps": [
           {
-            "nodeId": "node_modules/md5-hex"
+            "nodeId": "md5-hex@1.3.0"
           },
           {
-            "nodeId": "mkdirp@0.3.5"
+            "nodeId": "mkdirp@0.5.1"
           },
           {
-            "nodeId": "node_modules/write-file-atomic"
+            "nodeId": "write-file-atomic@1.1.4"
           }
         ],
         "info": {
@@ -5613,24 +6242,100 @@
         }
       },
       {
-        "nodeId": "node_modules/md5-hex",
-        "pkgId": "md5-hex@^1.2.0",
-        "deps": [],
+        "nodeId": "md5-hex@1.3.0",
+        "pkgId": "md5-hex@1.3.0",
+        "deps": [
+          {
+            "nodeId": "md5-o-matic@0.1.1"
+          }
+        ],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/write-file-atomic",
-        "pkgId": "write-file-atomic@^1.1.4",
+        "nodeId": "md5-o-matic@0.1.1",
+        "pkgId": "md5-o-matic@0.1.1",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mkdirp@0.5.1",
+        "pkgId": "mkdirp@0.5.1",
+        "deps": [
+          {
+            "nodeId": "minimist@0.0.8"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "minimist@0.0.8",
+        "pkgId": "minimist@0.0.8",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "write-file-atomic@1.1.4",
+        "pkgId": "write-file-atomic@1.1.4",
+        "deps": [
+          {
+            "nodeId": "graceful-fs@4.1.4"
+          },
+          {
+            "nodeId": "imurmurhash@0.1.4"
+          },
+          {
+            "nodeId": "slide@1.1.6"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "graceful-fs@4.1.4",
+        "pkgId": "graceful-fs@4.1.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "imurmurhash@0.1.4",
+        "pkgId": "imurmurhash@0.1.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "slide@1.1.6",
+        "pkgId": "slide@1.1.6",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
           }
         }
       },
@@ -5645,42 +6350,17 @@
         }
       },
       {
-        "nodeId": "default-require-extensions@1.0.0",
-        "pkgId": "default-require-extensions@1.0.0",
-        "deps": [
-          {
-            "nodeId": "node_modules/strip-bom"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/strip-bom",
-        "pkgId": "strip-bom@^2.0.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
         "nodeId": "find-cache-dir@0.1.1",
         "pkgId": "find-cache-dir@0.1.1",
         "deps": [
           {
-            "nodeId": "node_modules/commondir"
+            "nodeId": "commondir@1.0.1"
           },
           {
-            "nodeId": "mkdirp@0.3.5"
+            "nodeId": "mkdirp@0.5.1"
           },
           {
-            "nodeId": "node_modules/pkg-dir"
+            "nodeId": "pkg-dir@1.0.0"
           }
         ],
         "info": {
@@ -5690,24 +6370,26 @@
         }
       },
       {
-        "nodeId": "node_modules/commondir",
-        "pkgId": "commondir@^1.0.1",
+        "nodeId": "commondir@1.0.1",
+        "pkgId": "commondir@1.0.1",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/pkg-dir",
-        "pkgId": "pkg-dir@^1.0.0",
-        "deps": [],
+        "nodeId": "pkg-dir@1.0.0",
+        "pkgId": "pkg-dir@1.0.0",
+        "deps": [
+          {
+            "nodeId": "find-up@1.1.2"
+          }
+        ],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
@@ -5716,7 +6398,7 @@
         "pkgId": "find-up@1.1.2",
         "deps": [
           {
-            "nodeId": "node_modules/path-exists"
+            "nodeId": "path-exists@2.1.0"
           },
           {
             "nodeId": "pinkie-promise@2.0.1"
@@ -5729,28 +6411,11 @@
         }
       },
       {
-        "nodeId": "node_modules/path-exists",
-        "pkgId": "path-exists@^2.0.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "foreground-child@1.5.1",
-        "pkgId": "foreground-child@1.5.1",
+        "nodeId": "path-exists@2.1.0",
+        "pkgId": "path-exists@2.1.0",
         "deps": [
           {
-            "nodeId": "node_modules/cross-spawn-async"
-          },
-          {
-            "nodeId": "signal-exit@3.0.7"
-          },
-          {
-            "nodeId": "which@1.3.1"
+            "nodeId": "pinkie-promise@2.0.1"
           }
         ],
         "info": {
@@ -5760,13 +6425,90 @@
         }
       },
       {
-        "nodeId": "node_modules/cross-spawn-async",
-        "pkgId": "cross-spawn-async@^2.1.1",
+        "nodeId": "foreground-child@1.5.1",
+        "pkgId": "foreground-child@1.5.1",
+        "deps": [
+          {
+            "nodeId": "cross-spawn-async@2.2.4"
+          },
+          {
+            "nodeId": "signal-exit@2.1.2"
+          },
+          {
+            "nodeId": "which@1.2.10"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "cross-spawn-async@2.2.4",
+        "pkgId": "cross-spawn-async@2.2.4",
+        "deps": [
+          {
+            "nodeId": "lru-cache@4.0.1"
+          },
+          {
+            "nodeId": "which@1.2.10"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lru-cache@4.0.1",
+        "pkgId": "lru-cache@4.0.1",
+        "deps": [
+          {
+            "nodeId": "pseudomap@1.0.2"
+          },
+          {
+            "nodeId": "yallist@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "yallist@2.0.0",
+        "pkgId": "yallist@2.0.0",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "which@1.2.10",
+        "pkgId": "which@1.2.10",
+        "deps": [
+          {
+            "nodeId": "isexe@1.1.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "signal-exit@2.1.2",
+        "pkgId": "signal-exit@2.1.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
           }
         }
       },
@@ -5775,21 +6517,113 @@
         "pkgId": "glob@7.0.3",
         "deps": [
           {
-            "nodeId": "inflight@1.0.6"
+            "nodeId": "inflight@1.0.5"
           },
           {
-            "nodeId": "inherits@2.0.4"
+            "nodeId": "inherits@2.0.1"
           },
           {
-            "nodeId": "minimatch@3.1.2"
+            "nodeId": "minimatch@3.0.0"
           },
           {
-            "nodeId": "once@1.4.0"
+            "nodeId": "once@1.3.3"
           },
           {
-            "nodeId": "path-is-absolute@1.0.1"
+            "nodeId": "path-is-absolute@1.0.0"
           }
         ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "inflight@1.0.5",
+        "pkgId": "inflight@1.0.5",
+        "deps": [
+          {
+            "nodeId": "once@1.3.3"
+          },
+          {
+            "nodeId": "wrappy@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "once@1.3.3",
+        "pkgId": "once@1.3.3",
+        "deps": [
+          {
+            "nodeId": "wrappy@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "inherits@2.0.1",
+        "pkgId": "inherits@2.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "minimatch@3.0.0",
+        "pkgId": "minimatch@3.0.0",
+        "deps": [
+          {
+            "nodeId": "brace-expansion@1.1.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "brace-expansion@1.1.4",
+        "pkgId": "brace-expansion@1.1.4",
+        "deps": [
+          {
+            "nodeId": "balanced-match@0.4.1"
+          },
+          {
+            "nodeId": "concat-map@0.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "balanced-match@0.4.1",
+        "pkgId": "balanced-match@0.4.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-is-absolute@1.0.0",
+        "pkgId": "path-is-absolute@1.0.0",
+        "deps": [],
         "info": {
           "labels": {
             "scope": "prod"
@@ -5801,46 +6635,46 @@
         "pkgId": "istanbul@0.4.3",
         "deps": [
           {
-            "nodeId": "abbrev@1.1.1"
+            "nodeId": "abbrev@1.0.7"
           },
           {
-            "nodeId": "async@0.9.0"
+            "nodeId": "async@1.5.2"
           },
           {
-            "nodeId": "node_modules/escodegen"
+            "nodeId": "escodegen@1.8.0"
           },
           {
-            "nodeId": "esprima@2.7.3"
+            "nodeId": "esprima@2.7.2"
           },
           {
-            "nodeId": "node_modules/fileset"
+            "nodeId": "fileset@0.2.1"
           },
           {
-            "nodeId": "node_modules/handlebars"
+            "nodeId": "handlebars@4.0.5"
           },
           {
-            "nodeId": "js-yaml@4.0.0"
+            "nodeId": "js-yaml@3.6.1"
           },
           {
-            "nodeId": "mkdirp@0.3.5"
+            "nodeId": "mkdirp@0.5.1"
           },
           {
-            "nodeId": "nopt@2.2.1"
+            "nodeId": "nopt@3.0.6"
           },
           {
-            "nodeId": "once@1.4.0"
+            "nodeId": "once@1.3.3"
           },
           {
-            "nodeId": "resolve@1.22.1"
+            "nodeId": "resolve@1.1.7"
           },
           {
-            "nodeId": "supports-color@1.3.1"
+            "nodeId": "supports-color@3.1.2"
           },
           {
-            "nodeId": "which@1.3.1"
+            "nodeId": "which@1.2.10"
           },
           {
-            "nodeId": "node_modules/wordwrap"
+            "nodeId": "wordwrap@1.0.0"
           }
         ],
         "info": {
@@ -5850,50 +6684,43 @@
         }
       },
       {
-        "nodeId": "node_modules/escodegen",
-        "pkgId": "escodegen@1.8.x",
+        "nodeId": "abbrev@1.0.7",
+        "pkgId": "abbrev@1.0.7",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/fileset",
-        "pkgId": "fileset@0.2.x",
+        "nodeId": "async@1.5.2",
+        "pkgId": "async@1.5.2",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/handlebars",
-        "pkgId": "handlebars@^4.0.1",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "resolve@1.22.1",
-        "pkgId": "resolve@1.22.1",
+        "nodeId": "escodegen@1.8.0",
+        "pkgId": "escodegen@1.8.0",
         "deps": [
           {
-            "nodeId": "is-core-module@2.11.0"
+            "nodeId": "esprima@2.7.2"
           },
           {
-            "nodeId": "path-parse@1.0.7"
+            "nodeId": "estraverse@1.9.3"
           },
           {
-            "nodeId": "supports-preserve-symlinks-flag@1.0.0"
+            "nodeId": "esutils@2.0.2"
+          },
+          {
+            "nodeId": "optionator@0.8.1"
+          },
+          {
+            "nodeId": "source-map@0.2.0"
           }
         ],
         "info": {
@@ -5903,11 +6730,56 @@
         }
       },
       {
-        "nodeId": "is-core-module@2.11.0",
-        "pkgId": "is-core-module@2.11.0",
+        "nodeId": "esprima@2.7.2",
+        "pkgId": "esprima@2.7.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "estraverse@1.9.3",
+        "pkgId": "estraverse@1.9.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "esutils@2.0.2",
+        "pkgId": "esutils@2.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "optionator@0.8.1",
+        "pkgId": "optionator@0.8.1",
         "deps": [
           {
-            "nodeId": "has@1.0.3"
+            "nodeId": "deep-is@0.1.3"
+          },
+          {
+            "nodeId": "fast-levenshtein@1.1.3"
+          },
+          {
+            "nodeId": "levn@0.3.0"
+          },
+          {
+            "nodeId": "prelude-ls@1.1.2"
+          },
+          {
+            "nodeId": "type-check@0.3.2"
+          },
+          {
+            "nodeId": "wordwrap@1.0.0"
           }
         ],
         "info": {
@@ -5917,11 +6789,34 @@
         }
       },
       {
-        "nodeId": "has@1.0.3",
-        "pkgId": "has@1.0.3",
+        "nodeId": "deep-is@0.1.3",
+        "pkgId": "deep-is@0.1.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "fast-levenshtein@1.1.3",
+        "pkgId": "fast-levenshtein@1.1.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "levn@0.3.0",
+        "pkgId": "levn@0.3.0",
         "deps": [
           {
-            "nodeId": "function-bind@1.1.1"
+            "nodeId": "prelude-ls@1.1.2"
+          },
+          {
+            "nodeId": "type-check@0.3.2"
           }
         ],
         "info": {
@@ -5931,8 +6826,8 @@
         }
       },
       {
-        "nodeId": "function-bind@1.1.1",
-        "pkgId": "function-bind@1.1.1",
+        "nodeId": "prelude-ls@1.1.2",
+        "pkgId": "prelude-ls@1.1.2",
         "deps": [],
         "info": {
           "labels": {
@@ -5941,52 +6836,11 @@
         }
       },
       {
-        "nodeId": "path-parse@1.0.7",
-        "pkgId": "path-parse@1.0.7",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "supports-preserve-symlinks-flag@1.0.0",
-        "pkgId": "supports-preserve-symlinks-flag@1.0.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "supports-color@1.3.1",
-        "pkgId": "supports-color@1.3.1",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/wordwrap",
-        "pkgId": "wordwrap@^1.0.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "md5-hex@1.3.0",
-        "pkgId": "md5-hex@1.3.0",
+        "nodeId": "type-check@0.3.2",
+        "pkgId": "type-check@0.3.2",
         "deps": [
           {
-            "nodeId": "node_modules/md5-o-matic"
+            "nodeId": "prelude-ls@1.1.2"
           }
         ],
         "info": {
@@ -5996,13 +6850,456 @@
         }
       },
       {
-        "nodeId": "node_modules/md5-o-matic",
-        "pkgId": "md5-o-matic@^0.1.1",
+        "nodeId": "wordwrap@1.0.0",
+        "pkgId": "wordwrap@1.0.0",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "source-map@0.2.0",
+        "pkgId": "source-map@0.2.0",
+        "deps": [
+          {
+            "nodeId": "amdefine@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "amdefine@1.0.0",
+        "pkgId": "amdefine@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "fileset@0.2.1",
+        "pkgId": "fileset@0.2.1",
+        "deps": [
+          {
+            "nodeId": "glob@5.0.15"
+          },
+          {
+            "nodeId": "minimatch@2.0.10"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "glob@5.0.15",
+        "pkgId": "glob@5.0.15",
+        "deps": [
+          {
+            "nodeId": "inflight@1.0.5"
+          },
+          {
+            "nodeId": "inherits@2.0.1"
+          },
+          {
+            "nodeId": "minimatch@2.0.10"
+          },
+          {
+            "nodeId": "once@1.3.3"
+          },
+          {
+            "nodeId": "path-is-absolute@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "minimatch@2.0.10",
+        "pkgId": "minimatch@2.0.10",
+        "deps": [
+          {
+            "nodeId": "brace-expansion@1.1.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "handlebars@4.0.5",
+        "pkgId": "handlebars@4.0.5",
+        "deps": [
+          {
+            "nodeId": "async@1.5.2"
+          },
+          {
+            "nodeId": "optimist@0.6.1"
+          },
+          {
+            "nodeId": "source-map@0.4.4"
+          },
+          {
+            "nodeId": "uglify-js@2.6.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "optimist@0.6.1",
+        "pkgId": "optimist@0.6.1",
+        "deps": [
+          {
+            "nodeId": "minimist@0.0.10"
+          },
+          {
+            "nodeId": "wordwrap@0.0.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "minimist@0.0.10",
+        "pkgId": "minimist@0.0.10",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "wordwrap@0.0.3",
+        "pkgId": "wordwrap@0.0.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "source-map@0.4.4",
+        "pkgId": "source-map@0.4.4",
+        "deps": [
+          {
+            "nodeId": "amdefine@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "uglify-js@2.6.2",
+        "pkgId": "uglify-js@2.6.2",
+        "deps": [
+          {
+            "nodeId": "async@0.2.10"
+          },
+          {
+            "nodeId": "source-map@0.5.6"
+          },
+          {
+            "nodeId": "uglify-to-browserify@1.0.2"
+          },
+          {
+            "nodeId": "yargs@3.10.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "async@0.2.10",
+        "pkgId": "async@0.2.10",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "source-map@0.5.6",
+        "pkgId": "source-map@0.5.6",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "uglify-to-browserify@1.0.2",
+        "pkgId": "uglify-to-browserify@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "yargs@3.10.0",
+        "pkgId": "yargs@3.10.0",
+        "deps": [
+          {
+            "nodeId": "camelcase@1.2.1"
+          },
+          {
+            "nodeId": "cliui@2.1.0"
+          },
+          {
+            "nodeId": "decamelize@1.2.0"
+          },
+          {
+            "nodeId": "window-size@0.1.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "camelcase@1.2.1",
+        "pkgId": "camelcase@1.2.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "cliui@2.1.0",
+        "pkgId": "cliui@2.1.0",
+        "deps": [
+          {
+            "nodeId": "center-align@0.1.3"
+          },
+          {
+            "nodeId": "right-align@0.1.3"
+          },
+          {
+            "nodeId": "wordwrap@0.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "center-align@0.1.3",
+        "pkgId": "center-align@0.1.3",
+        "deps": [
+          {
+            "nodeId": "align-text@0.1.4"
+          },
+          {
+            "nodeId": "lazy-cache@1.0.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "align-text@0.1.4",
+        "pkgId": "align-text@0.1.4",
+        "deps": [
+          {
+            "nodeId": "kind-of@3.0.3"
+          },
+          {
+            "nodeId": "longest@1.0.1"
+          },
+          {
+            "nodeId": "repeat-string@1.5.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "kind-of@3.0.3",
+        "pkgId": "kind-of@3.0.3",
+        "deps": [
+          {
+            "nodeId": "is-buffer@1.1.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-buffer@1.1.3",
+        "pkgId": "is-buffer@1.1.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "longest@1.0.1",
+        "pkgId": "longest@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "repeat-string@1.5.4",
+        "pkgId": "repeat-string@1.5.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lazy-cache@1.0.4",
+        "pkgId": "lazy-cache@1.0.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "right-align@0.1.3",
+        "pkgId": "right-align@0.1.3",
+        "deps": [
+          {
+            "nodeId": "align-text@0.1.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "wordwrap@0.0.2",
+        "pkgId": "wordwrap@0.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "decamelize@1.2.0",
+        "pkgId": "decamelize@1.2.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "window-size@0.1.0",
+        "pkgId": "window-size@0.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "nopt@3.0.6",
+        "pkgId": "nopt@3.0.6",
+        "deps": [
+          {
+            "nodeId": "abbrev@1.0.7"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "resolve@1.1.7",
+        "pkgId": "resolve@1.1.7",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "supports-color@3.1.2",
+        "pkgId": "supports-color@3.1.2",
+        "deps": [
+          {
+            "nodeId": "has-flag@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "has-flag@1.0.0",
+        "pkgId": "has-flag@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
           }
         }
       },
@@ -6011,43 +7308,43 @@
         "pkgId": "micromatch@2.3.8",
         "deps": [
           {
-            "nodeId": "node_modules/arr-diff"
+            "nodeId": "arr-diff@2.0.0"
           },
           {
-            "nodeId": "node_modules/array-unique"
+            "nodeId": "array-unique@0.2.1"
           },
           {
-            "nodeId": "node_modules/braces"
+            "nodeId": "braces@1.8.5"
           },
           {
-            "nodeId": "node_modules/expand-brackets"
+            "nodeId": "expand-brackets@0.1.5"
           },
           {
-            "nodeId": "node_modules/extglob"
+            "nodeId": "extglob@0.3.2"
           },
           {
-            "nodeId": "node_modules/filename-regex"
+            "nodeId": "filename-regex@2.0.0"
           },
           {
-            "nodeId": "node_modules/is-extglob"
+            "nodeId": "is-extglob@1.0.0"
           },
           {
-            "nodeId": "node_modules/is-glob"
+            "nodeId": "is-glob@2.0.1"
           },
           {
-            "nodeId": "node_modules/kind-of"
+            "nodeId": "kind-of@3.0.3"
           },
           {
-            "nodeId": "node_modules/normalize-path"
+            "nodeId": "normalize-path@2.0.1"
           },
           {
-            "nodeId": "node_modules/object.omit"
+            "nodeId": "object.omit@2.0.0"
           },
           {
-            "nodeId": "node_modules/parse-glob"
+            "nodeId": "parse-glob@3.0.4"
           },
           {
-            "nodeId": "node_modules/regex-cache"
+            "nodeId": "regex-cache@0.4.3"
           }
         ],
         "info": {
@@ -6057,154 +7354,11 @@
         }
       },
       {
-        "nodeId": "node_modules/arr-diff",
-        "pkgId": "arr-diff@^2.0.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/array-unique",
-        "pkgId": "array-unique@^0.2.1",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/braces",
-        "pkgId": "braces@^1.8.2",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/expand-brackets",
-        "pkgId": "expand-brackets@^0.1.4",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/extglob",
-        "pkgId": "extglob@^0.3.1",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/filename-regex",
-        "pkgId": "filename-regex@^2.0.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/is-extglob",
-        "pkgId": "is-extglob@^1.0.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/is-glob",
-        "pkgId": "is-glob@^2.0.1",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/kind-of",
-        "pkgId": "kind-of@^3.0.2",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/normalize-path",
-        "pkgId": "normalize-path@^2.0.1",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/object.omit",
-        "pkgId": "object.omit@^2.0.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/parse-glob",
-        "pkgId": "parse-glob@^3.0.4",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/regex-cache",
-        "pkgId": "regex-cache@^0.4.2",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "mkdirp@0.5.1",
-        "pkgId": "mkdirp@0.5.1",
+        "nodeId": "arr-diff@2.0.0",
+        "pkgId": "arr-diff@2.0.0",
         "deps": [
           {
-            "nodeId": "minimist@1.2.7"
+            "nodeId": "arr-flatten@1.0.1"
           }
         ],
         "info": {
@@ -6214,8 +7368,381 @@
         }
       },
       {
-        "nodeId": "minimist@1.2.7",
-        "pkgId": "minimist@1.2.7",
+        "nodeId": "arr-flatten@1.0.1",
+        "pkgId": "arr-flatten@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "array-unique@0.2.1",
+        "pkgId": "array-unique@0.2.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "braces@1.8.5",
+        "pkgId": "braces@1.8.5",
+        "deps": [
+          {
+            "nodeId": "expand-range@1.8.2"
+          },
+          {
+            "nodeId": "preserve@0.2.0"
+          },
+          {
+            "nodeId": "repeat-element@1.1.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "expand-range@1.8.2",
+        "pkgId": "expand-range@1.8.2",
+        "deps": [
+          {
+            "nodeId": "fill-range@2.2.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "fill-range@2.2.3",
+        "pkgId": "fill-range@2.2.3",
+        "deps": [
+          {
+            "nodeId": "is-number@2.1.0"
+          },
+          {
+            "nodeId": "isobject@2.1.0"
+          },
+          {
+            "nodeId": "randomatic@1.1.5"
+          },
+          {
+            "nodeId": "repeat-element@1.1.2"
+          },
+          {
+            "nodeId": "repeat-string@1.5.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-number@2.1.0",
+        "pkgId": "is-number@2.1.0",
+        "deps": [
+          {
+            "nodeId": "kind-of@3.0.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "isobject@2.1.0",
+        "pkgId": "isobject@2.1.0",
+        "deps": [
+          {
+            "nodeId": "isarray@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "randomatic@1.1.5",
+        "pkgId": "randomatic@1.1.5",
+        "deps": [
+          {
+            "nodeId": "is-number@2.1.0"
+          },
+          {
+            "nodeId": "kind-of@3.0.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "repeat-element@1.1.2",
+        "pkgId": "repeat-element@1.1.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "preserve@0.2.0",
+        "pkgId": "preserve@0.2.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "expand-brackets@0.1.5",
+        "pkgId": "expand-brackets@0.1.5",
+        "deps": [
+          {
+            "nodeId": "is-posix-bracket@0.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-posix-bracket@0.1.1",
+        "pkgId": "is-posix-bracket@0.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "extglob@0.3.2",
+        "pkgId": "extglob@0.3.2",
+        "deps": [
+          {
+            "nodeId": "is-extglob@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-extglob@1.0.0",
+        "pkgId": "is-extglob@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "filename-regex@2.0.0",
+        "pkgId": "filename-regex@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-glob@2.0.1",
+        "pkgId": "is-glob@2.0.1",
+        "deps": [
+          {
+            "nodeId": "is-extglob@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "normalize-path@2.0.1",
+        "pkgId": "normalize-path@2.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "object.omit@2.0.0",
+        "pkgId": "object.omit@2.0.0",
+        "deps": [
+          {
+            "nodeId": "for-own@0.1.4"
+          },
+          {
+            "nodeId": "is-extendable@0.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "for-own@0.1.4",
+        "pkgId": "for-own@0.1.4",
+        "deps": [
+          {
+            "nodeId": "for-in@0.1.5"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "for-in@0.1.5",
+        "pkgId": "for-in@0.1.5",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-extendable@0.1.1",
+        "pkgId": "is-extendable@0.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "parse-glob@3.0.4",
+        "pkgId": "parse-glob@3.0.4",
+        "deps": [
+          {
+            "nodeId": "glob-base@0.3.0"
+          },
+          {
+            "nodeId": "is-dotfile@1.0.2"
+          },
+          {
+            "nodeId": "is-extglob@1.0.0"
+          },
+          {
+            "nodeId": "is-glob@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "glob-base@0.3.0",
+        "pkgId": "glob-base@0.3.0",
+        "deps": [
+          {
+            "nodeId": "glob-parent@2.0.0"
+          },
+          {
+            "nodeId": "is-glob@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "glob-parent@2.0.0",
+        "pkgId": "glob-parent@2.0.0",
+        "deps": [
+          {
+            "nodeId": "is-glob@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-dotfile@1.0.2",
+        "pkgId": "is-dotfile@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "regex-cache@0.4.3",
+        "pkgId": "regex-cache@0.4.3",
+        "deps": [
+          {
+            "nodeId": "is-equal-shallow@0.1.3"
+          },
+          {
+            "nodeId": "is-primitive@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-equal-shallow@0.1.3",
+        "pkgId": "is-equal-shallow@0.1.3",
+        "deps": [
+          {
+            "nodeId": "is-primitive@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-primitive@2.0.0",
+        "pkgId": "is-primitive@2.0.0",
         "deps": [],
         "info": {
           "labels": {
@@ -6228,23 +7755,12 @@
         "pkgId": "pkg-up@1.0.0",
         "deps": [
           {
-            "nodeId": "node_modules/find-up"
+            "nodeId": "find-up@1.1.2"
           }
         ],
         "info": {
           "labels": {
             "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "node_modules/find-up",
-        "pkgId": "find-up@^1.0.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
           }
         }
       },
@@ -6263,7 +7779,7 @@
         "pkgId": "rimraf@2.5.2",
         "deps": [
           {
-            "nodeId": "glob@7.2.3"
+            "nodeId": "glob@7.0.3"
           }
         ],
         "info": {
@@ -6283,36 +7799,26 @@
         }
       },
       {
-        "nodeId": "source-map@0.5.6",
-        "pkgId": "source-map@0.5.6",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
         "nodeId": "spawn-wrap@1.2.3",
         "pkgId": "spawn-wrap@1.2.3",
         "deps": [
           {
-            "nodeId": "foreground-child@1.5.6"
+            "nodeId": "foreground-child@1.5.1"
           },
           {
-            "nodeId": "mkdirp@0.3.5"
+            "nodeId": "mkdirp@0.5.1"
           },
           {
-            "nodeId": "node_modules/os-homedir"
+            "nodeId": "os-homedir@1.0.1"
           },
           {
-            "nodeId": "rimraf@2.7.1"
+            "nodeId": "rimraf@2.5.2"
           },
           {
             "nodeId": "signal-exit@2.1.2"
           },
           {
-            "nodeId": "which@1.3.1"
+            "nodeId": "which@1.2.10"
           }
         ],
         "info": {
@@ -6322,19 +7828,8 @@
         }
       },
       {
-        "nodeId": "node_modules/os-homedir",
-        "pkgId": "os-homedir@^1.0.1",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
-          }
-        }
-      },
-      {
-        "nodeId": "signal-exit@2.1.2",
-        "pkgId": "signal-exit@2.1.2",
+        "nodeId": "os-homedir@1.0.1",
+        "pkgId": "os-homedir@1.0.1",
         "deps": [],
         "info": {
           "labels": {
@@ -6347,19 +7842,19 @@
         "pkgId": "test-exclude@1.1.0",
         "deps": [
           {
-            "nodeId": "node_modules/arrify"
+            "nodeId": "arrify@1.0.1"
           },
           {
-            "nodeId": "node_modules/lodash.assign"
+            "nodeId": "lodash.assign@4.0.9"
           },
           {
-            "nodeId": "node_modules/micromatch"
+            "nodeId": "micromatch@2.3.8"
           },
           {
-            "nodeId": "node_modules/read-pkg-up"
+            "nodeId": "read-pkg-up@1.0.1"
           },
           {
-            "nodeId": "node_modules/require-main-filename"
+            "nodeId": "require-main-filename@1.0.1"
           }
         ],
         "info": {
@@ -6369,57 +7864,315 @@
         }
       },
       {
-        "nodeId": "node_modules/arrify",
-        "pkgId": "arrify@^1.0.1",
-        "deps": [],
+        "nodeId": "lodash.assign@4.0.9",
+        "pkgId": "lodash.assign@4.0.9",
+        "deps": [
+          {
+            "nodeId": "lodash.keys@4.0.7"
+          },
+          {
+            "nodeId": "lodash.rest@4.0.3"
+          }
+        ],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/lodash.assign",
-        "pkgId": "lodash.assign@^4.0.9",
+        "nodeId": "lodash.keys@4.0.7",
+        "pkgId": "lodash.keys@4.0.7",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/micromatch",
-        "pkgId": "micromatch@^2.3.8",
+        "nodeId": "lodash.rest@4.0.3",
+        "pkgId": "lodash.rest@4.0.3",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/read-pkg-up",
-        "pkgId": "read-pkg-up@^1.0.1",
-        "deps": [],
+        "nodeId": "read-pkg-up@1.0.1",
+        "pkgId": "read-pkg-up@1.0.1",
+        "deps": [
+          {
+            "nodeId": "find-up@1.1.2"
+          },
+          {
+            "nodeId": "read-pkg@1.1.0"
+          }
+        ],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/require-main-filename",
-        "pkgId": "require-main-filename@^1.0.1",
+        "nodeId": "read-pkg@1.1.0",
+        "pkgId": "read-pkg@1.1.0",
+        "deps": [
+          {
+            "nodeId": "load-json-file@1.1.0"
+          },
+          {
+            "nodeId": "normalize-package-data@2.3.5"
+          },
+          {
+            "nodeId": "path-type@1.1.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "load-json-file@1.1.0",
+        "pkgId": "load-json-file@1.1.0",
+        "deps": [
+          {
+            "nodeId": "graceful-fs@4.1.4"
+          },
+          {
+            "nodeId": "parse-json@2.2.0"
+          },
+          {
+            "nodeId": "pify@2.3.0"
+          },
+          {
+            "nodeId": "pinkie-promise@2.0.1"
+          },
+          {
+            "nodeId": "strip-bom@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "parse-json@2.2.0",
+        "pkgId": "parse-json@2.2.0",
+        "deps": [
+          {
+            "nodeId": "error-ex@1.3.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "error-ex@1.3.0",
+        "pkgId": "error-ex@1.3.0",
+        "deps": [
+          {
+            "nodeId": "is-arrayish@0.2.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-arrayish@0.2.1",
+        "pkgId": "is-arrayish@0.2.1",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "pify@2.3.0",
+        "pkgId": "pify@2.3.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "normalize-package-data@2.3.5",
+        "pkgId": "normalize-package-data@2.3.5",
+        "deps": [
+          {
+            "nodeId": "hosted-git-info@2.1.5"
+          },
+          {
+            "nodeId": "is-builtin-module@1.0.0"
+          },
+          {
+            "nodeId": "semver@5.1.0"
+          },
+          {
+            "nodeId": "validate-npm-package-license@3.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "hosted-git-info@2.1.5",
+        "pkgId": "hosted-git-info@2.1.5",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-builtin-module@1.0.0",
+        "pkgId": "is-builtin-module@1.0.0",
+        "deps": [
+          {
+            "nodeId": "builtin-modules@1.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "builtin-modules@1.1.1",
+        "pkgId": "builtin-modules@1.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "semver@5.1.0",
+        "pkgId": "semver@5.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "validate-npm-package-license@3.0.1",
+        "pkgId": "validate-npm-package-license@3.0.1",
+        "deps": [
+          {
+            "nodeId": "spdx-correct@1.0.2"
+          },
+          {
+            "nodeId": "spdx-expression-parse@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "spdx-correct@1.0.2",
+        "pkgId": "spdx-correct@1.0.2",
+        "deps": [
+          {
+            "nodeId": "spdx-license-ids@1.2.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "spdx-license-ids@1.2.1",
+        "pkgId": "spdx-license-ids@1.2.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "spdx-expression-parse@1.0.2",
+        "pkgId": "spdx-expression-parse@1.0.2",
+        "deps": [
+          {
+            "nodeId": "spdx-exceptions@1.0.4"
+          },
+          {
+            "nodeId": "spdx-license-ids@1.2.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "spdx-exceptions@1.0.4",
+        "pkgId": "spdx-exceptions@1.0.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-type@1.1.0",
+        "pkgId": "path-type@1.1.0",
+        "deps": [
+          {
+            "nodeId": "graceful-fs@4.1.4"
+          },
+          {
+            "nodeId": "pify@2.3.0"
+          },
+          {
+            "nodeId": "pinkie-promise@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "require-main-filename@1.0.1",
+        "pkgId": "require-main-filename@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
           }
         }
       },
@@ -6428,43 +8181,43 @@
         "pkgId": "yargs@4.7.1",
         "deps": [
           {
-            "nodeId": "node_modules/camelcase"
+            "nodeId": "camelcase@3.0.0"
           },
           {
-            "nodeId": "node_modules/cliui"
+            "nodeId": "cliui@3.2.0"
           },
           {
-            "nodeId": "node_modules/decamelize"
+            "nodeId": "decamelize@1.2.0"
           },
           {
-            "nodeId": "node_modules/lodash.assign"
+            "nodeId": "lodash.assign@4.0.9"
           },
           {
-            "nodeId": "node_modules/os-locale"
+            "nodeId": "os-locale@1.4.0"
           },
           {
-            "nodeId": "node_modules/pkg-conf"
+            "nodeId": "pkg-conf@1.1.3"
           },
           {
-            "nodeId": "node_modules/read-pkg-up"
+            "nodeId": "read-pkg-up@1.0.1"
           },
           {
-            "nodeId": "node_modules/require-main-filename"
+            "nodeId": "require-main-filename@1.0.1"
           },
           {
-            "nodeId": "node_modules/set-blocking"
+            "nodeId": "set-blocking@1.0.0"
           },
           {
-            "nodeId": "node_modules/string-width"
+            "nodeId": "string-width@1.0.1"
           },
           {
-            "nodeId": "node_modules/window-size"
+            "nodeId": "window-size@0.2.0"
           },
           {
-            "nodeId": "node_modules/y18n"
+            "nodeId": "y18n@3.2.1"
           },
           {
-            "nodeId": "node_modules/yargs-parser"
+            "nodeId": "yargs-parser@2.4.0"
           }
         ],
         "info": {
@@ -6474,112 +8227,242 @@
         }
       },
       {
-        "nodeId": "node_modules/camelcase",
-        "pkgId": "camelcase@^3.0.0",
+        "nodeId": "camelcase@3.0.0",
+        "pkgId": "camelcase@3.0.0",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/cliui",
-        "pkgId": "cliui@^3.2.0",
-        "deps": [],
+        "nodeId": "cliui@3.2.0",
+        "pkgId": "cliui@3.2.0",
+        "deps": [
+          {
+            "nodeId": "string-width@1.0.1"
+          },
+          {
+            "nodeId": "strip-ansi@3.0.1"
+          },
+          {
+            "nodeId": "wrap-ansi@2.0.0"
+          }
+        ],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/decamelize",
-        "pkgId": "decamelize@^1.1.1",
-        "deps": [],
+        "nodeId": "string-width@1.0.1",
+        "pkgId": "string-width@1.0.1",
+        "deps": [
+          {
+            "nodeId": "code-point-at@1.0.0"
+          },
+          {
+            "nodeId": "is-fullwidth-code-point@1.0.0"
+          },
+          {
+            "nodeId": "strip-ansi@3.0.1"
+          }
+        ],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/os-locale",
-        "pkgId": "os-locale@^1.4.0",
-        "deps": [],
+        "nodeId": "code-point-at@1.0.0",
+        "pkgId": "code-point-at@1.0.0",
+        "deps": [
+          {
+            "nodeId": "number-is-nan@1.0.0"
+          }
+        ],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/pkg-conf",
-        "pkgId": "pkg-conf@^1.1.2",
+        "nodeId": "number-is-nan@1.0.0",
+        "pkgId": "number-is-nan@1.0.0",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/set-blocking",
-        "pkgId": "set-blocking@^1.0.0",
-        "deps": [],
+        "nodeId": "is-fullwidth-code-point@1.0.0",
+        "pkgId": "is-fullwidth-code-point@1.0.0",
+        "deps": [
+          {
+            "nodeId": "number-is-nan@1.0.0"
+          }
+        ],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/string-width",
-        "pkgId": "string-width@^1.0.1",
-        "deps": [],
+        "nodeId": "wrap-ansi@2.0.0",
+        "pkgId": "wrap-ansi@2.0.0",
+        "deps": [
+          {
+            "nodeId": "string-width@1.0.1"
+          }
+        ],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/window-size",
-        "pkgId": "window-size@^0.2.0",
-        "deps": [],
+        "nodeId": "os-locale@1.4.0",
+        "pkgId": "os-locale@1.4.0",
+        "deps": [
+          {
+            "nodeId": "lcid@1.0.0"
+          }
+        ],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/y18n",
-        "pkgId": "y18n@^3.2.1",
-        "deps": [],
+        "nodeId": "lcid@1.0.0",
+        "pkgId": "lcid@1.0.0",
+        "deps": [
+          {
+            "nodeId": "invert-kv@1.0.0"
+          }
+        ],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
           }
         }
       },
       {
-        "nodeId": "node_modules/yargs-parser",
-        "pkgId": "yargs-parser@^2.4.0",
+        "nodeId": "invert-kv@1.0.0",
+        "pkgId": "invert-kv@1.0.0",
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod",
-            "missingLockFileEntry": "true"
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "pkg-conf@1.1.3",
+        "pkgId": "pkg-conf@1.1.3",
+        "deps": [
+          {
+            "nodeId": "find-up@1.1.2"
+          },
+          {
+            "nodeId": "load-json-file@1.1.0"
+          },
+          {
+            "nodeId": "object-assign@4.1.0"
+          },
+          {
+            "nodeId": "symbol@0.2.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "object-assign@4.1.0",
+        "pkgId": "object-assign@4.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "symbol@0.2.3",
+        "pkgId": "symbol@0.2.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "set-blocking@1.0.0",
+        "pkgId": "set-blocking@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "window-size@0.2.0",
+        "pkgId": "window-size@0.2.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "y18n@3.2.1",
+        "pkgId": "y18n@3.2.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "yargs-parser@2.4.0",
+        "pkgId": "yargs-parser@2.4.0",
+        "deps": [
+          {
+            "nodeId": "camelcase@2.1.1"
+          },
+          {
+            "nodeId": "lodash.assign@4.0.9"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "camelcase@2.1.1",
+        "pkgId": "camelcase@2.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
           }
         }
       },
@@ -6658,6 +8541,16 @@
       {
         "nodeId": "stack-utils@0.4.0",
         "pkgId": "stack-utils@0.4.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "supports-color@1.3.1",
+        "pkgId": "supports-color@1.3.1",
         "deps": [],
         "info": {
           "labels": {

@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync } from 'fs';
 // import { createFromJSON } from '@snyk/dep-graph';
 import { parseNpmLockV2Project } from '../../../lib/';
 import { createFromJSON } from '@snyk/dep-graph';
@@ -7,50 +7,52 @@ import { createFromJSON } from '@snyk/dep-graph';
 describe('dep-graph-builder npm-lock-v2', () => {
   describe('Happy path tests', () => {
     describe('Expected Result tests', () => {
-      describe.each(['goof', 'one-dep', 'cyclic-dep'])(
-        '[simple tests] project: %s ',
-        (fixtureName) => {
-          test('matches expected', async () => {
-            const pkgJsonContent = readFileSync(
+      describe.each([
+        'goof',
+        'one-dep',
+        'cyclic-dep',
+        'deeply-nested-packages',
+      ])('[simple tests] project: %s ', (fixtureName) => {
+        test('matches expected', async () => {
+          const pkgJsonContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/npm-lock-v2/${fixtureName}/package.json`,
+            ),
+            'utf8',
+          );
+          const pkgLockContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/npm-lock-v2/${fixtureName}/package-lock.json`,
+            ),
+            'utf8',
+          );
+
+          const newDepGraph = parseNpmLockV2Project(
+            pkgJsonContent,
+            pkgLockContent,
+            {
+              includeDevDeps: false,
+              includeOptionalDeps: true,
+              pruneCycles: true,
+              strictOutOfSync: false,
+            },
+          );
+
+          const expectedDepGraphJson = JSON.parse(
+            readFileSync(
               join(
                 __dirname,
-                `./fixtures/npm-lock-v2/${fixtureName}/package.json`,
+                `./fixtures/npm-lock-v2/${fixtureName}/expected.json`,
               ),
               'utf8',
-            );
-            const pkgLockContent = readFileSync(
-              join(
-                __dirname,
-                `./fixtures/npm-lock-v2/${fixtureName}/package-lock.json`,
-              ),
-              'utf8',
-            );
-
-            const newDepGraph = parseNpmLockV2Project(
-              pkgJsonContent,
-              pkgLockContent,
-              {
-                includeDevDeps: false,
-                includeOptionalDeps: true,
-                pruneCycles: true,
-                strictOutOfSync: false,
-              },
-            );
-
-            const expectedDepGraphJson = JSON.parse(
-              readFileSync(
-                join(
-                  __dirname,
-                  `./fixtures/npm-lock-v2/${fixtureName}/expected.json`,
-                ),
-                'utf8',
-              ),
-            );
-            const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-            expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
-          });
-        },
-      );
+            ),
+          );
+          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+        });
+      });
 
       // Dev Dep tests
       describe.each(['only-dev-deps', 'empty-dev-deps'])(
@@ -94,20 +96,6 @@ describe('dep-graph-builder npm-lock-v2', () => {
               },
             );
 
-            writeFileSync(
-              join(
-                __dirname,
-                `./fixtures/npm-lock-v2/${fixtureName}/expected-dev-deps-included.json`,
-              ),
-              JSON.stringify(newDepGraphDevDepsIncluded.toJSON(), null, 2),
-            );
-            writeFileSync(
-              join(
-                __dirname,
-                `./fixtures/npm-lock-v2/${fixtureName}/expected-dev-deps-excluded.json`,
-              ),
-              JSON.stringify(newDepGraphDevDepsExcluded.toJSON(), null, 2),
-            );
             const expectedDepGraphJsonDevIncluded = JSON.parse(
               readFileSync(
                 join(

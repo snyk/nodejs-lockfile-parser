@@ -10,6 +10,7 @@ export type NpmLockPkg = {
   resolved?: string;
   license?: string;
   engines?: Record<string, string>;
+  inBundle?: boolean;
 };
 
 export const extractPkgsFromNpmLockV2 = (

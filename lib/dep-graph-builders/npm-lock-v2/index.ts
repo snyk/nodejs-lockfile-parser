@@ -61,6 +61,7 @@ export const buildDepGraphNpmLockV2 = (
     version: pkgJson.version,
     dependencies: topLevelDeps,
     isDev: false,
+    inBundle: false,
   };
 
   const visitedMap: Set<string> = new Set();
@@ -71,6 +72,7 @@ export const buildDepGraphNpmLockV2 = (
     npmLockPkgs,
     strictOutOfSync,
     includeOptionalDeps,
+    [],
   );
   return depGraphBuilder.build();
 };
@@ -82,17 +84,19 @@ const dfsVisit = (
   npmLockPkgs: Record<string, NpmLockPkg>,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
+  ancestry: { name: string; inBundle: boolean }[],
 ): void => {
   visitedMap.add(node.id);
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
+    // console.log(node);
     const childNode = getChildNode(
       name,
       depInfo,
       npmLockPkgs,
       strictOutOfSync,
       includeOptionalDeps,
-      node,
+      [...ancestry, { name: node.name, inBundle: node.inBundle || false }],
     );
 
     if (!visitedMap.has(childNode.id)) {
@@ -104,6 +108,7 @@ const dfsVisit = (
         npmLockPkgs,
         strictOutOfSync,
         includeOptionalDeps,
+        [...ancestry, { name: node.name, inBundle: node.inBundle || false }],
       );
     }
 
@@ -117,13 +122,9 @@ const getChildNode = (
   pkgs: Record<string, NpmLockPkg>,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
-  parentNode: PkgNode,
+  ancestry: { name: string; inBundle: boolean }[],
 ) => {
-  const childNodeKey = pkgs[
-    `node_modules/${parentNode.name}/node_modules/${name}`
-  ]
-    ? `node_modules/${parentNode.name}/node_modules/${name}`
-    : `node_modules/${name}`;
+  const childNodeKey = getChildNodeKey(name, ancestry, pkgs); //
 
   if (!pkgs[childNodeKey]) {
     if (strictOutOfSync) {
@@ -153,6 +154,84 @@ const getChildNode = (
       version: depData.version,
       dependencies: { ...dependencies, ...optionalDependencies },
       isDev: depInfo.isDev,
+      inBundle: depData.inBundle,
     };
   }
+};
+
+const getChildNodeKey = (
+  name: string,
+  ancestry: { name: string; inBundle: boolean }[],
+  pkgs: Record<string, NpmLockPkg>,
+) => {
+  const parent = ancestry[ancestry.length - 1];
+  if (parent.inBundle) {
+    const bundleRootIdx = ancestry.findIndex((el) => el.inBundle === true) - 1;
+    const ancestryNamesOfInterest = ancestry
+      .slice(bundleRootIdx)
+      .map((ancestry) => ancestry.name)
+      .concat([name]);
+
+    const getPossibleDepPaths = (currPaths: string[]): string[] => {
+      if (currPaths.length === 1) {
+        return currPaths;
+      }
+
+      const first = currPaths[0];
+      const rest = currPaths.slice(1);
+
+      const resPaths = getPossibleDepPaths(rest);
+      return resPaths.map((el) => `${first}/${el}`).concat(resPaths);
+    };
+
+    for (
+      let splitPoint = ancestryNamesOfInterest.length - 1;
+      splitPoint > 0;
+      splitPoint--
+    ) {
+      const left = ancestryNamesOfInterest.slice(0, splitPoint);
+      const right = ancestryNamesOfInterest.slice(splitPoint);
+
+      if (right.length === 1) {
+        const key = `node_modules/${left.join(
+          '/node_modules/',
+        )}/node_modules/${name}`;
+        if (pkgs[key]) {
+          return key;
+        }
+      } else {
+        for (
+          let rightPointer = 1;
+          rightPointer < right.length;
+          rightPointer++
+        ) {
+          const options = getPossibleDepPaths(right.slice(rightPointer));
+          for (let optIdx = 0; optIdx < options.length; optIdx++) {
+            const rightConcat = `node_modules/${options[optIdx].replace(
+              /\//g,
+              '/node_modules/',
+            )}`;
+
+            const key = `node_modules/${left.join(
+              '/node_modules/',
+            )}/${rightConcat}`;
+            if (pkgs[key]) {
+              return key;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // If not in bundle then we can just see if it is scoped by parent
+  // and then just look directly for it
+  if (ancestry.length === 1) {
+    return `node_modules/${name}`;
+  }
+
+  const parentName = ancestry[ancestry.length - 1].name;
+  return pkgs[`node_modules/${parentName}/node_modules/${name}`]
+    ? `node_modules/${parentName}/node_modules/${name}`
+    : `node_modules/${name}`;
 };
