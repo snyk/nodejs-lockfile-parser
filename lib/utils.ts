@@ -1,5 +1,8 @@
 import { readFileSync } from 'fs';
 import { InvalidUserInputError } from './errors';
+import * as baseDebug from 'debug';
+
+const debug = baseDebug('snyk-nodejs-parser');
 
 export enum NodeLockfileVersion {
   NpmLockV1 = 'NPM_LOCK_V1',
@@ -43,6 +46,7 @@ export function getNpmLockfileVersion(
   | NodeLockfileVersion.NpmLockV3 {
   try {
     const lockfileJson = JSON.parse(lockFileContents);
+
     const lockfileVersion: number | null = lockfileJson.lockfileVersion || null;
 
     switch (lockfileVersion) {
@@ -60,6 +64,7 @@ export function getNpmLockfileVersion(
         );
     }
   } catch (e) {
+    debug('Failed to parse lockfile version: ', e);
     throw new InvalidUserInputError(
       `Problem parsing package-lock.json - make sure the package-lock.json is a valid JSON file`,
     );
