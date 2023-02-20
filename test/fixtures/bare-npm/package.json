@@ -1,13 +1,4 @@
 {
-    "name": "Example",
-    "version": "1.0.0",
-    "lockfileVersion": 2,
-    "requires": true,
-    "packages": {
-        "": {
-            "name": "Example",
-            "version": "1.0.0"
-        }
-    }
+  "name": "bare-npm",
+  "version": "1.0.0"
 }
-
