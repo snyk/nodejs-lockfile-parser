@@ -159,6 +159,26 @@ workflows:
             branches:
               ignore:
                 - master
+      - test-windows:
+          name: Windows Tests for Node v12 support
+          context: nodejs-install
+          node_version: "12.22.12"
+          requires:
+            - Lint
+          filters:
+            branches:
+              ignore:
+                - master
+      - test-unix:
+          name: Unix Tests for Node v12 support
+          context: nodejs-install
+          node_version: "12.22.12"
+          requires:
+            - Lint
+          filters:
+            branches:
+              ignore:
+                - master
       - release:
           name: Release
           context: nodejs-app-release
