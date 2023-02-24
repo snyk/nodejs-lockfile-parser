@@ -62,7 +62,26 @@ export const buildDepGraphNpmLockV2 = (
     dependencies: topLevelDeps,
     isDev: false,
     inBundle: false,
+    key: '',
   };
+
+  const pkgKeysByName: Map<string, string[]> = Object.keys(npmLockPkgs).reduce(
+    (acc, key) => {
+      const name = key.replace(/.*node_modules\//, '');
+      if (!name) {
+        return acc;
+      }
+
+      if (!acc.has(name)) {
+        acc.set(name, []);
+      }
+
+      acc.get(name)!.push(key);
+
+      return acc;
+    },
+    new Map<string, string[]>(),
+  );
 
   const visitedMap: Set<string> = new Set();
   dfsVisit(
@@ -73,6 +92,7 @@ export const buildDepGraphNpmLockV2 = (
     strictOutOfSync,
     includeOptionalDeps,
     [],
+    pkgKeysByName,
   );
   return depGraphBuilder.build();
 };
@@ -84,19 +104,27 @@ const dfsVisit = (
   npmLockPkgs: Record<string, NpmLockPkg>,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
-  ancestry: { name: string; inBundle: boolean }[],
+  ancestry: { name: string; key: string; inBundle: boolean }[],
+  pkgKeysByName: Map<string, string[]>,
 ): void => {
   visitedMap.add(node.id);
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
-    // console.log(node);
     const childNode = getChildNode(
       name,
       depInfo,
       npmLockPkgs,
       strictOutOfSync,
       includeOptionalDeps,
-      [...ancestry, { name: node.name, inBundle: node.inBundle || false }],
+      [
+        ...ancestry,
+        {
+          name: node.name,
+          key: node.key || '',
+          inBundle: node.inBundle || false,
+        },
+      ],
+      pkgKeysByName,
     );
 
     if (!visitedMap.has(childNode.id)) {
@@ -108,7 +136,15 @@ const dfsVisit = (
         npmLockPkgs,
         strictOutOfSync,
         includeOptionalDeps,
-        [...ancestry, { name: node.name, inBundle: node.inBundle || false }],
+        [
+          ...ancestry,
+          {
+            name: node.name,
+            key: node.key as string,
+            inBundle: node.inBundle || false,
+          },
+        ],
+        pkgKeysByName,
       );
     }
 
@@ -122,105 +158,124 @@ const getChildNode = (
   pkgs: Record<string, NpmLockPkg>,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
-  ancestry: { name: string; inBundle: boolean }[],
+  ancestry: { name: string; key: string; inBundle: boolean }[],
+  pkgKeysByName: Map<string, string[]>,
 ) => {
-  const childNodeKey = getChildNodeKey(name, ancestry, pkgs); //
+  const childNodeKey = getChildNodeKey(name, ancestry, pkgs, pkgKeysByName); //
 
-  if (!pkgs[childNodeKey]) {
+  if (!childNodeKey) {
     if (strictOutOfSync) {
       throw new OutOfSyncError(`${name}@${depInfo.version}`, LockfileType.npm);
     } else {
       return {
-        id: childNodeKey,
+        id: `${name}@${depInfo.version}`,
         name: name,
         version: depInfo.version,
         dependencies: {},
         isDev: depInfo.isDev,
         missingLockFileEntry: true,
+        key: '',
       };
     }
-  } else {
-    const depData = pkgs[childNodeKey];
-    const dependencies = getGraphDependencies(
-      depData.dependencies || {},
-      depInfo.isDev,
-    );
-    const optionalDependencies = includeOptionalDeps
-      ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
-      : {};
-    return {
-      id: `${name}@${depData.version}`,
-      name: name,
-      version: depData.version,
-      dependencies: { ...dependencies, ...optionalDependencies },
-      isDev: depInfo.isDev,
-      inBundle: depData.inBundle,
-    };
   }
+
+  const depData = pkgs[childNodeKey];
+  const dependencies = getGraphDependencies(
+    depData.dependencies || {},
+    depInfo.isDev,
+  );
+  const optionalDependencies = includeOptionalDeps
+    ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
+    : {};
+
+  return {
+    id: `${name}@${depData.version}`,
+    name: name,
+    version: depData.version,
+    dependencies: { ...dependencies, ...optionalDependencies },
+    isDev: depInfo.isDev,
+    inBundle: depData.inBundle,
+    key: childNodeKey,
+  };
 };
 
 const getChildNodeKey = (
   name: string,
-  ancestry: { name: string; inBundle: boolean }[],
+  ancestry: { name: string; key: string; inBundle: boolean }[],
   pkgs: Record<string, NpmLockPkg>,
-) => {
-  const parent = ancestry[ancestry.length - 1];
-  if (parent.inBundle) {
+  pkgKeysByName: Map<string, string[]>,
+): string | undefined => {
+  const candidateKeys = pkgKeysByName.get(name);
+
+  // Lockfile missing entry
+  if (!candidateKeys) {
+    return undefined;
+  }
+
+  // Only one candidate then just take it
+  if (candidateKeys.length === 1) {
+    return candidateKeys[0];
+  }
+
+  // If we are a bundled dep we have to choose candidate carefully
+  if (ancestry.length && ancestry[ancestry.length - 1].inBundle) {
     const bundleRootIdx = ancestry.findIndex((el) => el.inBundle === true) - 1;
-    const ancestryNamesOfInterest = ancestry
-      .slice(bundleRootIdx)
-      .map((ancestry) => ancestry.name)
-      .concat([name]);
+    const ancestryFromBundleId = [
+      ...ancestry.slice(bundleRootIdx).map((el) => el.name),
+      name,
+    ];
 
-    const getPossibleDepPaths = (currPaths: string[]): string[] => {
-      if (currPaths.length === 1) {
-        return currPaths;
-      }
+    const candidateAncestries = candidateKeys.map((el) =>
+      el.replace('node_modules/', '').split('/node_modules/'),
+    );
 
-      const first = currPaths[0];
-      const rest = currPaths.slice(1);
+    const filteredCandidates = candidateKeys.filter((candidate, idx) => {
+      return candidateAncestries[idx].every((pkg) => {
+        return ancestryFromBundleId.includes(pkg);
+      });
+    });
 
-      const resPaths = getPossibleDepPaths(rest);
-      return resPaths.map((el) => `${first}/${el}`).concat(resPaths);
-    };
+    if (filteredCandidates.length === 1) {
+      return filteredCandidates[0];
+    }
 
+    const sortedKeys = filteredCandidates.sort(
+      (a, b) =>
+        b.split('/node_modules/').length - a.split('/node_modules/').length,
+    );
+
+    const longestPathLength = sortedKeys[0].split('/node_modules/').length;
+    const onlyLongestKeys = sortedKeys.filter(
+      (key) => key.split('/node_modules/').length === longestPathLength,
+    );
+
+    if (onlyLongestKeys.length === 1) {
+      return onlyLongestKeys[0];
+    }
+
+    // Here we go through parents keys to see if any are the branch point
+    // we could have done this sooner but the above work as good short circuits
+    let keysFilteredByParentKey = onlyLongestKeys;
+    const reversedAncestry = ancestry.reverse();
     for (
-      let splitPoint = ancestryNamesOfInterest.length - 1;
-      splitPoint > 0;
-      splitPoint--
+      let parentIndex = 0;
+      parentIndex < reversedAncestry.length;
+      parentIndex++
     ) {
-      const left = ancestryNamesOfInterest.slice(0, splitPoint);
-      const right = ancestryNamesOfInterest.slice(splitPoint);
+      const parentKey = reversedAncestry[parentIndex].key;
+      const possibleFilteredKeys = keysFilteredByParentKey.filter((key) =>
+        key.includes(parentKey),
+      );
 
-      if (right.length === 1) {
-        const key = `node_modules/${left.join(
-          '/node_modules/',
-        )}/node_modules/${name}`;
-        if (pkgs[key]) {
-          return key;
-        }
-      } else {
-        for (
-          let rightPointer = 1;
-          rightPointer < right.length;
-          rightPointer++
-        ) {
-          const options = getPossibleDepPaths(right.slice(rightPointer));
-          for (let optIdx = 0; optIdx < options.length; optIdx++) {
-            const rightConcat = `node_modules/${options[optIdx].replace(
-              /\//g,
-              '/node_modules/',
-            )}`;
-
-            const key = `node_modules/${left.join(
-              '/node_modules/',
-            )}/${rightConcat}`;
-            if (pkgs[key]) {
-              return key;
-            }
-          }
-        }
+      if (possibleFilteredKeys.length === 1) {
+        return possibleFilteredKeys[0];
       }
+
+      if (possibleFilteredKeys.length === 0) {
+        continue;
+      }
+
+      keysFilteredByParentKey = possibleFilteredKeys;
     }
   }
 
