@@ -2301,10 +2301,10 @@
       }
     },
     {
-      "id": "ansi-regex@4.1.0",
+      "id": "ansi-regex@4.1.1",
       "info": {
         "name": "ansi-regex",
-        "version": "4.1.0"
+        "version": "4.1.1"
       }
     },
     {
@@ -8214,7 +8214,7 @@
         "pkgId": "strip-ansi@5.2.0",
         "deps": [
           {
-            "nodeId": "ansi-regex@4.1.0"
+            "nodeId": "ansi-regex@4.1.1"
           }
         ],
         "info": {
@@ -8224,8 +8224,8 @@
         }
       },
       {
-        "nodeId": "ansi-regex@4.1.0",
-        "pkgId": "ansi-regex@4.1.0",
+        "nodeId": "ansi-regex@4.1.1",
+        "pkgId": "ansi-regex@4.1.1",
         "deps": [],
         "info": {
           "labels": {
@@ -9034,7 +9034,7 @@
         "pkgId": "stream-iterate@1.2.0",
         "deps": [
           {
-            "nodeId": "readable-stream@1.1.14"
+            "nodeId": "readable-stream@2.3.6"
           },
           {
             "nodeId": "stream-shift@1.0.0"
