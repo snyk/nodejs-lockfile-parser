@@ -16,6 +16,9 @@ import {
 import { OutOfSyncError } from '../../errors';
 import { LockfileType } from '../../parsers';
 
+import * as micromatch from 'micromatch';
+import * as pathUtil from 'path';
+
 export { extractPkgsFromNpmLockV2 };
 
 export const parseNpmLockV2Project = (
@@ -161,7 +164,7 @@ const getChildNode = (
   ancestry: { name: string; key: string; inBundle: boolean }[],
   pkgKeysByName: Map<string, string[]>,
 ) => {
-  const childNodeKey = getChildNodeKey(name, ancestry, pkgs, pkgKeysByName); //
+  let childNodeKey = getChildNodeKey(name, ancestry, pkgs, pkgKeysByName); //
 
   if (!childNodeKey) {
     if (strictOutOfSync) {
@@ -179,7 +182,24 @@ const getChildNode = (
     }
   }
 
-  const depData = pkgs[childNodeKey];
+  let depData = pkgs[childNodeKey];
+
+  const resolvedToWorkspace = () => {
+    const workspacesDeclaration = pkgs['']['workspaces'] || [];
+    const resolvedPath = depData.resolved || '';
+    const fixedResolvedPath = resolvedPath.replace(/\\/g, '/');
+    const normalizedWorkspacesDefn = workspacesDeclaration.map((p) => {
+      return pathUtil.normalize(p).replace(/\\/g, '/');
+    });
+    return micromatch.isMatch(fixedResolvedPath, normalizedWorkspacesDefn);
+  };
+
+  // Check for workspaces
+  if (depData['link'] && resolvedToWorkspace()) {
+    childNodeKey = depData.resolved as string;
+    depData = pkgs[depData.resolved as string];
+  }
+
   const dependencies = getGraphDependencies(
     depData.dependencies || {},
     depInfo.isDev,
