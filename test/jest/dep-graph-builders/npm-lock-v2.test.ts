@@ -53,6 +53,128 @@ describe('dep-graph-builder npm-lock-v2', () => {
         });
       });
 
+      describe('[workspaces tests]', () => {
+        it('intradependent workspaces', async () => {
+          const pkgJsonContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/npm-lock-v2/workspaces/packages/b/package.json`,
+            ),
+            'utf8',
+          );
+          const pkgLockContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/npm-lock-v2/workspaces/package-lock.json`,
+            ),
+            'utf8',
+          );
+
+          const newDepGraph = parseNpmLockV2Project(
+            pkgJsonContent,
+            pkgLockContent,
+            {
+              includeDevDeps: false,
+              includeOptionalDeps: true,
+              pruneCycles: true,
+              strictOutOfSync: false,
+            },
+          );
+
+          const expectedDepGraphJson = JSON.parse(
+            readFileSync(
+              join(
+                __dirname,
+                `./fixtures/npm-lock-v2/workspaces/packages/b/expected.json`,
+              ),
+              'utf8',
+            ),
+          );
+          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+        });
+
+        it('intradependent workspaces, with /** globs', async () => {
+          const pkgJsonContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/npm-lock-v2/workspaces-glob-a/packages/b/package.json`,
+            ),
+            'utf8',
+          );
+          const pkgLockContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/npm-lock-v2/workspaces-glob-a/package-lock.json`,
+            ),
+            'utf8',
+          );
+
+          const newDepGraph = parseNpmLockV2Project(
+            pkgJsonContent,
+            pkgLockContent,
+            {
+              includeDevDeps: false,
+              includeOptionalDeps: true,
+              pruneCycles: true,
+              strictOutOfSync: false,
+            },
+          );
+
+          const expectedDepGraphJson = JSON.parse(
+            readFileSync(
+              join(
+                __dirname,
+                `./fixtures/npm-lock-v2/workspaces-glob-a/packages/b/expected.json`,
+              ),
+              'utf8',
+            ),
+          );
+          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+        });
+
+        it('intradependent workspaces, with /* globs', async () => {
+          const pkgJsonContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/npm-lock-v2/workspaces-glob-b/packages/b/package.json`,
+            ),
+            'utf8',
+          );
+          const pkgLockContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/npm-lock-v2/workspaces-glob-b/package-lock.json`,
+            ),
+            'utf8',
+          );
+
+          const newDepGraph = parseNpmLockV2Project(
+            pkgJsonContent,
+            pkgLockContent,
+            {
+              includeDevDeps: false,
+              includeOptionalDeps: true,
+              pruneCycles: true,
+              strictOutOfSync: false,
+            },
+          );
+
+          const expectedDepGraphJson = JSON.parse(
+            readFileSync(
+              join(
+                __dirname,
+                `./fixtures/npm-lock-v2/workspaces-glob-b/packages/b/expected.json`,
+              ),
+              'utf8',
+            ),
+          );
+          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+        });
+      });
+
       // Dev Dep tests
       describe.each(['only-dev-deps', 'empty-dev-deps'])(
         '[dev deps tests] project: %s ',
@@ -131,7 +253,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
       );
     });
   });
-  //
+
   describe('Unhappy path tests', () => {
     it('project: invalid-pkg-json -> fails as expected', async () => {
       const fixtureName = 'invalid-pkg-json';
