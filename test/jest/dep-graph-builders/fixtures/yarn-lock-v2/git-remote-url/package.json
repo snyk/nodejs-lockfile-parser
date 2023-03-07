@@ -1,0 +1,11 @@
+{
+  "name": "git-remote-url",
+  "packageManager": "yarn@3.2.3",
+  "dependencies": {
+    "berry": "https://github.com/yarnpkg/berry",
+    "debug": "^4.3.4",
+    "express": "^4.18.1",
+    "fancybox": "git+https://github.com/fancyapps/fancybox",
+    "ms": "npm:ms@latest"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "git-ssh-url-deps",
+  "description": "not important git-ssh-url-deps",
+  "dependencies": {
+    "body-parser": "git+ssh://git@github.com/expressjs/body-parser.git#1.9.0"
+  }
+}

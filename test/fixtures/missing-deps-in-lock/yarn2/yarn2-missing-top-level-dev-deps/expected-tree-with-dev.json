@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "adm-zip": {
+      "labels": {
+        "scope": "dev"
+      },
+      "name": "adm-zip",
+      "version": "0.4.7"
+    },
+    "uptime": {
+      "labels": {
+        "scope": "dev",
+        "missingLockFileEntry": "true"
+      },
+      "name": "uptime",
+      "version": "1.4.7"
+    }
+  },
+  "hasDevDependencies": true,
+  "name": "goof",
+  "size": 3,
+  "version": "0.0.3",
+  "meta": {
+    "nodeVersion": "6.14.1",
+    "lockfileVersion": 2,
+    "packageManager": "yarn"
+  }
+}

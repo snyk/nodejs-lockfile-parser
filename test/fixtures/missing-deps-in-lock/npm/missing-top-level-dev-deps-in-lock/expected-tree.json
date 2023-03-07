@@ -1,0 +1,36 @@
+{
+  "dependencies": {
+    "adm-zip": {
+      "labels": {
+        "scope": "dev",
+        "missingLockFileEntry": "true"
+      },
+      "name": "adm-zip",
+      "version": "0.4.7"
+    },
+    "debug": {
+      "labels": {
+        "scope": "dev"
+      },
+      "name": "debug",
+      "version": "2.6.9",
+      "dependencies": {
+        "ms": {
+          "labels": {
+            "scope": "dev"
+          },
+          "name": "ms",
+          "version": "2.0.0"
+        }
+      }
+    }
+  },
+  "hasDevDependencies": true,
+  "name": "goof",
+  "size": 4,
+  "version": "0.0.3",
+  "meta": {
+    "lockfileVersion": 2,
+    "packageManager": "npm"
+  }
+}
