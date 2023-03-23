@@ -166,7 +166,7 @@ const getChildNode = (
 ) => {
   let childNodeKey = getChildNodeKey(name, ancestry, pkgs, pkgKeysByName); //
 
-  if (!childNodeKey) {
+  if (!childNodeKey || !pkgs[childNodeKey]) {
     if (strictOutOfSync) {
       throw new OutOfSyncError(`${name}@${depInfo.version}`, LockfileType.npm);
     } else {
