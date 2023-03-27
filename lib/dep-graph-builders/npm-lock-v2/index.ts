@@ -299,14 +299,16 @@ const getChildNodeKey = (
     }
   }
 
-  // If not in bundle then we can just see if it is scoped by parent
-  // and then just look directly for it
-  if (ancestry.length === 1) {
-    return `node_modules/${name}`;
+  const ancestry_names = ancestry.map((el) => el.name).concat(name);
+  while (ancestry_names.length > 0) {
+    const possible_key = `node_modules/${ancestry_names.join(
+      '/node_modules/',
+    )}`;
+    if (pkgs[possible_key]) {
+      return possible_key;
+    }
+    ancestry_names.shift();
   }
 
-  const parentName = ancestry[ancestry.length - 1].name;
-  return pkgs[`node_modules/${parentName}/node_modules/${name}`]
-    ? `node_modules/${parentName}/node_modules/${name}`
-    : `node_modules/${name}`;
+  return undefined;
 };
