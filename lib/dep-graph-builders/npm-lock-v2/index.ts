@@ -93,6 +93,7 @@ export const buildDepGraphNpmLockV2 = (
     visitedMap,
     npmLockPkgs,
     strictOutOfSync,
+    includeDevDeps,
     includeOptionalDeps,
     [],
     pkgKeysByName,
@@ -106,6 +107,7 @@ const dfsVisit = (
   visitedMap: Set<string>,
   npmLockPkgs: Record<string, NpmLockPkg>,
   strictOutOfSync: boolean,
+  includeDevDeps: boolean,
   includeOptionalDeps: boolean,
   ancestry: { name: string; key: string; inBundle: boolean }[],
   pkgKeysByName: Map<string, string[]>,
@@ -118,6 +120,7 @@ const dfsVisit = (
       depInfo,
       npmLockPkgs,
       strictOutOfSync,
+      includeDevDeps,
       includeOptionalDeps,
       [
         ...ancestry,
@@ -138,6 +141,7 @@ const dfsVisit = (
         visitedMap,
         npmLockPkgs,
         strictOutOfSync,
+        includeDevDeps,
         includeOptionalDeps,
         [
           ...ancestry,
@@ -160,6 +164,7 @@ const getChildNode = (
   depInfo: { version: string; isDev: boolean },
   pkgs: Record<string, NpmLockPkg>,
   strictOutOfSync: boolean,
+  includeDevDeps: boolean,
   includeOptionalDeps: boolean,
   ancestry: { name: string; key: string; inBundle: boolean }[],
   pkgKeysByName: Map<string, string[]>,
@@ -204,6 +209,11 @@ const getChildNode = (
     depData.dependencies || {},
     depInfo.isDev,
   );
+
+  const devDependencies = includeDevDeps
+    ? getGraphDependencies(depData.devDependencies || {}, depInfo.isDev)
+    : {};
+
   const optionalDependencies = includeOptionalDeps
     ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
     : {};
@@ -212,14 +222,18 @@ const getChildNode = (
     id: `${name}@${depData.version}`,
     name: name,
     version: depData.version,
-    dependencies: { ...dependencies, ...optionalDependencies },
+    dependencies: {
+      ...dependencies,
+      ...devDependencies,
+      ...optionalDependencies,
+    },
     isDev: depInfo.isDev,
     inBundle: depData.inBundle,
     key: childNodeKey,
   };
 };
 
-const getChildNodeKey = (
+export const getChildNodeKey = (
   name: string,
   ancestry: { name: string; key: string; inBundle: boolean }[],
   pkgs: Record<string, NpmLockPkg>,
@@ -299,15 +313,31 @@ const getChildNodeKey = (
     }
   }
 
-  const ancestry_names = ancestry.map((el) => el.name).concat(name);
+  let ancestry_names = ancestry.map((el) => el.name).concat(name);
   while (ancestry_names.length > 0) {
     const possible_key = `node_modules/${ancestry_names.join(
       '/node_modules/',
     )}`;
+
     if (pkgs[possible_key]) {
       return possible_key;
     }
     ancestry_names.shift();
+  }
+
+  // This is similar to fetching permutations in the isBundle logic
+  ancestry_names = ancestry.map((el) => el.name).concat(name);
+  const candidateAncestries = candidateKeys.map((el) =>
+    el.replace('node_modules/', '').split('/node_modules/'),
+  );
+  const filteredCandidates = candidateKeys.filter((candidate, idx) => {
+    return candidateAncestries[idx].every((pkg) => {
+      return ancestry_names.includes(pkg);
+    });
+  });
+
+  if (filteredCandidates.length === 1) {
+    return filteredCandidates[0];
   }
 
   return undefined;
