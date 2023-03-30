@@ -251,69 +251,68 @@ export const getChildNodeKey = (
     return candidateKeys[0];
   }
 
-  // If we are a bundled dep we have to choose candidate carefully
-  if (ancestry.length && ancestry[ancestry.length - 1].inBundle) {
-    const bundleRootIdx = ancestry.findIndex((el) => el.inBundle === true) - 1;
-    const ancestryFromBundleId = [
-      ...ancestry.slice(bundleRootIdx).map((el) => el.name),
-      name,
-    ];
+  const rootOperatingIdx = ancestry[ancestry.length - 1].inBundle
+    ? ancestry.findIndex((el) => el.inBundle === true) - 1
+    : 0;
+  const ancestryFromBundleId = [
+    ...ancestry.slice(rootOperatingIdx).map((el) => el.name),
+    name,
+  ];
 
-    const candidateAncestries = candidateKeys.map((el) =>
-      el.replace('node_modules/', '').split('/node_modules/'),
-    );
+  const candidateAncestries = candidateKeys.map((el) =>
+    el.replace('node_modules/', '').split('/node_modules/'),
+  );
 
-    const filteredCandidates = candidateKeys.filter((candidate, idx) => {
-      return candidateAncestries[idx].every((pkg) => {
-        return ancestryFromBundleId.includes(pkg);
-      });
+  const filteredCandidates = candidateKeys.filter((candidate, idx) => {
+    return candidateAncestries[idx].every((pkg) => {
+      return ancestryFromBundleId.includes(pkg);
     });
+  });
 
-    if (filteredCandidates.length === 1) {
-      return filteredCandidates[0];
-    }
-
-    const sortedKeys = filteredCandidates.sort(
-      (a, b) =>
-        b.split('/node_modules/').length - a.split('/node_modules/').length,
-    );
-
-    const longestPathLength = sortedKeys[0].split('/node_modules/').length;
-    const onlyLongestKeys = sortedKeys.filter(
-      (key) => key.split('/node_modules/').length === longestPathLength,
-    );
-
-    if (onlyLongestKeys.length === 1) {
-      return onlyLongestKeys[0];
-    }
-
-    // Here we go through parents keys to see if any are the branch point
-    // we could have done this sooner but the above work as good short circuits
-    let keysFilteredByParentKey = onlyLongestKeys;
-    const reversedAncestry = ancestry.reverse();
-    for (
-      let parentIndex = 0;
-      parentIndex < reversedAncestry.length;
-      parentIndex++
-    ) {
-      const parentKey = reversedAncestry[parentIndex].key;
-      const possibleFilteredKeys = keysFilteredByParentKey.filter((key) =>
-        key.includes(parentKey),
-      );
-
-      if (possibleFilteredKeys.length === 1) {
-        return possibleFilteredKeys[0];
-      }
-
-      if (possibleFilteredKeys.length === 0) {
-        continue;
-      }
-
-      keysFilteredByParentKey = possibleFilteredKeys;
-    }
+  if (filteredCandidates.length === 1) {
+    return filteredCandidates[0];
   }
 
-  let ancestry_names = ancestry.map((el) => el.name).concat(name);
+  const sortedKeys = filteredCandidates.sort(
+    (a, b) =>
+      b.split('/node_modules/').length - a.split('/node_modules/').length,
+  );
+
+  const longestPathLength = sortedKeys[0].split('/node_modules/').length;
+  const onlyLongestKeys = sortedKeys.filter(
+    (key) => key.split('/node_modules/').length === longestPathLength,
+  );
+
+  if (onlyLongestKeys.length === 1) {
+    return onlyLongestKeys[0];
+  }
+
+  // Here we go through parents keys to see if any are the branch point
+  // we could have done this sooner but the above work as good short circuits
+  let keysFilteredByParentKey = onlyLongestKeys;
+  const reversedAncestry = ancestry.reverse();
+  for (
+    let parentIndex = 0;
+    parentIndex < reversedAncestry.length;
+    parentIndex++
+  ) {
+    const parentKey = reversedAncestry[parentIndex].key;
+    const possibleFilteredKeys = keysFilteredByParentKey.filter((key) =>
+      key.includes(parentKey),
+    );
+
+    if (possibleFilteredKeys.length === 1) {
+      return possibleFilteredKeys[0];
+    }
+
+    if (possibleFilteredKeys.length === 0) {
+      continue;
+    }
+
+    keysFilteredByParentKey = possibleFilteredKeys;
+  }
+
+  const ancestry_names = ancestry.map((el) => el.name).concat(name);
   while (ancestry_names.length > 0) {
     const possible_key = `node_modules/${ancestry_names.join(
       '/node_modules/',
@@ -323,21 +322,6 @@ export const getChildNodeKey = (
       return possible_key;
     }
     ancestry_names.shift();
-  }
-
-  // This is similar to fetching permutations in the isBundle logic
-  ancestry_names = ancestry.map((el) => el.name).concat(name);
-  const candidateAncestries = candidateKeys.map((el) =>
-    el.replace('node_modules/', '').split('/node_modules/'),
-  );
-  const filteredCandidates = candidateKeys.filter((candidate, idx) => {
-    return candidateAncestries[idx].every((pkg) => {
-      return ancestry_names.includes(pkg);
-    });
-  });
-
-  if (filteredCandidates.length === 1) {
-    return filteredCandidates[0];
   }
 
   return undefined;
