@@ -34,8 +34,12 @@ describe('npm-lock-v2 getChildNodeKey', () => {
       },
     ];
     const pkgs = {
-      'node_modules/stylelint/node_modules/global-modules': 'exists' as any,
-      'node_modules/find-file-up/node_modules/global-modules': 'exists' as any,
+      'node_modules/stylelint/node_modules/global-modules': {
+        version: '1.0.0',
+      },
+      'node_modules/find-file-up/node_modules/global-modules': {
+        version: '1.0.0',
+      },
     };
     const pkgKeysByName = new Map([
       [
@@ -47,7 +51,13 @@ describe('npm-lock-v2 getChildNodeKey', () => {
       ],
     ]);
 
-    const childKey = getChildNodeKey(name, ancestry, pkgs, pkgKeysByName);
+    const childKey = getChildNodeKey(
+      name,
+      '1.0.0',
+      ancestry,
+      pkgs,
+      pkgKeysByName,
+    );
     expect(childKey).toBe(
       'node_modules/find-file-up/node_modules/global-modules',
     );

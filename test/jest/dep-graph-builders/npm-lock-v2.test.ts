@@ -11,6 +11,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'one-dep',
         'cyclic-dep',
         'deeply-nested-packages',
+        'deeply-scoped',
       ])('[simple tests] project: %s ', (fixtureName) => {
         test('matches expected', async () => {
           const pkgJsonContent = readFileSync(
@@ -171,46 +172,6 @@ describe('dep-graph-builder npm-lock-v2', () => {
             ),
           );
           const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
-        });
-        it('deeply scoped packages', async () => {
-          const pkgJsonContent = readFileSync(
-            join(
-              __dirname,
-              `./fixtures/npm-lock-v2/deeply-scoped/package.json`,
-            ),
-            'utf8',
-          );
-          const pkgLockContent = readFileSync(
-            join(
-              __dirname,
-              `./fixtures/npm-lock-v2/deeply-scoped/package-lock.json`,
-            ),
-            'utf8',
-          );
-
-          const newDepGraph = parseNpmLockV2Project(
-            pkgJsonContent,
-            pkgLockContent,
-            {
-              includeDevDeps: false,
-              includeOptionalDeps: true,
-              pruneCycles: true,
-              strictOutOfSync: false,
-            },
-          );
-
-          const expectedDepGraphJson = JSON.parse(
-            readFileSync(
-              join(
-                __dirname,
-                `./fixtures/npm-lock-v2/deeply-scoped/expected.json`,
-              ),
-              'utf8',
-            ),
-          );
-          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-
           expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
         });
       });
