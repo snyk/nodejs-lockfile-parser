@@ -16,6 +16,7 @@ import {
 import { OutOfSyncError } from '../../errors';
 import { LockfileType } from '../../parsers';
 
+import * as semver from 'semver';
 import * as micromatch from 'micromatch';
 import * as pathUtil from 'path';
 
@@ -169,7 +170,13 @@ const getChildNode = (
   ancestry: { name: string; key: string; inBundle: boolean }[],
   pkgKeysByName: Map<string, string[]>,
 ) => {
-  let childNodeKey = getChildNodeKey(name, ancestry, pkgs, pkgKeysByName); //
+  let childNodeKey = getChildNodeKey(
+    name,
+    depInfo.version,
+    ancestry,
+    pkgs,
+    pkgKeysByName,
+  );
 
   if (!childNodeKey) {
     if (strictOutOfSync) {
@@ -235,10 +242,12 @@ const getChildNode = (
 
 export const getChildNodeKey = (
   name: string,
+  version: string,
   ancestry: { name: string; key: string; inBundle: boolean }[],
   pkgs: Record<string, NpmLockPkg>,
   pkgKeysByName: Map<string, string[]>,
 ): string | undefined => {
+  // This is a list of all our possible options for the childKey
   const candidateKeys = pkgKeysByName.get(name);
 
   // Lockfile missing entry
@@ -246,74 +255,70 @@ export const getChildNodeKey = (
     return undefined;
   }
 
-  // Only one candidate then just take it
+  // If we only have one candidate then we just take it
   if (candidateKeys.length === 1) {
     return candidateKeys[0];
   }
+  // If we are bundled we assume we are scoped by the bundle root at least
+  // otherwise the ancestry root is the root ignoring the true root
+  const isBundled = ancestry[ancestry.length - 1].inBundle;
+  const rootOperatingIdx = isBundled
+    ? ancestry.findIndex((el) => el.inBundle === true) - 1
+    : 1;
+  const ancestryFromRootOperatingIdx = [
+    ...ancestry.slice(rootOperatingIdx).map((el) => el.name),
+    name,
+  ];
 
-  // If we are a bundled dep we have to choose candidate carefully
-  if (ancestry.length && ancestry[ancestry.length - 1].inBundle) {
-    const bundleRootIdx = ancestry.findIndex((el) => el.inBundle === true) - 1;
-    const ancestryFromBundleId = [
-      ...ancestry.slice(bundleRootIdx).map((el) => el.name),
-      name,
-    ];
+  // We filter on a number of cases
+  let filteredCandidates = candidateKeys.filter((candidate) => {
+    // This is splitting the candidate that looks like
+    // `node_modules/a/node_modules/b` into ["a", "b"]
+    // To do this we remove the first node_modules substring
+    // and then split on the rest
+    const candidateAncestry = candidate
+      .replace('node_modules/', '')
+      .split('/node_modules/');
 
-    const candidateAncestries = candidateKeys.map((el) =>
-      el.replace('node_modules/', '').split('/node_modules/'),
+    // Check the ancestry of the candidate is a subset of
+    // the current pkg. If it is not then it can't be a
+    // valid key.
+    const isCandidateAncestryIsSubsetOfPkgAncestry = candidateAncestry.every(
+      (pkg) => {
+        return ancestryFromRootOperatingIdx.includes(pkg);
+      },
     );
 
-    const filteredCandidates = candidateKeys.filter((candidate, idx) => {
-      return candidateAncestries[idx].every((pkg) => {
-        return ancestryFromBundleId.includes(pkg);
-      });
-    });
-
-    if (filteredCandidates.length === 1) {
-      return filteredCandidates[0];
+    if (isCandidateAncestryIsSubsetOfPkgAncestry === false) {
+      return false;
     }
 
-    const sortedKeys = filteredCandidates.sort(
-      (a, b) =>
-        b.split('/node_modules/').length - a.split('/node_modules/').length,
-    );
+    // If we are bundled we assume the bundle root is the first value
+    // in the candidates scoping
+    if (isBundled) {
+      const doesBundledPkgShareBundleRoot =
+        candidateAncestry[0] === ancestryFromRootOperatingIdx[0];
 
-    const longestPathLength = sortedKeys[0].split('/node_modules/').length;
-    const onlyLongestKeys = sortedKeys.filter(
-      (key) => key.split('/node_modules/').length === longestPathLength,
-    );
-
-    if (onlyLongestKeys.length === 1) {
-      return onlyLongestKeys[0];
-    }
-
-    // Here we go through parents keys to see if any are the branch point
-    // we could have done this sooner but the above work as good short circuits
-    let keysFilteredByParentKey = onlyLongestKeys;
-    const reversedAncestry = ancestry.reverse();
-    for (
-      let parentIndex = 0;
-      parentIndex < reversedAncestry.length;
-      parentIndex++
-    ) {
-      const parentKey = reversedAncestry[parentIndex].key;
-      const possibleFilteredKeys = keysFilteredByParentKey.filter((key) =>
-        key.includes(parentKey),
-      );
-
-      if (possibleFilteredKeys.length === 1) {
-        return possibleFilteredKeys[0];
+      if (doesBundledPkgShareBundleRoot === false) {
+        return false;
       }
-
-      if (possibleFilteredKeys.length === 0) {
-        continue;
-      }
-
-      keysFilteredByParentKey = possibleFilteredKeys;
     }
+
+    // So now we can check semver to filter out some values
+    const candidatePkgVersion = pkgs[candidate].version;
+    const doesVersionSatisfySemver = semver.satisfies(
+      candidatePkgVersion,
+      version,
+    );
+
+    return doesVersionSatisfySemver;
+  });
+
+  if (filteredCandidates.length === 1) {
+    return filteredCandidates[0];
   }
 
-  let ancestry_names = ancestry.map((el) => el.name).concat(name);
+  const ancestry_names = ancestry.map((el) => el.name).concat(name);
   while (ancestry_names.length > 0) {
     const possible_key = `node_modules/${ancestry_names.join(
       '/node_modules/',
@@ -325,19 +330,28 @@ export const getChildNodeKey = (
     ancestry_names.shift();
   }
 
-  // This is similar to fetching permutations in the isBundle logic
-  ancestry_names = ancestry.map((el) => el.name).concat(name);
-  const candidateAncestries = candidateKeys.map((el) =>
-    el.replace('node_modules/', '').split('/node_modules/'),
-  );
-  const filteredCandidates = candidateKeys.filter((candidate, idx) => {
-    return candidateAncestries[idx].every((pkg) => {
-      return ancestry_names.includes(pkg);
-    });
-  });
+  // Here we go through th eancestry backwards to find the nearest
+  // ancestor package
+  const reversedAncestry = ancestry.reverse();
+  for (
+    let parentIndex = 0;
+    parentIndex < reversedAncestry.length;
+    parentIndex++
+  ) {
+    const parentKey = reversedAncestry[parentIndex].key;
+    const possibleFilteredKeys = filteredCandidates.filter((key) =>
+      key.includes(parentKey),
+    );
 
-  if (filteredCandidates.length === 1) {
-    return filteredCandidates[0];
+    if (possibleFilteredKeys.length === 1) {
+      return possibleFilteredKeys[0];
+    }
+
+    if (possibleFilteredKeys.length === 0) {
+      continue;
+    }
+
+    filteredCandidates = possibleFilteredKeys;
   }
 
   return undefined;
