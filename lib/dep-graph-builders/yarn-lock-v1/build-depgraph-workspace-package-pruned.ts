@@ -4,6 +4,7 @@ import { addPkgNodeToGraph, getTopLevelDeps, PkgNode } from '../util';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
 import type { DepGraphBuildOptions } from '../types';
 import { getChildNodeYarnLockV1Workspace } from './util';
+import { eventLoopSpinner } from 'event-loop-spinner';
 
 enum Color {
   GRAY,
@@ -12,7 +13,7 @@ enum Color {
 
 // Parse a single workspace package using yarn.lock v1
 // workspaces feature
-export const buildDepGraphYarnLockV1WorkspaceCyclesPruned = (
+export const buildDepGraphYarnLockV1WorkspaceCyclesPruned = async (
   extractedYarnLockV1Pkgs: NormalisedPkgs,
   pkgJson: PackageJsonBase,
   workspacePkgNameToVersion: Record<string, string>,
@@ -37,7 +38,7 @@ export const buildDepGraphYarnLockV1WorkspaceCyclesPruned = (
     isDev: false,
   };
 
-  dfsVisit(
+  await dfsVisit(
     depGraphBuilder,
     rootNode,
     colorMap,
@@ -60,7 +61,7 @@ export const buildDepGraphYarnLockV1WorkspaceCyclesPruned = (
  *     - A pruned node has id `${originalId}|1`
  * When coming across another workspace package as child node, simply add the node and edge to the graph and mark it as BLACK.
  */
-const dfsVisit = (
+const dfsVisit = async (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
   colorMap: Record<string, Color>,
@@ -68,10 +69,13 @@ const dfsVisit = (
   workspacePkgNameToVersion: Record<string, string>,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
-): void => {
+): Promise<void> => {
   colorMap[node.id] = Color.GRAY;
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
+    if (eventLoopSpinner.isStarving()) {
+      await eventLoopSpinner.spin();
+    }
     const isWorkspacePkg = !!workspacePkgNameToVersion[name];
 
     const childNode = getChildNodeYarnLockV1Workspace(
@@ -89,7 +93,7 @@ const dfsVisit = (
         isWorkspacePkg,
       });
       if (!isWorkspacePkg) {
-        dfsVisit(
+        await dfsVisit(
           depGraphBuilder,
           childNode,
           colorMap,
