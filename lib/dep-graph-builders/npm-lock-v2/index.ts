@@ -5,7 +5,7 @@ import {
 } from '../types';
 import { extractPkgsFromNpmLockV2 } from './extract-npm-lock-v2-pkgs';
 import type { NpmLockPkg } from './extract-npm-lock-v2-pkgs';
-import { DepGraphBuilder } from '@snyk/dep-graph';
+import { DepGraph, DepGraphBuilder } from '@snyk/dep-graph';
 import {
   addPkgNodeToGraph,
   getGraphDependencies,
@@ -19,20 +19,21 @@ import { LockfileType } from '../../parsers';
 import * as semver from 'semver';
 import * as micromatch from 'micromatch';
 import * as pathUtil from 'path';
+import { eventLoopSpinner } from 'event-loop-spinner';
 
 export { extractPkgsFromNpmLockV2 };
 
-export const parseNpmLockV2Project = (
+export const parseNpmLockV2Project = async (
   pkgJsonContent: string,
   pkgLockContent: string,
   options: ProjectParseOptions,
-) => {
+): Promise<DepGraph> => {
   const { includeDevDeps, strictOutOfSync, includeOptionalDeps } = options;
 
   const pkgJson: PackageJsonBase = parsePkgJson(pkgJsonContent);
   const pkgs = extractPkgsFromNpmLockV2(pkgLockContent);
 
-  const depgraph = buildDepGraphNpmLockV2(pkgs, pkgJson, {
+  const depgraph = await buildDepGraphNpmLockV2(pkgs, pkgJson, {
     includeDevDeps,
     includeOptionalDeps,
     strictOutOfSync,
@@ -41,7 +42,7 @@ export const parseNpmLockV2Project = (
   return depgraph;
 };
 
-export const buildDepGraphNpmLockV2 = (
+export const buildDepGraphNpmLockV2 = async (
   npmLockPkgs: Record<string, NpmLockPkg>,
   pkgJson: PackageJsonBase,
   options: DepGraphBuildOptions,
@@ -88,7 +89,7 @@ export const buildDepGraphNpmLockV2 = (
   );
 
   const visitedMap: Set<string> = new Set();
-  dfsVisit(
+  await dfsVisit(
     depGraphBuilder,
     rootNode,
     visitedMap,
@@ -102,7 +103,7 @@ export const buildDepGraphNpmLockV2 = (
   return depGraphBuilder.build();
 };
 
-const dfsVisit = (
+const dfsVisit = async (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
   visitedMap: Set<string>,
@@ -112,10 +113,14 @@ const dfsVisit = (
   includeOptionalDeps: boolean,
   ancestry: { name: string; key: string; inBundle: boolean }[],
   pkgKeysByName: Map<string, string[]>,
-): void => {
+): Promise<void> => {
   visitedMap.add(node.id);
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
+    if (eventLoopSpinner.isStarving()) {
+      await eventLoopSpinner.spin();
+    }
+
     const childNode = getChildNode(
       name,
       depInfo,
@@ -136,7 +141,7 @@ const dfsVisit = (
 
     if (!visitedMap.has(childNode.id)) {
       addPkgNodeToGraph(depGraphBuilder, childNode, {});
-      dfsVisit(
+      await dfsVisit(
         depGraphBuilder,
         childNode,
         visitedMap,

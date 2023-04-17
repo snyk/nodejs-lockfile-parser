@@ -29,7 +29,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
             'utf8',
           );
 
-          const newDepGraph = parseNpmLockV2Project(
+          const newDepGraph = await parseNpmLockV2Project(
             pkgJsonContent,
             pkgLockContent,
             {
@@ -71,7 +71,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
             'utf8',
           );
 
-          const newDepGraph = parseNpmLockV2Project(
+          const newDepGraph = await parseNpmLockV2Project(
             pkgJsonContent,
             pkgLockContent,
             {
@@ -111,7 +111,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
             'utf8',
           );
 
-          const newDepGraph = parseNpmLockV2Project(
+          const newDepGraph = await parseNpmLockV2Project(
             pkgJsonContent,
             pkgLockContent,
             {
@@ -151,7 +151,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
             'utf8',
           );
 
-          const newDepGraph = parseNpmLockV2Project(
+          const newDepGraph = await parseNpmLockV2Project(
             pkgJsonContent,
             pkgLockContent,
             {
@@ -196,7 +196,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
               'utf8',
             );
 
-            const newDepGraphDevDepsIncluded = parseNpmLockV2Project(
+            const newDepGraphDevDepsIncluded = await parseNpmLockV2Project(
               pkgJsonContent,
               npmLockContent,
               {
@@ -207,7 +207,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
               },
             );
 
-            const newDepGraphDevDepsExcluded = parseNpmLockV2Project(
+            const newDepGraphDevDepsExcluded = await parseNpmLockV2Project(
               pkgJsonContent,
               npmLockContent,
               {
@@ -267,7 +267,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
       );
       const npmLockContent = '';
       try {
-        parseNpmLockV2Project(pkgJsonContent, npmLockContent, {
+        await parseNpmLockV2Project(pkgJsonContent, npmLockContent, {
           includeDevDeps: false,
           includeOptionalDeps: true,
           pruneCycles: true,
@@ -278,34 +278,6 @@ describe('dep-graph-builder npm-lock-v2', () => {
           'package.json parsing failed with error Unexpected token } in JSON at position 100',
         );
         expect((err as Error).name).toBe('InvalidUserInputError');
-      }
-    });
-
-    it('project: simple-top-level-out-of-sync -> throws OutOfSyncError', async () => {
-      const fixtureName = 'missing-top-level-deps';
-      const pkgJsonContent = readFileSync(
-        join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/package.json`),
-        'utf8',
-      );
-      const npmLockContent = readFileSync(
-        join(
-          __dirname,
-          `./fixtures/npm-lock-v2/${fixtureName}/package-lock.json`,
-        ),
-        'utf8',
-      );
-      try {
-        parseNpmLockV2Project(pkgJsonContent, npmLockContent, {
-          includeDevDeps: false,
-          includeOptionalDeps: true,
-          pruneCycles: true,
-          strictOutOfSync: true,
-        });
-      } catch (err) {
-        expect((err as Error).message).toBe(
-          'Dependency lodash@4.17.11 was not found in package-lock.json. Your package.json and package-lock.json are probably out of sync. Please run "npm install" and try again.',
-        );
-        expect((err as Error).name).toBe('OutOfSyncError');
       }
     });
 
@@ -323,7 +295,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'utf8',
       );
       try {
-        parseNpmLockV2Project(pkgJsonContent, npmLockContent, {
+        await parseNpmLockV2Project(pkgJsonContent, npmLockContent, {
           includeDevDeps: false,
           includeOptionalDeps: true,
           pruneCycles: true,
@@ -332,6 +304,34 @@ describe('dep-graph-builder npm-lock-v2', () => {
       } catch (err) {
         expect((err as Error).message).toBe(
           'Dependency ms@0.6.2 was not found in package-lock.json. Your package.json and package-lock.json are probably out of sync. Please run "npm install" and try again.',
+        );
+        expect((err as Error).name).toBe('OutOfSyncError');
+      }
+    });
+
+    it('project: simple-top-level-out-of-sync -> throws OutOfSyncError', async () => {
+      const fixtureName = 'missing-top-level-deps';
+      const pkgJsonContent = readFileSync(
+        join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/package.json`),
+        'utf8',
+      );
+      const npmLockContent = readFileSync(
+        join(
+          __dirname,
+          `./fixtures/npm-lock-v2/${fixtureName}/package-lock.json`,
+        ),
+        'utf8',
+      );
+      try {
+        await parseNpmLockV2Project(pkgJsonContent, npmLockContent, {
+          includeDevDeps: false,
+          includeOptionalDeps: true,
+          pruneCycles: true,
+          strictOutOfSync: true,
+        });
+      } catch (err) {
+        expect((err as Error).message).toBe(
+          'Dependency lodash@4.17.11 was not found in package-lock.json. Your package.json and package-lock.json are probably out of sync. Please run "npm install" and try again.',
         );
         expect((err as Error).name).toBe('OutOfSyncError');
       }

@@ -5,6 +5,7 @@ import { buildDepGraphYarnLockV1Workspace } from './build-depgraph-workspace-pac
 import { extractPkgsFromYarnLockV1 } from './extract-yarnlock-v1-pkgs';
 import { parsePkgJson } from '../util';
 import { ProjectParseOptions } from '../types';
+import { cMap } from '../../c-map';
 
 export const parseYarnLockV1WorkspaceProject = async (
   yarnLockContent: string,
@@ -26,9 +27,9 @@ export const parseYarnLockV1WorkspaceProject = async (
     },
   );
 
-  const depGraphs = parsedWorkspacePkgJsons.map((parsedPkgJson) => {
+  const depGraphs = cMap(parsedWorkspacePkgJsons, async (parsedPkgJson) => {
     return pruneCycles
-      ? buildDepGraphYarnLockV1WorkspaceCyclesPruned(
+      ? await buildDepGraphYarnLockV1WorkspaceCyclesPruned(
           extractedYarnLockV1Pkgs,
           parsedPkgJson,
           workspacePkgNameToVersion,
@@ -38,7 +39,7 @@ export const parseYarnLockV1WorkspaceProject = async (
             includeOptionalDeps,
           },
         )
-      : buildDepGraphYarnLockV1Workspace(
+      : await buildDepGraphYarnLockV1Workspace(
           extractedYarnLockV1Pkgs,
           parsedPkgJson,
           workspacePkgNameToVersion,

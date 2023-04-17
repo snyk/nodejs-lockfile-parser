@@ -7,13 +7,14 @@ import {
 } from '../util';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
 import type { DepGraphBuildOptions } from '../types';
+import { eventLoopSpinner } from 'event-loop-spinner';
 
 enum Color {
   GRAY,
   BLACK,
 }
 
-export const buildDepGraphYarnLockV1SimpleCyclesPruned = (
+export const buildDepGraphYarnLockV1SimpleCyclesPruned = async (
   extractedYarnLockV1Pkgs: NormalisedPkgs,
   pkgJson: PackageJsonBase,
   options: DepGraphBuildOptions,
@@ -37,7 +38,7 @@ export const buildDepGraphYarnLockV1SimpleCyclesPruned = (
     isDev: false,
   };
 
-  dfsVisit(
+  await dfsVisit(
     depGraphBuilder,
     rootNode,
     colorMap,
@@ -58,17 +59,21 @@ export const buildDepGraphYarnLockV1SimpleCyclesPruned = (
  *  - When first exploring an edge, if it points to a GRAY node, a cycle is found and the GRAY node is pruned.
  *     - A pruned node has id `${originalId}|1`
  */
-const dfsVisit = (
+const dfsVisit = async (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
   colorMap: Record<string, Color>,
   extractedYarnLockV1Pkgs: NormalisedPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
-): void => {
+): Promise<void> => {
   colorMap[node.id] = Color.GRAY;
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
+    if (eventLoopSpinner.isStarving()) {
+      await eventLoopSpinner.spin();
+    }
+
     const childNode = getChildNode(
       name,
       depInfo,
@@ -80,7 +85,7 @@ const dfsVisit = (
 
     if (!colorMap.hasOwnProperty(childNode.id)) {
       addPkgNodeToGraph(depGraphBuilder, childNode, {});
-      dfsVisit(
+      await dfsVisit(
         depGraphBuilder,
         childNode,
         colorMap,

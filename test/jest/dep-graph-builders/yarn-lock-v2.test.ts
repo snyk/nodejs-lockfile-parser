@@ -31,7 +31,7 @@ describe('dep-graph-builder yarn-lock-v1', () => {
             strictOutOfSync: false,
           };
 
-          const dg = parseYarnLockV2Project(
+          const dg = await parseYarnLockV2Project(
             pkgJsonContent,
             yarnLockContent,
             opts,

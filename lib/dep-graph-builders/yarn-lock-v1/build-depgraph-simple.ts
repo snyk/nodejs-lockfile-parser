@@ -7,8 +7,9 @@ import {
 } from '../util';
 import type { DepGraphBuildOptions } from '../types';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
+import { eventLoopSpinner } from 'event-loop-spinner';
 
-export const buildDepGraphYarnLockV1Simple = (
+export const buildDepGraphYarnLockV1Simple = async (
   extractedYarnLockV1Pkgs: NormalisedPkgs,
   pkgJson: PackageJsonBase,
   options: DepGraphBuildOptions,
@@ -32,7 +33,7 @@ export const buildDepGraphYarnLockV1Simple = (
     isDev: false,
   };
 
-  dfsVisit(
+  await dfsVisit(
     depGraphBuilder,
     rootNode,
     visitedMap,
@@ -50,17 +51,20 @@ export const buildDepGraphYarnLockV1Simple = (
  *  - If a node doesn't exist in the map, it means it hasn't been visited.
  *  - If a node is already visited, simply connect the new node with this node.
  */
-const dfsVisit = (
+const dfsVisit = async (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
   visitedMap: Set<string>,
   extractedYarnLockV1Pkgs: NormalisedPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
-): void => {
+): Promise<void> => {
   visitedMap.add(node.id);
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
+    if (eventLoopSpinner.isStarving()) {
+      await eventLoopSpinner.spin();
+    }
     const childNode = getChildNode(
       name,
       depInfo,
@@ -71,7 +75,7 @@ const dfsVisit = (
 
     if (!visitedMap.has(childNode.id)) {
       addPkgNodeToGraph(depGraphBuilder, childNode, {});
-      dfsVisit(
+      await dfsVisit(
         depGraphBuilder,
         childNode,
         visitedMap,
