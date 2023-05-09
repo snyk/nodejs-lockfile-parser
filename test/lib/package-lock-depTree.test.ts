@@ -1,7 +1,7 @@
 #!/usr/bin/env node_modules/.bin/ts-node
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
-import { test } from 'tap';
+import { test, only } from 'tap';
 import * as _isEmpty from 'lodash.isempty';
 
 import {
@@ -471,4 +471,18 @@ test('`package.json` with transitive optional peer (npm7) not installed', async 
   );
 
   t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
+});
+
+only('`package-lock.json` with transitive fsevents', async (t) => {
+  // const expectedDepTree = load(
+  //   'sup-378-fsevents/expected-tree.json',
+  // );
+
+  const depTree = await buildDepTreeFromFiles(
+    `${__dirname}/../fixtures/sup-378-fsevents`,
+    'package.json',
+    'package-lock.json',
+  );
+
+  // t.deepEqual(depTree, expectedDepTree, 'Tree generated as expected');
 });

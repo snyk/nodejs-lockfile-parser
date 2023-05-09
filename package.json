@@ -6,7 +6,8 @@
     "parse-nodejs-lockfile": "./bin/index.js"
   },
   "scripts": {
-    "test": "npm run unit-test && npm run test:jest",
+    "testX": "npm run unit-test && npm run test:jest",
+    "test": "tap --ts -Rspec ./test/lib/package-lock-depTree.test.ts --timeout=300 --no-check-coverage --only",
     "unit-test": "tap --ts -Rspec ./test/lib/*.test.[tj]s --timeout=300 --no-check-coverage",
     "test:jest": "jest",
     "lint": "eslint --color --cache '{lib,test}/**/*.{js,ts}' && prettier --check '{lib,test}/**/*.{js,ts}'",
