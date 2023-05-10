@@ -21,8 +21,6 @@ export const buildDepGraphYarnLockV1Simple = async (
     { name: pkgJson.name, version: pkgJson.version },
   );
 
-  const visitedMap: Set<string> = new Set();
-
   const topLevelDeps = getTopLevelDeps(pkgJson, { includeDevDeps });
 
   const rootNode: PkgNode = {
@@ -36,7 +34,6 @@ export const buildDepGraphYarnLockV1Simple = async (
   await dfsVisit(
     depGraphBuilder,
     rootNode,
-    visitedMap,
     extractedYarnLockV1Pkgs,
     strictOutOfSync,
     includeOptionalDeps,
@@ -54,14 +51,13 @@ export const buildDepGraphYarnLockV1Simple = async (
 const dfsVisit = async (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
-  visitedMap: Set<string>,
   extractedYarnLockV1Pkgs: NormalisedPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
+  visitedMap?: Set<string>,
 ): Promise<void> => {
-  visitedMap.add(node.id);
-
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
+    visitedMap = visitedMap || new Set();
     if (eventLoopSpinner.isStarving()) {
       await eventLoopSpinner.spin();
     }
@@ -75,16 +71,20 @@ const dfsVisit = async (
 
     if (!visitedMap.has(childNode.id)) {
       addPkgNodeToGraph(depGraphBuilder, childNode, {});
+      depGraphBuilder.connectDep(node.id, childNode.id);
+      visitedMap.add(node.id);
       await dfsVisit(
         depGraphBuilder,
         childNode,
-        visitedMap,
         extractedYarnLockV1Pkgs,
         strictOutOfSync,
         includeOptionalDeps,
+        visitedMap,
       );
+    } else {
+      childNode.id = `${childNode.id}:pruned`;
+      addPkgNodeToGraph(depGraphBuilder, childNode, { prune: true });
+      depGraphBuilder.connectDep(node.id, childNode.id);
     }
-
-    depGraphBuilder.connectDep(node.id, childNode.id);
   }
 };

@@ -22,6 +22,7 @@ export const addPkgNodeToGraph = (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
   options: {
+    prune?: boolean;
     isCyclic?: boolean;
     isWorkspacePkg?: boolean;
   },
@@ -33,6 +34,7 @@ export const addPkgNodeToGraph = (
       labels: {
         scope: node.isDev ? 'dev' : 'prod',
         ...(options.isCyclic && { pruned: 'cyclic' }),
+        ...(options.prune && { pruned: 'true' }),
         ...(options.isWorkspacePkg && { pruned: 'true' }),
         ...(node.missingLockFileEntry && { missingLockFileEntry: 'true' }),
       },
