@@ -34,5 +34,5 @@ export type LockFileParseOptions = {
 
 export type ProjectParseOptions = DepGraphBuildOptions &
   LockFileParseOptions & {
-    pruneCycles: boolean;
+    pruneCycles?: boolean;
   };
