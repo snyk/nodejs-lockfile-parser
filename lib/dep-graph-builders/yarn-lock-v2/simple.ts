@@ -1,15 +1,20 @@
 import { extractPkgsFromYarnLockV2 } from './extract-yarnlock-v2-pkgs';
 import { parsePkgJson } from '../util';
-import { PackageJsonBase, ProjectParseOptions } from '../types';
+import { PackageJsonBase, YarnLockV2ProjectParseOptions } from '../types';
 import { buildDepGraphYarnLockV2Simple } from './build-depgraph-simple';
 import { DepGraph } from '@snyk/dep-graph';
 
 export const parseYarnLockV2Project = async (
   pkgJsonContent: string,
   yarnLockContent: string,
-  options: ProjectParseOptions,
+  options: YarnLockV2ProjectParseOptions,
 ): Promise<DepGraph> => {
-  const { includeDevDeps, includeOptionalDeps, strictOutOfSync } = options;
+  const {
+    includeDevDeps,
+    includeOptionalDeps,
+    strictOutOfSync,
+    pruneWithinTopLevelDeps,
+  } = options;
 
   const pkgs = extractPkgsFromYarnLockV2(yarnLockContent);
 
@@ -19,6 +24,7 @@ export const parseYarnLockV2Project = async (
     includeDevDeps,
     strictOutOfSync,
     includeOptionalDeps,
+    pruneWithinTopLevelDeps,
   });
 
   return depgraph;

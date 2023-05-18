@@ -54,6 +54,7 @@ import type {
   PackageJsonBase,
   NormalisedPkgs,
   ProjectParseOptions,
+  YarnLockV2ProjectParseOptions,
 } from './dep-graph-builders/types';
 import {
   getLockfileVersionFromFile,
@@ -75,6 +76,7 @@ export {
   buildDepGraphYarnLockV2Simple,
   PackageJsonBase,
   ProjectParseOptions,
+  YarnLockV2ProjectParseOptions,
   NormalisedPkgs,
   NormalisedPkgs as YarnLockPackages,
   getLockfileVersionFromFile,
