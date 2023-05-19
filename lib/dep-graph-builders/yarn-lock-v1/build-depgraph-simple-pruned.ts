@@ -95,7 +95,7 @@ const dfsVisit = async (
       );
     } else if (colorMap[childNode.id] === Color.GRAY) {
       // cycle detected
-      childNode.id = `${childNode.id}|1`;
+      childNode.id = `${childNode.id}:pruned`;
       addPkgNodeToGraph(depGraphBuilder, childNode, { isCyclic: true });
     }
 

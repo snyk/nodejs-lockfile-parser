@@ -43,3 +43,27 @@ export type YarnLockV2ProjectParseOptions = {
   strictOutOfSync: boolean;
   pruneWithinTopLevelDeps: boolean;
 };
+
+/*
+ * This chooses how much we prune:
+ * - `cycles`: only prunes cycles
+ * - `withinTopLevelDeps`: prunes everything within a top level dep
+ * - `none`: does not apply any pruning to the dep graph
+ */
+export type PruneLevel = 'cycles' | 'withinTopLevelDeps' | 'none';
+
+export type YarnLockV1ProjectParseOptions = {
+  includeDevDeps: boolean;
+  includeOptionalDeps: boolean;
+  includePeerDeps: boolean;
+  strictOutOfSync: boolean;
+  pruneLevel: PruneLevel;
+};
+
+export type Yarn1DepGraphBuildOptions = {
+  includeDevDeps: boolean;
+  includeOptionalDeps: boolean;
+  includePeerDeps: boolean;
+  strictOutOfSync: boolean;
+  pruneWithinTopLevelDeps: boolean;
+};

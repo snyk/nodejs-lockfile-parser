@@ -9,19 +9,19 @@ import {
 
 const readWorkspacePkgJsons = (fixtureName: string) => {
   const rootPkgJson = readFileSync(
-    join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/package.json`),
+    join(__dirname, `./fixtures/yarn-lock-v1/real/${fixtureName}/package.json`),
     'utf8',
   );
 
   const pkgDirEntries = readdirSync(
-    join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/packages/`),
+    join(__dirname, `./fixtures/yarn-lock-v1/real/${fixtureName}/packages/`),
   );
 
   const packagesPkgJsons = pkgDirEntries.map((entry) => {
     return readFileSync(
       join(
         __dirname,
-        `./fixtures/yarn-lock-v1/${fixtureName}/packages/${entry}/package.json`,
+        `./fixtures/yarn-lock-v1/real/${fixtureName}/packages/${entry}/package.json`,
       ),
       'utf8',
     );
@@ -34,7 +34,7 @@ describe('Dep Graph Builders -> Yarn Lock v1 Workspaces', () => {
   test('project: workspace-isolated-pkgs', async () => {
     const fixtureName = 'workspace-with-isolated-pkgs';
     const yarnLockContent = readFileSync(
-      join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/yarn.lock`),
+      join(__dirname, `./fixtures/yarn-lock-v1/real/${fixtureName}/yarn.lock`),
       'utf8',
     );
 
@@ -59,7 +59,7 @@ describe('Dep Graph Builders -> Yarn Lock v1 Workspaces', () => {
   test('project: workspace-with-cross-ref', async () => {
     const fixtureName = 'workspace-with-cross-ref';
     const yarnLockContent = readFileSync(
-      join(__dirname, `./fixtures/yarn-lock-v1/${fixtureName}/yarn.lock`),
+      join(__dirname, `./fixtures/yarn-lock-v1/real/${fixtureName}/yarn.lock`),
       'utf8',
     );
 
@@ -105,14 +105,14 @@ describe('Workspace out of sync tests', () => {
           const pkgJsonContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
             ),
             'utf8',
           );
           const yarnLockContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
             ),
             'utf8',
           );
@@ -123,7 +123,8 @@ describe('Workspace out of sync tests', () => {
             {
               includeDevDeps: false,
               includeOptionalDeps: true,
-              pruneCycles: true,
+              includePeerDeps: false,
+              pruneLevel: 'cycles',
               strictOutOfSync: false,
             },
           );
@@ -131,7 +132,7 @@ describe('Workspace out of sync tests', () => {
             readFileSync(
               join(
                 __dirname,
-                `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/expected.json`,
+                `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/expected.json`,
               ),
               'utf8',
             ),
@@ -151,14 +152,14 @@ describe('Workspace out of sync tests', () => {
           const pkgJsonContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
             ),
             'utf8',
           );
           const yarnLockContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
             ),
             'utf8',
           );
@@ -169,7 +170,8 @@ describe('Workspace out of sync tests', () => {
             {
               includeDevDeps: false,
               includeOptionalDeps: true,
-              pruneCycles: true,
+              includePeerDeps: false,
+              pruneLevel: 'cycles',
               strictOutOfSync: false,
             },
           );
@@ -180,7 +182,8 @@ describe('Workspace out of sync tests', () => {
             {
               includeDevDeps: false,
               includeOptionalDeps: true,
-              pruneCycles: true,
+              includePeerDeps: false,
+              pruneLevel: 'cycles',
               strictOutOfSync: true,
             },
           );
@@ -189,7 +192,7 @@ describe('Workspace out of sync tests', () => {
             readFileSync(
               join(
                 __dirname,
-                `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/expected.json`,
+                `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/expected.json`,
               ),
               'utf8',
             ),
@@ -210,14 +213,14 @@ describe('Workspace out of sync tests', () => {
           const pkgJsonContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
             ),
             'utf8',
           );
           const yarnLockContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
             ),
             'utf8',
           );
@@ -226,7 +229,8 @@ describe('Workspace out of sync tests', () => {
             await parseYarnLockV1Project(pkgJsonContent, yarnLockContent, {
               includeDevDeps: false,
               includeOptionalDeps: true,
-              pruneCycles: true,
+              includePeerDeps: false,
+              pruneLevel: 'cycles',
               strictOutOfSync: false,
             });
           } catch (err) {
@@ -240,7 +244,8 @@ describe('Workspace out of sync tests', () => {
             await parseYarnLockV1Project(pkgJsonContent, yarnLockContent, {
               includeDevDeps: false,
               includeOptionalDeps: true,
-              pruneCycles: true,
+              includePeerDeps: false,
+              pruneLevel: 'cycles',
               strictOutOfSync: true,
             });
           } catch (err) {
@@ -262,21 +267,21 @@ describe('Workspace out of sync tests', () => {
           const rootPkgJsonContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/package.json`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/package.json`,
             ),
             'utf8',
           );
           const pkgJsonContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
             ),
             'utf8',
           );
           const yarnLockContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
             ),
             'utf8',
           );
@@ -295,7 +300,7 @@ describe('Workspace out of sync tests', () => {
             readFileSync(
               join(
                 __dirname,
-                `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/expected.json`,
+                `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/expected.json`,
               ),
               'utf8',
             ),
@@ -320,21 +325,21 @@ describe('Workspace out of sync tests', () => {
           const rootPkgJsonContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/package.json`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/package.json`,
             ),
             'utf8',
           );
           const pkgJsonContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
             ),
             'utf8',
           );
           const yarnLockContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
             ),
             'utf8',
           );
@@ -366,7 +371,7 @@ describe('Workspace out of sync tests', () => {
             readFileSync(
               join(
                 __dirname,
-                `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/expected.json`,
+                `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/expected.json`,
               ),
               'utf8',
             ),
@@ -396,21 +401,21 @@ describe('Workspace out of sync tests', () => {
           const rootPkgJsonContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/package.json`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/package.json`,
             ),
             'utf8',
           );
           const pkgJsonContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/packages/pkg-a/package.json`,
             ),
             'utf8',
           );
           const yarnLockContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/yarn-lock-v1/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
+              `./fixtures/yarn-lock-v1/real/out-of-sync-workspaces/${fixtureName}/yarn.lock`,
             ),
             'utf8',
           );
