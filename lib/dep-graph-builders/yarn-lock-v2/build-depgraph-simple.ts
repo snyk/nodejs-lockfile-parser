@@ -1,6 +1,6 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
-import { addPkgNodeToGraph, getTopLevelDeps, PkgNode } from '../util';
-import type { DepGraphBuildOptions } from '../types';
+import { getTopLevelDeps, PkgNode } from '../util';
+import type { YarnLockV2ProjectParseOptions } from '../types';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
 import { getYarnLockV2ChildNode } from './utils';
 import { eventLoopSpinner } from 'event-loop-spinner';
@@ -8,16 +8,19 @@ import { eventLoopSpinner } from 'event-loop-spinner';
 export const buildDepGraphYarnLockV2Simple = async (
   extractedYarnLockV2Pkgs: NormalisedPkgs,
   pkgJson: PackageJsonBase,
-  options: DepGraphBuildOptions,
+  options: YarnLockV2ProjectParseOptions,
 ) => {
-  const { includeDevDeps, strictOutOfSync, includeOptionalDeps } = options;
+  const {
+    includeDevDeps,
+    strictOutOfSync,
+    includeOptionalDeps,
+    pruneWithinTopLevelDeps,
+  } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
     { name: pkgJson.name, version: pkgJson.version },
   );
-
-  const visitedMap: Set<string> = new Set();
 
   const topLevelDeps = getTopLevelDeps(pkgJson, {
     includeDevDeps,
@@ -34,11 +37,11 @@ export const buildDepGraphYarnLockV2Simple = async (
   await dfsVisit(
     depGraphBuilder,
     rootNode,
-    visitedMap,
     extractedYarnLockV2Pkgs,
     strictOutOfSync,
     includeOptionalDeps,
     pkgJson.resolutions || {},
+    pruneWithinTopLevelDeps,
   );
 
   return depGraphBuilder.build();
@@ -53,18 +56,19 @@ export const buildDepGraphYarnLockV2Simple = async (
 const dfsVisit = async (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
-  visitedMap: Set<string>,
   extractedYarnLockV2Pkgs: NormalisedPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
   resolutions: Record<string, string>,
+  pruneWithinTopLevel: boolean,
+  visited?: Set<string>,
 ): Promise<void> => {
-  visitedMap.add(node.id);
-
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     if (eventLoopSpinner.isStarving()) {
       await eventLoopSpinner.spin();
     }
+
+    const localVisited = visited || new Set<string>();
 
     const childNode = getYarnLockV2ChildNode(
       name,
@@ -76,19 +80,52 @@ const dfsVisit = async (
       node,
     );
 
-    if (!visitedMap.has(childNode.id)) {
-      addPkgNodeToGraph(depGraphBuilder, childNode, {});
-      await dfsVisit(
-        depGraphBuilder,
-        childNode,
-        visitedMap,
-        extractedYarnLockV2Pkgs,
-        strictOutOfSync,
-        includeOptionalDeps,
-        resolutions,
-      );
+    if (localVisited.has(childNode.id)) {
+      if (pruneWithinTopLevel) {
+        const prunedId = `${childNode.id}:pruned`;
+        depGraphBuilder.addPkgNode(
+          { name: childNode.name, version: childNode.version },
+          prunedId,
+          {
+            labels: {
+              scope: node.isDev ? 'dev' : 'prod',
+              pruned: 'true',
+              ...(node.missingLockFileEntry && {
+                missingLockFileEntry: 'true',
+              }),
+            },
+          },
+        );
+        depGraphBuilder.connectDep(node.id, prunedId);
+      } else {
+        depGraphBuilder.connectDep(node.id, childNode.id);
+      }
+      continue;
     }
 
+    depGraphBuilder.addPkgNode(
+      { name: childNode.name, version: childNode.version },
+      childNode.id,
+      {
+        labels: {
+          scope: node.isDev ? 'dev' : 'prod',
+          ...(node.missingLockFileEntry && {
+            missingLockFileEntry: 'true',
+          }),
+        },
+      },
+    );
     depGraphBuilder.connectDep(node.id, childNode.id);
+    localVisited.add(childNode.id);
+    await dfsVisit(
+      depGraphBuilder,
+      childNode,
+      extractedYarnLockV2Pkgs,
+      strictOutOfSync,
+      includeOptionalDeps,
+      resolutions,
+      pruneWithinTopLevel,
+      localVisited,
+    );
   }
 };

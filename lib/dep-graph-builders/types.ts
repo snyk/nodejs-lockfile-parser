@@ -36,3 +36,10 @@ export type ProjectParseOptions = DepGraphBuildOptions &
   LockFileParseOptions & {
     pruneCycles: boolean;
   };
+
+export type YarnLockV2ProjectParseOptions = {
+  includeDevDeps: boolean;
+  includeOptionalDeps: boolean;
+  strictOutOfSync: boolean;
+  pruneWithinTopLevelDeps: boolean;
+};
