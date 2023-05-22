@@ -1,33 +1,40 @@
 import { buildDepGraphYarnLockV1Simple } from '.';
-import { PackageJsonBase } from '../types';
+import { PackageJsonBase, YarnLockV1ProjectParseOptions } from '../types';
 import { parsePkgJson } from '../util';
 import { buildDepGraphYarnLockV1SimpleCyclesPruned } from './build-depgraph-simple-pruned';
 import { extractPkgsFromYarnLockV1 } from './extract-yarnlock-v1-pkgs';
-import { ProjectParseOptions } from '../types';
 
 export const parseYarnLockV1Project = async (
   pkgJsonContent: string,
   yarnLockContent: string,
-  options: ProjectParseOptions,
+  options: YarnLockV1ProjectParseOptions,
 ) => {
-  const { includeDevDeps, includeOptionalDeps, pruneCycles, strictOutOfSync } =
-    options;
+  const {
+    includeDevDeps,
+    includeOptionalDeps,
+    includePeerDeps,
+    pruneLevel,
+    strictOutOfSync,
+  } = options;
 
   const pkgs = extractPkgsFromYarnLockV1(yarnLockContent);
 
   const pkgJson: PackageJsonBase = parsePkgJson(pkgJsonContent);
 
-  const depGraph = pruneCycles
-    ? await buildDepGraphYarnLockV1SimpleCyclesPruned(pkgs, pkgJson, {
-        includeDevDeps,
-        strictOutOfSync,
-        includeOptionalDeps,
-      })
-    : await buildDepGraphYarnLockV1Simple(pkgs, pkgJson, {
-        includeDevDeps,
-        strictOutOfSync,
-        includeOptionalDeps,
-      });
+  const depGraph =
+    pruneLevel === 'cycles'
+      ? await buildDepGraphYarnLockV1SimpleCyclesPruned(pkgs, pkgJson, {
+          includeDevDeps,
+          strictOutOfSync,
+          includeOptionalDeps,
+        })
+      : await buildDepGraphYarnLockV1Simple(pkgs, pkgJson, {
+          includeDevDeps,
+          includeOptionalDeps,
+          includePeerDeps,
+          strictOutOfSync,
+          pruneWithinTopLevelDeps: pruneLevel === 'withinTopLevelDeps',
+        });
 
   return depGraph;
 };
