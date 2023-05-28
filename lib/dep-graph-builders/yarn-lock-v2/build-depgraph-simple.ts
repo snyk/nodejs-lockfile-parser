@@ -1,6 +1,9 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
 import { getTopLevelDeps, PkgNode } from '../util';
-import type { YarnLockV2ProjectParseOptions } from '../types';
+import type {
+  YarnLockV2ProjectParseOptions,
+  YarnLockV2WorkspaceArgs,
+} from '../types';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
 import { getYarnLockV2ChildNode } from './utils';
 import { eventLoopSpinner } from 'event-loop-spinner';
@@ -9,6 +12,7 @@ export const buildDepGraphYarnLockV2Simple = async (
   extractedYarnLockV2Pkgs: NormalisedPkgs,
   pkgJson: PackageJsonBase,
   options: YarnLockV2ProjectParseOptions,
+  workspaceArgs?: YarnLockV2WorkspaceArgs,
 ) => {
   const {
     includeDevDeps,
@@ -40,7 +44,9 @@ export const buildDepGraphYarnLockV2Simple = async (
     extractedYarnLockV2Pkgs,
     strictOutOfSync,
     includeOptionalDeps,
-    pkgJson.resolutions || {},
+    // we have rootWorkspaceResolutions if this is workspace pkg with resolutions
+    // at root - therefore it should take precedent
+    workspaceArgs?.rootResolutions || pkgJson.resolutions || {},
     pruneWithinTopLevelDeps,
   );
 
