@@ -55,6 +55,61 @@ describe('yarn.lock v2 "real" projects', () => {
       expect(dg.equals(expectedDepGraph)).toBeTruthy();
     });
   });
+
+  it('Workspace with resolutions', async () => {
+    const rootPkgJsonContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/yarn-lock-v2/real/resolutions-in-workspace/package.json`,
+      ),
+      'utf8',
+    );
+    const rootYarnLockContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/yarn-lock-v2/real/resolutions-in-workspace/yarn.lock`,
+      ),
+      'utf8',
+    );
+    const workspacePkgJsonContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/yarn-lock-v2/real/resolutions-in-workspace/workspace1/package.json`,
+      ),
+      'utf8',
+    );
+
+    const opts: YarnLockV2ProjectParseOptions = {
+      includeDevDeps: false,
+      includeOptionalDeps: true,
+      strictOutOfSync: false,
+      pruneWithinTopLevelDeps: false,
+    };
+
+    const dg = await parseYarnLockV2Project(
+      workspacePkgJsonContent,
+      rootYarnLockContent,
+      opts,
+      {
+        isRoot: false,
+        isWorkspacePkg: true,
+        rootResolutions: JSON.parse(rootPkgJsonContent).resolutions || {},
+      },
+    );
+
+    const expectedDepGraphJson = JSON.parse(
+      readFileSync(
+        join(
+          __dirname,
+          `./fixtures/yarn-lock-v2/real/resolutions-in-workspace/workspace1/expected-graph.json`,
+        ),
+        'utf8',
+      ),
+    );
+
+    const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+    expect(dg.equals(expectedDepGraph)).toBeTruthy();
+  });
 });
 
 const getHandRolledYarnLock = (fixture: string) => {

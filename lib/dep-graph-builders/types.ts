@@ -37,6 +37,12 @@ export type ProjectParseOptions = DepGraphBuildOptions &
     pruneCycles: boolean;
   };
 
+export type YarnLockV2WorkspaceArgs = {
+  isWorkspacePkg: boolean;
+  isRoot: boolean;
+  rootResolutions: Record<string, string>;
+};
+
 export type YarnLockV2ProjectParseOptions = {
   includeDevDeps: boolean;
   includeOptionalDeps: boolean;
