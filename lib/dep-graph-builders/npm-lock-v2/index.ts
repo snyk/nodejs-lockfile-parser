@@ -343,9 +343,9 @@ export const getChildNodeKey = (
     parentIndex < reversedAncestry.length;
     parentIndex++
   ) {
-    const parentKey = reversedAncestry[parentIndex].key;
+    const parentName = reversedAncestry[parentIndex].name;
     const possibleFilteredKeys = filteredCandidates.filter((key) =>
-      key.includes(parentKey),
+      key.includes(parentName),
     );
 
     if (possibleFilteredKeys.length === 1) {

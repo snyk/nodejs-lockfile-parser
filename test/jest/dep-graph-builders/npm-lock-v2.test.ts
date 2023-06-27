@@ -338,3 +338,38 @@ describe('dep-graph-builder npm-lock-v2', () => {
     });
   });
 });
+
+describe('bundledDependencies', () => {
+  fit('project: bundled-deps resolves dep-graph', async () => {
+    const fixtureName = 'bundled-deps';
+    const pkgJsonContent = readFileSync(
+      join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/package.json`),
+      'utf8',
+    );
+    const npmLockContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/npm-lock-v2/${fixtureName}/package-lock.json`,
+      ),
+      'utf8',
+    );
+    const depGraph = await parseNpmLockV2Project(
+      pkgJsonContent,
+      npmLockContent,
+      {
+        includeDevDeps: false,
+        includeOptionalDeps: true,
+        pruneCycles: true,
+        strictOutOfSync: true,
+      },
+    );
+    const expectedDepGraphJson = JSON.parse(
+      readFileSync(
+        join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/expected.json`),
+        'utf8',
+      ),
+    );
+    const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+    expect(depGraph.equals(expectedDepGraph)).toBeTruthy();
+  });
+});
