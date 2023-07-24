@@ -50,6 +50,28 @@ export type YarnLockV2ProjectParseOptions = {
   pruneWithinTopLevelDeps: boolean;
 };
 
+export type PnpmParseOptions = {
+  includeDevDeps: boolean;
+  includeOptionalDeps: boolean;
+  strictOutOfSync: boolean;
+};
+
+export type PnpmLock = {
+  dependencies: Record<string, PnpmLockDependency>;
+  packages: Record<string, PnpmLockPkg>;
+};
+
+// This is the value of items inside the `dependencies` block
+// of a pnpm-lock.yaml
+export type PnpmLockDependency = { version: string };
+
+// This is the value of items inside the `packages` block
+// of a pnpm-lock.yaml
+export type PnpmLockPkg = {
+  dependencies: Record<string, string>;
+  dev: string;
+};
+
 /*
  * This chooses how much we prune:
  * - `cycles`: only prunes cycles

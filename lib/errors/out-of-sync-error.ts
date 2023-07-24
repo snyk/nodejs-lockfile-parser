@@ -5,6 +5,7 @@ const LOCK_FILE_NAME = {
   npm7: 'package-lock.json',
   yarn: 'yarn.lock',
   yarn2: 'yarn.lock',
+  pnpm: 'pnpm-lock.yaml',
 };
 
 const INSTALL_COMMAND = {
@@ -12,6 +13,7 @@ const INSTALL_COMMAND = {
   npm7: 'npm install',
   yarn: 'yarn install',
   yarn2: 'yarn install',
+  pnpm: 'pnpm install',
 };
 
 export class OutOfSyncError extends Error {
@@ -23,9 +25,9 @@ export class OutOfSyncError extends Error {
   constructor(dependencyName: string, lockFileType: LockfileType) {
     super(
       `Dependency ${dependencyName} was not found in ` +
-        `${LOCK_FILE_NAME[lockFileType]}. Your package.json and ` +
-        `${LOCK_FILE_NAME[lockFileType]} are probably out of sync. Please run ` +
-        `"${INSTALL_COMMAND[lockFileType]}" and try again.`,
+      `${LOCK_FILE_NAME[lockFileType]}. Your package.json and ` +
+      `${LOCK_FILE_NAME[lockFileType]} are probably out of sync. Please run ` +
+      `"${INSTALL_COMMAND[lockFileType]}" and try again.`,
     );
     this.dependencyName = dependencyName;
     this.lockFileType = lockFileType;

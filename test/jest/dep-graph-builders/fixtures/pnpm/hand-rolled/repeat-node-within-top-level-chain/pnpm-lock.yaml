@@ -1,0 +1,31 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+dependencies:
+  a:
+    specifier: 1.0.0
+    version: 1.0.0
+
+packages:
+
+  /a@1.0.0:
+    dependencies:
+      b: 1.0.0
+      d: 1.0.0
+    dev: false
+
+  /b@1.0.0:
+    dependencies:
+      c: 1.0.0
+    dev: false
+
+  /c@1.0.0:
+    dev: false
+
+  /d@1.0.0:
+    dependencies:
+      b: 1.0.0
+    dev: false

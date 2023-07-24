@@ -80,6 +80,7 @@ export enum LockfileType {
   npm7 = 'npm7',
   yarn = 'yarn',
   yarn2 = 'yarn2',
+  pnpm = 'pnpm',
 }
 
 export interface LockfileParser {
