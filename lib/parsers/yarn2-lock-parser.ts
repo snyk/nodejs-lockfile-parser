@@ -120,7 +120,7 @@ export class Yarn2LockParser extends LockParserBase {
     const yarnLockfile = lockfile as Yarn2Lock;
     const depMap: DepMap = {};
 
-    const dependencies = (lockfile.dependencies as YarnLockDeps) || {};
+    const dependencies = (lockfile.dependencies as Yarn2LockDeps) || {};
 
     for (const [depName, dep] of Object.entries(yarnLockfile.object)) {
       const subDependencies = Object.entries({
@@ -158,7 +158,7 @@ function getName(depName: string) {
 }
 
 function findResolutions(
-  dependencies: YarnLockDeps,
+  dependencies: Yarn2LockDeps,
   depName: string,
   subDepKey: string,
   resolutions?: ManifestDependencies,
