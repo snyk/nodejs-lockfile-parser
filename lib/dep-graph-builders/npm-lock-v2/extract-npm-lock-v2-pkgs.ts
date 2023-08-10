@@ -8,6 +8,7 @@ export type NpmLockPkg = {
   dev?: boolean;
   optional?: boolean;
   resolved?: string;
+  integrity?: string,
   license?: string;
   engines?: Record<string, string>;
   inBundle?: boolean;

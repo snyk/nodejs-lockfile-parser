@@ -34,6 +34,8 @@ export const buildDepGraphYarnLockV2Simple = async (
     id: 'root-node',
     name: pkgJson.name,
     version: pkgJson.version,
+    resolved: '',
+    integrity: '',
     dependencies: topLevelDeps,
     isDev: false,
   };
