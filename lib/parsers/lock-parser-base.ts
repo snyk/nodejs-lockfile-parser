@@ -37,6 +37,10 @@ export interface PackageLockDep {
   requires?: {
     [depName: string]: string;
   };
+
+  resolved?: string;
+  integrity?: string;
+
   dependencies?: PackageLockDeps;
   dev?: boolean;
 }
@@ -441,6 +445,15 @@ export abstract class LockParserBase implements LockfileParser {
         labels: dep.labels,
         name: dep.name,
         version: dep.version,
+
+        ...(dep.resolved && { resolved: dep.resolved }),
+        ...(dep.integrity && { integrity: dep.integrity }),
+
+        // Yarn2 alternatives for resolved and integrity
+        // They have incompatible formats with resolved and integrity
+        // and hence have their own fields
+        ...(dep.checksum && { checksum: dep.checksum }),
+        ...(dep.resolution && { resolution: dep.resolution })
       };
 
       if (dep.dependencies) {
