@@ -14,8 +14,8 @@ export interface PackageLock {
   name: string;
   version: string;
   dependencies?: PackageLockDeps;
-  lockfileVersion: 1 | 2;
-  type: LockfileType.npm | LockfileType.npm7;
+  lockfileVersion: 1 | 2 | 3;
+  type: LockfileType.npm | LockfileType.npm7 | LockfileType.npm7v3;
 }
 
 export interface PackageLockDeps {
@@ -78,6 +78,15 @@ export class PackageLockParser extends LockParserBase {
 
   protected getDepMap(lockfile: Lockfile): DepMap {
     const packageLock = lockfile as PackageLock;
+
+    if (packageLock.lockfileVersion == 2) {
+      throw new Error('not implemented: npm lockfile version 2');
+    }
+
+    if (packageLock.lockfileVersion == 3) {
+      throw new Error('not implemented: npm lockfile version 3');
+    }
+
     const depMap: DepMap = {};
 
     const flattenLockfileRec = (

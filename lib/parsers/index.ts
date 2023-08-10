@@ -78,6 +78,7 @@ export enum Scope {
 export enum LockfileType {
   npm = 'npm',
   npm7 = 'npm7',
+  npm7v3 = 'npm7v3',
   yarn = 'yarn',
   yarn2 = 'yarn2',
 }
