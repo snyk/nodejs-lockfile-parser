@@ -323,19 +323,19 @@ export const getChildNodeKey = (
     return filteredCandidates[0];
   }
 
-  const ancestry_names = ancestry.map((el) => el.name).concat(name);
-  while (ancestry_names.length > 0) {
-    const possible_key = `node_modules/${ancestry_names.join(
+  const ancestryNames = ancestry.map((el) => el.name).concat(name);
+  while (ancestryNames.length > 0) {
+    const possibleKey = `node_modules/${ancestryNames.join(
       '/node_modules/',
     )}`;
 
-    if (pkgs[possible_key]) {
-      return possible_key;
+    if (filteredCandidates.includes(possibleKey)) {
+      return possibleKey;
     }
-    ancestry_names.shift();
+    ancestryNames.shift();
   }
 
-  // Here we go through th eancestry backwards to find the nearest
+  // Here we go through the ancestry backwards to find the nearest
   // ancestor package
   const reversedAncestry = ancestry.reverse();
   for (
