@@ -340,7 +340,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
 });
 
 describe('bundledDependencies', () => {
-  fit('project: bundled-deps resolves dep-graph', async () => {
+  it('project: bundled-deps resolves dep-graph', async () => {
     const fixtureName = 'bundled-deps';
     const pkgJsonContent = readFileSync(
       join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/package.json`),
