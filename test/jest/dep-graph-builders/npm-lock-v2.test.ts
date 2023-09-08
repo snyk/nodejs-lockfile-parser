@@ -23,6 +23,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'cyclic-dep',
         'deeply-nested-packages',
         'deeply-scoped',
+        'different-versions', // TODO Name the test and maybe explain what is special about it
       ])('[simple tests] project: %s ', (fixtureName) => {
         test('matches expected', async () => {
           const fixturePath = `npm-lock-v2/${fixtureName}`;
@@ -56,7 +57,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
             const diff = diffNpmListTrees(actualNpmTree, expectedNpmTree);
             if (diff) {
               console.log(
-                `Generated dep graph does not match expected 'npm ls' output. Writing 'generated-npm-ls-expected.txt' and 'generated-npm-ls-actual.txt' to fixture dir for comparison. Found differences:\n${diff.join(
+                `Generated dep graph does not match expected 'npm ls' output. Writing 'generated-npm-ls-expected.txt' and 'generated-npm-ls-actual.txt' to fixture dir (${fixturePath}) for comparison. Found differences:\n${diff.join(
                   '\n',
                 )}`,
               );
@@ -391,44 +392,6 @@ describe('bundledDependencies', () => {
         strictOutOfSync: true,
       },
     );
-    const expectedDepGraphJson = JSON.parse(
-      readFileSync(
-        join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/expected.json`),
-        'utf8',
-      ),
-    );
-    const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-    expect(depGraph.equals(expectedDepGraph)).toBeTruthy();
-  });
-});
-
-describe('different versions', () => {
-  it('project: bundled-deps resolves dep-graph', async () => {
-    const fixtureName = 'different-versions';
-    const pkgJsonContent = readFileSync(
-      join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/package.json`),
-      'utf8',
-    );
-    const npmLockContent = readFileSync(
-      join(
-        __dirname,
-        `./fixtures/npm-lock-v2/${fixtureName}/package-lock.json`,
-      ),
-      'utf8',
-    );
-    const depGraph = await parseNpmLockV2Project(
-      pkgJsonContent,
-      npmLockContent,
-      {
-        includeDevDeps: false,
-        includeOptionalDeps: true,
-        pruneCycles: true,
-        strictOutOfSync: true,
-      },
-    );
-
-    // TODO Name the test and maybe explain what is special about it
-
     const expectedDepGraphJson = JSON.parse(
       readFileSync(
         join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/expected.json`),

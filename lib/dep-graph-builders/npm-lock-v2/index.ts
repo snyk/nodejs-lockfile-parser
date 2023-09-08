@@ -111,7 +111,7 @@ const dfsVisit = async (
   strictOutOfSync: boolean,
   includeDevDeps: boolean,
   includeOptionalDeps: boolean,
-  ancestry: { name: string; key: string; inBundle: boolean }[],
+  ancestry: Ancestor[],
   pkgKeysByName: Map<string, string[]>,
 ): Promise<void> => {
   visitedMap.add(node.id);
@@ -172,7 +172,7 @@ const getChildNode = (
   strictOutOfSync: boolean,
   includeDevDeps: boolean,
   includeOptionalDeps: boolean,
-  ancestry: { name: string; key: string; inBundle: boolean }[],
+  ancestry: Ancestor[],
   pkgKeysByName: Map<string, string[]>,
 ) => {
   let childNodeKey = getChildNodeKey(
@@ -248,116 +248,85 @@ const getChildNode = (
 export const getChildNodeKey = (
   name: string,
   version: string,
-  ancestry: { name: string; key: string; inBundle: boolean }[],
+  ancestry: Ancestor[],
   pkgs: Record<string, NpmLockPkg>,
   pkgKeysByName: Map<string, string[]>,
 ): string | undefined => {
-  // This is a list of all our possible options for the childKey
+  // This is a list of all our possible options for the package
   const candidateKeys = pkgKeysByName.get(name);
-
-  // Lockfile missing entry
   if (!candidateKeys) {
+    // Lockfile missing entry
+    return undefined;
+  }
+
+  const matchingKeys =
+    version === 'latest'
+      ? candidateKeys
+      : candidateKeys.filter((candidate) => {
+          const candidatePkgVersion = pkgs[candidate].version;
+          return semver.satisfies(candidatePkgVersion, version);
+        });
+
+  if (matchingKeys.length === 0) {
+    // No entries satisfying the desired version
     return undefined;
   }
 
   // If we only have one candidate then we just take it
-  if (candidateKeys.length === 1) {
-    return candidateKeys[0];
-  }
-  // If we are bundled we assume we are scoped by the bundle root at least
-  // otherwise the ancestry root is the root ignoring the true root
-  const isBundled = ancestry[ancestry.length - 1].inBundle;
-  const rootOperatingIdx = isBundled
-    ? ancestry.findIndex((el) => el.inBundle === true) - 1
-    : 1;
-  const ancestryFromRootOperatingIdx = [
-    ...ancestry.slice(rootOperatingIdx).map((el) => el.name),
-    name,
-  ];
-
-  // We filter on a number of cases
-  let filteredCandidates = candidateKeys.filter((candidate) => {
-    // This is splitting the candidate that looks like
-    // `node_modules/a/node_modules/b` into ["a", "b"]
-    // To do this we remove the first node_modules substring
-    // and then split on the rest
-    const candidateAncestry = candidate
-      .replace('node_modules/', '')
-      .split('/node_modules/');
-
-    // Check the ancestry of the candidate is a subset of
-    // the current pkg. If it is not then it can't be a
-    // valid key.
-    const isCandidateAncestryIsSubsetOfPkgAncestry = candidateAncestry.every(
-      (pkg) => {
-        return ancestryFromRootOperatingIdx.includes(pkg);
-      },
-    );
-
-    if (isCandidateAncestryIsSubsetOfPkgAncestry === false) {
-      return false;
-    }
-
-    // If we are bundled we assume the bundle root is the first value
-    // in the candidates scoping
-    if (isBundled) {
-      const doesBundledPkgShareBundleRoot =
-        candidateAncestry[0] === ancestryFromRootOperatingIdx[0];
-
-      if (doesBundledPkgShareBundleRoot === false) {
-        return false;
-      }
-    }
-
-    // So now we can check semver to filter out some values
-    const candidatePkgVersion = pkgs[candidate].version;
-    const doesVersionSatisfySemver = semver.satisfies(
-      candidatePkgVersion,
-      version,
-    );
-
-    return doesVersionSatisfySemver;
-  });
-
-  if (filteredCandidates.length === 1) {
-    return filteredCandidates[0];
+  if (matchingKeys.length === 1) {
+    return matchingKeys[0];
   }
 
-  const ancestryNames = ancestry.map((el) => el.name).concat(name);
-  while (ancestryNames.length > 0) {
-    const possibleKey = `node_modules/${ancestryNames.join(
-      '/node_modules/',
-    )}`;
+  let ancestors = ancestry.slice();
 
-    if (filteredCandidates.includes(possibleKey)) {
+  // If we are bundled, we shouldn't consider ancestors outside of the bundle
+  const bundleRootAncestorIndex = ancestors.findIndex((it) => it.inBundle);
+  if (bundleRootAncestorIndex !== -1) {
+    ancestors = ancestors.slice(bundleRootAncestorIndex - 1);
+  }
+
+  while (ancestors.length > 0) {
+    // linter ignore reason: we verify the ancestors aren't empty just above it
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const ancestor = ancestors.pop()!;
+    const ancestorPrefix = ancestor.key ? `${ancestor.key}/` : '';
+    const possibleKey = `${ancestorPrefix}node_modules/${name}`;
+    if (matchingKeys.includes(possibleKey)) {
       return possibleKey;
     }
-    ancestryNames.shift();
-  }
-
-  // Here we go through the ancestry backwards to find the nearest
-  // ancestor package
-  const reversedAncestry = ancestry.reverse();
-  for (
-    let parentIndex = 0;
-    parentIndex < reversedAncestry.length;
-    parentIndex++
-  ) {
-    const parentName = reversedAncestry[parentIndex].name;
-    const possibleFilteredKeys = filteredCandidates.filter((key) =>
-      key.includes(parentName),
-    );
-
-    if (possibleFilteredKeys.length === 1) {
-      return possibleFilteredKeys[0];
-    }
-
-    if (possibleFilteredKeys.length === 0) {
-      continue;
-    }
-
-    filteredCandidates = possibleFilteredKeys;
   }
 
   return undefined;
+
+  // TODO Turn into method docs
+  // We have a package, ancestry where it resides in the dep graph and all node_modules paths where package with this name is installed
+  // We filter out those that don't work, that's fine, although checking if it works may be too optimistic
+  // Then we should bubble up paths where that package is - check for current parent, higher parent etc up to the root
+  // When checking parent need to evaluate where that parent is actually installed
+  // We don't have that info, but we can check different paths where it could be; from most specific to least specific
+  // actually when picking candidate, I think we need to check from most specific to least specific
+  // going parent by parent may give local optimum, but wrong result
+  // I think we should be evaluating the filtered candidates, or maybe what we will do is also the filtering on paths
+  // having paths:
+  // - ['guac', 'ansi-regex']
+  // - ['string-width', 'ansi-regex']
+  // - ['ansi-regex'] it has to pick the second one for the path
+  // - ['guac', 'string-width', 'ansi-regex']
+  // but only if there is no ['guac', 'string-width'] path
+  // So we get a direct parent and see where it is installed
+  // We can do that by:
+  // A) checking where its parent is installed
+  // B) see if it is under that parent. if not, repeat for the grandparent, etc.
+
+  // That seems expensive to do it for every node, so precomputing would be great if possible
+  // For all 1st level dependencies, the path is clear - it must be root so /1st
+  // For 2nd level dependencies, the path is either /1st/2nd or /2nd (directly under root)
+  // For 3rd level dependencies, the path is either ${parent}/3rd or {grandparent}/3rd
+  // If any ancestor is a bundle, then path is at most ${bundleAncestor}/x, but can't be ${bundleAncestorParent}/x
 };
+
+interface Ancestor {
+  name: string;
+  key: string;
+  inBundle: boolean;
+}

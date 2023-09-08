@@ -1,7 +1,5 @@
-import {
-  parseNpmListOutput,
-} from '../../lib/cli-helpers/npm-list-parser';
-import {NpmListTreeNode} from "../../lib/cli-helpers/npm-list-tree";
+import { parseNpmListOutput } from '../../lib/cli-helpers/npm-list-parser';
+import { NpmListTreeNode } from '../../lib/cli-helpers/npm-list-tree';
 
 describe('parseNpmListOutput', () => {
   it('parses example output', () => {
