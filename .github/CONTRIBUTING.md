@@ -46,3 +46,18 @@ Ensure that your code adheres to the included `.eslintrc.json` config by running
 *Important:* when fixing a bug, please commit a **failing test** first so that Travis CI (or I can) can show the code failing. Once that commit is in place, then commit the bug fix, so that we can test *before* and *after*.
 
 Remember that you're developing for multiple platforms and versions of node, so if the tests pass on your Mac or Linux or Windows machine, it *may* not pass elsewhere.
+
+## Testing
+
+### NPM lockfile v2 tests
+
+NPM lockfile v2 tests are implemented in [test/jest/dep-graph-builders/npm-lock-v2.test.ts](test/jest/dep-graph-builders/npm-lock-v2.test.ts)
+with fixtures in [test/jest/dep-graph-builders/fixtures/npm-lock-v2](test/jest/dep-graph-builders/fixtures/npm-lock-v2).
+A fixture should have `package.json`, `package-lock.json` and either `expected-npm-ls.txt` or `expected.json` (or both).
+The `expected-npm-ls.txt` file is just output from running `npm ls` command.
+It is used to compare the output of this library parsing and the dependency tree that `npm ls` prints.
+To create the `expected-npm-ls.txt` file, you first need to install the packages with `npm install` and then dump the `npm ls` output:
+
+```
+npm ls --all --omit-dev > expected-npm-ls.txt
+```

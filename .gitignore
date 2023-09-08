@@ -9,3 +9,4 @@ dist
 .idea
 .nyc_output/
 .dccache
+/test/jest/dep-graph-builders/fixtures/npm-lock-v2/*/generated-npm-ls-*

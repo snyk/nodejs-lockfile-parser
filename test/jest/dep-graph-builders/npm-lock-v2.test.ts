@@ -2,6 +2,17 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 import { parseNpmLockV2Project } from '../../../lib/';
 import { createFromJSON } from '@snyk/dep-graph';
+import {
+  existsFixtureFileSync,
+  readFixtureFileSync,
+  writeFixtureFileSync,
+} from './fixtures';
+import { parseNpmListOutput } from '../../lib/cli-helpers/npm-list-parser';
+import {
+  convertDepGraphToNpmListTree,
+  convertNpmListTreeToString,
+  diffNpmListTrees,
+} from '../../lib/cli-helpers/npm-list-printer';
 
 describe('dep-graph-builder npm-lock-v2', () => {
   describe('Happy path tests', () => {
@@ -14,19 +25,14 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'deeply-scoped',
       ])('[simple tests] project: %s ', (fixtureName) => {
         test('matches expected', async () => {
-          const pkgJsonContent = readFileSync(
-            join(
-              __dirname,
-              `./fixtures/npm-lock-v2/${fixtureName}/package.json`,
-            ),
-            'utf8',
+          const fixturePath = `npm-lock-v2/${fixtureName}`;
+          const pkgJsonContent = readFixtureFileSync(
+            fixturePath,
+            'package.json',
           );
-          const pkgLockContent = readFileSync(
-            join(
-              __dirname,
-              `./fixtures/npm-lock-v2/${fixtureName}/package-lock.json`,
-            ),
-            'utf8',
+          const pkgLockContent = readFixtureFileSync(
+            fixturePath,
+            'package-lock.json',
           );
 
           const newDepGraph = await parseNpmLockV2Project(
@@ -40,14 +46,36 @@ describe('dep-graph-builder npm-lock-v2', () => {
             },
           );
 
+          if (existsFixtureFileSync(fixturePath, 'expected-npm-ls.txt')) {
+            const expectedNpmListOutput = readFixtureFileSync(
+              fixturePath,
+              'expected-npm-ls.txt',
+            );
+            const expectedNpmTree = parseNpmListOutput(expectedNpmListOutput);
+            const actualNpmTree = convertDepGraphToNpmListTree(newDepGraph);
+            const diff = diffNpmListTrees(actualNpmTree, expectedNpmTree);
+            if (diff) {
+              console.log(
+                `Generated dep graph does not match expected 'npm ls' output. Writing 'generated-npm-ls-expected.txt' and 'generated-npm-ls-actual.txt' to fixture dir for comparison. Found differences:\n${diff.join(
+                  '\n',
+                )}`,
+              );
+              writeFixtureFileSync(
+                fixturePath,
+                'generated-npm-ls-expected.txt',
+                convertNpmListTreeToString(expectedNpmTree),
+              );
+              writeFixtureFileSync(
+                fixturePath,
+                'generated-npm-ls-actual.txt',
+                convertNpmListTreeToString(actualNpmTree),
+              );
+            }
+            expect(diff).toHaveLength(0);
+          }
+
           const expectedDepGraphJson = JSON.parse(
-            readFileSync(
-              join(
-                __dirname,
-                `./fixtures/npm-lock-v2/${fixtureName}/expected.json`,
-              ),
-              'utf8',
-            ),
+            readFixtureFileSync(fixturePath, 'expected.json'),
           );
           const expectedDepGraph = createFromJSON(expectedDepGraphJson);
           expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
