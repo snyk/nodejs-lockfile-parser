@@ -95,6 +95,46 @@ describe('dep-graph-builder npm-lock-v2', () => {
           expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
         });
 
+        it('intradependent workspaces-packages', async () => {
+          const pkgJsonContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/npm-lock-v2/workspaces-packages/packages/b/package.json`,
+            ),
+            'utf8',
+          );
+          const pkgLockContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/npm-lock-v2/workspaces-packages/package-lock.json`,
+            ),
+            'utf8',
+          );
+
+          const newDepGraph = await parseNpmLockV2Project(
+            pkgJsonContent,
+            pkgLockContent,
+            {
+              includeDevDeps: false,
+              includeOptionalDeps: true,
+              pruneCycles: true,
+              strictOutOfSync: false,
+            },
+          );
+
+          const expectedDepGraphJson = JSON.parse(
+            readFileSync(
+              join(
+                __dirname,
+                `./fixtures/npm-lock-v2/workspaces-packages/packages/b/expected.json`,
+              ),
+              'utf8',
+            ),
+          );
+          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+        });
+
         it('intradependent workspaces, with /** globs', async () => {
           const pkgJsonContent = readFileSync(
             join(
