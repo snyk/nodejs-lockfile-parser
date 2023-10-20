@@ -19,6 +19,7 @@ import {
   OutOfSyncError,
 } from './errors';
 import { buildDepGraphFromCliOutput } from './cli-parsers';
+import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
 
 export {
   buildDepTree,
@@ -112,10 +113,9 @@ async function buildDepTree(
       lockfileParser = new Yarn2LockParser();
       break;
     default:
-      throw new InvalidUserInputError(
-        'Unsupported lockfile type ' +
-          `${lockfileType} provided. Only 'npm' or 'yarn' is currently ` +
-          'supported.',
+      throw new OpenSourceEcosystems.UnsupportedLockfileFileError(
+        'Only npm or yarn lockfiles are currently supported',
+        {lockfileType}
       );
   }
 
@@ -143,22 +143,23 @@ async function buildDepTreeFromFiles(
   strictOutOfSync = true,
 ): Promise<PkgTree> {
   if (!root || !manifestFilePath || !lockFilePath) {
-    throw new Error('Missing required parameters for buildDepTreeFromFiles()');
+    throw new OpenSourceEcosystems.MissingPayloadError('Missing required parameters for buildDepTreeFromFiles');
   }
 
   const manifestFileFullPath = path.resolve(root, manifestFilePath);
   const lockFileFullPath = path.resolve(root, lockFilePath);
 
   if (!fs.existsSync(manifestFileFullPath)) {
-    throw new InvalidUserInputError(
-      'Target file package.json not found at ' +
-        `location: ${manifestFileFullPath}`,
+    throw OpenSourceEcosystems.CannotGetFileFromSourceError(
+      'Target file package.json not found',
+      {manifestFileFullPath},
     );
   }
   if (!fs.existsSync(lockFileFullPath)) {
-    throw new InvalidUserInputError(
-      'Lockfile not found at location: ' + lockFileFullPath,
-    );
+    throw new OpenSourceEcosystems.CannotGetFileFromSourceError(
+      'Lockfile not found',
+      {lockFileFullPath},
+    )
   }
 
   const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');
