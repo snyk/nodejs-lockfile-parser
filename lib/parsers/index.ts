@@ -1,6 +1,6 @@
 import { PackageLock } from './package-lock-parser';
 import { YarnLock } from './yarn-lock-parser';
-import { InvalidUserInputError } from '../errors';
+import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
 import { Yarn2Lock } from './yarn2-lock-parser';
 
 export interface Dep {
@@ -98,7 +98,7 @@ export function parseManifestFile(manifestFileContents: string): ManifestFile {
   try {
     return JSON.parse(manifestFileContents);
   } catch (e) {
-    throw new InvalidUserInputError(
+    throw new OpenSourceEcosystems.UnableToParseJsonError(
       'package.json parsing failed with error ' + (e as Error).message,
     );
   }
@@ -187,7 +187,7 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
     }
     return false;
   } catch (e) {
-    throw new InvalidUserInputError(
+    throw new OpenSourceEcosystems.UnableToParseJsonError(
       'package.json parsing failed with ' + `error ${(e as Error).message}`,
     );
   }

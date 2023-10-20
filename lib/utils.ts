@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import { InvalidUserInputError } from './errors';
+import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
 
 export enum NodeLockfileVersion {
   NpmLockV1 = 'NPM_LOCK_V1',
@@ -18,7 +18,7 @@ export const getLockfileVersionFromFile = (
   } else if (targetFile.endsWith('yarn.lock')) {
     return getYarnLockfileVersion(lockFileContents);
   } else {
-    throw new InvalidUserInputError(
+    throw new OpenSourceEcosystems.UnsupportedLockfileFileError(
       `Unknown lockfile ${targetFile}. ` +
         'Please provide either package-lock.json or yarn.lock.',
     );
@@ -54,13 +54,13 @@ export function getNpmLockfileVersion(
       case 3:
         return NodeLockfileVersion.NpmLockV3;
       default:
-        throw new InvalidUserInputError(
+        throw new OpenSourceEcosystems.UnsupportedLockfileFileError(
           `Unsupported npm lockfile version in package-lock.json. ` +
             'Please provide a package-lock.json with lockfileVersion 1, 2 or 3',
         );
     }
   } catch (e) {
-    throw new InvalidUserInputError(
+    throw new OpenSourceEcosystems.UnsupportedLockfileFileError(
       `Problem parsing package-lock.json - make sure the package-lock.json is a valid JSON file`,
     );
   }

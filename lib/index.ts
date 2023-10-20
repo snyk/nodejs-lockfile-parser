@@ -150,7 +150,7 @@ async function buildDepTreeFromFiles(
   const lockFileFullPath = path.resolve(root, lockFilePath);
 
   if (!fs.existsSync(manifestFileFullPath)) {
-    throw OpenSourceEcosystems.CannotGetFileFromSourceError(
+    throw new OpenSourceEcosystems.CannotGetFileFromSourceError(
       'Target file package.json not found',
       {manifestFileFullPath},
     );
@@ -171,10 +171,10 @@ async function buildDepTreeFromFiles(
   } else if (lockFilePath.endsWith('yarn.lock')) {
     lockFileType = getYarnLockfileType(lockFileContents, root, lockFilePath);
   } else {
-    throw new InvalidUserInputError(
+    throw new OpenSourceEcosystems.UnsupportedLockfileFileError(
       `Unknown lockfile ${lockFilePath}. ` +
         'Please provide either package-lock.json or yarn.lock.',
-    );
+    )
   }
 
   return await buildDepTree(
@@ -192,13 +192,13 @@ function getYarnWorkspacesFromFiles(
   manifestFilePath: string,
 ): string[] | false {
   if (!root || !manifestFilePath) {
-    throw new Error(
+    throw new OpenSourceEcosystems.MissingSupportedFileError(
       'Missing required parameters for getYarnWorkspacesFromFiles()',
     );
   }
   const manifestFileFullPath = path.resolve(root, manifestFilePath);
   if (!fs.existsSync(manifestFileFullPath)) {
-    throw new InvalidUserInputError(
+    throw new OpenSourceEcosystems.MissingSupportedFileError(
       'Target file package.json not found at ' +
         `location: ${manifestFileFullPath}`,
     );

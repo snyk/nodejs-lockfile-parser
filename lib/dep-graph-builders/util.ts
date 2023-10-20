@@ -3,6 +3,7 @@ import { DepGraphBuilder } from '@snyk/dep-graph';
 import { InvalidUserInputError } from '../errors';
 import { NormalisedPkgs } from './types';
 import { OutOfSyncError } from '../errors';
+import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
 import { LockfileType } from '../parsers';
 
 export type Dependencies = Record<string, { version: string; isDev: boolean }>;
@@ -94,7 +95,7 @@ export function parsePkgJson(pkgJsonContent: string): PackageJsonBase {
     }
     return parsedPkgJson;
   } catch (e) {
-    throw new InvalidUserInputError(
+    throw new OpenSourceEcosystems.UnsupportedLockfileFileError(
       'package.json parsing failed with error ' + (e as Error).message,
     );
   }
