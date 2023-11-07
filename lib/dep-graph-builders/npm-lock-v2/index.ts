@@ -7,7 +7,6 @@ import { extractPkgsFromNpmLockV2 } from './extract-npm-lock-v2-pkgs';
 import type { NpmLockPkg } from './extract-npm-lock-v2-pkgs';
 import { DepGraph, DepGraphBuilder } from '@snyk/dep-graph';
 import {
-  addPkgNodeToGraph,
   getGraphDependencies,
   getTopLevelDeps,
   parsePkgJson,
@@ -88,11 +87,9 @@ export const buildDepGraphNpmLockV2 = async (
     new Map<string, string[]>(),
   );
 
-  const visitedMap: Set<string> = new Set();
   await dfsVisit(
     depGraphBuilder,
     rootNode,
-    visitedMap,
     npmLockPkgs,
     strictOutOfSync,
     includeDevDeps,
@@ -106,17 +103,18 @@ export const buildDepGraphNpmLockV2 = async (
 const dfsVisit = async (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
-  visitedMap: Set<string>,
   npmLockPkgs: Record<string, NpmLockPkg>,
   strictOutOfSync: boolean,
   includeDevDeps: boolean,
   includeOptionalDeps: boolean,
   ancestry: { name: string; key: string; inBundle: boolean }[],
   pkgKeysByName: Map<string, string[]>,
+  visitedMap?: Set<string>,
 ): Promise<void> => {
-  visitedMap.add(node.id);
+  const parentId = node.id;
 
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
+    const localVisited = visitedMap || new Set();
     if (eventLoopSpinner.isStarving()) {
       await eventLoopSpinner.spin();
     }
@@ -139,29 +137,43 @@ const dfsVisit = async (
       pkgKeysByName,
     );
 
-    if (!visitedMap.has(childNode.id)) {
-      addPkgNodeToGraph(depGraphBuilder, childNode, {});
-      await dfsVisit(
-        depGraphBuilder,
-        childNode,
-        visitedMap,
-        npmLockPkgs,
-        strictOutOfSync,
-        includeDevDeps,
-        includeOptionalDeps,
-        [
-          ...ancestry,
-          {
-            name: node.name,
-            key: node.key as string,
-            inBundle: node.inBundle || false,
-          },
-        ],
-        pkgKeysByName,
+    if (localVisited.has(childNode.id)) {
+      const prunedId = `${childNode.id}::pruned`;
+      depGraphBuilder.addPkgNode(
+        { name: childNode.name, version: childNode.version },
+        prunedId,
+        { labels: { pruned: 'true' } },
       );
+      depGraphBuilder.connectDep(parentId, prunedId);
+      continue;
     }
+    depGraphBuilder.addPkgNode(
+      { name: childNode.name, version: childNode.version },
+      childNode.id,
+      { labels: { pruned: 'true' } },
+    );
 
-    depGraphBuilder.connectDep(node.id, childNode.id);
+    depGraphBuilder.connectDep(parentId, childNode.id);
+    localVisited.add(childNode.id);
+
+    await dfsVisit(
+      depGraphBuilder,
+      childNode,
+      npmLockPkgs,
+      strictOutOfSync,
+      includeDevDeps,
+      includeOptionalDeps,
+      [
+        ...ancestry,
+        {
+          name: node.name,
+          key: node.key as string,
+          inBundle: node.inBundle || false,
+        },
+      ],
+      pkgKeysByName,
+      localVisited,
+    );
   }
 };
 
@@ -337,7 +349,7 @@ export const getChildNodeKey = (
       '/node_modules/',
     )}`;
 
-    if (pkgs[possible_key]) {
+    if (filteredCandidates.includes(possible_key)) {
       return possible_key;
     }
     ancestry_names.shift();
