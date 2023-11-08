@@ -327,6 +327,13 @@
       }
     },
     {
+      "id": "ee-first@1.1.0",
+      "info": {
+        "name": "ee-first",
+        "version": "1.1.0"
+      }
+    },
+    {
       "id": "fresh@0.2.4",
       "info": {
         "name": "fresh",
@@ -1335,6 +1342,20 @@
       }
     },
     {
+      "id": "argparse@1.0.10",
+      "info": {
+        "name": "argparse",
+        "version": "1.0.10"
+      }
+    },
+    {
+      "id": "sprintf-js@1.0.3",
+      "info": {
+        "name": "sprintf-js",
+        "version": "1.0.3"
+      }
+    },
+    {
       "id": "esprima@2.7.3",
       "info": {
         "name": "esprima",
@@ -1836,20 +1857,6 @@
       "info": {
         "name": "js-yaml",
         "version": "3.14.1"
-      }
-    },
-    {
-      "id": "argparse@1.0.10",
-      "info": {
-        "name": "argparse",
-        "version": "1.0.10"
-      }
-    },
-    {
-      "id": "sprintf-js@1.0.3",
-      "info": {
-        "name": "sprintf-js",
-        "version": "1.0.3"
       }
     },
     {
@@ -3830,9 +3837,19 @@
         "pkgId": "on-finished@2.2.1",
         "deps": [
           {
-            "nodeId": "ee-first@1.0.5"
+            "nodeId": "ee-first@1.1.0"
           }
         ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ee-first@1.1.0",
+        "pkgId": "ee-first@1.1.0",
+        "deps": [],
         "info": {
           "labels": {
             "scope": "prod"
@@ -5852,12 +5869,36 @@
         "pkgId": "js-yaml@3.6.1",
         "deps": [
           {
-            "nodeId": "argparse@2.0.1"
+            "nodeId": "argparse@1.0.10"
           },
           {
             "nodeId": "esprima@2.7.3"
           }
         ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "argparse@1.0.10",
+        "pkgId": "argparse@1.0.10",
+        "deps": [
+          {
+            "nodeId": "sprintf-js@1.0.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "sprintf-js@1.0.3",
+        "pkgId": "sprintf-js@1.0.3",
+        "deps": [],
         "info": {
           "labels": {
             "scope": "prod"
@@ -6870,30 +6911,6 @@
         }
       },
       {
-        "nodeId": "argparse@1.0.10",
-        "pkgId": "argparse@1.0.10",
-        "deps": [
-          {
-            "nodeId": "sprintf-js@1.0.3"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "sprintf-js@1.0.3",
-        "pkgId": "sprintf-js@1.0.3",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
         "nodeId": "esprima@4.0.1",
         "pkgId": "esprima@4.0.1",
         "deps": [],
@@ -7729,10 +7746,10 @@
             "nodeId": "inherits@2.0.1"
           },
           {
-            "nodeId": "minimatch@3.1.2"
+            "nodeId": "minimatch@3.0.0"
           },
           {
-            "nodeId": "once@1.4.0"
+            "nodeId": "once@1.3.3"
           },
           {
             "nodeId": "path-is-absolute@1.0.0"

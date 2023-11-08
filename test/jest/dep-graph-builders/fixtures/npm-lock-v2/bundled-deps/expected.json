@@ -102,10 +102,10 @@
       }
     },
     {
-      "id": "tslib@2.6.0",
+      "id": "tslib@1.14.1",
       "info": {
         "name": "tslib",
-        "version": "2.6.0"
+        "version": "1.14.1"
       }
     },
     {
@@ -148,13 +148,6 @@
       "info": {
         "name": "lru_map",
         "version": "0.3.3"
-      }
-    },
-    {
-      "id": "tslib@1.14.1",
-      "info": {
-        "name": "tslib",
-        "version": "1.14.1"
       }
     },
     {
@@ -3868,6 +3861,13 @@
       }
     },
     {
+      "id": "tslib@2.6.0",
+      "info": {
+        "name": "tslib",
+        "version": "2.6.0"
+      }
+    },
+    {
       "id": "capital-case@1.0.4",
       "info": {
         "name": "capital-case",
@@ -4319,7 +4319,7 @@
             "nodeId": "@sentry/utils@7.17.4"
           },
           {
-            "nodeId": "tslib@2.6.0"
+            "nodeId": "tslib@1.14.1"
           }
         ],
         "info": {
@@ -4346,7 +4346,7 @@
             "nodeId": "@sentry/types@7.17.4"
           },
           {
-            "nodeId": "tslib@2.6.0"
+            "nodeId": "tslib@1.14.1"
           }
         ],
         "info": {
@@ -4356,8 +4356,8 @@
         }
       },
       {
-        "nodeId": "tslib@2.6.0",
-        "pkgId": "tslib@2.6.0",
+        "nodeId": "tslib@1.14.1",
+        "pkgId": "tslib@1.14.1",
         "deps": [],
         "info": {
           "labels": {
@@ -4433,16 +4433,6 @@
       {
         "nodeId": "lru_map@0.3.3",
         "pkgId": "lru_map@0.3.3",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "tslib@1.14.1",
-        "pkgId": "tslib@1.14.1",
         "deps": [],
         "info": {
           "labels": {
@@ -9918,7 +9908,7 @@
         "pkgId": "widest-line@4.0.1",
         "deps": [
           {
-            "nodeId": "string-width@4.2.3"
+            "nodeId": "string-width@5.1.2"
           }
         ],
         "info": {
@@ -12830,6 +12820,16 @@
             "nodeId": "tslib@2.6.0"
           }
         ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "tslib@2.6.0",
+        "pkgId": "tslib@2.6.0",
+        "deps": [],
         "info": {
           "labels": {
             "scope": "prod"
