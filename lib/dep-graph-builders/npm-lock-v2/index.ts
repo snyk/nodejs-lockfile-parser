@@ -289,9 +289,17 @@ export const getChildNodeKey = (
     // `node_modules/a/node_modules/b` into ["a", "b"]
     // To do this we remove the first node_modules substring
     // and then split on the rest
-    const candidateAncestry = candidate
-      .replace('node_modules/', '')
-      .split('/node_modules/');
+
+    const candidateAncestry = (
+      candidate.startsWith('node_modules/')
+        ? candidate.replace('node_modules/', '').split('/node_modules/')
+        : candidate.split('/node_modules/')
+    ).map((el) => {
+      if (pkgs[el]) {
+        return pkgs[el].name || el;
+      }
+      return el;
+    });
 
     // Check the ancestry of the candidate is a subset of
     // the current pkg. If it is not then it can't be a
