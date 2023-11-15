@@ -201,10 +201,14 @@ const getChildNode = (
 
   let depData = pkgs[childNodeKey];
 
-  const resolvedToWorkspace = () => {
+  const resolvedToWorkspace = (): boolean => {
     // Workspaces can be set as an array, or as an object
     // { packages: [] }, this can be checked in
     // https://github.com/npm/map-workspaces/blob/ff82968a3dbb78659fb7febfce4841bf58c514de/lib/index.js#L27-L41
+    if (pkgs['']['workspaces'] === undefined) {
+      return false;
+    }
+
     const workspacesDeclaration = Array.isArray(
       pkgs['']['workspaces']['packages'],
     )
