@@ -13,6 +13,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'deeply-nested-packages',
         'deeply-scoped',
         'different-versions',
+        'local-pkg-without-workspaces',
       ])('[simple tests] project: %s ', (fixtureName) => {
         test('matches expected', async () => {
           const pkgJsonContent = readFileSync(
