@@ -7,7 +7,10 @@ export type PackageJsonBase = {
   optionalDependencies?: Record<string, string>;
   peerDependencies?: Record<string, string>;
   resolutions?: Record<string, string>;
+  overrides?: Overrides;
 };
+
+export type Overrides = string | { [key: string]: Overrides };
 
 // Form: name@semverId. i.e. depd@~1.1.2 or react@16.1.1
 export type PkgIdentifier = string;

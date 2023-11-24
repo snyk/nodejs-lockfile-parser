@@ -1,5 +1,6 @@
 import {
   DepGraphBuildOptions,
+  Overrides,
   PackageJsonBase,
   ProjectParseOptions,
 } from '../types';
@@ -46,7 +47,7 @@ export const buildDepGraphNpmLockV2 = async (
   npmLockPkgs: Record<string, NpmLockPkg>,
   pkgJson: PackageJsonBase,
   options: DepGraphBuildOptions,
-) => {
+): Promise<DepGraph> => {
   const { includeDevDeps, strictOutOfSync, includeOptionalDeps } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
@@ -99,9 +100,17 @@ export const buildDepGraphNpmLockV2 = async (
     includeOptionalDeps,
     [],
     pkgKeysByName,
+    pkgJson.overrides,
   );
   return depGraphBuilder.build();
 };
+
+interface Ancestry {
+  name: string;
+  version: string;
+  key: string;
+  inBundle: boolean;
+}
 
 const dfsVisit = async (
   depGraphBuilder: DepGraphBuilder,
@@ -111,8 +120,9 @@ const dfsVisit = async (
   strictOutOfSync: boolean,
   includeDevDeps: boolean,
   includeOptionalDeps: boolean,
-  ancestry: { name: string; key: string; inBundle: boolean }[],
+  ancestry: Ancestry[],
   pkgKeysByName: Map<string, string[]>,
+  overrides: Overrides | undefined,
 ): Promise<void> => {
   visitedMap.add(node.id);
 
@@ -132,11 +142,13 @@ const dfsVisit = async (
         ...ancestry,
         {
           name: node.name,
+          version: node.version,
           key: node.key || '',
           inBundle: node.inBundle || false,
         },
       ],
       pkgKeysByName,
+      overrides,
     );
 
     if (!visitedMap.has(childNode.id)) {
@@ -153,11 +165,13 @@ const dfsVisit = async (
           ...ancestry,
           {
             name: node.name,
+            version: node.version,
             key: node.key as string,
             inBundle: node.inBundle || false,
           },
         ],
         pkgKeysByName,
+        overrides,
       );
     }
 
@@ -172,12 +186,20 @@ const getChildNode = (
   strictOutOfSync: boolean,
   includeDevDeps: boolean,
   includeOptionalDeps: boolean,
-  ancestry: { name: string; key: string; inBundle: boolean }[],
+  ancestry: Ancestry[],
   pkgKeysByName: Map<string, string[]>,
+  overrides?: Overrides,
 ) => {
+  const override =
+    overrides &&
+    checkOverrides(
+      [...ancestry, { name, version: depInfo.version }] as Ancestry[],
+      overrides,
+    );
+
   let childNodeKey = getChildNodeKey(
     name,
-    depInfo.version,
+    override ? override : depInfo.version,
     ancestry,
     pkgs,
     pkgKeysByName,
@@ -378,4 +400,43 @@ export const getChildNodeKey = (
   }
 
   return undefined;
+};
+
+const checkOverrides = (
+  ancestry: Ancestry[],
+  overrides: Overrides,
+): string | undefined => {
+  const ancestryWithoutRoot = ancestry.slice(1);
+  // First traverse into overrides from root down
+  for (const [idx, pkg] of ancestryWithoutRoot.entries()) {
+    // Do we have this in overrides
+    const override =
+      overrides[pkg.name] || overrides[`${pkg.name}@${pkg.version}`];
+
+    // If we dont find current element move down the ancestry
+    if (!override) {
+      continue;
+    }
+
+    // If we find a string as override we know we found what we want
+    if (typeof override === 'string') {
+      return override;
+    }
+
+    // If we don't find a string we might have a dotted reference
+    // we only care about this if we are the final element in the ancestry.
+    if (idx + 1 === ancestryWithoutRoot.length && override['.']) {
+      return override['.'];
+    }
+
+    // If we don't find a string or a dotted reference we need to recurse
+    // to find the override
+    const recursiveOverride = checkOverrides(ancestryWithoutRoot, override);
+
+    // If we get a non-undefined result, it is our answer
+    if (recursiveOverride) {
+      return recursiveOverride;
+    }
+  }
+  return;
 };

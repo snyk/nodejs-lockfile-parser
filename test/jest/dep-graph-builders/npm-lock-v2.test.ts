@@ -15,7 +15,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'different-versions',
         'local-pkg-without-workspaces',
       ])('[simple tests] project: %s ', (fixtureName) => {
-        test('matches expected', async () => {
+        it('matches expected', async () => {
           const pkgJsonContent = readFileSync(
             join(
               __dirname,
@@ -55,6 +55,55 @@ describe('dep-graph-builder npm-lock-v2', () => {
           expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
         });
       });
+
+      describe.each([
+        'simple-override',
+        'simple-dotted-override',
+        'deep-override',
+      ])(
+        '[simple tests - needing strictOutOfSync=true] project: %s ',
+        (fixtureName) => {
+          it('matches expected', async () => {
+            const pkgJsonContent = readFileSync(
+              join(
+                __dirname,
+                `./fixtures/npm-lock-v2/${fixtureName}/package.json`,
+              ),
+              'utf8',
+            );
+            const pkgLockContent = readFileSync(
+              join(
+                __dirname,
+                `./fixtures/npm-lock-v2/${fixtureName}/package-lock.json`,
+              ),
+              'utf8',
+            );
+
+            const newDepGraph = await parseNpmLockV2Project(
+              pkgJsonContent,
+              pkgLockContent,
+              {
+                includeDevDeps: false,
+                includeOptionalDeps: true,
+                pruneCycles: true,
+                strictOutOfSync: true,
+              },
+            );
+
+            const expectedDepGraphJson = JSON.parse(
+              readFileSync(
+                join(
+                  __dirname,
+                  `./fixtures/npm-lock-v2/${fixtureName}/expected.json`,
+                ),
+                'utf8',
+              ),
+            );
+            const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+            expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+          });
+        },
+      );
 
       describe('[workspaces tests]', () => {
         it('intradependent workspaces', async () => {
