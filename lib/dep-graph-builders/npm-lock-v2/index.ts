@@ -418,8 +418,12 @@ const checkOverrides = (
       continue;
     }
 
-    // If we find a string as override we know we found what we want
-    if (typeof override === 'string') {
+    // If we find a string as override we know we found what we want *if*
+    // we are at our root
+    if (
+      idx + 1 === ancestryWithoutRoot.length &&
+      typeof override === 'string'
+    ) {
       return override;
     }
 
