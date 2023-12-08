@@ -61,6 +61,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'simple-dotted-override',
         'deep-override',
         'override-with-dep',
+        'simple-version-range-override',
       ])(
         '[simple tests - needing strictOutOfSync=true] project: %s ',
         (fixtureName) => {

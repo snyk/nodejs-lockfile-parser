@@ -410,8 +410,7 @@ const checkOverrides = (
   // First traverse into overrides from root down
   for (const [idx, pkg] of ancestryWithoutRoot.entries()) {
     // Do we have this in overrides
-    const override =
-      overrides[pkg.name] || overrides[`${pkg.name}@${pkg.version}`];
+    const override = matchOverrideKey(overrides, pkg);
 
     // If we dont find current element move down the ancestry
     if (!override) {
@@ -443,4 +442,50 @@ const checkOverrides = (
     }
   }
   return;
+};
+
+// Here we have to match our pkg to
+// possible keys in the overrides object
+export const matchOverrideKey = (
+  overrides: Overrides,
+  pkg: { name: string; version: string },
+): string | null => {
+  if (overrides[pkg.name]) {
+    return overrides[pkg.name];
+  }
+
+  const overrideKeysNameToVersions = Object.keys(overrides).reduce(
+    (acc, key) => {
+      // Split the key to separate the package name from the version spec
+      const atIndex = key.lastIndexOf('@');
+      const name = key.substring(0, atIndex);
+      const versionSpec = key.substring(atIndex + 1);
+
+      // Check if the package name already exists in the accumulator
+      if (!acc[name]) {
+        acc[name] = [];
+      }
+
+      // Add the version spec to the list of versions for this package name
+      acc[name].push(versionSpec);
+
+      return acc;
+    },
+    {},
+  );
+
+  const computedOverrides = overrideKeysNameToVersions[pkg.name];
+  if (computedOverrides) {
+    for (const versionSpec of computedOverrides) {
+      const isPkgVersionSubsetOfOverrideSpec = semver.subset(
+        pkg.version,
+        semver.validRange(versionSpec) as string,
+      );
+      if (isPkgVersionSubsetOfOverrideSpec) {
+        return overrides[`${pkg.name}@${versionSpec}`];
+      }
+    }
+  }
+
+  return null;
 };
