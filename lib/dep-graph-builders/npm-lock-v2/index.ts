@@ -190,16 +190,23 @@ const getChildNode = (
   pkgKeysByName: Map<string, string[]>,
   overrides?: Overrides,
 ) => {
+  let version = depInfo.version;
+
   const override =
     overrides &&
-    checkOverrides(
-      [...ancestry, { name, version: depInfo.version }] as Ancestry[],
-      overrides,
-    );
+    checkOverrides([...ancestry, { name, version }] as Ancestry[], overrides);
+
+  if (override) {
+    version = override;
+  }
+
+  if (version.startsWith('npm:')) {
+    version = version.split('@').pop() || version;
+  }
 
   let childNodeKey = getChildNodeKey(
     name,
-    override ? override : depInfo.version,
+    version,
     ancestry,
     pkgs,
     pkgKeysByName,
