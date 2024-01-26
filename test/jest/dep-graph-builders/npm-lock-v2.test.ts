@@ -14,7 +14,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'deeply-scoped',
         'different-versions',
         'local-pkg-without-workspaces',
-        'npm-scoped-sub-dep',
+        'dist-tag-sub-dependency',
       ])('[simple tests] project: %s ', (fixtureName) => {
         it('matches expected', async () => {
           const pkgJsonContent = readFileSync(
