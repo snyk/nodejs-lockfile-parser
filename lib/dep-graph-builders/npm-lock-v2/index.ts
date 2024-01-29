@@ -359,13 +359,17 @@ export const getChildNodeKey = (
     }
 
     // So now we can check semver to filter out some values
-    const candidatePkgVersion = pkgs[candidate].version;
-    const doesVersionSatisfySemver = semver.satisfies(
-      candidatePkgVersion,
-      version,
-    );
+    // if our version is valid semver
+    if (semver.validRange(version)) {
+      const candidatePkgVersion = pkgs[candidate].version;
+      const doesVersionSatisfySemver = semver.satisfies(
+        candidatePkgVersion,
+        version,
+      );
+      return doesVersionSatisfySemver;
+    }
 
-    return doesVersionSatisfySemver;
+    return true;
   });
 
   if (filteredCandidates.length === 1) {
