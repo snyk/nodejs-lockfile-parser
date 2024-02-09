@@ -94,8 +94,8 @@ async function buildDepTree(
   strictOutOfSync: boolean = true,
   defaultManifestFileName: string = 'package.json',
 ): Promise<PkgTree> {
-  if (!lockfileType) {
-    lockfileType = LockfileType.npm;
+  if (!lockfileType || lockfileType === LockfileType.npm) {
+    lockfileType = getNpmLockfileType(lockFileContents);
   } else if (lockfileType === LockfileType.yarn) {
     lockfileType = getYarnLockfileType(lockFileContents);
   }
@@ -103,6 +103,8 @@ async function buildDepTree(
   let lockfileParser: LockfileParser;
   switch (lockfileType) {
     case LockfileType.npm:
+    case LockfileType.npm7:
+    case LockfileType.npm7v3:
       lockfileParser = new PackageLockParser();
       break;
     case LockfileType.yarn:
@@ -223,5 +225,25 @@ export function getYarnLockfileType(
     return LockfileType.yarn2;
   } else {
     return LockfileType.yarn;
+  }
+}
+
+export function getNpmLockfileType(
+  lockFileContents: string,
+): LockfileType {
+  const lockfileVersion = Number(
+    // fast path
+    (lockFileContents.slice(0, 200).match(/"lockfileVersion":\s*([0-9]+),/) || [])[1] ||
+    // slow path
+    JSON.parse(lockFileContents).lockfileVersion
+  )
+  if (lockfileVersion == 1) {
+    return LockfileType.npm;
+  } else if (lockfileVersion == 2) {
+    return LockfileType.npm7;
+  } else if (lockfileVersion == 3) {
+    return LockfileType.npm7v3;
+  } else {
+    throw new Error('Unknown lockfile type');
   }
 }
