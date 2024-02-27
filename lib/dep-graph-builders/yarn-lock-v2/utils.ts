@@ -136,6 +136,8 @@ export const getYarnLockV2ChildNode = (
       id: childNodeKeyFromResolution,
       name: name,
       version: versionFromResolution,
+      resolved: 'FIXME nodejs-lockfile-parser/lib/dep-graph-builders/yarn-lock-v2/utils.ts',
+      integrity: 'FIXME nodejs-lockfile-parser/lib/dep-graph-builders/yarn-lock-v2/utils.ts',
       dependencies: {
         ...formattedOptionalDependencies,
         ...formattedDependencies,
@@ -154,6 +156,8 @@ export const getYarnLockV2ChildNode = (
         id: childNodeKey,
         name: name,
         version: depInfo.version,
+        resolved: 'FIXME nodejs-lockfile-parser/lib/dep-graph-builders/yarn-lock-v2/utils.ts',
+        integrity: 'FIXME nodejs-lockfile-parser/lib/dep-graph-builders/yarn-lock-v2/utils.ts',
         dependencies: {},
         isDev: depInfo.isDev,
         missingLockFileEntry: true,
@@ -172,6 +176,8 @@ export const getYarnLockV2ChildNode = (
       id: `${name}@${depData.version}`,
       name: name,
       version: depData.version,
+      resolved: 'FIXME nodejs-lockfile-parser/lib/dep-graph-builders/yarn-lock-v2/utils.ts',
+      integrity: 'FIXME nodejs-lockfile-parser/lib/dep-graph-builders/yarn-lock-v2/utils.ts',
       dependencies: { ...dependencies, ...optionalDependencies },
       isDev: depInfo.isDev,
     };

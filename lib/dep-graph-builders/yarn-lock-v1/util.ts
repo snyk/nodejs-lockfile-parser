@@ -26,6 +26,8 @@ export const getChildNodeYarnLockV1Workspace = (
       id: `${name}@${version}`,
       name: name,
       version: version,
+      resolved: 'FIXME nodejs-lockfile-parser/lib/dep-graph-builders/yarn-lock-v1/util.ts',
+      integrity: 'lib/dep-graph-builders/yarn-lock-v1/util.ts',
       dependencies: {},
       isDev: depInfo.isDev,
     };

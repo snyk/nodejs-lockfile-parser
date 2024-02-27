@@ -11,6 +11,8 @@ export interface PkgNode {
   id: string;
   name: string;
   version: string;
+  resolved: string;
+  integrity: string;
   dependencies: Dependencies;
   isDev: boolean;
   missingLockFileEntry?: boolean;
@@ -35,6 +37,8 @@ export const addPkgNodeToGraph = (
         ...(options.isCyclic && { pruned: 'cyclic' }),
         ...(options.isWorkspacePkg && { pruned: 'true' }),
         ...(node.missingLockFileEntry && { missingLockFileEntry: 'true' }),
+        resolved: node.resolved,
+        integrity: node.integrity,
       },
     },
   );
@@ -118,6 +122,8 @@ export const getChildNode = (
         id: childNodeKey,
         name: name,
         version: depInfo.version,
+        resolved: 'FIXME nodejs-lockfile-parser/lib/dep-graph-builders/util.ts',
+        integrity: 'FIXME nodejs-lockfile-parser/lib/dep-graph-builders/util.ts',
         dependencies: {},
         isDev: depInfo.isDev,
         missingLockFileEntry: true,
@@ -136,6 +142,8 @@ export const getChildNode = (
       id: `${name}@${depData.version}`,
       name: name,
       version: depData.version,
+      resolved: 'FIXME nodejs-lockfile-parser/lib/dep-graph-builders/util.ts',
+      integrity: 'FIXME nodejs-lockfile-parser/lib/dep-graph-builders/util.ts',
       dependencies: { ...dependencies, ...optionalDependencies },
       isDev: depInfo.isDev,
     };
