@@ -1,0 +1,8 @@
+{
+  "packageManager": "pnpm@9.0.0-beta.1",
+  "name": "workspace-test",
+  "private": true,
+  "resolutions": {
+    "lodash": "4.17.20"
+  }
+}

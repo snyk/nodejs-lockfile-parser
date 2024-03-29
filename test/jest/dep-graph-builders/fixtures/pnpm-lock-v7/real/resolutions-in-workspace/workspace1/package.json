@@ -1,0 +1,7 @@
+{
+  "name": "workspace1",
+  "private": true,
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}

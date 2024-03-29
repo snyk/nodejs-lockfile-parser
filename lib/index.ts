@@ -62,6 +62,7 @@ import {
   getYarnLockfileVersion,
   NodeLockfileVersion,
 } from './utils';
+import { PnpmLockParser } from './parsers/pnpm-lock-parser';
 export {
   parseNpmLockV2Project,
   extractPkgsFromYarnLockV1,
@@ -104,6 +105,9 @@ async function buildDepTree(
   switch (lockfileType) {
     case LockfileType.npm:
       lockfileParser = new PackageLockParser();
+      break;
+    case LockfileType.pnpm:
+      lockfileParser = new PnpmLockParser();
       break;
     case LockfileType.yarn:
       lockfileParser = new YarnLockParser();
@@ -167,6 +171,8 @@ async function buildDepTreeFromFiles(
   let lockFileType: LockfileType;
   if (lockFilePath.endsWith('package-lock.json')) {
     lockFileType = LockfileType.npm;
+  } else if (lockFilePath.endsWith('pnpm-lock.yaml')) {
+    lockFileType = getPnpmLockfileType(lockFileContents);
   } else if (lockFilePath.endsWith('yarn.lock')) {
     lockFileType = getYarnLockfileType(lockFileContents, root, lockFilePath);
   } else {
@@ -205,6 +211,14 @@ function getYarnWorkspacesFromFiles(
   const manifestFileContents = fs.readFileSync(manifestFileFullPath, 'utf-8');
 
   return getYarnWorkspaces(manifestFileContents);
+}
+
+export function getPnpmLockfileType(lockFileContents: string): LockfileType {
+  if (lockFileContents.includes('lockfileVersion')) {
+    return LockfileType.pnpm;
+  }
+
+  return LockfileType.pnpm;
 }
 
 export function getYarnLockfileType(

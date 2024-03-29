@@ -53,6 +53,13 @@ export type YarnLockV2ProjectParseOptions = {
   pruneWithinTopLevelDeps: boolean;
 };
 
+export type PnpmLockV7ProjectParseOptions = {
+  includeDevDeps: boolean;
+  includeOptionalDeps: boolean;
+  strictOutOfSync: boolean;
+  pruneWithinTopLevelDeps: boolean;
+};
+
 /*
  * This chooses how much we prune:
  * - `cycles`: only prunes cycles

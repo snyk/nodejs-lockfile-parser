@@ -1,0 +1,10 @@
+{
+  "name": "git-remote-url",
+  "packageManager": "pnpm@9.0.0-beta.1",
+  "dependencies": {
+    "debug": "^4.3.4",
+    "express": "^4.18.1",
+    "fancybox": "git+https://github.com/fancyapps/fancybox",
+    "ms": "npm:ms@latest"
+  }
+}

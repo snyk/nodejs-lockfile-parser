@@ -1,0 +1,12 @@
+{
+  "name": "resolutions-scoped",
+  "version": "0.0.1",
+  "dependencies": {
+    "send": "0.17.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "debug>ms": "1.0.0"
+    }
+  }
+}
