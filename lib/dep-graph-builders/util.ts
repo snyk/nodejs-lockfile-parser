@@ -78,9 +78,9 @@ export const getGraphDependencies = (
   isDev,
 ): Dependencies => {
   return Object.entries(dependencies).reduce(
-    (acc: Dependencies, [name, semver]) => {
-      acc[name] = { version: semver, isDev: isDev };
-      return acc;
+    (pnpmDeps: Dependencies, [name, semver]) => {
+      pnpmDeps[name] = { version: semver, isDev: isDev };
+      return pnpmDeps;
     },
     {},
   );

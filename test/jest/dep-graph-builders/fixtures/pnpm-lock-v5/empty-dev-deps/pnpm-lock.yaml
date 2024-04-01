@@ -1,0 +1,14 @@
+lockfileVersion: 5.4
+
+specifiers:
+  adm-zip: 0.4.7
+
+dependencies:
+  adm-zip: 0.4.7
+
+packages:
+
+  /adm-zip/0.4.7:
+    resolution: {integrity: sha512-QHVQ6ekddFaGr9r2hBUC4gPw2wLqMZioXojt9BydQPbSh8us7+Q5xcUCUq+hnh4zAdauV3wqoY0quApjKqrhbA==}
+    engines: {node: '>=0.3.0'}
+    dev: false

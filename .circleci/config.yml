@@ -4,6 +4,12 @@ orbs:
   win: circleci/windows@2.4.0
   prodsec: snyk/prodsec-orb@1.0
 
+filters_branches_ignore_master: &filters_branches_ignore_master
+  filters:
+    branches:
+      ignore:
+        - master
+
 defaults: &defaults
   parameters:
     node_version:
@@ -16,6 +22,9 @@ windows_defaults: &windows_defaults
     npm_config_loglevel: silent
   executor:
     name: win/default
+
+test_matrix: &test_matrix
+  node_version: ['12.22.12', '14.17.6', '16.13.2']
 
 commands:
   install_deps:
@@ -66,7 +75,7 @@ jobs:
           name: Run lint
           command: npm run lint
 
-  test-windows:
+  test-windows-jest:
     <<: *defaults
     <<: *windows_defaults
     steps:
@@ -80,9 +89,25 @@ jobs:
       - show_node_version
       - run:
           name: Run tests
-          command: npm test
+          command: npm run test:jest
 
-  test-unix:
+  test-windows-tap:
+    <<: *defaults
+    <<: *windows_defaults
+    steps:
+      - run: git config --global core.autocrlf false
+      - install_node_npm:
+          node_version: << parameters.node_version >>
+      - checkout
+      - attach_workspace:
+          at: ~/nodejs-lockfile-parser
+      - install_deps
+      - show_node_version
+      - run:
+          name: Run tests
+          command: npm run unit-test
+
+  test-unix-jest:
     <<: *defaults
     docker:
       - image: cimg/node:<< parameters.node_version >>
@@ -94,7 +119,21 @@ jobs:
       - show_node_version
       - run:
           name: Run tests
-          command: npm test
+          command: npm run test:jest
+
+  test-unix-tap:
+    <<: *defaults
+    docker:
+      - image: cimg/node:<< parameters.node_version >>
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/nodejs-lockfile-parser
+      - install_deps
+      - show_node_version
+      - run:
+          name: Run tests
+          command: npm run unit-test
 
   release:
     <<: *defaults
@@ -121,70 +160,47 @@ workflows:
           name: Lint
           context: nodejs-install
           node_version: "16.13.2"
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-windows:
-          name: Windows Tests for Node v16 support
+          <<: *filters_branches_ignore_master
+      - test-windows-jest:
+          matrix:
+            alias: test-windows-jest
+            parameters:
+              <<: *test_matrix
+          name: Windows Tests (Jest) for Node=<< matrix.node_version >> support
           context: nodejs-install
-          node_version: "16.13.2"
           requires:
             - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-windows:
-          name: Windows Tests for Node v14 support
+          <<: *filters_branches_ignore_master
+      - test-windows-tap:
+          matrix:
+            alias: test-windows-tap
+            parameters:
+              <<: *test_matrix
+          name: Windows Tests (Tap) for Node=<< matrix.node_version >> support
           context: nodejs-install
-          node_version: "14.17.6"
           requires:
             - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-unix:
-          name: Unix Tests for Node v16 support
+          <<: *filters_branches_ignore_master
+      - test-unix-jest:
+          matrix:
+            alias: test-unix-jest
+            parameters:
+              <<: *test_matrix
+          name: Unix Tests (Jest) for Node=<< matrix.node_version >> support
           context: nodejs-install
-          node_version: "16.13.2"
           requires:
             - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-unix:
-          name: Unix Tests for Node v14 support
+          <<: *filters_branches_ignore_master
+      - test-unix-tap:
+          matrix:
+            alias: test-unix-tap
+            parameters:
+              <<: *test_matrix
+          name: Unix Tests (Tap) for Node=<< matrix.node_version >> support
           context: nodejs-install
-          node_version: "14.17.6"
           requires:
             - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-windows:
-          name: Windows Tests for Node v12 support
-          context: nodejs-install
-          node_version: "12.22.12"
-          requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-unix:
-          name: Unix Tests for Node v12 support
-          context: nodejs-install
-          node_version: "12.22.12"
-          requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
+          <<: *filters_branches_ignore_master
       - release:
           name: Release
           context: nodejs-app-release

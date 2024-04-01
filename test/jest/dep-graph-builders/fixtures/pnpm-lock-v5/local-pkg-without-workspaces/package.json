@@ -1,0 +1,9 @@
+{
+  "name": "local-pkg-without-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@scope/my-local-pkg": "file:./local-pkg",
+    "react": "18.0.0"
+  }
+}

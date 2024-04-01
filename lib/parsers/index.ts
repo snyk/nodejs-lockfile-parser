@@ -2,6 +2,7 @@ import { PackageLock } from './package-lock-parser';
 import { YarnLock } from './yarn-lock-parser';
 import { InvalidUserInputError } from '../errors';
 import { Yarn2Lock } from './yarn2-lock-parser';
+import { load, FAILSAFE_SCHEMA } from 'js-yaml';
 
 export interface Dep {
   name: string;
@@ -80,6 +81,7 @@ export enum LockfileType {
   npm7 = 'npm7',
   yarn = 'yarn',
   yarn2 = 'yarn2',
+  pnpm = 'pnpm',
 }
 
 export interface LockfileParser {
@@ -186,6 +188,28 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
       }
     }
     return false;
+  } catch (e) {
+    throw new InvalidUserInputError(
+      'package.json parsing failed with ' + `error ${(e as Error).message}`,
+    );
+  }
+}
+
+export function getPnpmWorkspaces(workspacesYamlFile: string): string[] {
+  try {
+    const rawPnpmWorkspacesYaml = load(workspacesYamlFile, {
+      json: true,
+      schema: FAILSAFE_SCHEMA,
+    });
+
+    if (rawPnpmWorkspacesYaml.packages) {
+      if (Array.isArray(rawPnpmWorkspacesYaml.packages)) {
+        return rawPnpmWorkspacesYaml.packages;
+      }
+    }
+    // By default, all packages of all subdirectories are included.
+    // https://pnpm.io/pnpm-workspace_yaml
+    return ['*'];
   } catch (e) {
     throw new InvalidUserInputError(
       'package.json parsing failed with ' + `error ${(e as Error).message}`,
