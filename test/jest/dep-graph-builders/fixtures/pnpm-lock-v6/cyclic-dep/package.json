@@ -1,0 +1,6 @@
+{
+  "name": "cyclic",
+  "dependencies": {
+    "@blitzjs/display": "0.43.0"
+  }
+}

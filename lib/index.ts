@@ -9,6 +9,7 @@ import {
   parseManifestFile,
   LockfileType,
   getYarnWorkspaces,
+  getPnpmWorkspaces,
 } from './parsers';
 import { PackageLockParser } from './parsers/package-lock-parser';
 import { YarnLockParser } from './parsers/yarn-lock-parser';
@@ -26,6 +27,7 @@ export {
   buildDepGraphFromCliOutput,
   getYarnWorkspacesFromFiles,
   getYarnWorkspaces,
+  getPnpmWorkspaces,
   PkgTree,
   Scope,
   LockfileType,
@@ -49,6 +51,8 @@ import {
   extractPkgsFromYarnLockV2,
   parseYarnLockV2Project,
   buildDepGraphYarnLockV2Simple,
+  parsePnpmProject,
+  parsePkgJson,
 } from './dep-graph-builders';
 import type {
   PackageJsonBase,
@@ -60,6 +64,7 @@ import {
   getLockfileVersionFromFile,
   getNpmLockfileVersion,
   getYarnLockfileVersion,
+  getPnpmLockfileVersion,
   NodeLockfileVersion,
 } from './utils';
 export {
@@ -74,6 +79,8 @@ export {
   extractPkgsFromYarnLockV2,
   parseYarnLockV2Project,
   buildDepGraphYarnLockV2Simple,
+  parsePnpmProject,
+  parsePkgJson,
   PackageJsonBase,
   ProjectParseOptions,
   YarnLockV2ProjectParseOptions,
@@ -82,6 +89,7 @@ export {
   getLockfileVersionFromFile,
   getNpmLockfileVersion,
   getYarnLockfileVersion,
+  getPnpmLockfileVersion,
   NodeLockfileVersion,
 };
 // **********************************
@@ -111,6 +119,7 @@ async function buildDepTree(
     case LockfileType.yarn2:
       lockfileParser = new Yarn2LockParser();
       break;
+
     default:
       throw new InvalidUserInputError(
         'Unsupported lockfile type ' +

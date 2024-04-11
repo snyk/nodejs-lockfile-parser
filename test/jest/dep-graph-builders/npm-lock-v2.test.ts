@@ -1,7 +1,6 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
 import { parseNpmLockV2Project } from '../../../lib/';
-import { createFromJSON } from '@snyk/dep-graph';
 
 describe('dep-graph-builder npm-lock-v2', () => {
   describe('Happy path tests', () => {
@@ -52,8 +51,14 @@ describe('dep-graph-builder npm-lock-v2', () => {
               'utf8',
             ),
           );
-          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+
+          expect(
+            Buffer.from(JSON.stringify(newDepGraph)).toString('base64'),
+          ).toBe(
+            Buffer.from(JSON.stringify(expectedDepGraphJson)).toString(
+              'base64',
+            ),
+          );
         });
       });
 
@@ -102,8 +107,13 @@ describe('dep-graph-builder npm-lock-v2', () => {
                 'utf8',
               ),
             );
-            const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-            expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+            expect(
+              Buffer.from(JSON.stringify(newDepGraph)).toString('base64'),
+            ).toBe(
+              Buffer.from(JSON.stringify(expectedDepGraphJson)).toString(
+                'base64',
+              ),
+            );
           });
         },
       );
@@ -145,8 +155,13 @@ describe('dep-graph-builder npm-lock-v2', () => {
               'utf8',
             ),
           );
-          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+          expect(
+            Buffer.from(JSON.stringify(newDepGraph)).toString('base64'),
+          ).toBe(
+            Buffer.from(JSON.stringify(expectedDepGraphJson)).toString(
+              'base64',
+            ),
+          );
         });
 
         it('intradependent workspaces-packages', async () => {
@@ -185,8 +200,13 @@ describe('dep-graph-builder npm-lock-v2', () => {
               'utf8',
             ),
           );
-          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+          expect(
+            Buffer.from(JSON.stringify(newDepGraph)).toString('base64'),
+          ).toBe(
+            Buffer.from(JSON.stringify(expectedDepGraphJson)).toString(
+              'base64',
+            ),
+          );
         });
 
         it('intradependent workspaces, with /** globs', async () => {
@@ -225,8 +245,13 @@ describe('dep-graph-builder npm-lock-v2', () => {
               'utf8',
             ),
           );
-          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+          expect(
+            Buffer.from(JSON.stringify(newDepGraph)).toString('base64'),
+          ).toBe(
+            Buffer.from(JSON.stringify(expectedDepGraphJson)).toString(
+              'base64',
+            ),
+          );
         });
 
         it('intradependent workspaces, with /* globs', async () => {
@@ -265,8 +290,13 @@ describe('dep-graph-builder npm-lock-v2', () => {
               'utf8',
             ),
           );
-          const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-          expect(newDepGraph.equals(expectedDepGraph)).toBeTruthy();
+          expect(
+            Buffer.from(JSON.stringify(newDepGraph)).toString('base64'),
+          ).toBe(
+            Buffer.from(JSON.stringify(expectedDepGraphJson)).toString(
+              'base64',
+            ),
+          );
         });
       });
 
@@ -330,19 +360,26 @@ describe('dep-graph-builder npm-lock-v2', () => {
                 'utf8',
               ),
             );
-            const expectedDepGraphDevIncluded = createFromJSON(
-              expectedDepGraphJsonDevIncluded,
-            );
-            const expectedDepGraphDevExcluded = createFromJSON(
-              expectedDepGraphJsonDevExcluded,
+
+            expect(
+              Buffer.from(JSON.stringify(newDepGraphDevDepsIncluded)).toString(
+                'base64',
+              ),
+            ).toBe(
+              Buffer.from(
+                JSON.stringify(expectedDepGraphJsonDevIncluded),
+              ).toString('base64'),
             );
 
             expect(
-              newDepGraphDevDepsIncluded.equals(expectedDepGraphDevIncluded),
-            ).toBeTruthy();
-            expect(
-              newDepGraphDevDepsExcluded.equals(expectedDepGraphDevExcluded),
-            ).toBeTruthy();
+              Buffer.from(JSON.stringify(newDepGraphDevDepsExcluded)).toString(
+                'base64',
+              ),
+            ).toBe(
+              Buffer.from(
+                JSON.stringify(expectedDepGraphJsonDevExcluded),
+              ).toString('base64'),
+            );
           });
         },
       );
@@ -463,7 +500,8 @@ describe('bundledDependencies', () => {
         'utf8',
       ),
     );
-    const expectedDepGraph = createFromJSON(expectedDepGraphJson);
-    expect(depGraph.equals(expectedDepGraph)).toBeTruthy();
+    expect(Buffer.from(JSON.stringify(depGraph)).toString('base64')).toBe(
+      Buffer.from(JSON.stringify(expectedDepGraphJson)).toString('base64'),
+    );
   });
 });
