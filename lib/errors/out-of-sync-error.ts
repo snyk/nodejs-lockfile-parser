@@ -1,17 +1,19 @@
 import { LockfileType } from '../parsers';
 
-const LOCK_FILE_NAME = {
+export const LOCK_FILE_NAME = {
   npm: 'package-lock.json',
   npm7: 'package-lock.json',
   yarn: 'yarn.lock',
   yarn2: 'yarn.lock',
+  pnpm: 'pnpm-lock.yaml',
 };
 
-const INSTALL_COMMAND = {
+export const INSTALL_COMMAND = {
   npm: 'npm install',
   npm7: 'npm install',
   yarn: 'yarn install',
   yarn2: 'yarn install',
+  pnpm: 'pnpm install',
 };
 
 export class OutOfSyncError extends Error {

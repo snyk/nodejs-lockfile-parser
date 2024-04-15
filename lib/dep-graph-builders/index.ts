@@ -13,6 +13,8 @@ import {
   extractPkgsFromYarnLockV2,
 } from './yarn-lock-v2';
 import { parseNpmLockV2Project } from './npm-lock-v2';
+import { parsePnpmProject } from './pnpm';
+import { parsePkgJson } from './util';
 
 export {
   parseNpmLockV2Project,
@@ -26,4 +28,6 @@ export {
   buildDepGraphYarnLockV2Simple,
   parseYarnLockV2Project,
   extractPkgsFromYarnLockV2,
+  parsePnpmProject,
+  parsePkgJson,
 };

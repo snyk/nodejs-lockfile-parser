@@ -8,6 +8,9 @@ export type PackageJsonBase = {
   peerDependencies?: Record<string, string>;
   resolutions?: Record<string, string>;
   overrides?: Overrides;
+  pnpm?: {
+    overrides?: Overrides;
+  };
 };
 
 export type Overrides = string | { [key: string]: Overrides };
@@ -80,6 +83,21 @@ export type Yarn1DepGraphBuildOptions = {
   includeDevDeps: boolean;
   includeOptionalDeps: boolean;
   includePeerDeps: boolean;
+  strictOutOfSync: boolean;
+  pruneWithinTopLevelDeps: boolean;
+};
+
+export type PnpmWorkspaceArgs = {
+  isWorkspacePkg: boolean;
+  isRoot: boolean;
+  workspacePath: string;
+  projectsVersionMap: Record<string, string>;
+  rootOverrides: Overrides;
+};
+
+export type PnpmProjectParseOptions = {
+  includeDevDeps: boolean;
+  includeOptionalDeps: boolean;
   strictOutOfSync: boolean;
   pruneWithinTopLevelDeps: boolean;
 };

@@ -1,0 +1,12 @@
+{
+  "name": "resolutions-simple",
+  "version": "0.0.1",
+  "dependencies": {
+    "debug": "4.3.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "ms": "1.0.0"
+    }
+  }
+}
