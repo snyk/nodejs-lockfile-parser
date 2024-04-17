@@ -202,7 +202,7 @@ export function getPnpmWorkspaces(workspacesYamlFile: string): string[] {
       schema: FAILSAFE_SCHEMA,
     });
 
-    if (rawPnpmWorkspacesYaml.packages) {
+    if (rawPnpmWorkspacesYaml && rawPnpmWorkspacesYaml.packages) {
       if (Array.isArray(rawPnpmWorkspacesYaml.packages)) {
         return rawPnpmWorkspacesYaml.packages;
       }
