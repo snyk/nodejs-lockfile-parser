@@ -67,7 +67,8 @@ export abstract class PnpmLockfileParser {
           version,
           isDev: versionData.dev == 'true',
           dependencies: versionData.dependencies,
-          optionalDependencies: versionData.dependencies,
+          devDependencies: versionData.devDependencies,
+          optionalDependencies: versionData.optionalDependencies,
         };
         packages[`${pkg.name}@${pkg.version}`] = pkg;
       },
@@ -140,11 +141,23 @@ export abstract class PnpmLockfileParser {
 
       const subDeps = this.rawPnpmLock.importers[resolvedPathDep] || {
         dependencies: {},
+        devDependencies: {},
+        optionalDependencies: {},
       };
-      // todo: consider getting devDependencies, optionaldependencies
+
       const resolvedDeps = this.normalizePackagesDeps(
-        subDeps.dependencies,
+        subDeps.dependencies || {},
         isDev,
+      );
+
+      const resolvedDevDeps = this.normalizePackagesDeps(
+        subDeps.devDependencies || {},
+        true,
+      );
+
+      const resolvedOptionalDeps = this.normalizePackagesDeps(
+        subDeps.optionalDependencies || {},
+        true,
       );
 
       this.extractedPackages[`${name}@${version}`] = {
@@ -153,6 +166,8 @@ export abstract class PnpmLockfileParser {
         id: `${name}@${version}`,
         isDev,
         dependencies: resolvedDeps,
+        devDependencies: resolvedDevDeps,
+        optionalDependencies: resolvedOptionalDeps,
       };
     }
     return version;

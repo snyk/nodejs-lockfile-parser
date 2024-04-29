@@ -27,6 +27,7 @@ export type NormalisedPnpmPkg = {
   id: string;
   isDev: boolean;
   dependencies: Record<string, string>;
+  devDependencies: Record<string, string>;
   optionalDependencies?: Record<string, string>;
 };
 

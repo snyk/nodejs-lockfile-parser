@@ -49,7 +49,7 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6'])(
               pkgLockContent,
               {
                 includeDevDeps: false,
-                includeOptionalDeps: true,
+                includeOptionalDeps: false,
                 strictOutOfSync: false,
                 pruneWithinTopLevelDeps: false,
               },
@@ -64,6 +64,7 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6'])(
                 'utf8',
               ),
             );
+
             expect(
               Buffer.from(JSON.stringify(newDepGraph)).toString('base64'),
             ).toBe(

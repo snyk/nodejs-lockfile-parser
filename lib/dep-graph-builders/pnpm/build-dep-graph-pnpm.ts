@@ -17,8 +17,12 @@ export const buildDepGraphPnpm = async (
   options: PnpmProjectParseOptions,
   workspaceArgs?: PnpmWorkspaceArgs,
 ) => {
-  const { strictOutOfSync, includeOptionalDeps, pruneWithinTopLevelDeps } =
-    options;
+  const {
+    strictOutOfSync,
+    includeOptionalDeps,
+    includeDevDeps,
+    pruneWithinTopLevelDeps,
+  } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'pnpm' },
@@ -51,6 +55,7 @@ export const buildDepGraphPnpm = async (
     extractedPnpmPkgs,
     strictOutOfSync,
     includeOptionalDeps,
+    includeDevDeps,
     // we have rootWorkspaceOverrides if this is workspace pkg with overrides
     // at root - therefore it should take precedent
     // TODO: inspect if this is needed at all, seems like pnpm resolves everything in lockfile
@@ -74,6 +79,7 @@ const dfsVisit = async (
   extractedPnpmPkgs: NormalisedPnpmPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
+  includeDevDeps: boolean,
   overrides: Overrides,
   pruneWithinTopLevel: boolean,
   lockFileParser: PnpmLockfileParser,
@@ -92,6 +98,7 @@ const dfsVisit = async (
       extractedPnpmPkgs,
       strictOutOfSync,
       includeOptionalDeps,
+      includeDevDeps,
       lockFileParser,
     );
 
@@ -138,6 +145,7 @@ const dfsVisit = async (
       extractedPnpmPkgs,
       strictOutOfSync,
       includeOptionalDeps,
+      includeDevDeps,
       overrides,
       pruneWithinTopLevel,
       lockFileParser,
