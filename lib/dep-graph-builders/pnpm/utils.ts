@@ -15,6 +15,7 @@ export const getPnpmChildNode = (
   pkgs: NormalisedPnpmPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
+  includeDevDeps: boolean,
   lockfileParser: PnpmLockfileParser,
 ): PnpmNode => {
   const resolvedVersion =
@@ -57,6 +58,9 @@ export const getPnpmChildNode = (
       depData.dependencies || {},
       depInfo.isDev,
     );
+    const devDependencies = includeDevDeps
+      ? getGraphDependencies(depData.devDependencies || {}, true)
+      : {};
     const optionalDependencies = includeOptionalDeps
       ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
       : {};
@@ -64,7 +68,11 @@ export const getPnpmChildNode = (
       id: `${name}@${depData.version}`,
       name: name,
       version: resolvedVersion,
-      dependencies: { ...dependencies, ...optionalDependencies },
+      dependencies: {
+        ...dependencies,
+        ...optionalDependencies,
+        ...devDependencies,
+      },
       isDev: depInfo.isDev,
     };
   }
