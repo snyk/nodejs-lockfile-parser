@@ -71,8 +71,7 @@ export class LockfileV6Parser extends PnpmLockfileParser {
   // Dependency path and versions include transitive peer dependencies encapsulated in dependencies
   // e.g. '/cdktf-cli@0.20.3(ink@3.2.0)(react@17.0.2)' -> cdktf-cli@0.20.3
   public excludeTransPeerDepsVersions(fullVersionStr: string): string {
-    const match = fullVersionStr.match(/([^)]*)\(/);
-    return match?.[1] ?? fullVersionStr;
+    return fullVersionStr.split('(')[0];
   }
 
   public static isAbsoluteDepenencyPath(dependencyPath: string): boolean {
