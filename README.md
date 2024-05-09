@@ -14,7 +14,7 @@ Dep graph generation supported for:
 
 - `package-lock.json` (at Versions 2 and 3)
 - `yarn.lock`
-- `pnpm-lock.yaml` (lockfileVersion 5.x or 6.x)
+- `pnpm-lock.yaml` (lockfileVersion 5.x, 6.x and 9.x)
 
 Legacy dep tree supported for:
 

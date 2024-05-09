@@ -29,6 +29,8 @@ export const buildDepGraphPnpm = async (
     { name: pkgJson.name, version: pkgJson.version },
   );
 
+  lockFileParser.extractedPackages = lockFileParser.extractPackages();
+
   const extractedPnpmPkgs: NormalisedPnpmPkgs =
     lockFileParser.extractedPackages;
 

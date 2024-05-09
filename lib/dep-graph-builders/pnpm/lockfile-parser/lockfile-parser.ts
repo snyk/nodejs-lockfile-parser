@@ -33,7 +33,7 @@ export abstract class PnpmLockfileParser {
     this.devDependencies = depsRoot.devDependencies || {};
     this.optionalDependencies = depsRoot.optionalDependencies || {};
     this.peerDependencies = depsRoot.peerDependencies || {};
-    this.extractedPackages = this.extractPackages();
+    this.extractedPackages = {};
     this.importers = this.normaliseImporters(rawPnpmLock);
   }
 
@@ -55,23 +55,25 @@ export abstract class PnpmLockfileParser {
     return depsRoot;
   }
 
-  public extractPackages(): NormalisedPnpmPkgs {
+  public extractPackages() {
     const packages: NormalisedPnpmPkgs = {};
     Object.entries(this.packages).forEach(
       ([depPath, versionData]: [string, any]) => {
         // name and version are optional in version data - if they don't show up in version data, they can be deducted from the dependency path
-        let { name, version } = versionData;
-        if (!(name && version)) {
-          ({ name, version } = this.parseDepPath(depPath));
+        const { name, version } = versionData;
+        let parsedPath: ParsedDepPath = {};
+        if (!(version && name)) {
+          parsedPath = this.parseDepPath(depPath);
         }
+
         const pkg: NormalisedPnpmPkg = {
           id: depPath,
-          name,
-          version,
+          name: name || parsedPath.name,
+          version: version || parsedPath.version || depPath,
           isDev: versionData.dev == 'true',
-          dependencies: versionData.dependencies,
-          devDependencies: versionData.devDependencies,
-          optionalDependencies: versionData.optionalDependencies,
+          dependencies: versionData.dependencies || {},
+          devDependencies: versionData.devDependencies || {},
+          optionalDependencies: versionData.optionalDependencies || {},
         };
         packages[`${pkg.name}@${pkg.version}`] = pkg;
       },
@@ -115,7 +117,10 @@ export abstract class PnpmLockfileParser {
         // they show up in packages with keys equal to the version in top level deps
         // e.g. body-parser with version github.com/expressjs/body-parser/263f602e6ae34add6332c1eb4caa808893b0b711
         if (this.packages[version]) {
-          return this.packages[version].version!;
+          return this.packages[version].version || version;
+        }
+        if (this.packages[`${name}@${version}`]) {
+          return this.packages[`${name}@${version}`].version || version;
         }
       }
     }

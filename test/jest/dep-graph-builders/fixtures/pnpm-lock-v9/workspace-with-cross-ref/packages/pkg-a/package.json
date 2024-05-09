@@ -1,0 +1,8 @@
+{
+  "name": "pkg-a",
+  "version": "1.0.0",
+  "dependencies": {
+    "ms": "2.1.2",
+    "package-b": "workspace:1.0.0"
+  }
+}
