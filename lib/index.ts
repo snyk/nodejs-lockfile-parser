@@ -54,6 +54,7 @@ import {
   parsePnpmProject,
   parsePkgJson,
 } from './dep-graph-builders';
+import { getPnpmLockfileParser } from './dep-graph-builders/pnpm/lockfile-parser';
 import type {
   PackageJsonBase,
   NormalisedPkgs,
@@ -79,6 +80,7 @@ export {
   extractPkgsFromYarnLockV2,
   parseYarnLockV2Project,
   buildDepGraphYarnLockV2Simple,
+  getPnpmLockfileParser,
   parsePnpmProject,
   parsePkgJson,
   PackageJsonBase,
