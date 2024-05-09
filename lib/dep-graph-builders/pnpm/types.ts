@@ -57,3 +57,12 @@ export type ParsedDepPath = {
   name?: string;
   version?: string;
 };
+
+export type PnpmWorkspacePath = string;
+export type DepName = string;
+export type DepVersion = string;
+export type PnpmImporter = Record<DepName, DepVersion>;
+export type PnpmImporters = Record<
+  PnpmWorkspacePath,
+  Record<DepName, DepVersion>
+>;

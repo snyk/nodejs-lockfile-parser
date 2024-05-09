@@ -5,6 +5,7 @@ import {
   ParsedDepPath,
   PnpmDepPath,
   PnpmDeps,
+  PnpmImporters,
   PnpmLockPkg,
 } from '../types';
 import { valid } from 'semver';
@@ -19,6 +20,7 @@ export abstract class PnpmLockfileParser {
   public optionalDependencies: Record<string, any>;
   public peerDependencies: Record<string, any>;
   public extractedPackages: NormalisedPnpmPkgs;
+  public importers: PnpmImporters;
   public workspaceArgs?: PnpmWorkspaceArgs;
 
   public constructor(rawPnpmLock: any, workspaceArgs?: PnpmWorkspaceArgs) {
@@ -32,6 +34,7 @@ export abstract class PnpmLockfileParser {
     this.optionalDependencies = depsRoot.optionalDependencies || {};
     this.peerDependencies = depsRoot.peerDependencies || {};
     this.extractedPackages = this.extractPackages();
+    this.importers = this.normaliseImporters(rawPnpmLock);
   }
 
   public isWorkspaceLockfile() {
@@ -204,4 +207,7 @@ export abstract class PnpmLockfileParser {
   // v5 example: '/@babel/preset-typescript/7.12.13_@babel+core@7.12.13'
   // v6 example: '/cdktf-cli@0.20.3(ink@3.2.0)(react@17.0.2)'
   abstract excludeTransPeerDepsVersions(fullVersionStr: string): string;
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  abstract normaliseImporters(rawPnpmLock: any): PnpmImporters;
 }

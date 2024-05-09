@@ -1,5 +1,5 @@
 import { PnpmWorkspaceArgs } from '../../types';
-import { ParsedDepPath, PnpmDeps } from '../types';
+import { ParsedDepPath, PnpmDeps, PnpmImporters } from '../types';
 import { PnpmLockfileParser } from './lockfile-parser';
 
 export class LockfileV6Parser extends PnpmLockfileParser {
@@ -76,5 +76,36 @@ export class LockfileV6Parser extends PnpmLockfileParser {
 
   public static isAbsoluteDepenencyPath(dependencyPath: string): boolean {
     return dependencyPath[0] !== '/';
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public normaliseImporters(rawPnpmLock: any): PnpmImporters {
+    if (!('importers' in rawPnpmLock)) {
+      return {};
+    }
+
+    const rawImporters = rawPnpmLock.importers as Record<
+      string,
+      { dependencies?: Record<string, { version: string }> }
+    >;
+    return Object.entries(rawImporters).reduce(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (acc, [key, val]) => {
+        // No deps case
+        if (!('dependencies' in val)) {
+          return { ...acc, [key]: {} };
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const deps = val.dependencies!;
+        const depsNormalized = Object.fromEntries(
+          Object.entries(deps).map(([depName, depInfo]) => {
+            return [depName, depInfo.version];
+          }),
+        );
+        return { ...acc, [key]: depsNormalized };
+      },
+      {},
+    );
   }
 }
