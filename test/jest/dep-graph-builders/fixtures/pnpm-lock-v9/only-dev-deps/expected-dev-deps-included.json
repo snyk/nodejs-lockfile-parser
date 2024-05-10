@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "pnpm"
+  },
+  "pkgs": [
+    {
+      "id": "pkg-dev-deps-only@0.0.1",
+      "info": {
+        "name": "pkg-dev-deps-only",
+        "version": "0.0.1"
+      }
+    },
+    {
+      "id": "debug@2.6.9",
+      "info": {
+        "name": "debug",
+        "version": "2.6.9"
+      }
+    },
+    {
+      "id": "ms@2.0.0",
+      "info": {
+        "name": "ms",
+        "version": "2.0.0"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "pkg-dev-deps-only@0.0.1",
+        "deps": [
+          {
+            "nodeId": "debug@2.6.9"
+          }
+        ]
+      },
+      {
+        "nodeId": "debug@2.6.9",
+        "pkgId": "debug@2.6.9",
+        "deps": [
+          {
+            "nodeId": "ms@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "dev"
+          }
+        }
+      },
+      {
+        "nodeId": "ms@2.0.0",
+        "pkgId": "ms@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "dev"
+          }
+        }
+      }
+    ]
+  }
+}

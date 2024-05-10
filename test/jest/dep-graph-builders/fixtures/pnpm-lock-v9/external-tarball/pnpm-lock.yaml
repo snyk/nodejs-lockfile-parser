@@ -1,0 +1,105 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      body-parser:
+        specifier: https://github.com/expressjs/body-parser/archive/1.9.0.tar.gz
+        version: https://github.com/expressjs/body-parser/archive/1.9.0.tar.gz
+
+packages:
+
+  body-parser@https://github.com/expressjs/body-parser/archive/1.9.0.tar.gz:
+    resolution: {tarball: https://github.com/expressjs/body-parser/archive/1.9.0.tar.gz}
+    version: 1.9.0
+    engines: {node: '>= 0.8'}
+
+  bytes@1.0.0:
+    resolution: {integrity: sha512-/x68VkHLeTl3/Ll8IvxdwzhrT+IyKc52e/oyHhA2RwqPqswSnjVbSddfPRwAsJtbilMAPSRWwAlpxdYsSWOTKQ==}
+
+  depd@1.0.1:
+    resolution: {integrity: sha512-OEWAMbCkK9IWQ8pfTvHBhCSqHgR+sk5pbiYqq0FqfARG4Cy+cRsCbITx6wh5pcsmfBPiJAcbd98tfdz5fnBbag==}
+    engines: {node: '>= 0.6'}
+
+  ee-first@1.0.5:
+    resolution: {integrity: sha512-+FCut34oNiJD2jD+YL/onRxOHF5ut3xOGgTIyEIOdYfun8AexYhEyurzv9izwhTft1Z7pdy4VlTq51K/sIsQRA==}
+
+  iconv-lite@0.4.4:
+    resolution: {integrity: sha512-BnjNp13aZpK4WBGbmjaNHN2MCp3P850n8zd/JLinQJ8Lsnq2Br4o2467C2waMsY5kr7Z41SL1gEqh8Vbfzg15A==}
+    engines: {node: '>=0.8.0'}
+
+  media-typer@0.3.0:
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
+    engines: {node: '>= 0.6'}
+
+  mime-db@1.12.0:
+    resolution: {integrity: sha512-5aMAW7I4jZoZB27fXRuekqc4DVvJ7+hM8UcWrNj2mqibE54gXgPSonBYBdQW5hyaVNGmiYjY0ZMqn9fBefWYvA==}
+    engines: {node: '>= 0.6'}
+
+  mime-types@2.0.14:
+    resolution: {integrity: sha512-2ZHUEstNkIf2oTWgtODr6X0Cc4Ns/RN/hktdozndiEhhAC2wxXejF1FH0XLHTEImE9h6gr/tcnr3YOnSGsxc7Q==}
+    engines: {node: '>= 0.6'}
+
+  on-finished@2.1.0:
+    resolution: {integrity: sha512-33+g6TZkplndl+2k2VNO1YphX5hm79DGhBP6TJcDI9o1sCFbUvO2bgxPdGanIFqZK4su6OVLwPHY9GkLQrojgA==}
+
+  qs@2.2.4:
+    resolution: {integrity: sha512-ptau9CngYR/IimcThDkAs7LzlZhxo92RiMHtLbOq3R6u9iDkixdSysaAVaZpYByrXWWantEJ4fVPl0xR2McSCQ==}
+
+  raw-body@1.3.0:
+    resolution: {integrity: sha512-iuI1bOSi9tEmVCrXq02ZysXatTrhAu+fSo7XOQHhMo4g87dSy9YB2W/9Udwhz0bPpFk4UcoLhjrHgpPbRD3ktA==}
+    engines: {node: '>= 0.8.0'}
+
+  type-is@1.5.7:
+    resolution: {integrity: sha512-of68V0oUmVH4thGc1cLR3sKdICPsaL7kzpYc7FX1pcagY4eIllhyMqQcoOq289f+xj2orm8oPWwsCwxiCgVJbQ==}
+    engines: {node: '>= 0.6'}
+
+snapshots:
+
+  body-parser@https://github.com/expressjs/body-parser/archive/1.9.0.tar.gz:
+    dependencies:
+      bytes: 1.0.0
+      depd: 1.0.1
+      iconv-lite: 0.4.4
+      media-typer: 0.3.0
+      on-finished: 2.1.0
+      qs: 2.2.4
+      raw-body: 1.3.0
+      type-is: 1.5.7
+
+  bytes@1.0.0: {}
+
+  depd@1.0.1: {}
+
+  ee-first@1.0.5: {}
+
+  iconv-lite@0.4.4: {}
+
+  media-typer@0.3.0: {}
+
+  mime-db@1.12.0: {}
+
+  mime-types@2.0.14:
+    dependencies:
+      mime-db: 1.12.0
+
+  on-finished@2.1.0:
+    dependencies:
+      ee-first: 1.0.5
+
+  qs@2.2.4: {}
+
+  raw-body@1.3.0:
+    dependencies:
+      bytes: 1.0.0
+      iconv-lite: 0.4.4
+
+  type-is@1.5.7:
+    dependencies:
+      media-typer: 0.3.0
+      mime-types: 2.0.14

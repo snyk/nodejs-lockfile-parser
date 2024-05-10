@@ -6,8 +6,9 @@ import { NodeLockfileVersion } from '../../../lib/utils';
 const LOCK_FILE_VERSIONS = {
   'pnpm-lock-v6': NodeLockfileVersion.PnpmLockV6,
   'pnpm-lock-v5': NodeLockfileVersion.PnpmLockV5,
+  'pnpm-lock-v9': NodeLockfileVersion.PnpmLockV9,
 };
-describe.each(['pnpm-lock-v5', 'pnpm-lock-v6'])(
+describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
   'dep-graph-builder %s',
   (lockFileVersionPath) => {
     describe('Happy path tests', () => {

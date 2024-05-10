@@ -11,6 +11,7 @@ export enum NodeLockfileVersion {
   YarnLockV2 = 'YARN_LOCK_V2',
   PnpmLockV5 = 'PNPM_LOCK_V5',
   PnpmLockV6 = 'PNPM_LOCK_V6',
+  PnpmLockV9 = 'PNPM_LOCK_V9',
 }
 
 export const getLockfileVersionFromFile = (
@@ -33,7 +34,10 @@ export const getLockfileVersionFromFile = (
 
 export function getPnpmLockfileVersion(
   lockFileContents: string,
-): NodeLockfileVersion.PnpmLockV5 | NodeLockfileVersion.PnpmLockV6 {
+):
+  | NodeLockfileVersion.PnpmLockV5
+  | NodeLockfileVersion.PnpmLockV6
+  | NodeLockfileVersion.PnpmLockV9 {
   const rawPnpmLock = load(lockFileContents, {
     json: true,
     schema: FAILSAFE_SCHEMA,
@@ -43,6 +47,8 @@ export function getPnpmLockfileVersion(
     return NodeLockfileVersion.PnpmLockV5;
   } else if (lockfileVersion.startsWith('6')) {
     return NodeLockfileVersion.PnpmLockV6;
+  } else if (lockfileVersion.startsWith('9')) {
+    return NodeLockfileVersion.PnpmLockV9;
   } else {
     throw new OpenSourceEcosystems.PnpmUnsupportedLockfileVersionError(
       `The pnpm-lock.yaml lockfile version ${lockfileVersion} is not supported`,

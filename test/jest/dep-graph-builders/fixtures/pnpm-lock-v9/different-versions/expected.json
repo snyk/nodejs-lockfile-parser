@@ -1,0 +1,485 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "pnpm"
+  },
+  "pkgs": [
+    {
+      "id": "test-repo@1.0.0",
+      "info": {
+        "name": "test-repo",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "gauge@2.7.4",
+      "info": {
+        "name": "gauge",
+        "version": "2.7.4"
+      }
+    },
+    {
+      "id": "aproba@1.2.0",
+      "info": {
+        "name": "aproba",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "id": "console-control-strings@1.1.0",
+      "info": {
+        "name": "console-control-strings",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "id": "has-unicode@2.0.1",
+      "info": {
+        "name": "has-unicode",
+        "version": "2.0.1"
+      }
+    },
+    {
+      "id": "object-assign@4.1.1",
+      "info": {
+        "name": "object-assign",
+        "version": "4.1.1"
+      }
+    },
+    {
+      "id": "signal-exit@3.0.7",
+      "info": {
+        "name": "signal-exit",
+        "version": "3.0.7"
+      }
+    },
+    {
+      "id": "string-width@1.0.2",
+      "info": {
+        "name": "string-width",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "code-point-at@1.1.0",
+      "info": {
+        "name": "code-point-at",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "id": "is-fullwidth-code-point@1.0.0",
+      "info": {
+        "name": "is-fullwidth-code-point",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "number-is-nan@1.0.1",
+      "info": {
+        "name": "number-is-nan",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "strip-ansi@3.0.1",
+      "info": {
+        "name": "strip-ansi",
+        "version": "3.0.1"
+      }
+    },
+    {
+      "id": "ansi-regex@2.1.1",
+      "info": {
+        "name": "ansi-regex",
+        "version": "2.1.1"
+      }
+    },
+    {
+      "id": "wide-align@1.1.5",
+      "info": {
+        "name": "wide-align",
+        "version": "1.1.5"
+      }
+    },
+    {
+      "id": "wrap-ansi@6.2.0",
+      "info": {
+        "name": "wrap-ansi",
+        "version": "6.2.0"
+      }
+    },
+    {
+      "id": "ansi-styles@4.3.0",
+      "info": {
+        "name": "ansi-styles",
+        "version": "4.3.0"
+      }
+    },
+    {
+      "id": "color-convert@2.0.1",
+      "info": {
+        "name": "color-convert",
+        "version": "2.0.1"
+      }
+    },
+    {
+      "id": "color-name@1.1.4",
+      "info": {
+        "name": "color-name",
+        "version": "1.1.4"
+      }
+    },
+    {
+      "id": "string-width@4.2.3",
+      "info": {
+        "name": "string-width",
+        "version": "4.2.3"
+      }
+    },
+    {
+      "id": "emoji-regex@8.0.0",
+      "info": {
+        "name": "emoji-regex",
+        "version": "8.0.0"
+      }
+    },
+    {
+      "id": "is-fullwidth-code-point@3.0.0",
+      "info": {
+        "name": "is-fullwidth-code-point",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "strip-ansi@6.0.1",
+      "info": {
+        "name": "strip-ansi",
+        "version": "6.0.1"
+      }
+    },
+    {
+      "id": "ansi-regex@5.0.1",
+      "info": {
+        "name": "ansi-regex",
+        "version": "5.0.1"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "test-repo@1.0.0",
+        "deps": [
+          {
+            "nodeId": "gauge@2.7.4"
+          },
+          {
+            "nodeId": "wrap-ansi@6.2.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "gauge@2.7.4",
+        "pkgId": "gauge@2.7.4",
+        "deps": [
+          {
+            "nodeId": "aproba@1.2.0"
+          },
+          {
+            "nodeId": "console-control-strings@1.1.0"
+          },
+          {
+            "nodeId": "has-unicode@2.0.1"
+          },
+          {
+            "nodeId": "object-assign@4.1.1"
+          },
+          {
+            "nodeId": "signal-exit@3.0.7"
+          },
+          {
+            "nodeId": "string-width@1.0.2"
+          },
+          {
+            "nodeId": "strip-ansi@3.0.1"
+          },
+          {
+            "nodeId": "wide-align@1.1.5"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "aproba@1.2.0",
+        "pkgId": "aproba@1.2.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "console-control-strings@1.1.0",
+        "pkgId": "console-control-strings@1.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "has-unicode@2.0.1",
+        "pkgId": "has-unicode@2.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "object-assign@4.1.1",
+        "pkgId": "object-assign@4.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "signal-exit@3.0.7",
+        "pkgId": "signal-exit@3.0.7",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "string-width@1.0.2",
+        "pkgId": "string-width@1.0.2",
+        "deps": [
+          {
+            "nodeId": "code-point-at@1.1.0"
+          },
+          {
+            "nodeId": "is-fullwidth-code-point@1.0.0"
+          },
+          {
+            "nodeId": "strip-ansi@3.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "code-point-at@1.1.0",
+        "pkgId": "code-point-at@1.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-fullwidth-code-point@1.0.0",
+        "pkgId": "is-fullwidth-code-point@1.0.0",
+        "deps": [
+          {
+            "nodeId": "number-is-nan@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "number-is-nan@1.0.1",
+        "pkgId": "number-is-nan@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "strip-ansi@3.0.1",
+        "pkgId": "strip-ansi@3.0.1",
+        "deps": [
+          {
+            "nodeId": "ansi-regex@2.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ansi-regex@2.1.1",
+        "pkgId": "ansi-regex@2.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "wide-align@1.1.5",
+        "pkgId": "wide-align@1.1.5",
+        "deps": [
+          {
+            "nodeId": "string-width@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "wrap-ansi@6.2.0",
+        "pkgId": "wrap-ansi@6.2.0",
+        "deps": [
+          {
+            "nodeId": "ansi-styles@4.3.0"
+          },
+          {
+            "nodeId": "string-width@4.2.3"
+          },
+          {
+            "nodeId": "strip-ansi@6.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ansi-styles@4.3.0",
+        "pkgId": "ansi-styles@4.3.0",
+        "deps": [
+          {
+            "nodeId": "color-convert@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "color-convert@2.0.1",
+        "pkgId": "color-convert@2.0.1",
+        "deps": [
+          {
+            "nodeId": "color-name@1.1.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "color-name@1.1.4",
+        "pkgId": "color-name@1.1.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "string-width@4.2.3",
+        "pkgId": "string-width@4.2.3",
+        "deps": [
+          {
+            "nodeId": "emoji-regex@8.0.0"
+          },
+          {
+            "nodeId": "is-fullwidth-code-point@3.0.0"
+          },
+          {
+            "nodeId": "strip-ansi@6.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "emoji-regex@8.0.0",
+        "pkgId": "emoji-regex@8.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-fullwidth-code-point@3.0.0",
+        "pkgId": "is-fullwidth-code-point@3.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "strip-ansi@6.0.1",
+        "pkgId": "strip-ansi@6.0.1",
+        "deps": [
+          {
+            "nodeId": "ansi-regex@5.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ansi-regex@5.0.1",
+        "pkgId": "ansi-regex@5.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@ import { load, FAILSAFE_SCHEMA } from 'js-yaml';
 import { PnpmLockfileParser } from './lockfile-parser';
 import { LockfileV6Parser } from './lockfile-v6';
 import { LockfileV5Parser } from './lockfile-v5';
+import { LockfileV9Parser } from './lockfile-v9';
 import { PnpmWorkspaceArgs } from '../../types';
 import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
 import { NodeLockfileVersion } from '../../../utils';
@@ -29,6 +30,13 @@ export function getPnpmLockfileParser(
     version.startsWith('6')
   ) {
     return new LockfileV6Parser(rawPnpmLock, workspaceArgs);
+  }
+
+  if (
+    lockfileVersion === NodeLockfileVersion.PnpmLockV9 ||
+    version.startsWith('9')
+  ) {
+    return new LockfileV9Parser(rawPnpmLock, workspaceArgs);
   }
 
   throw new OpenSourceEcosystems.PnpmUnsupportedLockfileVersionError(

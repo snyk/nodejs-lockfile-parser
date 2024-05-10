@@ -1,0 +1,7 @@
+{
+  "name": "@scope/my-local-pkg",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "5.0.0"
+  }
+}
