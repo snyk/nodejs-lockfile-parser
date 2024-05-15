@@ -1,0 +1,13 @@
+on:
+  schedule:
+    - cron: '0 0 * * *' # Every day at midnight
+  workflow_dispatch:
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v7
+        with:
+          stale-pr-message: "Your PR has not had any activity for 60 days. In 7 days I'll close it. Make some activity to remove this."
+          close-pr-message: "Your PR has now been stale for 7 days. I'm closing it."
