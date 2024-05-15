@@ -31,8 +31,8 @@
   ],
   "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
   "dependencies": {
-    "@snyk/error-catalog-nodejs-public": "^5.16.0",
     "@snyk/dep-graph": "^2.3.0",
+    "@snyk/error-catalog-nodejs-public": "^5.16.0",
     "@snyk/graphlib": "2.1.9-patch.3",
     "@yarnpkg/core": "^2.4.0",
     "@yarnpkg/lockfile": "^1.1.0",
@@ -43,7 +43,7 @@
     "lodash.flatmap": "^4.5.0",
     "lodash.isempty": "^4.4.0",
     "lodash.topairs": "^4.3.0",
-    "micromatch": "^4.0.5",
+    "multimatch": "5.0.0",
     "p-map": "^4.0.0",
     "semver": "^7.6.0",
     "snyk-config": "^5.0.0",

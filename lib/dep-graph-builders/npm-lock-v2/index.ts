@@ -4,8 +4,8 @@ import {
   PackageJsonBase,
   ProjectParseOptions,
 } from '../types';
-import { extractPkgsFromNpmLockV2 } from './extract-npm-lock-v2-pkgs';
 import type { NpmLockPkg } from './extract-npm-lock-v2-pkgs';
+import { extractPkgsFromNpmLockV2 } from './extract-npm-lock-v2-pkgs';
 import { DepGraph, DepGraphBuilder } from '@snyk/dep-graph';
 import {
   addPkgNodeToGraph,
@@ -18,9 +18,9 @@ import { OutOfSyncError } from '../../errors';
 import { LockfileType } from '../../parsers';
 
 import * as semver from 'semver';
-import * as micromatch from 'micromatch';
 import * as pathUtil from 'path';
 import { eventLoopSpinner } from 'event-loop-spinner';
+import * as multimatch from 'multimatch';
 
 export { extractPkgsFromNpmLockV2 };
 
@@ -249,7 +249,7 @@ const getChildNode = (
     const normalizedWorkspacesDefn = workspacesDeclaration.map((p) => {
       return pathUtil.normalize(p).replace(/\\/g, '/');
     });
-    return micromatch.isMatch(fixedResolvedPath, normalizedWorkspacesDefn);
+    return multimatch([fixedResolvedPath], normalizedWorkspacesDefn).length > 0;
   };
 
   // Check for workspaces
