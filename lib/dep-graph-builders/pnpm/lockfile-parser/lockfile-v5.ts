@@ -27,10 +27,11 @@ export class LockfileV5Parser extends PnpmLockfileParser {
   public normalizeTopLevelDeps(
     dependencies: Record<string, string>,
     isDev: boolean,
+    importerName?: string,
   ): PnpmDeps {
     return Object.entries(dependencies).reduce(
       (pnpmDeps: PnpmDeps, [name, version]) => {
-        version = this.normalizeVersion(name, version, isDev);
+        version = this.normalizeVersion(name, version, isDev, importerName);
         pnpmDeps[name] = {
           name,
           version,
@@ -46,10 +47,11 @@ export class LockfileV5Parser extends PnpmLockfileParser {
   public normalizePackagesDeps(
     dependencies: Record<string, string>,
     isDev: boolean,
+    importerName?: string,
   ): Record<string, string> {
     return Object.entries(dependencies).reduce(
       (pnpmDeps: Record<string, string>, [name, version]) => {
-        version = this.normalizeVersion(name, version, isDev);
+        version = this.normalizeVersion(name, version, isDev, importerName);
         pnpmDeps[name] = version;
         return pnpmDeps;
       },

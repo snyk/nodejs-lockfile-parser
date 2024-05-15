@@ -1,10 +1,7 @@
 {
-  "name": "yarn-1-workspace-with-cross-ref",
+  "name": "pnpm-1-workspace-with-cross-ref",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ]
+  "private": true
 }
