@@ -1,0 +1,7 @@
+{
+  "name": "pkg-a",
+  "dependencies": {
+    "ms": "2.1.2",
+    "package-b": "1.0.0"
+  }
+}

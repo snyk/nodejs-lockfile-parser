@@ -86,17 +86,37 @@ export abstract class PnpmLockfileParser {
     includeOptionalDeps?: boolean;
     includePeerDeps?: boolean;
   }): PnpmDeps {
-    const prodDeps = this.normalizeTopLevelDeps(this.dependencies || {}, false);
+    let importerName;
+    if (this.isWorkspaceLockfile()) {
+      importerName = this.workspaceArgs?.workspacePath;
+    }
+    const prodDeps = this.normalizeTopLevelDeps(
+      this.dependencies || {},
+      false,
+      importerName,
+    );
     const devDeps = options.includeDevDeps
-      ? this.normalizeTopLevelDeps(this.devDependencies || {}, true)
+      ? this.normalizeTopLevelDeps(
+          this.devDependencies || {},
+          true,
+          importerName,
+        )
       : {};
 
     const optionalDeps = options.includeOptionalDeps
-      ? this.normalizeTopLevelDeps(this.optionalDependencies || {}, false)
+      ? this.normalizeTopLevelDeps(
+          this.optionalDependencies || {},
+          false,
+          importerName,
+        )
       : {};
 
     const peerDeps = options.includePeerDeps
-      ? this.normalizeTopLevelDeps(this.peerDependencies || {}, false)
+      ? this.normalizeTopLevelDeps(
+          this.peerDependencies || {},
+          false,
+          importerName,
+        )
       : {};
 
     return { ...prodDeps, ...devDeps, ...optionalDeps, ...peerDeps };
@@ -106,9 +126,15 @@ export abstract class PnpmLockfileParser {
     name: string,
     version: string,
     isDev: boolean,
+    importerName?: string,
   ): string {
     if (this.isWorkspaceLockfile()) {
-      version = this.resolveWorkspacesCrossReference(name, version, isDev);
+      version = this.resolveWorkspacesCrossReference(
+        name,
+        version,
+        isDev,
+        importerName,
+      );
     }
     if (!valid(version)) {
       version = this.excludeTransPeerDepsVersions(version);
@@ -131,6 +157,7 @@ export abstract class PnpmLockfileParser {
     name: string,
     version: string,
     isDev: boolean,
+    importerName?: string,
   ): string {
     if (!this.workspaceArgs) {
       return version;
@@ -142,10 +169,13 @@ export abstract class PnpmLockfileParser {
       //   version: link:../pkg-b
       const depPath = version.split('link:')[1];
       const resolvedPathDep = pathUtil
-        .join(this.workspaceArgs.workspacePath, depPath)
+        .join(importerName || '.', depPath)
         .replace(/\\/g, '/');
       // cross referenced package, we add it to the extracted packages
       version = this.workspaceArgs.projectsVersionMap[resolvedPathDep];
+      if (!version) {
+        version = 'undefined';
+      }
 
       const subDeps = this.rawPnpmLock.importers[resolvedPathDep] || {
         dependencies: {},
@@ -156,16 +186,19 @@ export abstract class PnpmLockfileParser {
       const resolvedDeps = this.normalizePackagesDeps(
         subDeps.dependencies || {},
         isDev,
+        resolvedPathDep,
       );
 
       const resolvedDevDeps = this.normalizePackagesDeps(
         subDeps.devDependencies || {},
         true,
+        resolvedPathDep,
       );
 
       const resolvedOptionalDeps = this.normalizePackagesDeps(
         subDeps.optionalDependencies || {},
         true,
+        resolvedPathDep,
       );
 
       this.extractedPackages[`${name}@${version}`] = {
@@ -197,9 +230,13 @@ export abstract class PnpmLockfileParser {
   //      specifier: 1.3.7
   //      version: 1.3.7
 
-  abstract normalizePackagesDeps(dependencies, isDev): Record<string, string>;
+  abstract normalizePackagesDeps(
+    dependencies,
+    isDev,
+    importerName?,
+  ): Record<string, string>;
 
-  abstract normalizeTopLevelDeps(dependencies, isDev): PnpmDeps;
+  abstract normalizeTopLevelDeps(dependencies, isDev, importerName?): PnpmDeps;
 
   // Dependency paths are parsed differently based on lockfile version
   // For lockfile v5, pnpm provides the 'dependency-path' package that parses a dep path

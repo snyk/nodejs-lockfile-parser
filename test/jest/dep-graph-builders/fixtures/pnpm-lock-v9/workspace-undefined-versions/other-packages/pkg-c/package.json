@@ -1,0 +1,7 @@
+{
+    "name": "package-c",
+    "dependencies": {
+        "body-parser": "1.20.0"
+    }
+  }
+  

@@ -185,7 +185,7 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
           const pkgJsonContent = readFileSync(
             join(
               __dirname,
-              `./fixtures/${lockFileVersionPath}/${fixtureName}/packages/pkg-a/package.json`,
+              `./fixtures/${lockFileVersionPath}/${fixtureName}/packages/pkgs/pkg-a/package.json`,
             ),
             'utf8',
           );
@@ -209,11 +209,12 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
             {
               isWorkspacePkg: true,
               isRoot: false,
-              workspacePath: 'packages/pkg-a',
+              workspacePath: 'packages/pkgs/pkg-a',
               projectsVersionMap: {
                 '.': '1.0.0',
-                'packages/pkg-a': '1.0.0',
-                'packages/pkg-b': '1.0.0',
+                'packages/pkgs/pkg-a': '1.0.0',
+                'packages/pkgs/pkg-b': '1.0.0',
+                'other-packages/pkg-c': '1.0.0',
               },
               rootOverrides: {},
             },
@@ -222,7 +223,61 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
             readFileSync(
               join(
                 __dirname,
-                `./fixtures/${lockFileVersionPath}/${fixtureName}/packages/pkg-a/expected.json`,
+                `./fixtures/${lockFileVersionPath}/${fixtureName}/packages/pkgs/pkg-a/expected.json`,
+              ),
+              'utf8',
+            ),
+          );
+          expect(
+            Buffer.from(JSON.stringify(newDepGraph)).toString('base64'),
+          ).toBe(
+            Buffer.from(JSON.stringify(expectedDepGraphJson)).toString(
+              'base64',
+            ),
+          );
+        });
+
+        it('undefined versions in cross ref packages in workspaces', async () => {
+          const fixtureName = 'workspace-undefined-versions';
+          const pkgJsonContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/${lockFileVersionPath}/${fixtureName}/packages/pkgs/pkg-a/package.json`,
+            ),
+            'utf8',
+          );
+          const pkgLockContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/${lockFileVersionPath}/${fixtureName}/pnpm-lock.yaml`,
+            ),
+            'utf8',
+          );
+          const newDepGraph = await parsePnpmProject(
+            pkgJsonContent,
+            pkgLockContent,
+            {
+              includeDevDeps: false,
+              includeOptionalDeps: true,
+              pruneWithinTopLevelDeps: true,
+              strictOutOfSync: false,
+            },
+            LOCK_FILE_VERSIONS[lockFileVersionPath],
+            {
+              isWorkspacePkg: true,
+              isRoot: false,
+              workspacePath: 'packages/pkgs/pkg-a',
+              projectsVersionMap: {
+                '.': '1.0.0',
+              },
+              rootOverrides: {},
+            },
+          );
+          const expectedDepGraphJson = JSON.parse(
+            readFileSync(
+              join(
+                __dirname,
+                `./fixtures/${lockFileVersionPath}/${fixtureName}/packages/pkgs/pkg-a/expected.json`,
               ),
               'utf8',
             ),

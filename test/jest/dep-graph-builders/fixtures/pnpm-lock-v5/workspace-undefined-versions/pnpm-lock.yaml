@@ -14,7 +14,7 @@ importers:
   packages/pkgs/pkg-a:
     specifiers:
       ms: 2.1.2
-      package-b: 1.0.0
+      package-b: workspace:^
     dependencies:
       ms: 2.1.2
       package-b: link:../pkg-b
