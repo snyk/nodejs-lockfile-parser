@@ -4,11 +4,11 @@ orbs:
   win: circleci/windows@2.4.0
   prodsec: snyk/prodsec-orb@1.0
 
-filters_branches_ignore_master: &filters_branches_ignore_master
+filters_branches_ignore_main: &filters_branches_ignore_main
   filters:
     branches:
       ignore:
-        - master
+        - main
 
 defaults: &defaults
   parameters:
@@ -160,7 +160,7 @@ workflows:
           name: Lint
           context: nodejs-install
           node_version: "16.13.2"
-          <<: *filters_branches_ignore_master
+          <<: *filters_branches_ignore_main
       - test-windows-jest:
           matrix:
             alias: test-windows-jest
@@ -170,7 +170,7 @@ workflows:
           context: nodejs-install
           requires:
             - Lint
-          <<: *filters_branches_ignore_master
+          <<: *filters_branches_ignore_main
       - test-windows-tap:
           matrix:
             alias: test-windows-tap
@@ -180,7 +180,7 @@ workflows:
           context: nodejs-install
           requires:
             - Lint
-          <<: *filters_branches_ignore_master
+          <<: *filters_branches_ignore_main
       - test-unix-jest:
           matrix:
             alias: test-unix-jest
@@ -190,7 +190,7 @@ workflows:
           context: nodejs-install
           requires:
             - Lint
-          <<: *filters_branches_ignore_master
+          <<: *filters_branches_ignore_main
       - test-unix-tap:
           matrix:
             alias: test-unix-tap
@@ -200,7 +200,7 @@ workflows:
           context: nodejs-install
           requires:
             - Lint
-          <<: *filters_branches_ignore_master
+          <<: *filters_branches_ignore_main
       - release:
           name: Release
           context: nodejs-app-release
@@ -208,4 +208,4 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
