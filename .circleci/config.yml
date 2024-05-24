@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   win: circleci/windows@2.4.0
-  prodsec: snyk/prodsec-orb@1.0
+  prodsec: snyk/prodsec-orb@1
 
 filters_branches_ignore_main: &filters_branches_ignore_main
   filters:
@@ -177,6 +177,7 @@ workflows:
                 - main
       - security-scans:
           name: Security Scans
+          node_version: "16.13.2"
           context:
             - open_source-managed
             - nodejs-install
