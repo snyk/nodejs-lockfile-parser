@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   win: circleci/windows@2.4.0
-  prodsec: snyk/prodsec-orb@1.0
+  prodsec: snyk/prodsec-orb@1
 
 filters_branches_ignore_main: &filters_branches_ignore_main
   filters:
@@ -61,6 +61,21 @@ commands:
           command: npm --version
 
 jobs:
+  security-scans:
+    resource_class: small
+    <<: *defaults
+    docker:
+      - image: cimg/node:<< parameters.node_version >>
+    steps:
+      - show_node_version
+      - checkout
+      - attach_workspace:
+          at: ~/nodejs-lockfile-parser
+      - install_deps
+      - prodsec/security_scans:
+          mode: auto
+          open-source-additional-arguments: --exclude=test
+          iac-scan: disabled
   lint:
     <<: *defaults
     docker:
@@ -156,6 +171,16 @@ workflows:
           context:
             - snyk-bot-slack
           channel: os-team-managed-alerts
+          filters:
+            branches:
+              ignore:
+                - main
+      - security-scans:
+          name: Security Scans
+          node_version: "16.13.2"
+          context:
+            - open_source-managed
+            - nodejs-install
       - lint:
           name: Lint
           context: nodejs-install
