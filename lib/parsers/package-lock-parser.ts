@@ -29,6 +29,8 @@ export interface PackageLockDep {
   };
   dependencies?: PackageLockDeps;
   dev?: boolean;
+  resolved?: string;
+  integrity?: string;
 }
 
 export class PackageLockParser extends LockParserBase {
@@ -92,6 +94,9 @@ export class PackageLockParser extends LockParserBase {
           name: depName,
           requires: [],
           version: dep.version,
+
+          ...(dep.resolved && { resolved: dep.resolved }),
+          ...(dep.integrity && { integrity: dep.integrity })
         };
 
         if (dep.requires) {

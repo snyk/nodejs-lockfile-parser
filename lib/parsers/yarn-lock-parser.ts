@@ -27,6 +27,10 @@ export interface YarnLockDeps {
 
 export interface YarnLockDep {
   version: string;
+
+  resolved?: string;
+  integrity?: string;
+
   dependencies?: {
     [depName: string]: string;
   };
@@ -91,6 +95,9 @@ export class YarnLockParser extends LockParserBase {
         name: getName(depName),
         requires: subDependencies.map(([key, ver]) => `${key}@${ver}`),
         version: dep.version,
+
+        ...(dep.resolved && { resolved: dep.resolved }),
+        ...(dep.integrity && { integrity: dep.integrity })
       };
     }
 
