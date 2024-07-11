@@ -5,7 +5,10 @@ import { NormalisedPkgs } from './types';
 import { OutOfSyncError } from '../errors';
 import { LockfileType } from '../parsers';
 
-export type Dependencies = Record<string, { version: string; isDev: boolean }>;
+export type Dependencies = Record<
+  string,
+  { version: string; isDev: boolean; isPeer: boolean }
+>;
 
 export interface PkgNode {
   id: string;
@@ -76,10 +79,11 @@ export const getTopLevelDeps = (
 export const getGraphDependencies = (
   dependencies: Record<string, string>,
   isDev,
+  isPeer?: boolean,
 ): Dependencies => {
   return Object.entries(dependencies).reduce(
     (pnpmDeps: Dependencies, [name, semver]) => {
-      pnpmDeps[name] = { version: semver, isDev: isDev };
+      pnpmDeps[name] = { version: semver, isDev: isDev, isPeer: !!isPeer };
       return pnpmDeps;
     },
     {},
