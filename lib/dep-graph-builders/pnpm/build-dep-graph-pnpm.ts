@@ -1,10 +1,6 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
 import { getTopLevelDeps } from '../util';
-import type {
-  Overrides,
-  PnpmProjectParseOptions,
-  PnpmWorkspaceArgs,
-} from '../types';
+import type { Overrides, PnpmProjectParseOptions } from '../types';
 import type { PackageJsonBase } from '../types';
 import { getPnpmChildNode } from './utils';
 import { eventLoopSpinner } from 'event-loop-spinner';
@@ -15,7 +11,7 @@ export const buildDepGraphPnpm = async (
   lockFileParser: PnpmLockfileParser,
   pkgJson: PackageJsonBase,
   options: PnpmProjectParseOptions,
-  workspaceArgs?: PnpmWorkspaceArgs,
+  importer?: string,
 ) => {
   const {
     strictOutOfSync,
@@ -37,7 +33,7 @@ export const buildDepGraphPnpm = async (
   const topLevelDeps = getTopLevelDeps(pkgJson, options);
 
   const extractedTopLevelDeps =
-    lockFileParser.extractTopLevelDependencies(options) || {};
+    lockFileParser.extractTopLevelDependencies(options, importer) || {};
 
   for (const name of Object.keys(topLevelDeps)) {
     topLevelDeps[name].version = extractedTopLevelDeps[name].version;
@@ -58,10 +54,7 @@ export const buildDepGraphPnpm = async (
     strictOutOfSync,
     includeOptionalDeps,
     includeDevDeps,
-    // we have rootWorkspaceOverrides if this is workspace pkg with overrides
-    // at root - therefore it should take precedent
-    // TODO: inspect if this is needed at all, seems like pnpm resolves everything in lockfile
-    workspaceArgs?.rootOverrides || pkgJson.pnpm?.overrides || {},
+    pkgJson.pnpm?.overrides || {},
     pruneWithinTopLevelDeps,
     lockFileParser,
   );

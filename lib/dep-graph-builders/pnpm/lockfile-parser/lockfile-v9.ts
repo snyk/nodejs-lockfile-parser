@@ -2,11 +2,8 @@ import { PnpmWorkspaceArgs } from '../../types';
 import { LockfileV6Parser } from './lockfile-v6';
 
 const DEFAULT_WORKSPACE_ARGS: PnpmWorkspaceArgs = {
-  isWorkspacePkg: true,
-  isRoot: true,
-  workspacePath: '.',
+  isWorkspace: true,
   projectsVersionMap: {},
-  rootOverrides: {},
 };
 export class LockfileV9Parser extends LockfileV6Parser {
   public settings;
