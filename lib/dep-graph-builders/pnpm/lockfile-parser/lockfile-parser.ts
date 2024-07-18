@@ -15,47 +15,28 @@ export abstract class PnpmLockfileParser {
   public lockFileVersion: string;
   public rawPnpmLock: any;
   public packages: Record<PnpmDepPath, PnpmLockPkg>;
-  public dependencies: Record<string, any>;
-  public devDependencies: Record<string, any>;
-  public optionalDependencies: Record<string, any>;
-  public peerDependencies: Record<string, any>;
   public extractedPackages: NormalisedPnpmPkgs;
   public importers: PnpmImporters;
   public workspaceArgs?: PnpmWorkspaceArgs;
 
   public constructor(rawPnpmLock: any, workspaceArgs?: PnpmWorkspaceArgs) {
     this.rawPnpmLock = rawPnpmLock;
-    this.lockFileVersion = rawPnpmLock.lockFileVersion;
+    this.lockFileVersion = rawPnpmLock.lockfileVersion;
     this.workspaceArgs = workspaceArgs;
-    const depsRoot = this.getRoot(rawPnpmLock);
     this.packages = rawPnpmLock.packages || {};
-    this.dependencies = depsRoot.dependencies || {};
-    this.devDependencies = depsRoot.devDependencies || {};
-    this.optionalDependencies = depsRoot.optionalDependencies || {};
-    this.peerDependencies = depsRoot.peerDependencies || {};
     this.extractedPackages = {};
     this.importers = this.normaliseImporters(rawPnpmLock);
   }
 
   public isWorkspaceLockfile() {
-    return this.workspaceArgs?.isWorkspacePkg;
-  }
-
-  public getRoot(rawPnpmLock: any) {
-    let depsRoot = rawPnpmLock;
-    if (this.workspaceArgs?.isWorkspacePkg) {
-      depsRoot = rawPnpmLock.importers[this.workspaceArgs.workspacePath];
-    }
-    if (this.workspaceArgs?.isRoot) {
-      if (!this.workspaceArgs.workspacePath) {
-        this.workspaceArgs.workspacePath = '.';
-      }
-      depsRoot = rawPnpmLock.importers[this.workspaceArgs.workspacePath];
-    }
-    return depsRoot;
+    return this.workspaceArgs?.isWorkspace;
   }
 
   public extractPackages() {
+    // Packages should be parsed only one time for a parser
+    if (Object.keys(this.extractedPackages).length > 0) {
+      return this.extractedPackages;
+    }
     const packages: NormalisedPnpmPkgs = {};
     Object.entries(this.packages).forEach(
       ([depPath, versionData]: [string, any]) => {
@@ -81,42 +62,38 @@ export abstract class PnpmLockfileParser {
     return packages;
   }
 
-  public extractTopLevelDependencies(options: {
-    includeDevDeps: boolean;
-    includeOptionalDeps?: boolean;
-    includePeerDeps?: boolean;
-  }): PnpmDeps {
-    let importerName;
-    if (this.isWorkspaceLockfile()) {
-      importerName = this.workspaceArgs?.workspacePath;
+  public extractTopLevelDependencies(
+    options: {
+      includeDevDeps: boolean;
+      includeOptionalDeps?: boolean;
+      includePeerDeps?: boolean;
+    },
+    importer?: string,
+  ): PnpmDeps {
+    let root = this.rawPnpmLock;
+    if (importer) {
+      root = this.rawPnpmLock.importers[importer];
     }
+
     const prodDeps = this.normalizeTopLevelDeps(
-      this.dependencies || {},
+      root.dependencies || {},
       false,
-      importerName,
+      importer,
     );
     const devDeps = options.includeDevDeps
-      ? this.normalizeTopLevelDeps(
-          this.devDependencies || {},
-          true,
-          importerName,
-        )
+      ? this.normalizeTopLevelDeps(root.devDependencies || {}, true, importer)
       : {};
 
     const optionalDeps = options.includeOptionalDeps
       ? this.normalizeTopLevelDeps(
-          this.optionalDependencies || {},
+          root.optionalDependencies || {},
           false,
-          importerName,
+          importer,
         )
       : {};
 
     const peerDeps = options.includePeerDeps
-      ? this.normalizeTopLevelDeps(
-          this.peerDependencies || {},
-          false,
-          importerName,
-        )
+      ? this.normalizeTopLevelDeps(root.peerDependencies || {}, false, importer)
       : {};
 
     return { ...prodDeps, ...devDeps, ...optionalDeps, ...peerDeps };

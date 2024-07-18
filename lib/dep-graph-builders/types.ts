@@ -1,3 +1,5 @@
+import { DepGraph } from '@snyk/dep-graph';
+
 // Common types
 export type PackageJsonBase = {
   name: string;
@@ -81,11 +83,8 @@ export type Yarn1DepGraphBuildOptions = {
 };
 
 export type PnpmWorkspaceArgs = {
-  isWorkspacePkg: boolean;
-  isRoot: boolean;
-  workspacePath: string;
+  isWorkspace: boolean;
   projectsVersionMap: Record<string, string>;
-  rootOverrides: Overrides;
 };
 
 export type PnpmProjectParseOptions = {
@@ -93,4 +92,16 @@ export type PnpmProjectParseOptions = {
   includeOptionalDeps: boolean;
   strictOutOfSync: boolean;
   pruneWithinTopLevelDeps: boolean;
+};
+
+type NodePkgManagers = 'npm' | 'yarn' | 'pnpm';
+
+export type ScannedNodeProject = {
+  packageManager: NodePkgManagers;
+  targetFile: string;
+  depGraph: DepGraph;
+  plugin: {
+    name: string;
+    runtime: string;
+  };
 };

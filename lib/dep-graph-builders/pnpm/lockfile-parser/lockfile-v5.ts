@@ -4,12 +4,8 @@ import { PnpmLockfileParser } from './lockfile-parser';
 import { PnpmWorkspaceArgs } from '../../types';
 
 export class LockfileV5Parser extends PnpmLockfileParser {
-  public specifiers: Record<string, string>;
-
   public constructor(rawPnpmLock: any, workspaceArgs?: PnpmWorkspaceArgs) {
     super(rawPnpmLock, workspaceArgs);
-    const depsRoot = this.getRoot(rawPnpmLock);
-    this.specifiers = depsRoot.specifiers;
   }
 
   public parseDepPath(depPath: string): ParsedDepPath {
@@ -36,7 +32,6 @@ export class LockfileV5Parser extends PnpmLockfileParser {
           name,
           version,
           isDev,
-          specifier: this.specifiers[name],
         };
         return pnpmDeps;
       },

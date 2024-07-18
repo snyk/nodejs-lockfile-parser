@@ -51,7 +51,6 @@ export class LockfileV6Parser extends PnpmLockfileParser {
         pnpmDeps[name] = {
           name,
           version,
-          specifier: depInfo.specifier,
           isDev,
         };
         return pnpmDeps;

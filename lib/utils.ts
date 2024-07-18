@@ -27,7 +27,7 @@ export const getLockfileVersionFromFile = (
   } else {
     throw new InvalidUserInputError(
       `Unknown lockfile ${targetFile}. ` +
-        'Please provide either package-lock.json or yarn.lock.',
+        'Please provide either package-lock.json, yarn.lock or pnpm-lock.yaml',
     );
   }
 };
