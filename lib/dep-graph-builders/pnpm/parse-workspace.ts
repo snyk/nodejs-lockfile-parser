@@ -71,10 +71,9 @@ export const parsePnpmWorkspace = async (
 
   for (const importer of Object.keys(lockFileParser.importers)) {
     const resolvedImporterPath = path.join(workspaceDir, importer);
-    const pkgJsonFile = getFileContents(
-      root,
-      path.join(resolvedImporterPath, 'package.json'),
-    );
+    const packagePath = path.join(resolvedImporterPath, 'package.json');
+    debug(`Processing project ${packagePath} as part of a pnpm workspace`);
+    const pkgJsonFile = getFileContents(root, packagePath);
 
     const pkgJson: PackageJsonBase = parsePkgJson(pkgJsonFile.content);
 
