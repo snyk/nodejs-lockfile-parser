@@ -28,8 +28,10 @@ function computeProjectVersionMaps(root: string, targets: string[]) {
 
     try {
       const parsedPkgJson = parsePkgJson(packageJson.content);
-      const projectVersion = parsedPkgJson.version;
-      projectsVersionMap[target] = projectVersion;
+      projectsVersionMap[target] = {
+        version: parsedPkgJson.version,
+        name: parsedPkgJson.name,
+      };
     } catch (err: any) {
       debug(
         `Error getting version for project: ${packageJsonFileName}. ERROR: ${err}`,

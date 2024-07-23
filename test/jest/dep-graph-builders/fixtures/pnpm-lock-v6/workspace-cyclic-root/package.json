@@ -1,0 +1,9 @@
+{
+  "name": "@test/root",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {
+    "@test/react": "workspace:*",
+    "send": "0.17.1"
+  }
+}

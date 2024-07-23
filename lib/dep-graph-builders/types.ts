@@ -84,11 +84,17 @@ export type Yarn1DepGraphBuildOptions = {
 
 export type PnpmWorkspaceArgs = {
   isWorkspace: boolean;
-  projectsVersionMap: Record<string, string>;
+  projectsVersionMap: Record<string, PnpmProject>;
+};
+
+export type PnpmProject = {
+  name: string;
+  version: string;
 };
 
 export type PnpmProjectParseOptions = {
   includeDevDeps: boolean;
+  includePeerDeps?: boolean;
   includeOptionalDeps: boolean;
   strictOutOfSync: boolean;
   pruneWithinTopLevelDeps: boolean;

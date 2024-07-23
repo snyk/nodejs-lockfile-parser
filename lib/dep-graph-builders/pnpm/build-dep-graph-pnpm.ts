@@ -33,7 +33,12 @@ export const buildDepGraphPnpm = async (
   const topLevelDeps = getTopLevelDeps(pkgJson, options);
 
   const extractedTopLevelDeps =
-    lockFileParser.extractTopLevelDependencies(options, importer) || {};
+    lockFileParser.extractTopLevelDependencies(
+      options,
+      pkgJson.name,
+      pkgJson.version,
+      importer,
+    ) || {};
 
   for (const name of Object.keys(topLevelDeps)) {
     topLevelDeps[name].version = extractedTopLevelDeps[name].version;
@@ -47,8 +52,11 @@ export const buildDepGraphPnpm = async (
     isDev: false,
   };
 
+  const rootNodeId = `${pkgJson.name}@${pkgJson.version}`;
+
   await dfsVisit(
     depGraphBuilder,
+    rootNodeId,
     rootNode,
     extractedPnpmPkgs,
     strictOutOfSync,
@@ -70,6 +78,7 @@ export const buildDepGraphPnpm = async (
  */
 const dfsVisit = async (
   depGraphBuilder: DepGraphBuilder,
+  rootNodeId: string,
   node: PnpmNode,
   extractedPnpmPkgs: NormalisedPnpmPkgs,
   strictOutOfSync: boolean,
@@ -97,7 +106,7 @@ const dfsVisit = async (
       lockFileParser,
     );
 
-    if (localVisited.has(childNode.id)) {
+    if (localVisited.has(childNode.id) || childNode.id == rootNodeId) {
       if (pruneWithinTopLevel) {
         const prunedId = `${childNode.id}:pruned`;
         depGraphBuilder.addPkgNode(
@@ -136,6 +145,7 @@ const dfsVisit = async (
     localVisited.add(childNode.id);
     await dfsVisit(
       depGraphBuilder,
+      rootNodeId,
       childNode,
       extractedPnpmPkgs,
       strictOutOfSync,
