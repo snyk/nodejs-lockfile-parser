@@ -1,0 +1,356 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "pnpm"
+  },
+  "pkgs": [
+    {
+      "id": "@example/root@",
+      "info": {
+        "name": "@example/root"
+      }
+    },
+    {
+      "id": "react-dom@16.14.0",
+      "info": {
+        "name": "react-dom",
+        "version": "16.14.0"
+      }
+    },
+    {
+      "id": "loose-envify@1.4.0",
+      "info": {
+        "name": "loose-envify",
+        "version": "1.4.0"
+      }
+    },
+    {
+      "id": "js-tokens@4.0.0",
+      "info": {
+        "name": "js-tokens",
+        "version": "4.0.0"
+      }
+    },
+    {
+      "id": "object-assign@4.1.1",
+      "info": {
+        "name": "object-assign",
+        "version": "4.1.1"
+      }
+    },
+    {
+      "id": "prop-types@15.8.1",
+      "info": {
+        "name": "prop-types",
+        "version": "15.8.1"
+      }
+    },
+    {
+      "id": "react-is@16.13.1",
+      "info": {
+        "name": "react-is",
+        "version": "16.13.1"
+      }
+    },
+    {
+      "id": "react@18.3.1",
+      "info": {
+        "name": "react",
+        "version": "18.3.1"
+      }
+    },
+    {
+      "id": "scheduler@0.19.1",
+      "info": {
+        "name": "scheduler",
+        "version": "0.19.1"
+      }
+    },
+    {
+      "id": "@example/components@undefined",
+      "info": {
+        "name": "@example/components",
+        "version": "undefined"
+      }
+    },
+    {
+      "id": "ms@2.1.2",
+      "info": {
+        "name": "ms",
+        "version": "2.1.2"
+      }
+    },
+    {
+      "id": "accepts@1.3.7",
+      "info": {
+        "name": "accepts",
+        "version": "1.3.7"
+      }
+    },
+    {
+      "id": "mime-types@2.1.35",
+      "info": {
+        "name": "mime-types",
+        "version": "2.1.35"
+      }
+    },
+    {
+      "id": "mime-db@1.52.0",
+      "info": {
+        "name": "mime-db",
+        "version": "1.52.0"
+      }
+    },
+    {
+      "id": "negotiator@0.6.2",
+      "info": {
+        "name": "negotiator",
+        "version": "0.6.2"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "@example/root@",
+        "deps": [
+          {
+            "nodeId": "react-dom@16.14.0"
+          },
+          {
+            "nodeId": "@example/components@undefined"
+          },
+          {
+            "nodeId": "accepts@1.3.7"
+          }
+        ]
+      },
+      {
+        "nodeId": "react-dom@16.14.0",
+        "pkgId": "react-dom@16.14.0",
+        "deps": [
+          {
+            "nodeId": "loose-envify@1.4.0"
+          },
+          {
+            "nodeId": "object-assign@4.1.1"
+          },
+          {
+            "nodeId": "prop-types@15.8.1"
+          },
+          {
+            "nodeId": "react@18.3.1"
+          },
+          {
+            "nodeId": "scheduler@0.19.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "loose-envify@1.4.0",
+        "pkgId": "loose-envify@1.4.0",
+        "deps": [
+          {
+            "nodeId": "js-tokens@4.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "js-tokens@4.0.0",
+        "pkgId": "js-tokens@4.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "object-assign@4.1.1",
+        "pkgId": "object-assign@4.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "prop-types@15.8.1",
+        "pkgId": "prop-types@15.8.1",
+        "deps": [
+          {
+            "nodeId": "loose-envify@1.4.0:pruned"
+          },
+          {
+            "nodeId": "object-assign@4.1.1:pruned"
+          },
+          {
+            "nodeId": "react-is@16.13.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "loose-envify@1.4.0:pruned",
+        "pkgId": "loose-envify@1.4.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "pruned": "true"
+          }
+        }
+      },
+      {
+        "nodeId": "object-assign@4.1.1:pruned",
+        "pkgId": "object-assign@4.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "pruned": "true"
+          }
+        }
+      },
+      {
+        "nodeId": "react-is@16.13.1",
+        "pkgId": "react-is@16.13.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "react@18.3.1",
+        "pkgId": "react@18.3.1",
+        "deps": [
+          {
+            "nodeId": "loose-envify@1.4.0:pruned"
+          },
+          {
+            "nodeId": "loose-envify@1.4.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "scheduler@0.19.1",
+        "pkgId": "scheduler@0.19.1",
+        "deps": [
+          {
+            "nodeId": "loose-envify@1.4.0:pruned"
+          },
+          {
+            "nodeId": "object-assign@4.1.1:pruned"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@example/components@undefined",
+        "pkgId": "@example/components@undefined",
+        "deps": [
+          {
+            "nodeId": "ms@2.1.2"
+          },
+          {
+            "nodeId": "react@18.3.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ms@2.1.2",
+        "pkgId": "ms@2.1.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "accepts@1.3.7",
+        "pkgId": "accepts@1.3.7",
+        "deps": [
+          {
+            "nodeId": "mime-types@2.1.35"
+          },
+          {
+            "nodeId": "negotiator@0.6.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mime-types@2.1.35",
+        "pkgId": "mime-types@2.1.35",
+        "deps": [
+          {
+            "nodeId": "mime-db@1.52.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mime-db@1.52.0",
+        "pkgId": "mime-db@1.52.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "negotiator@0.6.2",
+        "pkgId": "negotiator@0.6.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}

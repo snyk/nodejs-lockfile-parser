@@ -1,0 +1,8 @@
+{
+  "name": "@example/root",
+  "dependencies": {
+    "react-dom": "catalog:default",
+    "@example/components": "workspace:*",
+    "accepts": "1.3.7"
+  }
+}

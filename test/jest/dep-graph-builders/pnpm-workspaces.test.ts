@@ -127,3 +127,60 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
     });
   },
 );
+
+describe('pnpm-lock-v9 catalogs support tests', () => {
+  it('returns correctly resolved catalog references', async () => {
+    const lockFileVersionPath = 'pnpm-lock-v9';
+    const fixtureName = 'workspace-catalogs';
+    const result = await parsePnpmWorkspace(
+      __dirname,
+      join(__dirname, `./fixtures/${lockFileVersionPath}/${fixtureName}`),
+      {
+        includeDevDeps: false,
+        includeOptionalDeps: true,
+        pruneWithinTopLevelDeps: true,
+        strictOutOfSync: false,
+      },
+    );
+
+    const expectedRootDepGraphJson = JSON.parse(
+      readFileSync(
+        join(
+          __dirname,
+          `./fixtures/${lockFileVersionPath}/${fixtureName}/expected.json`,
+        ),
+        'utf8',
+      ),
+    );
+
+    const expectedComponentDepGraphJson = JSON.parse(
+      readFileSync(
+        join(
+          __dirname,
+          `./fixtures/${lockFileVersionPath}/${fixtureName}/packages/example-components/expected.json`,
+        ),
+        'utf8',
+      ),
+    );
+
+    expect(result[0].targetFile.replace(/\\/g, '/')).toEqual(
+      `fixtures/${lockFileVersionPath}/${fixtureName}/package.json`,
+    );
+    expect(
+      Buffer.from(JSON.stringify(result[0].depGraph)).toString('base64'),
+    ).toBe(
+      Buffer.from(JSON.stringify(expectedRootDepGraphJson)).toString('base64'),
+    );
+
+    expect(result[1].targetFile.replace(/\\/g, '/')).toEqual(
+      `fixtures/${lockFileVersionPath}/${fixtureName}/packages/example-components/package.json`,
+    );
+    expect(
+      Buffer.from(JSON.stringify(result[1].depGraph)).toString('base64'),
+    ).toBe(
+      Buffer.from(JSON.stringify(expectedComponentDepGraphJson)).toString(
+        'base64',
+      ),
+    );
+  });
+});
