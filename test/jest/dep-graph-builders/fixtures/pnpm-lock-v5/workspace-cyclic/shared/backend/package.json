@@ -1,0 +1,8 @@
+{
+  "name": "@test/backend",
+  "version": "1.0.0",
+  "dependencies": {
+    "@test/react": "workspace:*",
+    "body-parser": "https://github.com/expressjs/body-parser/archive/1.9.0.tar.gz"
+  }
+}

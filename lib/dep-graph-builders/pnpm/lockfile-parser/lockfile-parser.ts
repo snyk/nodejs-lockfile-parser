@@ -10,6 +10,7 @@ import {
 } from '../types';
 import { valid } from 'semver';
 import * as pathUtil from 'path';
+import { isEmpty } from 'lodash';
 
 export abstract class PnpmLockfileParser {
   public lockFileVersion: string;
@@ -68,10 +69,24 @@ export abstract class PnpmLockfileParser {
       includeOptionalDeps?: boolean;
       includePeerDeps?: boolean;
     },
+    pkgName: string,
+    pkgVersion: string,
     importer?: string,
   ): PnpmDeps {
     let root = this.rawPnpmLock;
     if (importer) {
+      if (
+        // Return early because dependencies were already normalized for this importer
+        // as part of another's importer dependency and stored in extractedPackages
+        this.extractedPackages[`${pkgName}@${pkgVersion}`] &&
+        !isEmpty(
+          this.extractedPackages[`${pkgName}@${pkgVersion}`].dependencies,
+        )
+      ) {
+        return this.normalizedPkgToTopLevel(
+          this.extractedPackages[`${pkgName}@${pkgVersion}`],
+        );
+      }
       root = this.rawPnpmLock.importers[importer];
     }
 
@@ -96,7 +111,47 @@ export abstract class PnpmLockfileParser {
       ? this.normalizeTopLevelDeps(root.peerDependencies || {}, false, importer)
       : {};
 
+    if (importer) {
+      this.extractedPackages[`${pkgName}@${pkgVersion}`] = {
+        id: `${pkgName}@${pkgVersion}`,
+        name: pkgName,
+        version: pkgVersion,
+        dependencies: this.topLevelDepsToNormalizedPkgs(prodDeps),
+        devDependencies: this.topLevelDepsToNormalizedPkgs(devDeps),
+        optionalDependencies: this.topLevelDepsToNormalizedPkgs(optionalDeps),
+        isDev: false,
+      };
+    }
     return { ...prodDeps, ...devDeps, ...optionalDeps, ...peerDeps };
+  }
+
+  public normalizedPkgToTopLevel(pkg: NormalisedPnpmPkg): PnpmDeps {
+    const topLevel = {};
+    Object.keys(pkg.dependencies).forEach(
+      (depName) =>
+        (topLevel[depName] = {
+          name: depName,
+          version: pkg.dependencies[depName],
+          isDev: false,
+        }),
+    );
+    Object.keys(pkg.devDependencies).forEach(
+      (depName) =>
+        (topLevel[depName] = {
+          name: depName,
+          version: pkg.dependencies[depName],
+          isDev: false,
+        }),
+    );
+    return topLevel;
+  }
+
+  public topLevelDepsToNormalizedPkgs(deps: PnpmDeps): Record<string, string> {
+    const normalizedPkgs = {};
+    Object.values(deps).forEach(
+      (dep) => (normalizedPkgs[dep.name] = dep.version),
+    );
+    return normalizedPkgs;
   }
 
   public normalizeVersion(
@@ -149,10 +204,26 @@ export abstract class PnpmLockfileParser {
         .join(importerName || '.', depPath)
         .replace(/\\/g, '/');
       // cross referenced package, we add it to the extracted packages
-      version = this.workspaceArgs.projectsVersionMap[resolvedPathDep];
+      version = this.workspaceArgs.projectsVersionMap[resolvedPathDep].version;
       if (!version) {
         version = 'undefined';
       }
+
+      // Stop recursion here if this package was already normalized and stored in extractedPackages
+      if (this.extractedPackages[`${name}@${version}`]) {
+        return version;
+      }
+
+      // Initialize this package before recursive calls to avoid inifinte recursion in cycles
+      // We can avoid keeping a visited arrat this way
+      this.extractedPackages[`${name}@${version}`] = {
+        name,
+        version,
+        id: `${name}@${version}`,
+        isDev,
+        dependencies: {},
+        devDependencies: {},
+      };
 
       const subDeps = this.rawPnpmLock.importers[resolvedPathDep] || {
         dependencies: {},

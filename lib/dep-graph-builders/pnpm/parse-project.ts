@@ -30,6 +30,12 @@ export const parsePnpmProject = async (
   // Lockfile V9 simple project has the root importer
   if (lockFileParser.lockFileVersion.startsWith('9')) {
     importer = '.';
+    lockFileParser.workspaceArgs = {
+      projectsVersionMap: {
+        '.': { name: pkgJson.name, version: pkgJson.version },
+      },
+      isWorkspace: true,
+    };
   }
 
   const depgraph = await buildDepGraphPnpm(
