@@ -1,0 +1,7 @@
+{
+  "name": "@example/components",
+  "dependencies": {
+    "react": "catalog:react18",
+    "ms": "2.1.2"
+  }
+}
