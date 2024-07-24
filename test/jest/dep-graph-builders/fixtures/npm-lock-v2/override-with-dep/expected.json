@@ -670,6 +670,13 @@
       }
     },
     {
+      "id": "typescript@5.3.2",
+      "info": {
+        "name": "typescript",
+        "version": "5.3.2"
+      }
+    },
+    {
       "id": "cosmiconfig-typescript-loader@5.0.0",
       "info": {
         "name": "cosmiconfig-typescript-loader",
@@ -2613,6 +2620,9 @@
           },
           {
             "nodeId": "path-type@4.0.0"
+          },
+          {
+            "nodeId": "typescript@5.3.2"
           }
         ],
         "info": {
@@ -2872,11 +2882,30 @@
         }
       },
       {
+        "nodeId": "typescript@5.3.2",
+        "pkgId": "typescript@5.3.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
         "nodeId": "cosmiconfig-typescript-loader@5.0.0",
         "pkgId": "cosmiconfig-typescript-loader@5.0.0",
         "deps": [
           {
             "nodeId": "jiti@1.21.0"
+          },
+          {
+            "nodeId": "@types/node@18.18.13"
+          },
+          {
+            "nodeId": "cosmiconfig@8.3.6"
+          },
+          {
+            "nodeId": "typescript@5.3.2"
           }
         ],
         "info": {
