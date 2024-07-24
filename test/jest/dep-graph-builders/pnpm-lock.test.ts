@@ -69,6 +69,53 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
             );
           });
         });
+        it('peer dependencies are included if in options', async () => {
+          const fixtureName = 'peer-dependencies';
+          const pkgJsonContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/${lockFileVersionPath}/${fixtureName}/package.json`,
+            ),
+            'utf8',
+          );
+          const pkgLockContent = readFileSync(
+            join(
+              __dirname,
+              `./fixtures/${lockFileVersionPath}/${fixtureName}/pnpm-lock.yaml`,
+            ),
+            'utf8',
+          );
+
+          const newDepGraph = await parsePnpmProject(
+            pkgJsonContent,
+            pkgLockContent,
+            {
+              includeDevDeps: false,
+              includePeerDeps: true,
+              includeOptionalDeps: false,
+              strictOutOfSync: false,
+              pruneWithinTopLevelDeps: false,
+            },
+          );
+
+          const expectedDepGraphJson = JSON.parse(
+            readFileSync(
+              join(
+                __dirname,
+                `./fixtures/${lockFileVersionPath}/${fixtureName}/expected.json`,
+              ),
+              'utf8',
+            ),
+          );
+
+          expect(
+            Buffer.from(JSON.stringify(newDepGraph)).toString('base64'),
+          ).toBe(
+            Buffer.from(JSON.stringify(expectedDepGraphJson)).toString(
+              'base64',
+            ),
+          );
+        });
       });
     });
     describe('Unhappy path tests', () => {

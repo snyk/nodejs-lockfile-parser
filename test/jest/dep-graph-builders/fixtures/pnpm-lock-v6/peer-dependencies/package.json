@@ -1,0 +1,10 @@
+{
+  "name": "peer-dependencies",
+  "version": "0.0.1",
+  "dependencies": {
+    "body-parser": "1.9.0"
+  },
+  "peerDependencies": {
+    "browserify": "^13.1.1"
+  }
+}

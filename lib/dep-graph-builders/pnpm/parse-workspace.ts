@@ -48,6 +48,7 @@ export const parsePnpmWorkspace = async (
   const scannedProjects: ScannedNodeProject[] = [];
   const {
     includeDevDeps,
+    includePeerDeps,
     includeOptionalDeps,
     strictOutOfSync,
     pruneWithinTopLevelDeps,
@@ -88,6 +89,7 @@ export const parsePnpmWorkspace = async (
         pkgJson,
         {
           includeDevDeps,
+          includePeerDeps,
           strictOutOfSync,
           includeOptionalDeps,
           pruneWithinTopLevelDeps,

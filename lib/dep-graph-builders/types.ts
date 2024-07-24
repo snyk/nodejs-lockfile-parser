@@ -90,6 +90,7 @@ export type PnpmWorkspaceArgs = {
 export type PnpmProjectParseOptions = {
   includeDevDeps: boolean;
   includeOptionalDeps: boolean;
+  includePeerDeps?: boolean;
   strictOutOfSync: boolean;
   pruneWithinTopLevelDeps: boolean;
 };

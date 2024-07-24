@@ -13,6 +13,7 @@ export const parsePnpmProject = async (
 ): Promise<DepGraph> => {
   const {
     includeDevDeps,
+    includePeerDeps,
     includeOptionalDeps,
     strictOutOfSync,
     pruneWithinTopLevelDeps,
@@ -37,6 +38,7 @@ export const parsePnpmProject = async (
     {
       includeDevDeps,
       strictOutOfSync,
+      includePeerDeps,
       includeOptionalDeps,
       pruneWithinTopLevelDeps,
     },
