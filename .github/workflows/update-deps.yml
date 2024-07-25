@@ -1,0 +1,17 @@
+on:
+  schedule:
+    - cron: "0 9 * * 0" # Run at 9 am every Sunday
+  workflow_dispatch:
+
+jobs:
+  update-node-deps:
+    uses: snyk/engprod-actions/.github/workflows/update-node-deps.yml@v1
+    with:
+      # p-map: Packages that have become ESM-only and won't work anymore for us, until we do the same.
+      # eslint: Causes conflicts with typescript packages that depend on lower versions. Remove to see if it was fixed upstream.
+      packages-to-ignore: 'p-map,eslint'
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      GPG_PRIVATE_KEY: ${{ secrets.GA_GPG_PRIVATE_KEY }}
+      GPG_PRIVATE_KEY_PASS: ${{ secrets.GA_GPG_PRIVATE_KEY_PASS }}
+      GITHUB_DEPLOYER_TOKEN: ${{ secrets.OS_MANAGED_GITHUB_TOKEN }}
