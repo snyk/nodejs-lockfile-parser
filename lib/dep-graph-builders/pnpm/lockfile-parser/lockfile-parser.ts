@@ -11,6 +11,9 @@ import {
 import { valid } from 'semver';
 import * as pathUtil from 'path';
 import { isEmpty } from 'lodash';
+import * as debugModule from 'debug';
+
+const debug = debugModule('snyk-pnpm-workspaces');
 
 export abstract class PnpmLockfileParser {
   public lockFileVersion: string;
@@ -204,7 +207,16 @@ export abstract class PnpmLockfileParser {
         .join(importerName || '.', depPath)
         .replace(/\\/g, '/');
       // cross referenced package, we add it to the extracted packages
-      version = this.workspaceArgs.projectsVersionMap[resolvedPathDep].version;
+      const mappedProjInfo =
+        this.workspaceArgs.projectsVersionMap[resolvedPathDep];
+      if (!mappedProjInfo) {
+        debug(
+          `Importer ${resolvedPathDep} discovered as a dependency of ${importerName} was not found in the lockfile`,
+        );
+        version = 'undefined';
+      } else {
+        version = mappedProjInfo.version;
+      }
       if (!version) {
         version = 'undefined';
       }
