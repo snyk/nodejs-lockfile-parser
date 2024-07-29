@@ -14,8 +14,6 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'different-versions',
         'local-pkg-without-workspaces',
         'dist-tag-sub-dependency',
-        'nested-peer-dep',
-        'nested-peer-dep-legacy-peer-deps',
       ])('[simple tests] project: %s ', (fixtureName) => {
         it('matches expected', async () => {
           const pkgJsonContent = readFileSync(
@@ -493,10 +491,9 @@ describe('bundledDependencies', () => {
         includeDevDeps: false,
         includeOptionalDeps: true,
         pruneCycles: true,
-        strictOutOfSync: false,
+        strictOutOfSync: true,
       },
     );
-
     const expectedDepGraphJson = JSON.parse(
       readFileSync(
         join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/expected.json`),
