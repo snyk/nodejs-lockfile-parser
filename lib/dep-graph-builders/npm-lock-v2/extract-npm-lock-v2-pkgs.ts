@@ -5,7 +5,6 @@ export type NpmLockPkg = {
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
   optionalDependencies?: Record<string, string>;
-  peerDependencies?: Record<string, string>;
   dev?: boolean;
   optional?: boolean;
   resolved?: string;

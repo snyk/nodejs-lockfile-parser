@@ -453,13 +453,6 @@
       }
     },
     {
-      "id": "constructs@10.1.167",
-      "info": {
-        "name": "constructs",
-        "version": "10.1.167"
-      }
-    },
-    {
       "id": "ci-info@3.9.0",
       "info": {
         "name": "ci-info",
@@ -2462,6 +2455,13 @@
       }
     },
     {
+      "id": "constructs@10.1.167",
+      "info": {
+        "name": "constructs",
+        "version": "10.1.167"
+      }
+    },
+    {
       "id": "cross-fetch@3.1.8",
       "info": {
         "name": "cross-fetch",
@@ -2788,13 +2788,6 @@
       "info": {
         "name": "scheduler",
         "version": "0.20.2"
-      }
-    },
-    {
-      "id": "react@17.0.2",
-      "info": {
-        "name": "react",
-        "version": "17.0.2"
       }
     },
     {
@@ -3722,9 +3715,6 @@
           },
           {
             "nodeId": "semver@7.5.4"
-          },
-          {
-            "nodeId": "constructs@10.1.167"
           }
         ],
         "info": {
@@ -4516,16 +4506,6 @@
       {
         "nodeId": "yallist@4.0.0",
         "pkgId": "yallist@4.0.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "constructs@10.1.167",
-        "pkgId": "constructs@10.1.167",
         "deps": [],
         "info": {
           "labels": {
@@ -8027,9 +8007,6 @@
           },
           {
             "nodeId": "obliterator@2.0.4"
-          },
-          {
-            "nodeId": "graphology-types@0.24.7"
           }
         ],
         "info": {
@@ -9104,6 +9081,16 @@
         }
       },
       {
+        "nodeId": "constructs@10.1.167",
+        "pkgId": "constructs@10.1.167",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
         "nodeId": "cross-fetch@3.1.8",
         "pkgId": "cross-fetch@3.1.8",
         "deps": [
@@ -9515,9 +9502,6 @@
           },
           {
             "nodeId": "yoga-layout-prebuilt@1.10.0"
-          },
-          {
-            "nodeId": "react@17.0.2"
           }
         ],
         "info": {
@@ -9755,9 +9739,6 @@
           },
           {
             "nodeId": "scheduler@0.20.2"
-          },
-          {
-            "nodeId": "react@17.0.2"
           }
         ],
         "info": {
@@ -9793,23 +9774,6 @@
       {
         "nodeId": "scheduler@0.20.2",
         "pkgId": "scheduler@0.20.2",
-        "deps": [
-          {
-            "nodeId": "loose-envify@1.4.0"
-          },
-          {
-            "nodeId": "object-assign@4.1.1"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "react@17.0.2",
-        "pkgId": "react@17.0.2",
         "deps": [
           {
             "nodeId": "loose-envify@1.4.0"
@@ -9908,12 +9872,6 @@
           },
           {
             "nodeId": "lodash.isequal@4.5.0"
-          },
-          {
-            "nodeId": "ink@3.2.0"
-          },
-          {
-            "nodeId": "react@17.0.2"
           }
         ],
         "info": {
@@ -9962,12 +9920,6 @@
         "deps": [
           {
             "nodeId": "cli-spinners@2.9.2"
-          },
-          {
-            "nodeId": "ink@3.2.0"
-          },
-          {
-            "nodeId": "react@17.0.2"
           }
         ],
         "info": {
@@ -9989,14 +9941,7 @@
       {
         "nodeId": "ink-use-stdout-dimensions@1.0.5",
         "pkgId": "ink-use-stdout-dimensions@1.0.5",
-        "deps": [
-          {
-            "nodeId": "ink@3.2.0"
-          },
-          {
-            "nodeId": "react@17.0.2"
-          }
-        ],
+        "deps": [],
         "info": {
           "labels": {
             "scope": "prod"
@@ -11025,12 +10970,6 @@
           },
           {
             "nodeId": "lodash.isequal@4.5.0"
-          },
-          {
-            "nodeId": "ink@3.2.0"
-          },
-          {
-            "nodeId": "react@17.0.2"
           }
         ],
         "info": {
@@ -11045,12 +10984,6 @@
         "deps": [
           {
             "nodeId": "object-hash@2.2.0"
-          },
-          {
-            "nodeId": "ink@3.2.0"
-          },
-          {
-            "nodeId": "react@17.0.2"
           }
         ],
         "info": {

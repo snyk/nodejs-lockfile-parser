@@ -98,12 +98,10 @@ export const buildDepGraphNpmLockV2 = async (
     strictOutOfSync,
     includeDevDeps,
     includeOptionalDeps,
-    true,
     [],
     pkgKeysByName,
     pkgJson.overrides,
   );
-
   return depGraphBuilder.build();
 };
 
@@ -122,7 +120,6 @@ const dfsVisit = async (
   strictOutOfSync: boolean,
   includeDevDeps: boolean,
   includeOptionalDeps: boolean,
-  includePeerDeps: boolean,
   ancestry: Ancestry[],
   pkgKeysByName: Map<string, string[]>,
   overrides: Overrides | undefined,
@@ -141,7 +138,6 @@ const dfsVisit = async (
       strictOutOfSync,
       includeDevDeps,
       includeOptionalDeps,
-      includePeerDeps,
       [
         ...ancestry,
         {
@@ -155,10 +151,6 @@ const dfsVisit = async (
       overrides,
     );
 
-    if (!childNode) {
-      continue;
-    }
-
     if (!visitedMap.has(childNode.id)) {
       addPkgNodeToGraph(depGraphBuilder, childNode, {});
       await dfsVisit(
@@ -169,7 +161,6 @@ const dfsVisit = async (
         strictOutOfSync,
         includeDevDeps,
         includeOptionalDeps,
-        includePeerDeps,
         [
           ...ancestry,
           {
@@ -190,16 +181,15 @@ const dfsVisit = async (
 
 const getChildNode = (
   name: string,
-  depInfo: { version: string; isDev: boolean; isPeer: boolean },
+  depInfo: { version: string; isDev: boolean },
   pkgs: Record<string, NpmLockPkg>,
   strictOutOfSync: boolean,
   includeDevDeps: boolean,
   includeOptionalDeps: boolean,
-  includePeerDeps: boolean,
   ancestry: Ancestry[],
   pkgKeysByName: Map<string, string[]>,
   overrides?: Overrides,
-): PkgNode | undefined => {
+) => {
   let version = depInfo.version;
 
   const override =
@@ -223,13 +213,7 @@ const getChildNode = (
   );
 
   if (!childNodeKey) {
-    // If it is a peerdep and is not in lockfile then...
-    //    Ignore the dependency as it has not been installed by the developer,
-    //    if these dependencies are wanted in the parsing, then they should be locked
-    //    in the lockfile
-    if (depInfo.isPeer) {
-      return;
-    } else if (strictOutOfSync) {
+    if (strictOutOfSync) {
       throw new OutOfSyncError(`${name}@${depInfo.version}`, LockfileType.npm);
     } else {
       return {
@@ -287,10 +271,6 @@ const getChildNode = (
     ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
     : {};
 
-  const peerDeps = includePeerDeps
-    ? getGraphDependencies(depData.peerDependencies || {}, depInfo.isDev, true)
-    : {};
-
   return {
     id: `${name}@${depData.version}`,
     name: name,
@@ -299,7 +279,6 @@ const getChildNode = (
       ...dependencies,
       ...devDependencies,
       ...optionalDependencies,
-      ...peerDeps,
     },
     isDev: depInfo.isDev,
     inBundle: depData.inBundle,
@@ -322,18 +301,8 @@ export const getChildNodeKey = (
     return undefined;
   }
 
-  // If we only have one candidate then we just take it...
+  // If we only have one candidate then we just take it
   if (candidateKeys.length === 1) {
-    // ... though we should still check if the version is viable
-
-    if (
-      semver.validRange(version) &&
-      pkgs[candidateKeys[0]].version &&
-      !semver.satisfies(pkgs[candidateKeys[0]].version, version)
-    ) {
-      return undefined;
-    }
-
     return candidateKeys[0];
   }
   // If we are bundled we assume we are scoped by the bundle root at least
