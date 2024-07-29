@@ -71,22 +71,23 @@ export const buildDepGraphNpmLockV2 = async (
     key: '',
   };
 
-  const pkgKeysByName: Map<string, string[]> = Object.keys(npmLockPkgs).reduce<
-    Map<string, string[]>
-  >((acc, key) => {
-    const name = key.replace(/.*node_modules\//, '');
-    if (!name) {
+  const pkgKeysByName: Map<string, string[]> = Object.keys(npmLockPkgs).reduce(
+    (acc, key) => {
+      const name = key.replace(/.*node_modules\//, '');
+      if (!name) {
+        return acc;
+      }
+
+      if (!acc.has(name)) {
+        acc.set(name, []);
+      }
+
+      acc.get(name)!.push(key);
+
       return acc;
-    }
-
-    if (!acc.has(name)) {
-      acc.set(name, []);
-    }
-
-    acc.get(name)!.push(key);
-
-    return acc;
-  }, new Map<string, string[]>());
+    },
+    new Map<string, string[]>(),
+  );
 
   const visitedMap: Set<string> = new Set();
   await dfsVisit(
@@ -189,7 +190,7 @@ const dfsVisit = async (
 
 const getChildNode = (
   name: string,
-  depInfo: { version: string; isDev: boolean; isPeer: boolean; isOpt: boolean },
+  depInfo: { version: string; isDev: boolean; isPeer: boolean },
   pkgs: Record<string, NpmLockPkg>,
   strictOutOfSync: boolean,
   includeDevDeps: boolean,
@@ -226,7 +227,7 @@ const getChildNode = (
     //    Ignore the dependency as it has not been installed by the developer,
     //    if these dependencies are wanted in the parsing, then they should be locked
     //    in the lockfile
-    if (depInfo.isPeer || depInfo.isOpt) {
+    if (depInfo.isPeer) {
       return;
     } else if (strictOutOfSync) {
       throw new OutOfSyncError(`${name}@${depInfo.version}`, LockfileType.npm);
@@ -283,12 +284,7 @@ const getChildNode = (
     : {};
 
   const optionalDependencies = includeOptionalDeps
-    ? getGraphDependencies(
-        depData.optionalDependencies || {},
-        depInfo.isDev,
-        false,
-        true,
-      )
+    ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
     : {};
 
   const peerDeps = includePeerDeps

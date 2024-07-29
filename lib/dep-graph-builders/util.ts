@@ -7,7 +7,7 @@ import { LockfileType } from '../parsers';
 
 export type Dependencies = Record<
   string,
-  { version: string; isDev: boolean; isPeer: boolean; isOpt: boolean }
+  { version: string; isDev: boolean; isPeer: boolean }
 >;
 
 export interface PkgNode {
@@ -80,17 +80,14 @@ export const getGraphDependencies = (
   dependencies: Record<string, string>,
   isDev,
   isPeer?: boolean,
-  isOpt?: boolean,
 ): Dependencies => {
-  return Object.entries(dependencies).reduce((pnpmDeps, [name, semver]) => {
-    pnpmDeps[name] = {
-      version: semver,
-      isDev: isDev,
-      isPeer: !!isPeer,
-      isOpt: !!isOpt,
-    };
-    return pnpmDeps;
-  }, {} as Dependencies);
+  return Object.entries(dependencies).reduce(
+    (pnpmDeps: Dependencies, [name, semver]) => {
+      pnpmDeps[name] = { version: semver, isDev: isDev, isPeer: !!isPeer };
+      return pnpmDeps;
+    },
+    {},
+  );
 };
 
 export function parsePkgJson(pkgJsonContent: string): PackageJsonBase {
