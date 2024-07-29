@@ -276,17 +276,22 @@ const getChildNode = (
   const dependencies = getGraphDependencies(
     depData.dependencies || {},
     depInfo.isDev,
+    depInfo.isPeer,
   );
 
   const devDependencies = includeDevDeps
-    ? getGraphDependencies(depData.devDependencies || {}, depInfo.isDev)
+    ? getGraphDependencies(
+        depData.devDependencies || {},
+        depInfo.isDev,
+        depInfo.isPeer,
+      )
     : {};
 
   const optionalDependencies = includeOptionalDeps
     ? getGraphDependencies(
         depData.optionalDependencies || {},
         depInfo.isDev,
-        false,
+        depInfo.isPeer || false,
         true,
       )
     : {};
@@ -307,6 +312,7 @@ const getChildNode = (
     },
     isDev: depInfo.isDev,
     inBundle: depData.inBundle,
+    isPeer: !!depData.peer,
     key: childNodeKey,
   };
 };
@@ -444,7 +450,6 @@ export const getChildNodeKey = (
 
     filteredCandidates = possibleFilteredKeys;
   }
-
   return undefined;
 };
 

@@ -16,6 +16,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'dist-tag-sub-dependency',
         'nested-peer-dep',
         'nested-peer-dep-legacy-peer-deps',
+        'inherited-peer-deps',
       ])('[simple tests] project: %s ', (fixtureName) => {
         it('matches expected', async () => {
           const pkgJsonContent = readFileSync(
@@ -40,7 +41,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
               includeDevDeps: false,
               includeOptionalDeps: true,
               pruneCycles: true,
-              strictOutOfSync: false,
+              strictOutOfSync: true,
             },
           );
 

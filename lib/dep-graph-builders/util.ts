@@ -19,6 +19,7 @@ export interface PkgNode {
   missingLockFileEntry?: boolean;
   inBundle?: boolean;
   key?: string;
+  isPeer?: boolean;
 }
 
 export const addPkgNodeToGraph = (
