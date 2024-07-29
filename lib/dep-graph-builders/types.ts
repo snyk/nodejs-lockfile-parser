@@ -96,6 +96,7 @@ export type PnpmProjectParseOptions = {
   includeDevDeps: boolean;
   includePeerDeps?: boolean;
   includeOptionalDeps: boolean;
+  includePeerDeps?: boolean;
   strictOutOfSync: boolean;
   pruneWithinTopLevelDeps: boolean;
 };
