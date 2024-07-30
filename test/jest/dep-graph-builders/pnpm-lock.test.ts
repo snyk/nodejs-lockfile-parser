@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { parsePnpmProject } from '../../../lib/dep-graph-builders';
 
 describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
-  'dep-graph-builder %s',
+  'pnpm dep-graph-builder %s',
   (lockFileVersionPath) => {
     describe('Happy path tests', () => {
       describe('Expected Result tests', () => {
