@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { parsePnpmWorkspace } from '../../../lib/dep-graph-builders';
 
 describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
-  'dep-graph-builder %s',
+  'pnpm workspaces dep-graph-builder %s',
   (lockFileVersionPath) => {
     describe('[workspaces tests]', () => {
       it('isolated packages in workspaces - test workspace package.json', async () => {
