@@ -20,11 +20,19 @@ export const getPnpmChildNode = (
   includeDevDeps: boolean,
   lockfileParser: PnpmLockfileParser,
 ): PnpmNode => {
-  const resolvedVersion =
+  let resolvedVersion =
     valid(depInfo.version) || depInfo.version === undefined
       ? depInfo.version
       : lockfileParser.excludeTransPeerDepsVersions(depInfo.version);
-  const childNodeKey = `${name}@${resolvedVersion}`;
+  let childNodeKey = `${name}@${resolvedVersion}`;
+  // For aliases, the version is the dependency path that
+  // shows up in the packages section of lockfiles
+  if (lockfileParser.resolvedPackages[depInfo.version]) {
+    childNodeKey = lockfileParser.resolvedPackages[depInfo.version];
+    const pkgData = pkgs[childNodeKey];
+    name = pkgData.name;
+    resolvedVersion = pkgData.version;
+  }
   if (!pkgs[childNodeKey]) {
     if (lockfileParser.isWorkspaceLockfile()) {
       return {

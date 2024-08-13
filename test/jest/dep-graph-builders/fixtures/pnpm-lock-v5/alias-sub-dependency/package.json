@@ -1,0 +1,8 @@
+{
+  "name": "pnpm-alias",
+  "dependencies": {
+    "@isaacs/cliui": "8.0.2",
+    "lodash1": "npm:lodash@1",
+    "lodash2": "npm:lodash@2"
+  }
+}

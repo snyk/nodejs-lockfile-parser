@@ -22,6 +22,7 @@ export abstract class PnpmLockfileParser {
   public extractedPackages: NormalisedPnpmPkgs;
   public importers: PnpmImporters;
   public workspaceArgs?: PnpmWorkspaceArgs;
+  public resolvedPackages: Record<string, PnpmDepPath>;
 
   public constructor(rawPnpmLock: any, workspaceArgs?: PnpmWorkspaceArgs) {
     this.rawPnpmLock = rawPnpmLock;
@@ -29,6 +30,7 @@ export abstract class PnpmLockfileParser {
     this.workspaceArgs = workspaceArgs;
     this.packages = rawPnpmLock.packages || {};
     this.extractedPackages = {};
+    this.resolvedPackages = {};
     this.importers = this.normaliseImporters(rawPnpmLock);
   }
 
@@ -61,6 +63,7 @@ export abstract class PnpmLockfileParser {
           optionalDependencies: versionData.optionalDependencies || {},
         };
         packages[`${pkg.name}@${pkg.version}`] = pkg;
+        this.resolvedPackages[depPath] = `${pkg.name}@${pkg.version}`;
       },
     );
     return packages;
