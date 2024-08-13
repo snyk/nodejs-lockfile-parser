@@ -2,6 +2,7 @@ import { join } from 'path';
 import { readdirSync, readFileSync } from 'fs';
 import { createFromJSON } from '@snyk/dep-graph';
 import {
+  LockfileType,
   OutOfSyncError,
   parseYarnLockV1Project,
   parseYarnLockV1WorkspaceProject,
@@ -225,35 +226,31 @@ describe('Workspace out of sync tests', () => {
             'utf8',
           );
 
-          try {
-            await parseYarnLockV1Project(pkgJsonContent, yarnLockContent, {
+          const depGraph = await parseYarnLockV1Project(
+            pkgJsonContent,
+            yarnLockContent,
+            {
               includeDevDeps: false,
               includeOptionalDeps: true,
               includePeerDeps: false,
               pruneLevel: 'cycles',
               strictOutOfSync: false,
-            });
-          } catch (err) {
-            expect((err as OutOfSyncError).message).toBe(
-              'Dependency pkg-b@1.0.0 was not found in yarn.lock. Your package.json and yarn.lock are probably out of sync. Please run "yarn install" and try again.',
-            );
-            expect((err as OutOfSyncError).name).toBe('OutOfSyncError');
-          }
+            },
+          );
 
-          try {
-            await parseYarnLockV1Project(pkgJsonContent, yarnLockContent, {
+          expect(depGraph.getPkgs().length).toBeGreaterThan(0);
+
+          await expect(
+            parseYarnLockV1Project(pkgJsonContent, yarnLockContent, {
               includeDevDeps: false,
               includeOptionalDeps: true,
               includePeerDeps: false,
               pruneLevel: 'cycles',
               strictOutOfSync: true,
-            });
-          } catch (err) {
-            expect((err as OutOfSyncError).message).toBe(
-              'Dependency pkg-b@1.0.0 was not found in yarn.lock. Your package.json and yarn.lock are probably out of sync. Please run "yarn install" and try again.',
-            );
-            expect((err as OutOfSyncError).name).toBe('OutOfSyncError');
-          }
+            }),
+          ).rejects.toThrow(
+            new OutOfSyncError('pkg-b@1.0.0', LockfileType.yarn),
+          );
         });
       },
     );

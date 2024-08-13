@@ -6,6 +6,12 @@ import { getPnpmChildNode } from './utils';
 import { eventLoopSpinner } from 'event-loop-spinner';
 import { PnpmLockfileParser } from './lockfile-parser/lockfile-parser';
 import { NormalisedPnpmPkgs, PnpmNode } from './types';
+import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
+import {
+  INSTALL_COMMAND,
+  LOCK_FILE_NAME,
+} from '../../errors/out-of-sync-error';
+import { LockfileType } from '../..';
 
 export const buildDepGraphPnpm = async (
   lockFileParser: PnpmLockfileParser,
@@ -41,6 +47,16 @@ export const buildDepGraphPnpm = async (
     ) || {};
 
   for (const name of Object.keys(topLevelDeps)) {
+    if (!extractedTopLevelDeps[name]) {
+      throw new OpenSourceEcosystems.PnpmOutOfSyncError(
+        `Dependency ${name} was not found in ` +
+          `${LOCK_FILE_NAME[LockfileType.pnpm]}. Your package.json and ` +
+          `${
+            LOCK_FILE_NAME[LockfileType.pnpm]
+          } are probably out of sync. Please run ` +
+          `"${INSTALL_COMMAND[LockfileType.pnpm]}" and try again.`,
+      );
+    }
     topLevelDeps[name].version = extractedTopLevelDeps[name].version;
   }
 
