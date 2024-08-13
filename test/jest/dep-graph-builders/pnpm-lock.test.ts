@@ -21,6 +21,7 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
           'simple-override',
           'npm-protocol',
           'scoped-override',
+          'alias-sub-dependency',
         ])('[simple tests] project: %s ', (fixtureName) => {
           jest.setTimeout(50 * 1000);
           it('matches expected', async () => {
@@ -45,7 +46,7 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
               {
                 includeDevDeps: false,
                 includeOptionalDeps: false,
-                strictOutOfSync: false,
+                strictOutOfSync: true,
                 pruneWithinTopLevelDeps: false,
               },
             );

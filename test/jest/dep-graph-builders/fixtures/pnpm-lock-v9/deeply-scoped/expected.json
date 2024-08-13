@@ -7544,10 +7544,10 @@
       }
     },
     {
-      "id": "legacy-swc-helpers@@swc/helpers@0.4.14",
+      "id": "@swc/helpers@0.4.14",
       "info": {
-        "name": "legacy-swc-helpers",
-        "version": "@swc/helpers@0.4.14"
+        "name": "@swc/helpers",
+        "version": "0.4.14"
       }
     },
     {
@@ -35748,7 +35748,7 @@
         "pkgId": "@swc/helpers@0.4.36",
         "deps": [
           {
-            "nodeId": "legacy-swc-helpers@@swc/helpers@0.4.14"
+            "nodeId": "@swc/helpers@0.4.14"
           },
           {
             "nodeId": "tslib@2.6.2"
@@ -35761,9 +35761,13 @@
         }
       },
       {
-        "nodeId": "legacy-swc-helpers@@swc/helpers@0.4.14",
-        "pkgId": "legacy-swc-helpers@@swc/helpers@0.4.14",
-        "deps": [],
+        "nodeId": "@swc/helpers@0.4.14",
+        "pkgId": "@swc/helpers@0.4.14",
+        "deps": [
+          {
+            "nodeId": "tslib@2.6.2"
+          }
+        ],
         "info": {
           "labels": {
             "scope": "prod"
