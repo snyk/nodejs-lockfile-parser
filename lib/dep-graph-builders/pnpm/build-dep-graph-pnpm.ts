@@ -12,6 +12,9 @@ import {
   LOCK_FILE_NAME,
 } from '../../errors/out-of-sync-error';
 import { LockfileType } from '../..';
+import * as debugModule from 'debug';
+
+const debug = debugModule('snyk-pnpm-workspaces');
 
 export const buildDepGraphPnpm = async (
   lockFileParser: PnpmLockfileParser,
@@ -48,14 +51,15 @@ export const buildDepGraphPnpm = async (
 
   for (const name of Object.keys(topLevelDeps)) {
     if (!extractedTopLevelDeps[name]) {
-      throw new OpenSourceEcosystems.PnpmOutOfSyncError(
+      const errMessage =
         `Dependency ${name} was not found in ` +
-          `${LOCK_FILE_NAME[LockfileType.pnpm]}. Your package.json and ` +
-          `${
-            LOCK_FILE_NAME[LockfileType.pnpm]
-          } are probably out of sync. Please run ` +
-          `"${INSTALL_COMMAND[LockfileType.pnpm]}" and try again.`,
-      );
+        `${LOCK_FILE_NAME[LockfileType.pnpm]}. Your package.json and ` +
+        `${
+          LOCK_FILE_NAME[LockfileType.pnpm]
+        } are probably out of sync. Please run ` +
+        `"${INSTALL_COMMAND[LockfileType.pnpm]}" and try again.`;
+      debug(errMessage);
+      throw new OpenSourceEcosystems.PnpmOutOfSyncError(errMessage);
     }
     topLevelDeps[name].version = extractedTopLevelDeps[name].version;
   }
