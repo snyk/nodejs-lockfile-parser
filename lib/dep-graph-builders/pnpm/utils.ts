@@ -10,7 +10,9 @@ import {
   INSTALL_COMMAND,
   LOCK_FILE_NAME,
 } from '../../errors/out-of-sync-error';
+import * as debugModule from 'debug';
 
+const debug = debugModule('snyk-pnpm-workspaces');
 export const getPnpmChildNode = (
   name: string,
   depInfo: { version: string; isDev: boolean },
@@ -42,6 +44,7 @@ export const getPnpmChildNode = (
           LOCK_FILE_NAME[LockfileType.pnpm]
         } are probably out of sync. Please run ` +
         `"${INSTALL_COMMAND[LockfileType.pnpm]}" and try again.`;
+      debug(errMessage);
       throw new OpenSourceEcosystems.PnpmOutOfSyncError(errMessage);
     } else {
       return {

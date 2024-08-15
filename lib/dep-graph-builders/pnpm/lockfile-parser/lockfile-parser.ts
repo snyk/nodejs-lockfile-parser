@@ -145,8 +145,8 @@ export abstract class PnpmLockfileParser {
       (depName) =>
         (topLevel[depName] = {
           name: depName,
-          version: pkg.dependencies[depName],
-          isDev: false,
+          version: pkg.devDependencies[depName],
+          isDev: true,
         }),
     );
     return topLevel;
