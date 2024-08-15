@@ -1,6 +1,8 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
 import { parsePnpmProject } from '../../../lib/dep-graph-builders';
+import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
+import { InvalidUserInputError } from '../../../lib';
 
 describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
   'pnpm dep-graph-builder %s',
@@ -130,19 +132,18 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
           'utf8',
         );
         const pnpmLockContent = '';
-        try {
-          await parsePnpmProject(pkgJsonContent, pnpmLockContent, {
+        await expect(
+          parsePnpmProject(pkgJsonContent, pnpmLockContent, {
             includeDevDeps: false,
             includeOptionalDeps: true,
             pruneWithinTopLevelDeps: true,
             strictOutOfSync: false,
-          });
-        } catch (err) {
-          expect((err as Error).message).toBe(
+          }),
+        ).rejects.toThrow(
+          new InvalidUserInputError(
             'package.json parsing failed with error Unexpected token } in JSON at position 100',
-          );
-          expect((err as Error).name).toBe('InvalidUserInputError');
-        }
+          ),
+        );
       });
       it('project: simple-non-top-level-out-of-sync -> throws OutOfSyncError', async () => {
         const fixtureName = 'missing-non-top-level-deps';
@@ -160,19 +161,18 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
           ),
           'utf8',
         );
-        try {
-          await parsePnpmProject(pkgJsonContent, pnpmLockContent, {
+        await expect(
+          parsePnpmProject(pkgJsonContent, pnpmLockContent, {
             includeDevDeps: false,
             includeOptionalDeps: true,
             pruneWithinTopLevelDeps: true,
             strictOutOfSync: true,
-          });
-        } catch (err) {
-          expect((err as Error).message).toBe(
+          }),
+        ).rejects.toThrow(
+          new OpenSourceEcosystems.PnpmOutOfSyncError(
             'Dependency ms@0.6.2 was not found in pnpm-lock.yaml. Your package.json and pnpm-lock.yaml are probably out of sync. Please run "pnpm install" and try again.',
-          );
-          expect((err as Error).name).toBe('OutOfSyncError');
-        }
+          ),
+        );
       });
       it('project: simple-top-level-out-of-sync -> throws OutOfSyncError', async () => {
         const fixtureName = 'missing-top-level-deps';
@@ -190,19 +190,18 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
           ),
           'utf8',
         );
-        try {
-          await parsePnpmProject(pkgJsonContent, pnpmLockContent, {
+        await expect(
+          parsePnpmProject(pkgJsonContent, pnpmLockContent, {
             includeDevDeps: false,
             includeOptionalDeps: true,
             pruneWithinTopLevelDeps: true,
             strictOutOfSync: true,
-          });
-        } catch (err) {
-          expect((err as Error).message).toBe(
-            'Dependency lodash@4.17.11 was not found in pnpm-lock.yaml. Your package.json and pnpm-lock.yaml are probably out of sync. Please run "pnpm install" and try again.',
-          );
-          expect((err as Error).name).toBe('OutOfSyncError');
-        }
+          }),
+        ).rejects.toThrow(
+          new OpenSourceEcosystems.PnpmOutOfSyncError(
+            'Dependency lodash was not found in pnpm-lock.yaml. Your package.json and pnpm-lock.yaml are probably out of sync. Please run "pnpm install" and try again.',
+          ),
+        );
       });
     });
   },

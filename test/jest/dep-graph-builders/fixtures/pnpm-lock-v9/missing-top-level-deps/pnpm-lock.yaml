@@ -14,9 +14,6 @@ importers:
       debug:
         specifier: 2.0.x
         version: 2.0.0
-      lodash:
-        specifier: 4.17.11
-        version: 4.17.11
 
 packages:
 

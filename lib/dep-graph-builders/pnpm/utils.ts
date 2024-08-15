@@ -34,15 +34,6 @@ export const getPnpmChildNode = (
     resolvedVersion = pkgData.version;
   }
   if (!pkgs[childNodeKey]) {
-    if (lockfileParser.isWorkspaceLockfile()) {
-      return {
-        id: childNodeKey,
-        name: name,
-        version: resolvedVersion,
-        dependencies: {},
-        isDev: depInfo.isDev,
-      };
-    }
     if (strictOutOfSync && !/^file:/.test(depInfo.version)) {
       const errMessage =
         `Dependency ${childNodeKey} was not found in ` +
