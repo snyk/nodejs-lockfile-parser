@@ -1,4 +1,4 @@
-import { PnpmWorkspaceArgs } from '../../types';
+import { PnpmProject, PnpmWorkspaceArgs } from '../../types';
 import {
   NormalisedPnpmPkg,
   NormalisedPnpmPkgs,
@@ -75,22 +75,21 @@ export abstract class PnpmLockfileParser {
       includeOptionalDeps?: boolean;
       includePeerDeps?: boolean;
     },
-    pkgName: string,
-    pkgVersion: string,
     importer?: string,
   ): PnpmDeps {
     let root = this.rawPnpmLock;
     if (importer) {
+      const { name, version } = this.workspaceArgs?.projectsVersionMap[
+        importer
+      ] as PnpmProject;
       if (
         // Return early because dependencies were already normalized for this importer
         // as part of another's importer dependency and stored in extractedPackages
-        this.extractedPackages[`${pkgName}@${pkgVersion}`] &&
-        !isEmpty(
-          this.extractedPackages[`${pkgName}@${pkgVersion}`].dependencies,
-        )
+        this.extractedPackages[`${name}@${version}`] &&
+        !isEmpty(this.extractedPackages[`${name}@${version}`].dependencies)
       ) {
         return this.normalizedPkgToTopLevel(
-          this.extractedPackages[`${pkgName}@${pkgVersion}`],
+          this.extractedPackages[`${name}@${version}`],
         );
       }
       root = this.rawPnpmLock.importers[importer];
@@ -118,10 +117,13 @@ export abstract class PnpmLockfileParser {
       : {};
 
     if (importer) {
-      this.extractedPackages[`${pkgName}@${pkgVersion}`] = {
-        id: `${pkgName}@${pkgVersion}`,
-        name: pkgName,
-        version: pkgVersion,
+      const { name, version } = this.workspaceArgs?.projectsVersionMap[
+        importer
+      ] as PnpmProject;
+      this.extractedPackages[`${name}@${version}`] = {
+        id: `${name}@${version}`,
+        name: version,
+        version: version,
         dependencies: this.topLevelDepsToNormalizedPkgs(prodDeps),
         devDependencies: this.topLevelDepsToNormalizedPkgs(devDeps),
         optionalDependencies: this.topLevelDepsToNormalizedPkgs(optionalDeps),
