@@ -42,12 +42,7 @@ export const buildDepGraphPnpm = async (
   const topLevelDeps = getTopLevelDeps(pkgJson, options);
 
   const extractedTopLevelDeps =
-    lockFileParser.extractTopLevelDependencies(
-      options,
-      pkgJson.name,
-      pkgJson.version,
-      importer,
-    ) || {};
+    lockFileParser.extractTopLevelDependencies(options, importer) || {};
 
   for (const name of Object.keys(topLevelDeps)) {
     if (!extractedTopLevelDeps[name]) {
