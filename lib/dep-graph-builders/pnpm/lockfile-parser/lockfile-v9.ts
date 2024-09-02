@@ -16,7 +16,8 @@ export class LockfileV9Parser extends LockfileV6Parser {
     super(rawPnpmLock, workspaceArgs);
     this.settings = rawPnpmLock.settings;
     this.packages = {};
-    Object.entries(rawPnpmLock.snapshots).forEach(
+    this.snapshots = rawPnpmLock.snapshots || {};
+    Object.entries(this.snapshots).forEach(
       ([depPath, versionData]: [string, any]) => {
         const normalizedDepPath = this.excludeTransPeerDepsVersions(depPath);
         this.packages[normalizedDepPath] = {

@@ -5,6 +5,13 @@ import { PnpmWorkspaceArgs } from '../../types';
 
 export class LockfileV5Parser extends PnpmLockfileParser {
   public constructor(rawPnpmLock: any, workspaceArgs?: PnpmWorkspaceArgs) {
+    // In case of no dependencies, pnpm@7 (lokfile version 5)
+    // does not create a lockfile at `pnpm install`
+    if (!rawPnpmLock) {
+      rawPnpmLock = {
+        lockfileVersion: '5',
+      };
+    }
     super(rawPnpmLock, workspaceArgs);
   }
 
