@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { parsePnpmProject } from '../../../lib/dep-graph-builders';
 import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
 import { InvalidUserInputError } from '../../../lib';
@@ -24,6 +24,7 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
           'npm-protocol',
           'scoped-override',
           'alias-sub-dependency',
+          'empty-project',
         ])('[simple tests] project: %s ', (fixtureName) => {
           jest.setTimeout(50 * 1000);
           it('matches expected', async () => {
@@ -34,13 +35,14 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
               ),
               'utf8',
             );
-            const pkgLockContent = readFileSync(
-              join(
-                __dirname,
-                `./fixtures/${lockFileVersionPath}/${fixtureName}/pnpm-lock.yaml`,
-              ),
-              'utf8',
+            const lockfilePath = join(
+              __dirname,
+              `./fixtures/${lockFileVersionPath}/${fixtureName}/pnpm-lock.yaml`,
             );
+            let pkgLockContent: string | undefined = undefined;
+            if (existsSync(lockfilePath)) {
+              pkgLockContent = readFileSync(lockfilePath, 'utf8');
+            }
 
             const newDepGraph = await parsePnpmProject(
               pkgJsonContent,

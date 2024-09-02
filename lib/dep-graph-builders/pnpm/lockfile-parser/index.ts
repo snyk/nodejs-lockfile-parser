@@ -8,10 +8,16 @@ import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
 import { NodeLockfileVersion } from '../../../utils';
 
 export function getPnpmLockfileParser(
-  pnpmLockContent: string,
+  pnpmLockContent: string | undefined,
   lockfileVersion?: NodeLockfileVersion,
   workspaceArgs?: PnpmWorkspaceArgs,
 ): PnpmLockfileParser {
+  // In case of no dependencies, pnpm@7 (lokfile version 5)
+  // does not create a lockfile at `pnpm install`
+  // so if there is no lockfile content, default to lockfile version 5
+  if (!pnpmLockContent) {
+    return new LockfileV5Parser(pnpmLockContent, workspaceArgs);
+  }
   const rawPnpmLock = load(pnpmLockContent, {
     json: true,
     schema: FAILSAFE_SCHEMA,

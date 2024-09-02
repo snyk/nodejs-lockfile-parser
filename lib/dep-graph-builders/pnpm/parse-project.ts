@@ -7,7 +7,7 @@ import { NodeLockfileVersion } from '../../utils';
 
 export const parsePnpmProject = async (
   pkgJsonContent: string,
-  pnpmLockContent: string,
+  pnpmLockContent: string | undefined,
   options: PnpmProjectParseOptions,
   lockfileVersion?: NodeLockfileVersion,
 ): Promise<DepGraph> => {
