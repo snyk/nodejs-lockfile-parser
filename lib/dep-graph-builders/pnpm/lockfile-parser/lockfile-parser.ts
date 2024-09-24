@@ -38,12 +38,11 @@ export abstract class PnpmLockfileParser {
     return this.workspaceArgs?.isWorkspace;
   }
 
-  public extractPackages() {
+  public extractPackages(): void {
     // Packages should be parsed only one time for a parser
     if (Object.keys(this.extractedPackages).length > 0) {
-      return this.extractedPackages;
+      return;
     }
-    const packages: NormalisedPnpmPkgs = {};
     Object.entries(this.packages).forEach(
       ([depPath, versionData]: [string, any]) => {
         // name and version are optional in version data - if they don't show up in version data, they can be deducted from the dependency path
@@ -62,11 +61,10 @@ export abstract class PnpmLockfileParser {
           devDependencies: versionData.devDependencies || {},
           optionalDependencies: versionData.optionalDependencies || {},
         };
-        packages[`${pkg.name}@${pkg.version}`] = pkg;
+        this.extractedPackages[`${pkg.name}@${pkg.version}`] = pkg;
         this.resolvedPackages[depPath] = `${pkg.name}@${pkg.version}`;
       },
     );
-    return packages;
   }
 
   public extractTopLevelDependencies(
