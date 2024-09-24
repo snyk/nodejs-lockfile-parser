@@ -26,5 +26,6 @@ export class LockfileV9Parser extends LockfileV6Parser {
         };
       },
     );
+    this.extractPackages();
   }
 }

@@ -13,6 +13,7 @@ export class LockfileV5Parser extends PnpmLockfileParser {
       };
     }
     super(rawPnpmLock, workspaceArgs);
+    this.extractPackages();
   }
 
   public parseDepPath(depPath: string): ParsedDepPath {

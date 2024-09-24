@@ -8,6 +8,7 @@ export class LockfileV6Parser extends PnpmLockfileParser {
   public constructor(rawPnpmLock: any, workspaceArgs?: PnpmWorkspaceArgs) {
     super(rawPnpmLock, workspaceArgs);
     this.settings = rawPnpmLock.settings;
+    this.extractPackages();
   }
 
   public parseDepPath(depPath: string): ParsedDepPath {
