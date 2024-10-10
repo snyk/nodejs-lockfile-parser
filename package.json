@@ -43,7 +43,7 @@
     "lodash.flatmap": "^4.5.0",
     "lodash.isempty": "^4.4.0",
     "lodash.topairs": "^4.3.0",
-    "micromatch": "^4.0.7",
+    "micromatch": "^4.0.8",
     "p-map": "^4.0.0",
     "semver": "^7.6.0",
     "snyk-config": "^5.0.0",
