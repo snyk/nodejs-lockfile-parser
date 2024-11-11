@@ -46,9 +46,12 @@
     "micromatch": "^4.0.8",
     "p-map": "^4.0.0",
     "semver": "^7.6.0",
-    "snyk-config": "^5.0.0",
+    "snyk-config": "^5.2.0",
     "tslib": "^1.9.3",
     "uuid": "^8.3.0"
+  },
+  "overrides": {
+    "cross-spawn": "^7.0.5"
   },
   "devDependencies": {
     "@types/jest": "^28.1.3",

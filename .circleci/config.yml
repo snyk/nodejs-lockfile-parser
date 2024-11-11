@@ -24,7 +24,7 @@ windows_defaults: &windows_defaults
     name: win/default
 
 test_matrix: &test_matrix
-  node_version: ['16.13.2', '18.18.1']
+  node_version: ['18.18.1', '16.20.2']
 
 commands:
   install_deps:
@@ -177,14 +177,14 @@ workflows:
                 - main
       - security-scans:
           name: Security Scans
-          node_version: "16.13.2"
+          node_version: "18.18.1"
           context:
             - open_source-managed
             - nodejs-install
       - lint:
           name: Lint
           context: nodejs-install
-          node_version: "16.13.2"
+          node_version: "16.20.2"
           <<: *filters_branches_ignore_main
       - test-windows-jest:
           matrix:
@@ -229,7 +229,7 @@ workflows:
       - release:
           name: Release
           context: nodejs-app-release
-          node_version: "16.13.2"
+          node_version: "16.20.2"
           filters:
             branches:
               only:
