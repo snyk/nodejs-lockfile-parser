@@ -24,7 +24,7 @@ windows_defaults: &windows_defaults
     name: win/default
 
 test_matrix: &test_matrix
-  node_version: ['12.22.12', '14.17.6', '16.13.2']
+  node_version: ['16.13.2', '18.18.1']
 
 commands:
   install_deps:
