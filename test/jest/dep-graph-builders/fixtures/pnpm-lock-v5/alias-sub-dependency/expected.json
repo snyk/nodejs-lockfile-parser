@@ -5,9 +5,10 @@
   },
   "pkgs": [
     {
-      "id": "pnpm-alias@",
+      "id": "pnpm-alias@undefined",
       "info": {
-        "name": "pnpm-alias"
+        "name": "pnpm-alias",
+        "version": "undefined"
       }
     },
     {
@@ -149,7 +150,7 @@
     "nodes": [
       {
         "nodeId": "root-node",
-        "pkgId": "pnpm-alias@",
+        "pkgId": "pnpm-alias@undefined",
         "deps": [
           {
             "nodeId": "@isaacs/cliui@8.0.2"

@@ -12,6 +12,7 @@ import { getPnpmLockfileParser } from './lockfile-parser/index';
 import { PnpmLockfileParser } from './lockfile-parser/lockfile-parser';
 import { getPnpmLockfileVersion } from '../../utils';
 import { getFileContents } from './utils';
+import { UNDEFINED_VERSION } from './constants';
 
 const debug = debugModule('snyk-pnpm-workspaces');
 
@@ -29,7 +30,7 @@ function computeProjectVersionMaps(root: string, targets: string[]) {
     try {
       const parsedPkgJson = parsePkgJson(packageJson.content);
       projectsVersionMap[target] = {
-        version: parsedPkgJson.version,
+        version: parsedPkgJson.version || UNDEFINED_VERSION,
         name: parsedPkgJson.name,
       };
     } catch (err: any) {

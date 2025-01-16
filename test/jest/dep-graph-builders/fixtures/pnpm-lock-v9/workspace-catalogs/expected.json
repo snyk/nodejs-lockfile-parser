@@ -5,9 +5,10 @@
   },
   "pkgs": [
     {
-      "id": "@example/root@",
+      "id": "@example/root@undefined",
       "info": {
-        "name": "@example/root"
+        "name": "@example/root",
+        "version": "undefined"
       }
     },
     {
@@ -114,7 +115,7 @@
     "nodes": [
       {
         "nodeId": "root-node",
-        "pkgId": "@example/root@",
+        "pkgId": "@example/root@undefined",
         "deps": [
           {
             "nodeId": "react-dom@16.14.0"

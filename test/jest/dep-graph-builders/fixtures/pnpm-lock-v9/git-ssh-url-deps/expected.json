@@ -5,9 +5,10 @@
   },
   "pkgs": [
     {
-      "id": "git-ssh-url-deps@",
+      "id": "git-ssh-url-deps@undefined",
       "info": {
-        "name": "git-ssh-url-deps"
+        "name": "git-ssh-url-deps",
+        "version": "undefined"
       }
     },
     {
@@ -100,7 +101,7 @@
     "nodes": [
       {
         "nodeId": "root-node",
-        "pkgId": "git-ssh-url-deps@",
+        "pkgId": "git-ssh-url-deps@undefined",
         "deps": [
           {
             "nodeId": "body-parser@1.9.0"

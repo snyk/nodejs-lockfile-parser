@@ -5,9 +5,10 @@
   },
   "pkgs": [
     {
-      "id": "cyclic@",
+      "id": "cyclic@undefined",
       "info": {
-        "name": "cyclic"
+        "name": "cyclic",
+        "version": "undefined"
       }
     },
     {
@@ -254,7 +255,7 @@
     "nodes": [
       {
         "nodeId": "root-node",
-        "pkgId": "cyclic@",
+        "pkgId": "cyclic@undefined",
         "deps": [
           {
             "nodeId": "@blitzjs/display@0.43.0"

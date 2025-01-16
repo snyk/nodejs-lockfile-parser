@@ -11,6 +11,7 @@ import {
   LOCK_FILE_NAME,
 } from '../../errors/out-of-sync-error';
 import * as debugModule from 'debug';
+import { UNDEFINED_VERSION } from './constants';
 
 const debug = debugModule('snyk-pnpm-workspaces');
 export const getPnpmChildNode = (
@@ -50,7 +51,7 @@ export const getPnpmChildNode = (
       return {
         id: childNodeKey,
         name: name,
-        version: resolvedVersion,
+        version: resolvedVersion || UNDEFINED_VERSION,
         dependencies: {},
         isDev: depInfo.isDev,
         missingLockFileEntry: true,
@@ -71,7 +72,7 @@ export const getPnpmChildNode = (
     return {
       id: `${name}@${depData.version}`,
       name: name,
-      version: resolvedVersion,
+      version: depData.version || UNDEFINED_VERSION,
       dependencies: {
         ...dependencies,
         ...optionalDependencies,
