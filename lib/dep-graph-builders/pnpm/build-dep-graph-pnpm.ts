@@ -13,6 +13,7 @@ import {
 } from '../../errors/out-of-sync-error';
 import { LockfileType } from '../..';
 import * as debugModule from 'debug';
+import { UNDEFINED_VERSION } from './constants';
 
 const debug = debugModule('snyk-pnpm-workspaces');
 
@@ -31,7 +32,7 @@ export const buildDepGraphPnpm = async (
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'pnpm' },
-    { name: pkgJson.name, version: pkgJson.version },
+    { name: pkgJson.name, version: pkgJson.version || UNDEFINED_VERSION },
   );
 
   lockFileParser.extractedPackages = lockFileParser.extractPackages();

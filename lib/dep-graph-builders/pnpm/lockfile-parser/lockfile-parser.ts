@@ -12,6 +12,7 @@ import { valid } from 'semver';
 import * as pathUtil from 'path';
 import { isEmpty } from 'lodash';
 import * as debugModule from 'debug';
+import { UNDEFINED_VERSION } from '../constants';
 
 const debug = debugModule('snyk-pnpm-workspaces');
 
@@ -218,12 +219,12 @@ export abstract class PnpmLockfileParser {
         debug(
           `Importer ${resolvedPathDep} discovered as a dependency of ${importerName} was not found in the lockfile`,
         );
-        version = 'undefined';
+        version = UNDEFINED_VERSION;
       } else {
         version = mappedProjInfo.version;
       }
       if (!version) {
-        version = 'undefined';
+        version = UNDEFINED_VERSION;
       }
 
       // Stop recursion here if this package was already normalized and stored in extractedPackages

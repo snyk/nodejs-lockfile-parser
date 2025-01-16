@@ -5,9 +5,10 @@
   },
   "pkgs": [
     {
-      "id": "external-tarball@",
+      "id": "external-tarball@undefined",
       "info": {
-        "name": "external-tarball"
+        "name": "external-tarball",
+        "version": "undefined"
       }
     },
     {
@@ -100,7 +101,7 @@
     "nodes": [
       {
         "nodeId": "root-node",
-        "pkgId": "external-tarball@",
+        "pkgId": "external-tarball@undefined",
         "deps": [
           {
             "nodeId": "body-parser@1.9.0"

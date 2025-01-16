@@ -5,9 +5,10 @@
   },
   "pkgs": [
     {
-      "id": "pkg-a@",
+      "id": "pkg-a@undefined",
       "info": {
-        "name": "pkg-a"
+        "name": "pkg-a",
+        "version": "undefined"
       }
     },
     {
@@ -310,7 +311,7 @@
     "nodes": [
       {
         "nodeId": "root-node",
-        "pkgId": "pkg-a@",
+        "pkgId": "pkg-a@undefined",
         "deps": [
           {
             "nodeId": "ms@2.1.2"

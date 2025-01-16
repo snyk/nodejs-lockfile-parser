@@ -5,9 +5,10 @@
   },
   "pkgs": [
     {
-      "id": "test3@",
+      "id": "test3@undefined",
       "info": {
-        "name": "test3"
+        "name": "test3",
+        "version": "undefined"
       }
     },
     {
@@ -23,7 +24,7 @@
     "nodes": [
       {
         "nodeId": "root-node",
-        "pkgId": "test3@",
+        "pkgId": "test3@undefined",
         "deps": [
           {
             "nodeId": "lodash@4.17.21"

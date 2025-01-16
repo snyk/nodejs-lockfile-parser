@@ -5,9 +5,10 @@
   },
   "pkgs": [
     {
-      "id": "@example/components@",
+      "id": "@example/components@undefined",
       "info": {
-        "name": "@example/components"
+        "name": "@example/components",
+        "version": "undefined"
       }
     },
     {
@@ -44,7 +45,7 @@
     "nodes": [
       {
         "nodeId": "root-node",
-        "pkgId": "@example/components@",
+        "pkgId": "@example/components@undefined",
         "deps": [
           {
             "nodeId": "react@18.3.1"
