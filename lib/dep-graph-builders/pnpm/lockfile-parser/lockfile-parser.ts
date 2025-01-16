@@ -50,6 +50,11 @@ export abstract class PnpmLockfileParser {
         // name and version are optional in version data - if they don't show up in version data, they can be deducted from the dependency path
         const { name, version } = versionData;
         let parsedPath: ParsedDepPath = {};
+
+        // Exclude transitive peer deps from depPath
+        // e.g. '/cdktf-cli@0.20.3(ink@3.2.0)(react@17.0.2)' -> cdktf-cli@0.20.3
+        depPath = this.excludeTransPeerDepsVersions(depPath);
+
         if (!(version && name)) {
           parsedPath = this.parseDepPath(depPath);
         }
@@ -123,7 +128,7 @@ export abstract class PnpmLockfileParser {
       ] as PnpmProject;
       this.extractedPackages[`${name}@${version}`] = {
         id: `${name}@${version}`,
-        name: version,
+        name: name,
         version: version,
         dependencies: this.topLevelDepsToNormalizedPkgs(prodDeps),
         devDependencies: this.topLevelDepsToNormalizedPkgs(devDeps),

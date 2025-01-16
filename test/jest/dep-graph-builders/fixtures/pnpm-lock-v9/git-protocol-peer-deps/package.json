@@ -1,0 +1,7 @@
+{
+  "name": "git-protocol-peer-deps",
+  "version": "0.0.1",
+  "dependencies": {
+    "dustjs-helpers": "github:linkedin/dustjs-helpers"
+  }
+}

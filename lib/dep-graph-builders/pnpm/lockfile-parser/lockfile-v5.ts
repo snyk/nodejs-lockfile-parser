@@ -69,7 +69,17 @@ export class LockfileV5Parser extends PnpmLockfileParser {
   // '/@babel/preset-typescript/7.12.13_@babel+core@7.12.13'
   // https://github.com/pnpm/spec/blob/master/dependency-path.md
   public excludeTransPeerDepsVersions(fullVersionStr: string): string {
-    return fullVersionStr.split('_')[0];
+    if (!fullVersionStr.includes('/')) {
+      return fullVersionStr.split('_')[0];
+    }
+    // When dealing with dependency paths, the dependency name can include '_'
+    // so we need to make sure the '_' we split by is after '/'
+    const splitSlashes = fullVersionStr.split('/');
+    const stringAfterLastSlash = splitSlashes[splitSlashes.length - 1];
+    const stringBeforeLastSlash = fullVersionStr.split(stringAfterLastSlash)[0];
+    const stringBetweenLastSlashAndUnderscore =
+      stringAfterLastSlash.split('_')[0];
+    return `${stringBeforeLastSlash}${stringBetweenLastSlashAndUnderscore}`;
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

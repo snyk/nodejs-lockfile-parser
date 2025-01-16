@@ -4,7 +4,6 @@ import { LockfileType } from '../..';
 import { getGraphDependencies } from '../util';
 import { PnpmLockfileParser } from './lockfile-parser/lockfile-parser';
 import { NormalisedPnpmPkgs, PnpmNode } from './types';
-import { valid } from 'semver';
 import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
 import {
   INSTALL_COMMAND,
@@ -23,18 +22,14 @@ export const getPnpmChildNode = (
   includeDevDeps: boolean,
   lockfileParser: PnpmLockfileParser,
 ): PnpmNode => {
-  let resolvedVersion =
-    valid(depInfo.version) || depInfo.version === undefined
-      ? depInfo.version
-      : lockfileParser.excludeTransPeerDepsVersions(depInfo.version);
+  const resolvedVersion = lockfileParser.excludeTransPeerDepsVersions(
+    depInfo.version,
+  );
   let childNodeKey = `${name}@${resolvedVersion}`;
   // For aliases, the version is the dependency path that
   // shows up in the packages section of lockfiles
-  if (lockfileParser.resolvedPackages[depInfo.version]) {
-    childNodeKey = lockfileParser.resolvedPackages[depInfo.version];
-    const pkgData = pkgs[childNodeKey];
-    name = pkgData.name;
-    resolvedVersion = pkgData.version;
+  if (lockfileParser.resolvedPackages[resolvedVersion]) {
+    childNodeKey = lockfileParser.resolvedPackages[resolvedVersion];
   }
   if (!pkgs[childNodeKey]) {
     if (strictOutOfSync && !/^file:/.test(depInfo.version)) {
@@ -70,8 +65,8 @@ export const getPnpmChildNode = (
       ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
       : {};
     return {
-      id: `${name}@${depData.version}`,
-      name: name,
+      id: `${depData.name}@${depData.version}`,
+      name: depData.name,
       version: depData.version || UNDEFINED_VERSION,
       dependencies: {
         ...dependencies,
