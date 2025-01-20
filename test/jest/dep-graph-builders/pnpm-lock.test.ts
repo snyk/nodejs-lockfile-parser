@@ -25,6 +25,7 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
           'scoped-override',
           'alias-sub-dependency',
           'empty-project',
+          'git-protocol-peer-deps',
         ])('[simple tests] project: %s ', (fixtureName) => {
           jest.setTimeout(50 * 1000);
           it('matches expected', async () => {

@@ -1,0 +1,638 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "pnpm"
+  },
+  "pkgs": [
+    {
+      "id": "git-protocol-peer-deps@0.0.1",
+      "info": {
+        "name": "git-protocol-peer-deps",
+        "version": "0.0.1"
+      }
+    },
+    {
+      "id": "dustjs-helpers@1.8.0",
+      "info": {
+        "name": "dustjs-helpers",
+        "version": "1.8.0"
+      }
+    },
+    {
+      "id": "dustjs-linkedin@3.0.1",
+      "info": {
+        "name": "dustjs-linkedin",
+        "version": "3.0.1"
+      }
+    },
+    {
+      "id": "chokidar@3.6.0",
+      "info": {
+        "name": "chokidar",
+        "version": "3.6.0"
+      }
+    },
+    {
+      "id": "anymatch@3.1.3",
+      "info": {
+        "name": "anymatch",
+        "version": "3.1.3"
+      }
+    },
+    {
+      "id": "normalize-path@3.0.0",
+      "info": {
+        "name": "normalize-path",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "picomatch@2.3.1",
+      "info": {
+        "name": "picomatch",
+        "version": "2.3.1"
+      }
+    },
+    {
+      "id": "braces@3.0.3",
+      "info": {
+        "name": "braces",
+        "version": "3.0.3"
+      }
+    },
+    {
+      "id": "fill-range@7.1.1",
+      "info": {
+        "name": "fill-range",
+        "version": "7.1.1"
+      }
+    },
+    {
+      "id": "to-regex-range@5.0.1",
+      "info": {
+        "name": "to-regex-range",
+        "version": "5.0.1"
+      }
+    },
+    {
+      "id": "is-number@7.0.0",
+      "info": {
+        "name": "is-number",
+        "version": "7.0.0"
+      }
+    },
+    {
+      "id": "glob-parent@5.1.2",
+      "info": {
+        "name": "glob-parent",
+        "version": "5.1.2"
+      }
+    },
+    {
+      "id": "is-glob@4.0.3",
+      "info": {
+        "name": "is-glob",
+        "version": "4.0.3"
+      }
+    },
+    {
+      "id": "is-extglob@2.1.1",
+      "info": {
+        "name": "is-extglob",
+        "version": "2.1.1"
+      }
+    },
+    {
+      "id": "is-binary-path@2.1.0",
+      "info": {
+        "name": "is-binary-path",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "binary-extensions@2.3.0",
+      "info": {
+        "name": "binary-extensions",
+        "version": "2.3.0"
+      }
+    },
+    {
+      "id": "readdirp@3.6.0",
+      "info": {
+        "name": "readdirp",
+        "version": "3.6.0"
+      }
+    },
+    {
+      "id": "cli@1.0.1",
+      "info": {
+        "name": "cli",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "exit@0.1.2",
+      "info": {
+        "name": "exit",
+        "version": "0.1.2"
+      }
+    },
+    {
+      "id": "glob@7.2.3",
+      "info": {
+        "name": "glob",
+        "version": "7.2.3"
+      }
+    },
+    {
+      "id": "fs.realpath@1.0.0",
+      "info": {
+        "name": "fs.realpath",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "inflight@1.0.6",
+      "info": {
+        "name": "inflight",
+        "version": "1.0.6"
+      }
+    },
+    {
+      "id": "once@1.4.0",
+      "info": {
+        "name": "once",
+        "version": "1.4.0"
+      }
+    },
+    {
+      "id": "wrappy@1.0.2",
+      "info": {
+        "name": "wrappy",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "inherits@2.0.4",
+      "info": {
+        "name": "inherits",
+        "version": "2.0.4"
+      }
+    },
+    {
+      "id": "minimatch@3.1.2",
+      "info": {
+        "name": "minimatch",
+        "version": "3.1.2"
+      }
+    },
+    {
+      "id": "brace-expansion@1.1.11",
+      "info": {
+        "name": "brace-expansion",
+        "version": "1.1.11"
+      }
+    },
+    {
+      "id": "balanced-match@1.0.2",
+      "info": {
+        "name": "balanced-match",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "concat-map@0.0.1",
+      "info": {
+        "name": "concat-map",
+        "version": "0.0.1"
+      }
+    },
+    {
+      "id": "path-is-absolute@1.0.1",
+      "info": {
+        "name": "path-is-absolute",
+        "version": "1.0.1"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "git-protocol-peer-deps@0.0.1",
+        "deps": [
+          {
+            "nodeId": "dustjs-helpers@1.8.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "dustjs-helpers@1.8.0",
+        "pkgId": "dustjs-helpers@1.8.0",
+        "deps": [
+          {
+            "nodeId": "dustjs-linkedin@3.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "dustjs-linkedin@3.0.1",
+        "pkgId": "dustjs-linkedin@3.0.1",
+        "deps": [
+          {
+            "nodeId": "chokidar@3.6.0"
+          },
+          {
+            "nodeId": "cli@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "chokidar@3.6.0",
+        "pkgId": "chokidar@3.6.0",
+        "deps": [
+          {
+            "nodeId": "anymatch@3.1.3"
+          },
+          {
+            "nodeId": "braces@3.0.3"
+          },
+          {
+            "nodeId": "glob-parent@5.1.2"
+          },
+          {
+            "nodeId": "is-binary-path@2.1.0"
+          },
+          {
+            "nodeId": "is-glob@4.0.3"
+          },
+          {
+            "nodeId": "normalize-path@3.0.0"
+          },
+          {
+            "nodeId": "readdirp@3.6.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "anymatch@3.1.3",
+        "pkgId": "anymatch@3.1.3",
+        "deps": [
+          {
+            "nodeId": "normalize-path@3.0.0"
+          },
+          {
+            "nodeId": "picomatch@2.3.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "normalize-path@3.0.0",
+        "pkgId": "normalize-path@3.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "picomatch@2.3.1",
+        "pkgId": "picomatch@2.3.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "braces@3.0.3",
+        "pkgId": "braces@3.0.3",
+        "deps": [
+          {
+            "nodeId": "fill-range@7.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "fill-range@7.1.1",
+        "pkgId": "fill-range@7.1.1",
+        "deps": [
+          {
+            "nodeId": "to-regex-range@5.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "to-regex-range@5.0.1",
+        "pkgId": "to-regex-range@5.0.1",
+        "deps": [
+          {
+            "nodeId": "is-number@7.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-number@7.0.0",
+        "pkgId": "is-number@7.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "glob-parent@5.1.2",
+        "pkgId": "glob-parent@5.1.2",
+        "deps": [
+          {
+            "nodeId": "is-glob@4.0.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-glob@4.0.3",
+        "pkgId": "is-glob@4.0.3",
+        "deps": [
+          {
+            "nodeId": "is-extglob@2.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-extglob@2.1.1",
+        "pkgId": "is-extglob@2.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-binary-path@2.1.0",
+        "pkgId": "is-binary-path@2.1.0",
+        "deps": [
+          {
+            "nodeId": "binary-extensions@2.3.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "binary-extensions@2.3.0",
+        "pkgId": "binary-extensions@2.3.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "readdirp@3.6.0",
+        "pkgId": "readdirp@3.6.0",
+        "deps": [
+          {
+            "nodeId": "picomatch@2.3.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "cli@1.0.1",
+        "pkgId": "cli@1.0.1",
+        "deps": [
+          {
+            "nodeId": "exit@0.1.2"
+          },
+          {
+            "nodeId": "glob@7.2.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "exit@0.1.2",
+        "pkgId": "exit@0.1.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "glob@7.2.3",
+        "pkgId": "glob@7.2.3",
+        "deps": [
+          {
+            "nodeId": "fs.realpath@1.0.0"
+          },
+          {
+            "nodeId": "inflight@1.0.6"
+          },
+          {
+            "nodeId": "inherits@2.0.4"
+          },
+          {
+            "nodeId": "minimatch@3.1.2"
+          },
+          {
+            "nodeId": "once@1.4.0"
+          },
+          {
+            "nodeId": "path-is-absolute@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "fs.realpath@1.0.0",
+        "pkgId": "fs.realpath@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "inflight@1.0.6",
+        "pkgId": "inflight@1.0.6",
+        "deps": [
+          {
+            "nodeId": "once@1.4.0"
+          },
+          {
+            "nodeId": "wrappy@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "once@1.4.0",
+        "pkgId": "once@1.4.0",
+        "deps": [
+          {
+            "nodeId": "wrappy@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "wrappy@1.0.2",
+        "pkgId": "wrappy@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "inherits@2.0.4",
+        "pkgId": "inherits@2.0.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "minimatch@3.1.2",
+        "pkgId": "minimatch@3.1.2",
+        "deps": [
+          {
+            "nodeId": "brace-expansion@1.1.11"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "brace-expansion@1.1.11",
+        "pkgId": "brace-expansion@1.1.11",
+        "deps": [
+          {
+            "nodeId": "balanced-match@1.0.2"
+          },
+          {
+            "nodeId": "concat-map@0.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "balanced-match@1.0.2",
+        "pkgId": "balanced-match@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "concat-map@0.0.1",
+        "pkgId": "concat-map@0.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-is-absolute@1.0.1",
+        "pkgId": "path-is-absolute@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}
