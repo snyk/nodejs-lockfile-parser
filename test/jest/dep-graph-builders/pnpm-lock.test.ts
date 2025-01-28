@@ -26,6 +26,7 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
           'alias-sub-dependency',
           'empty-project',
           'git-protocol-peer-deps',
+          'codelab-ref-deps',
         ])('[simple tests] project: %s ', (fixtureName) => {
           jest.setTimeout(50 * 1000);
           it('matches expected', async () => {

@@ -1,0 +1,24 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@snyk/gemfile':
+        specifier: https://codeload.github.com/snyk/gemfile/tar.gz/fff475b
+        version: https://codeload.github.com/snyk/gemfile/tar.gz/fff475b
+
+packages:
+
+  '@snyk/gemfile@https://codeload.github.com/snyk/gemfile/tar.gz/fff475b':
+    resolution: {tarball: https://codeload.github.com/snyk/gemfile/tar.gz/fff475b}
+    version: 0.0.0
+    engines: {node: '>= 4.2.4'}
+
+snapshots:
+
+  '@snyk/gemfile@https://codeload.github.com/snyk/gemfile/tar.gz/fff475b': {}

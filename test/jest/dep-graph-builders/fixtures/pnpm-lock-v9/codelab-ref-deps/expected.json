@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "pnpm"
+  },
+  "pkgs": [
+    {
+      "id": "codelab-ref-deps@0.1.0",
+      "info": {
+        "name": "codelab-ref-deps",
+        "version": "0.1.0"
+      }
+    },
+    {
+      "id": "@snyk/gemfile@0.0.0",
+      "info": {
+        "name": "@snyk/gemfile",
+        "version": "0.0.0"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "codelab-ref-deps@0.1.0",
+        "deps": [
+          {
+            "nodeId": "@snyk/gemfile@0.0.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "@snyk/gemfile@0.0.0",
+        "pkgId": "@snyk/gemfile@0.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}

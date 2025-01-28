@@ -1,0 +1,16 @@
+lockfileVersion: 5.4
+
+specifiers:
+  '@snyk/gemfile': https://codeload.github.com/snyk/gemfile/tar.gz/fff475b
+
+dependencies:
+  '@snyk/gemfile': '@codeload.github.com/snyk/gemfile/tar.gz/fff475b'
+
+packages:
+
+  '@codeload.github.com/snyk/gemfile/tar.gz/fff475b':
+    resolution: {tarball: https://codeload.github.com/snyk/gemfile/tar.gz/fff475b}
+    name: '@snyk/gemfile'
+    version: 0.0.0
+    engines: {node: '>= 4.2.4'}
+    dev: false

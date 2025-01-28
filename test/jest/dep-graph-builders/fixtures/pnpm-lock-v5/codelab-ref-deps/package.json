@@ -1,0 +1,8 @@
+{
+  "name": "codelab-ref-deps",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@snyk/gemfile": "https://codeload.github.com/snyk/gemfile/tar.gz/fff475b"
+  }
+}

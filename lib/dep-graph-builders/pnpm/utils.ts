@@ -31,6 +31,9 @@ export const getPnpmChildNode = (
   if (lockfileParser.resolvedPackages[resolvedVersion]) {
     childNodeKey = lockfileParser.resolvedPackages[resolvedVersion];
   }
+  if (lockfileParser.resolvedPackages[childNodeKey]) {
+    childNodeKey = lockfileParser.resolvedPackages[childNodeKey];
+  }
   if (!pkgs[childNodeKey]) {
     if (strictOutOfSync && !/^file:/.test(depInfo.version)) {
       const errMessage =
