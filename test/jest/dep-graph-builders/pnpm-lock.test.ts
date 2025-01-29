@@ -207,6 +207,56 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
           ),
         );
       });
+
+      it('project: simple-non-top-level-out-of-sync does not throws OutOfSyncError for strictOutOfSync=false', async () => {
+        const fixtureName = 'missing-non-top-level-deps';
+        const pkgJsonContent = readFileSync(
+          join(
+            __dirname,
+            `./fixtures/${lockFileVersionPath}/${fixtureName}/package.json`,
+          ),
+          'utf8',
+        );
+        const pnpmLockContent = readFileSync(
+          join(
+            __dirname,
+            `./fixtures/${lockFileVersionPath}/${fixtureName}/pnpm-lock.yaml`,
+          ),
+          'utf8',
+        );
+        const deGraph = parsePnpmProject(pkgJsonContent, pnpmLockContent, {
+          includeDevDeps: false,
+          includeOptionalDeps: true,
+          pruneWithinTopLevelDeps: true,
+          strictOutOfSync: false,
+        });
+        expect(deGraph).toBeDefined();
+      });
+
+      it('project: simple-top-level-out-of-sync does not throws OutOfSyncError for strictOutOfSync=false', async () => {
+        const fixtureName = 'missing-top-level-deps';
+        const pkgJsonContent = readFileSync(
+          join(
+            __dirname,
+            `./fixtures/${lockFileVersionPath}/${fixtureName}/package.json`,
+          ),
+          'utf8',
+        );
+        const pnpmLockContent = readFileSync(
+          join(
+            __dirname,
+            `./fixtures/${lockFileVersionPath}/${fixtureName}/pnpm-lock.yaml`,
+          ),
+          'utf8',
+        );
+        const deGraph = parsePnpmProject(pkgJsonContent, pnpmLockContent, {
+          includeDevDeps: false,
+          includeOptionalDeps: true,
+          pruneWithinTopLevelDeps: true,
+          strictOutOfSync: false,
+        });
+        expect(deGraph).toBeDefined();
+      });
     });
   },
 );
