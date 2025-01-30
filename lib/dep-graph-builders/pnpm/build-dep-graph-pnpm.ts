@@ -47,6 +47,9 @@ export const buildDepGraphPnpm = async (
 
   for (const name of Object.keys(topLevelDeps)) {
     if (!extractedTopLevelDeps[name]) {
+      if (!strictOutOfSync) {
+        continue;
+      }
       const errMessage =
         `Dependency ${name} was not found in ` +
         `${LOCK_FILE_NAME[LockfileType.pnpm]}. Your package.json and ` +
