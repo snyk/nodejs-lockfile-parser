@@ -439,6 +439,29 @@ describe('dep-graph-builder npm-lock-v2', () => {
       ).rejects.toThrow(new OutOfSyncError('ms@0.6.2', LockfileType.npm));
     });
 
+    it('project: simple-out-of-sync -> throws OutOfSyncError', async () => {
+      const fixtureName = 'simple-out-of-sync';
+      const pkgJsonContent = readFileSync(
+        join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/package.json`),
+        'utf8',
+      );
+      const npmLockContent = readFileSync(
+        join(
+          __dirname,
+          `./fixtures/npm-lock-v2/${fixtureName}/package-lock.json`,
+        ),
+        'utf8',
+      );
+      await expect(
+        parseNpmLockV2Project(pkgJsonContent, npmLockContent, {
+          includeDevDeps: false,
+          includeOptionalDeps: true,
+          pruneCycles: true,
+          strictOutOfSync: true,
+        }),
+      ).rejects.toThrow(new OutOfSyncError('lodash@4.17.21', LockfileType.npm));
+    });
+
     it('project: simple-top-level-out-of-sync -> throws OutOfSyncError', async () => {
       const fixtureName = 'missing-top-level-deps';
       const pkgJsonContent = readFileSync(

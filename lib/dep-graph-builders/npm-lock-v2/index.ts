@@ -303,6 +303,13 @@ export const getChildNodeKey = (
 
   // If we only have one candidate then we just take it
   if (candidateKeys.length === 1) {
+    if (
+      semver.validRange(version) &&
+      pkgs[candidateKeys[0]].version &&
+      !semver.satisfies(pkgs[candidateKeys[0]].version, version)
+    ) {
+      return undefined;
+    }
     return candidateKeys[0];
   }
   // If we are bundled we assume we are scoped by the bundle root at least
