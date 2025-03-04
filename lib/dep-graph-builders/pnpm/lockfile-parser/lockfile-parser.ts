@@ -92,6 +92,7 @@ export abstract class PnpmLockfileParser {
         // Return early because dependencies were already normalized for this importer
         // as part of another's importer dependency and stored in extractedPackages
         this.extractedPackages[`${name}@${version}`] &&
+        this.extractedPackages[`${name}@${version}`].localWorkspacePackage &&
         !isEmpty(this.extractedPackages[`${name}@${version}`].dependencies)
       ) {
         return this.normalizedPkgToTopLevel(
@@ -134,6 +135,7 @@ export abstract class PnpmLockfileParser {
         devDependencies: this.topLevelDepsToNormalizedPkgs(devDeps),
         optionalDependencies: this.topLevelDepsToNormalizedPkgs(optionalDeps),
         isDev: false,
+        localWorkspacePackage: true,
       };
     }
     return { ...prodDeps, ...devDeps, ...optionalDeps, ...peerDeps };
@@ -246,6 +248,7 @@ export abstract class PnpmLockfileParser {
         isDev,
         dependencies: {},
         devDependencies: {},
+        localWorkspacePackage: true,
       };
 
       const subDeps = this.rawPnpmLock.importers[resolvedPathDep] || {
@@ -280,6 +283,7 @@ export abstract class PnpmLockfileParser {
         dependencies: resolvedDeps,
         devDependencies: resolvedDevDeps,
         optionalDependencies: resolvedOptionalDeps,
+        localWorkspacePackage: true,
       };
     }
     return version;

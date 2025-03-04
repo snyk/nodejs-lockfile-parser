@@ -54,9 +54,7 @@ export const getTopLevelDeps = (
 ): Dependencies => {
   const prodDeps = getGraphDependencies(pkgJson.dependencies || {}, false);
 
-  const devDeps = options.includeDevDeps
-    ? getGraphDependencies(pkgJson.devDependencies || {}, true)
-    : {};
+  const devDeps = getGraphDependencies(pkgJson.devDependencies || {}, true);
 
   const optionalDeps = options.includeOptionalDeps
     ? getGraphDependencies(pkgJson.optionalDependencies || {}, false)
@@ -66,7 +64,24 @@ export const getTopLevelDeps = (
     ? getGraphDependencies(pkgJson.peerDependencies || {}, false)
     : {};
 
-  return { ...prodDeps, ...devDeps, ...optionalDeps, ...peerDeps };
+  const deps = { ...prodDeps, ...optionalDeps, ...peerDeps };
+
+  if (options.includeDevDeps) {
+    // Ensure dev dependency 'isDev' flags are correctly set.
+    // Dev dependencies are applied last to override shared keys with regular dependencies.
+    return { ...deps, ...devDeps };
+  }
+
+  // For includeDevDeps option set to false, simulate pnpm install --prod
+  // by excluding all devDependencies,
+  // ignoring potential duplicates in other dependency lists.
+  // https://pnpm.io/cli/install#--prod--p
+  return Object.keys(deps)
+    .filter((packageName) => !devDeps.hasOwnProperty(packageName))
+    .reduce((result, packageName) => {
+      result[packageName] = deps[packageName];
+      return result;
+    }, {});
 };
 
 /**

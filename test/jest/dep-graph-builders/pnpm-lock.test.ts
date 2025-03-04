@@ -124,6 +124,52 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
           );
         });
       });
+
+      it('correctly resolves dev=false dependencies when a dependency shows up in both peer and dev deps', async () => {
+        const fixtureName = 'duplicate-dev-peer-deps';
+        const pkgJsonContent = readFileSync(
+          join(
+            __dirname,
+            `./fixtures/${lockFileVersionPath}/${fixtureName}/package.json`,
+          ),
+          'utf8',
+        );
+        const pkgLockContent = readFileSync(
+          join(
+            __dirname,
+            `./fixtures/${lockFileVersionPath}/${fixtureName}/pnpm-lock.yaml`,
+          ),
+          'utf8',
+        );
+
+        const newDepGraph = await parsePnpmProject(
+          pkgJsonContent,
+          pkgLockContent,
+          {
+            includeDevDeps: false,
+            includePeerDeps: true,
+            includeOptionalDeps: true,
+            strictOutOfSync: true,
+            pruneWithinTopLevelDeps: false,
+          },
+        );
+
+        const expectedDepGraphJson = JSON.parse(
+          readFileSync(
+            join(
+              __dirname,
+              `./fixtures/${lockFileVersionPath}/${fixtureName}/expected.json`,
+            ),
+            'utf8',
+          ),
+        );
+
+        expect(
+          Buffer.from(JSON.stringify(newDepGraph)).toString('base64'),
+        ).toBe(
+          Buffer.from(JSON.stringify(expectedDepGraphJson)).toString('base64'),
+        );
+      });
     });
     describe('Unhappy path tests', () => {
       it('project: invalid-pkg-json -> fails as expected', async () => {
