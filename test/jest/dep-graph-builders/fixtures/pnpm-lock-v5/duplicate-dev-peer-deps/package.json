@@ -1,0 +1,12 @@
+{
+  "name": "duplicate-dev-peer-deps",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@emotion/react": "^11.13.5",
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@emotion/react": "^11.13.5",
+    "typescript": "5.7.2"
+  }
+}

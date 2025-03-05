@@ -29,6 +29,7 @@ export type NormalisedPnpmPkg = {
   dependencies: Record<string, string>;
   devDependencies: Record<string, string>;
   optionalDependencies?: Record<string, string>;
+  localWorkspacePackage?: boolean;
 };
 
 export type PnpmNode = {
