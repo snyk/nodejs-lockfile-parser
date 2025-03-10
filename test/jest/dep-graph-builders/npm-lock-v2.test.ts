@@ -439,7 +439,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
       ).rejects.toThrow(new OutOfSyncError('ms@0.6.2', LockfileType.npm));
     });
 
-    it('project: simple-out-of-sync -> throws OutOfSyncError', async () => {
+    it('should throw error on out of sync with prune ff', async () => {
       const fixtureName = 'simple-out-of-sync';
       const pkgJsonContent = readFileSync(
         join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/package.json`),
@@ -458,6 +458,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
           includeOptionalDeps: true,
           pruneCycles: true,
           strictOutOfSync: true,
+          pruneNpmStrictOutOfSync: true,
         }),
       ).rejects.toThrow(new OutOfSyncError('lodash@4.17.21', LockfileType.npm));
     });

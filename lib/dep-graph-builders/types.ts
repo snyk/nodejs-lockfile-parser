@@ -34,6 +34,7 @@ export type DepGraphBuildOptions = {
   includeOptionalDeps: boolean;
   strictOutOfSync: boolean;
   includePeerDeps?: boolean;
+  pruneNpmStrictOutOfSync?: boolean;
 };
 
 export type LockFileParseOptions = {
