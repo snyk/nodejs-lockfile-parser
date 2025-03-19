@@ -1,0 +1,514 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "pnpm"
+  },
+  "pkgs": [
+    {
+      "id": "@test/root@0.0.0",
+      "info": {
+        "name": "@test/root",
+        "version": "0.0.0"
+      }
+    },
+    {
+      "id": "@test/react@undefined",
+      "info": {
+        "name": "@test/react",
+        "version": "undefined"
+      }
+    },
+    {
+      "id": "debug@4.3.1",
+      "info": {
+        "name": "debug",
+        "version": "4.3.1"
+      }
+    },
+    {
+      "id": "ms@2.1.2",
+      "info": {
+        "name": "ms",
+        "version": "2.1.2"
+      }
+    },
+    {
+      "id": "send@0.17.1",
+      "info": {
+        "name": "send",
+        "version": "0.17.1"
+      }
+    },
+    {
+      "id": "debug@2.6.9",
+      "info": {
+        "name": "debug",
+        "version": "2.6.9"
+      }
+    },
+    {
+      "id": "ms@2.0.0",
+      "info": {
+        "name": "ms",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "depd@1.1.2",
+      "info": {
+        "name": "depd",
+        "version": "1.1.2"
+      }
+    },
+    {
+      "id": "destroy@1.0.4",
+      "info": {
+        "name": "destroy",
+        "version": "1.0.4"
+      }
+    },
+    {
+      "id": "encodeurl@1.0.2",
+      "info": {
+        "name": "encodeurl",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "escape-html@1.0.3",
+      "info": {
+        "name": "escape-html",
+        "version": "1.0.3"
+      }
+    },
+    {
+      "id": "etag@1.8.1",
+      "info": {
+        "name": "etag",
+        "version": "1.8.1"
+      }
+    },
+    {
+      "id": "fresh@0.5.2",
+      "info": {
+        "name": "fresh",
+        "version": "0.5.2"
+      }
+    },
+    {
+      "id": "http-errors@1.7.3",
+      "info": {
+        "name": "http-errors",
+        "version": "1.7.3"
+      }
+    },
+    {
+      "id": "inherits@2.0.4",
+      "info": {
+        "name": "inherits",
+        "version": "2.0.4"
+      }
+    },
+    {
+      "id": "setprototypeof@1.1.1",
+      "info": {
+        "name": "setprototypeof",
+        "version": "1.1.1"
+      }
+    },
+    {
+      "id": "statuses@1.5.0",
+      "info": {
+        "name": "statuses",
+        "version": "1.5.0"
+      }
+    },
+    {
+      "id": "toidentifier@1.0.0",
+      "info": {
+        "name": "toidentifier",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "mime@1.6.0",
+      "info": {
+        "name": "mime",
+        "version": "1.6.0"
+      }
+    },
+    {
+      "id": "ms@2.1.1",
+      "info": {
+        "name": "ms",
+        "version": "2.1.1"
+      }
+    },
+    {
+      "id": "on-finished@2.3.0",
+      "info": {
+        "name": "on-finished",
+        "version": "2.3.0"
+      }
+    },
+    {
+      "id": "ee-first@1.1.1",
+      "info": {
+        "name": "ee-first",
+        "version": "1.1.1"
+      }
+    },
+    {
+      "id": "range-parser@1.2.1",
+      "info": {
+        "name": "range-parser",
+        "version": "1.2.1"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "@test/root@0.0.0",
+        "deps": [
+          {
+            "nodeId": "@test/react@undefined"
+          },
+          {
+            "nodeId": "send@0.17.1"
+          }
+        ]
+      },
+      {
+        "nodeId": "@test/react@undefined",
+        "pkgId": "@test/react@undefined",
+        "deps": [
+          {
+            "nodeId": "@test/root@0.0.0:pruned"
+          },
+          {
+            "nodeId": "debug@4.3.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@test/root@0.0.0:pruned",
+        "pkgId": "@test/root@0.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "pruned": "true"
+          }
+        }
+      },
+      {
+        "nodeId": "debug@4.3.1",
+        "pkgId": "debug@4.3.1",
+        "deps": [
+          {
+            "nodeId": "ms@2.1.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ms@2.1.2",
+        "pkgId": "ms@2.1.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "send@0.17.1",
+        "pkgId": "send@0.17.1",
+        "deps": [
+          {
+            "nodeId": "debug@2.6.9"
+          },
+          {
+            "nodeId": "depd@1.1.2"
+          },
+          {
+            "nodeId": "destroy@1.0.4"
+          },
+          {
+            "nodeId": "encodeurl@1.0.2"
+          },
+          {
+            "nodeId": "escape-html@1.0.3"
+          },
+          {
+            "nodeId": "etag@1.8.1"
+          },
+          {
+            "nodeId": "fresh@0.5.2"
+          },
+          {
+            "nodeId": "http-errors@1.7.3"
+          },
+          {
+            "nodeId": "mime@1.6.0"
+          },
+          {
+            "nodeId": "ms@2.1.1"
+          },
+          {
+            "nodeId": "on-finished@2.3.0"
+          },
+          {
+            "nodeId": "range-parser@1.2.1"
+          },
+          {
+            "nodeId": "statuses@1.5.0:pruned"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "debug@2.6.9",
+        "pkgId": "debug@2.6.9",
+        "deps": [
+          {
+            "nodeId": "ms@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ms@2.0.0",
+        "pkgId": "ms@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "depd@1.1.2",
+        "pkgId": "depd@1.1.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "destroy@1.0.4",
+        "pkgId": "destroy@1.0.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "encodeurl@1.0.2",
+        "pkgId": "encodeurl@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "escape-html@1.0.3",
+        "pkgId": "escape-html@1.0.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "etag@1.8.1",
+        "pkgId": "etag@1.8.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "fresh@0.5.2",
+        "pkgId": "fresh@0.5.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "http-errors@1.7.3",
+        "pkgId": "http-errors@1.7.3",
+        "deps": [
+          {
+            "nodeId": "depd@1.1.2:pruned"
+          },
+          {
+            "nodeId": "inherits@2.0.4"
+          },
+          {
+            "nodeId": "setprototypeof@1.1.1"
+          },
+          {
+            "nodeId": "statuses@1.5.0"
+          },
+          {
+            "nodeId": "toidentifier@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "depd@1.1.2:pruned",
+        "pkgId": "depd@1.1.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "pruned": "true"
+          }
+        }
+      },
+      {
+        "nodeId": "inherits@2.0.4",
+        "pkgId": "inherits@2.0.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "setprototypeof@1.1.1",
+        "pkgId": "setprototypeof@1.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "statuses@1.5.0",
+        "pkgId": "statuses@1.5.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "toidentifier@1.0.0",
+        "pkgId": "toidentifier@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "mime@1.6.0",
+        "pkgId": "mime@1.6.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ms@2.1.1",
+        "pkgId": "ms@2.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "on-finished@2.3.0",
+        "pkgId": "on-finished@2.3.0",
+        "deps": [
+          {
+            "nodeId": "ee-first@1.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "ee-first@1.1.1",
+        "pkgId": "ee-first@1.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "range-parser@1.2.1",
+        "pkgId": "range-parser@1.2.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "statuses@1.5.0:pruned",
+        "pkgId": "statuses@1.5.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "pruned": "true"
+          }
+        }
+      }
+    ]
+  }
+}
