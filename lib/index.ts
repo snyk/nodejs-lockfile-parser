@@ -53,6 +53,7 @@ import {
   buildDepGraphYarnLockV2Simple,
   parsePnpmProject,
   parsePnpmWorkspace,
+  parsePnpmWorkspaceProject,
   parsePkgJson,
 } from './dep-graph-builders';
 import { getPnpmLockfileParser } from './dep-graph-builders/pnpm/lockfile-parser';
@@ -84,6 +85,7 @@ export {
   getPnpmLockfileParser,
   parsePnpmProject,
   parsePnpmWorkspace,
+  parsePnpmWorkspaceProject,
   parsePkgJson,
   PackageJsonBase,
   ProjectParseOptions,

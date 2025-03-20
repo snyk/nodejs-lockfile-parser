@@ -13,7 +13,11 @@ import {
   extractPkgsFromYarnLockV2,
 } from './yarn-lock-v2';
 import { parseNpmLockV2Project } from './npm-lock-v2';
-import { parsePnpmProject, parsePnpmWorkspace } from './pnpm';
+import {
+  parsePnpmProject,
+  parsePnpmWorkspace,
+  parsePnpmWorkspaceProject,
+} from './pnpm';
 import { parsePkgJson } from './util';
 
 export {
@@ -30,5 +34,6 @@ export {
   extractPkgsFromYarnLockV2,
   parsePnpmProject,
   parsePnpmWorkspace,
+  parsePnpmWorkspaceProject,
   parsePkgJson,
 };
