@@ -118,6 +118,24 @@ export const getYarnLockV2ChildNode = (
 
   if (resolvedVersionFromResolution) {
     const childNodeKeyFromResolution = `${name}@${resolvedVersionFromResolution}`;
+    if (!pkgs[childNodeKeyFromResolution]) {
+      if (strictOutOfSync && !/^file:/.test(resolvedVersionFromResolution)) {
+        throw new OutOfSyncError(
+          childNodeKeyFromResolution,
+          LockfileType.yarn2,
+        );
+      } else {
+        return {
+          id: childNodeKeyFromResolution,
+          name: name,
+          version: resolvedVersionFromResolution,
+          dependencies: {},
+          isDev: depInfo.isDev,
+          missingLockFileEntry: true,
+        };
+      }
+    }
+
     const {
       version: versionFromResolution,
       dependencies,

@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { YarnLockV2ProjectParseOptions } from '../../../lib/dep-graph-builders/types';
 import { parseYarnLockV2Project } from '../../../lib/dep-graph-builders/yarn-lock-v2/simple';
+import { LockfileType, OutOfSyncError } from '../../../lib';
 
 describe('yarn.lock v2 "real" projects', () => {
   describe.each([
@@ -10,6 +11,7 @@ describe('yarn.lock v2 "real" projects', () => {
     'goof',
     'resolutions-simple',
     'resolutions-scoped',
+    'out-of-sync-resolutions',
   ])('[simple tests] project: %s ', (fixtureName) => {
     test('matches expected - no pruning', async () => {
       const pkgJsonContent = readFileSync(
@@ -54,6 +56,31 @@ describe('yarn.lock v2 "real" projects', () => {
       const expectedDepGraph = createFromJSON(expectedDepGraphJson);
       expect(dg.equals(expectedDepGraph)).toBeTruthy();
     });
+  });
+
+  test('project: out-of-sync-resolutions -> throws OutOfSyncError', async () => {
+    const fixtureName = 'out-of-sync-resolutions';
+    const pkgJsonContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/yarn-lock-v2/real/${fixtureName}/package.json`,
+      ),
+      'utf8',
+    );
+    const yarnLockContent = readFileSync(
+      join(__dirname, `./fixtures/yarn-lock-v2/real/${fixtureName}/yarn.lock`),
+      'utf8',
+    );
+    const opts: YarnLockV2ProjectParseOptions = {
+      includeDevDeps: false,
+      includeOptionalDeps: true,
+      strictOutOfSync: true,
+      pruneWithinTopLevelDeps: false,
+    };
+
+    await expect(
+      parseYarnLockV2Project(pkgJsonContent, yarnLockContent, opts),
+    ).rejects.toThrow(new OutOfSyncError('ms@1.0.0', LockfileType.yarn2));
   });
 
   it('Workspace with resolutions', async () => {
