@@ -402,6 +402,16 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'utf8',
       );
       const npmLockContent = '';
+
+      const nodeMajorVersion = parseInt(
+        process.version.substring(1).split('.')[0],
+        10,
+      );
+      const expectedErrorMessage =
+        nodeMajorVersion >= 22
+          ? 'package.json parsing failed with error Expected double-quoted property name in JSON at position 100 (line 6 column 3)'
+          : 'package.json parsing failed with error Unexpected token } in JSON at position 100';
+
       await expect(
         parseNpmLockV2Project(pkgJsonContent, npmLockContent, {
           includeDevDeps: false,
@@ -409,11 +419,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
           pruneCycles: true,
           strictOutOfSync: false,
         }),
-      ).rejects.toThrow(
-        new InvalidUserInputError(
-          'package.json parsing failed with error Unexpected token } in JSON at position 100',
-        ),
-      );
+      ).rejects.toThrow(new InvalidUserInputError(expectedErrorMessage));
     });
 
     it('project: simple-non-top-level-out-of-sync -> throws OutOfSyncError', async () => {
