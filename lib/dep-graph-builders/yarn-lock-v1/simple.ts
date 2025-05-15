@@ -1,4 +1,7 @@
 import { buildDepGraphYarnLockV1Simple } from '.';
+import { rewriteAliasesPkgJson } from '../../aliasesPreprocessors/pkgJson';
+import { rewriteAliasesInLockV1 } from '../../aliasesPreprocessors/yarn-lock-v1';
+
 import { PackageJsonBase, YarnLockV1ProjectParseOptions } from '../types';
 import { parsePkgJson } from '../util';
 import { buildDepGraphYarnLockV1SimpleCyclesPruned } from './build-depgraph-simple-pruned';
@@ -15,11 +18,16 @@ export const parseYarnLockV1Project = async (
     includePeerDeps,
     pruneLevel,
     strictOutOfSync,
+    honorAliases,
   } = options;
 
-  const pkgs = extractPkgsFromYarnLockV1(yarnLockContent);
+  const pkgs = extractPkgsFromYarnLockV1(
+    honorAliases ? rewriteAliasesInLockV1(yarnLockContent) : yarnLockContent,
+  );
 
-  const pkgJson: PackageJsonBase = parsePkgJson(pkgJsonContent);
+  const pkgJson: PackageJsonBase = parsePkgJson(
+    honorAliases ? rewriteAliasesPkgJson(pkgJsonContent) : pkgJsonContent,
+  );
 
   const depGraph =
     pruneLevel === 'cycles'
