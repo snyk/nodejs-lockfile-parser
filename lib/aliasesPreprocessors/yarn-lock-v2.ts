@@ -1,6 +1,6 @@
 import { NormalisedPkgs } from '../dep-graph-builders/types';
 import * as cloneDeep from 'lodash.clonedeep';
-export const rewriteAliasesInLockV2 = (
+export const rewriteAliasesInYarnLockV2 = (
   lockfileNormalisedPkgs: NormalisedPkgs,
 ): NormalisedPkgs => {
   const lockfileNormalisedPkgsPreprocessed: NormalisedPkgs = cloneDeep(

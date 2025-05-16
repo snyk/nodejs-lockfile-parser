@@ -1,12 +1,13 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
 import {
+  buildDepTreeFromFiles,
   parseNpmLockV2Project,
   parseYarnLockV1Project,
   parseYarnLockV2Project,
 } from '../../../lib/';
 
-describe('Testing aliases', () => {
+describe('Testing aliases for yarn', () => {
   it('match aliased package - yarn-lock-v1', async () => {
     const pkgJsonContent = readFileSync(
       join(__dirname, `./fixtures/aliases/yarn-lock-v1/package.json`),
@@ -57,37 +58,82 @@ describe('Testing aliases', () => {
         honorAliases: true,
       },
     );
-    console.log(JSON.stringify(newDepGraph));
     expect(newDepGraph).toBeDefined;
 
     expect(JSON.stringify(newDepGraph)).toContain('@yao-pkg/pkg');
     expect(JSON.stringify(newDepGraph)).not.toContain("'pkg@");
   });
+});
+describe('Testing aliases for npm', () => {
+  it('match aliased package - npm-lock-v1', async () => {
+    const rootPath = join(__dirname, './fixtures/aliases/npm-lock-v1');
 
-  // it('match aliased package - npm-lock-v2', async () => {
-  //   const pkgJsonContent = readFileSync(
-  //     join(__dirname, `./fixtures/aliases/package.json`),
-  //     'utf8',
-  //   );
-  //   const pkgLockContent = readFileSync(
-  //     join(__dirname, `./fixtures/aliases/package-lock.json`),
-  //     'utf8',
-  //   );
+    const newDepGraph = await buildDepTreeFromFiles(
+      rootPath,
+      join(__dirname, `./fixtures/aliases/npm-lock-v1/package.json`),
+      join(__dirname, `./fixtures/aliases/npm-lock-v1/package-lock.json`),
+      true,
+      true,
+      true,
+    );
 
-  //   const newDepGraph = await parseNpmLockV2Project(
-  //     pkgJsonContent,
-  //     pkgLockContent,
-  //     {
-  //       includeDevDeps: false,
-  //       includeOptionalDeps: true,
-  //       pruneCycles: true,
-  //       strictOutOfSync: true,
-  //     },
-  //   );
+    expect(newDepGraph).toBeDefined;
+    expect(() => JSON.parse(JSON.stringify(newDepGraph))).not.toThrow();
+    expect(JSON.stringify(newDepGraph)).toContain('@yao-pkg/pkg');
+    expect(JSON.stringify(newDepGraph)).not.toContain('"pkg"');
+  });
+  it('match aliased package - npm-lock-v2', async () => {
+    const pkgJsonContent = readFileSync(
+      join(__dirname, `./fixtures/aliases/npm-lock-v2/package.json`),
+      'utf8',
+    );
+    const pkgLockContent = readFileSync(
+      join(__dirname, `./fixtures/aliases/npm-lock-v2/package-lock.json`),
+      'utf8',
+    );
 
-  //   expect(newDepGraph).toBeDefined;
+    const newDepGraph = await parseNpmLockV2Project(
+      pkgJsonContent,
+      pkgLockContent,
+      {
+        includeDevDeps: true,
+        includeOptionalDeps: true,
+        pruneCycles: true,
+        strictOutOfSync: true,
+        honorAliases: true,
+      },
+    );
 
-  //   expect(JSON.stringify(newDepGraph)).toContain('@yao-pkg/pkg');
-  //   expect(JSON.stringify(newDepGraph)).not.toContain("'pkg'");
-  // });
+    expect(newDepGraph).toBeDefined;
+    expect(() => JSON.parse(JSON.stringify(newDepGraph))).not.toThrow();
+    expect(JSON.stringify(newDepGraph)).toContain('@yao-pkg/pkg');
+    expect(JSON.stringify(newDepGraph)).not.toContain('"pkg"');
+  });
+  it('match aliased package - npm-lock-v3', async () => {
+    const pkgJsonContent = readFileSync(
+      join(__dirname, `./fixtures/aliases/npm-lock-v3/package.json`),
+      'utf8',
+    );
+    const pkgLockContent = readFileSync(
+      join(__dirname, `./fixtures/aliases/npm-lock-v3/package-lock.json`),
+      'utf8',
+    );
+
+    const newDepGraph = await parseNpmLockV2Project(
+      pkgJsonContent,
+      pkgLockContent,
+      {
+        includeDevDeps: true,
+        includeOptionalDeps: true,
+        pruneCycles: true,
+        strictOutOfSync: true,
+        honorAliases: true,
+      },
+    );
+
+    expect(newDepGraph).toBeDefined;
+    expect(() => JSON.parse(JSON.stringify(newDepGraph))).not.toThrow();
+    expect(JSON.stringify(newDepGraph)).toContain('@yao-pkg/pkg');
+    expect(JSON.stringify(newDepGraph)).not.toContain('"pkg"');
+  });
 });

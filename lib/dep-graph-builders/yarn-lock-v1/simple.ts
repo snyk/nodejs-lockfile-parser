@@ -1,6 +1,6 @@
 import { buildDepGraphYarnLockV1Simple } from '.';
 import { rewriteAliasesPkgJson } from '../../aliasesPreprocessors/pkgJson';
-import { rewriteAliasesInLockV1 } from '../../aliasesPreprocessors/yarn-lock-v1';
+import { rewriteAliasesInYarnLockV1 } from '../../aliasesPreprocessors/yarn-lock-v1';
 
 import { PackageJsonBase, YarnLockV1ProjectParseOptions } from '../types';
 import { parsePkgJson } from '../util';
@@ -22,7 +22,9 @@ export const parseYarnLockV1Project = async (
   } = options;
 
   const pkgs = extractPkgsFromYarnLockV1(
-    honorAliases ? rewriteAliasesInLockV1(yarnLockContent) : yarnLockContent,
+    honorAliases
+      ? rewriteAliasesInYarnLockV1(yarnLockContent)
+      : yarnLockContent,
   );
 
   const pkgJson: PackageJsonBase = parsePkgJson(
