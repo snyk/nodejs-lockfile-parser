@@ -21,6 +21,8 @@ import * as semver from 'semver';
 import * as micromatch from 'micromatch';
 import * as pathUtil from 'path';
 import { eventLoopSpinner } from 'event-loop-spinner';
+import { rewriteAliasesPkgJson } from '../../aliasesPreprocessors/pkgJson';
+import { rewriteAliasesInNpmLockV2 } from '../../aliasesPreprocessors/npm-lock-v2';
 
 export { extractPkgsFromNpmLockV2 };
 
@@ -36,8 +38,14 @@ export const parseNpmLockV2Project = async (
     pruneNpmStrictOutOfSync,
   } = options;
 
-  const pkgJson: PackageJsonBase = parsePkgJson(pkgJsonContent);
-  const pkgs = extractPkgsFromNpmLockV2(pkgLockContent);
+  const pkgJson: PackageJsonBase = parsePkgJson(
+    options.honorAliases
+      ? rewriteAliasesPkgJson(pkgJsonContent)
+      : pkgJsonContent,
+  );
+  const pkgs = options.honorAliases
+    ? rewriteAliasesInNpmLockV2(extractPkgsFromNpmLockV2(pkgLockContent))
+    : extractPkgsFromNpmLockV2(pkgLockContent);
 
   const depgraph = await buildDepGraphNpmLockV2(pkgs, pkgJson, {
     includeDevDeps,

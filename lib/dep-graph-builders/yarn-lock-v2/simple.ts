@@ -7,6 +7,8 @@ import {
 } from '../types';
 import { buildDepGraphYarnLockV2Simple } from './build-depgraph-simple';
 import { DepGraph } from '@snyk/dep-graph';
+import { rewriteAliasesPkgJson } from '../../aliasesPreprocessors/pkgJson';
+import { rewriteAliasesInYarnLockV2 } from '../../aliasesPreprocessors/yarn-lock-v2';
 
 export const parseYarnLockV2Project = async (
   pkgJsonContent: string,
@@ -19,11 +21,16 @@ export const parseYarnLockV2Project = async (
     includeOptionalDeps,
     strictOutOfSync,
     pruneWithinTopLevelDeps,
+    honorAliases,
   } = options;
 
-  const pkgs = extractPkgsFromYarnLockV2(yarnLockContent);
+  const pkgs = honorAliases
+    ? rewriteAliasesInYarnLockV2(extractPkgsFromYarnLockV2(yarnLockContent))
+    : extractPkgsFromYarnLockV2(yarnLockContent);
 
-  const pkgJson: PackageJsonBase = parsePkgJson(pkgJsonContent);
+  const pkgJson: PackageJsonBase = parsePkgJson(
+    honorAliases ? rewriteAliasesPkgJson(pkgJsonContent) : pkgJsonContent,
+  );
 
   const depgraph = await buildDepGraphYarnLockV2Simple(
     pkgs,

@@ -70,6 +70,8 @@ import {
   getPnpmLockfileVersion,
   NodeLockfileVersion,
 } from './utils';
+import { rewriteAliasesInNpmLockV1 } from './aliasesPreprocessors/npm-lock-v1';
+import { rewriteAliasesPkgJson } from './aliasesPreprocessors/pkgJson';
 export {
   parseNpmLockV2Project,
   extractPkgsFromYarnLockV1,
@@ -156,6 +158,7 @@ async function buildDepTreeFromFiles(
   lockFilePath: string,
   includeDev = false,
   strictOutOfSync = true,
+  honorAliases?: boolean,
 ): Promise<PkgTree> {
   if (!root || !manifestFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for buildDepTreeFromFiles()');
@@ -192,8 +195,12 @@ async function buildDepTreeFromFiles(
   }
 
   return await buildDepTree(
-    manifestFileContents,
-    lockFileContents,
+    honorAliases
+      ? rewriteAliasesPkgJson(manifestFileContents)
+      : manifestFileContents,
+    honorAliases
+      ? rewriteAliasesInNpmLockV1(lockFileContents)
+      : lockFileContents,
     includeDev,
     lockFileType,
     strictOutOfSync,
