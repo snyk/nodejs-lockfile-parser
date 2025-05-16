@@ -9,16 +9,14 @@ export const rewriteAliasesInNpmLockV2 = (
   if (rootPkg && rootPkg.dependencies) {
     const dependencies = rootPkg.dependencies;
     for (const pkgName in rootPkg.dependencies) {
-      if (!rootPkg.dependencies[pkgName].startsWith('npm:')) {
-        const aliasName = rootPkg.dependencies.dependencies[pkgName].substring(
+      if (rootPkg.dependencies[pkgName].startsWith('npm:')) {
+        const aliasName = rootPkg.dependencies[pkgName].substring(
           4,
-          rootPkg.dependencies.dependencies[pkgName].lastIndexOf('@'),
+          rootPkg.dependencies[pkgName].lastIndexOf('@'),
         );
-        const aliasVersion = rootPkg.dependencies.dependencies[
-          pkgName
-        ].substring(
-          rootPkg.dependencies.dependencies[pkgName].lastIndexOf('@') + 1,
-          rootPkg.dependencies.dependencies[pkgName].length,
+        const aliasVersion = rootPkg.dependencies[pkgName].substring(
+          rootPkg.dependencies[pkgName].lastIndexOf('@') + 1,
+          rootPkg.dependencies[pkgName].length,
         );
         dependencies[aliasName] = aliasVersion;
       } else {
