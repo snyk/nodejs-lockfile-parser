@@ -137,6 +137,73 @@ describe('yarn.lock v2 "real" projects', () => {
     const expectedDepGraph = createFromJSON(expectedDepGraphJson);
     expect(dg.equals(expectedDepGraph)).toBeTruthy();
   });
+
+  describe('Workspace with multiple resolutions for the same dependency', () => {
+    const fixtureBasePath = join(
+      __dirname,
+      './fixtures/yarn-lock-v2/real/resolutions-multiple-versions-same-dependency',
+    );
+
+    const rootPkgJsonContent = readFileSync(
+      join(fixtureBasePath, 'package.json'),
+      'utf8',
+    );
+    const rootYarnLockContent = readFileSync(
+      join(fixtureBasePath, 'yarn.lock'),
+      'utf8',
+    );
+
+    const rootResolutions = JSON.parse(rootPkgJsonContent).resolutions || {};
+
+    const opts: YarnLockV2ProjectParseOptions = {
+      includeDevDeps: false,
+      includeOptionalDeps: true,
+      strictOutOfSync: true,
+      pruneWithinTopLevelDeps: false,
+    };
+
+    const testCases = [
+      {
+        workspaceName: 'library-a',
+        description: 'library-a with its specific dependencies and resolutions',
+      },
+      {
+        workspaceName: 'library-b',
+        description: 'library-b with its specific dependencies and resolutions',
+      },
+    ];
+
+    test.each(testCases)(
+      'correctly parses $workspaceName ($description)',
+      async ({ workspaceName }) => {
+        const workspacePkgJsonContent = readFileSync(
+          join(fixtureBasePath, `libraries/${workspaceName}/package.json`),
+          'utf8',
+        );
+        const expectedDepGraphJsonPath = join(
+          fixtureBasePath,
+          `libraries/${workspaceName}/expected-graph.json`,
+        );
+        const expectedDepGraphJson = JSON.parse(
+          readFileSync(expectedDepGraphJsonPath, 'utf8'),
+        );
+
+        const dg = await parseYarnLockV2Project(
+          workspacePkgJsonContent,
+          rootYarnLockContent,
+          opts,
+          {
+            isRoot: false,
+            isWorkspacePkg: true,
+            rootResolutions: rootResolutions,
+          },
+        );
+
+        const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+        expect(dg.equals(expectedDepGraph)).toBeTruthy();
+      },
+    );
+  });
 });
 
 const getHandRolledYarnLock = (fixture: string) => {

@@ -4,6 +4,10 @@ import { OutOfSyncError } from '../../errors';
 import { LockfileType } from '../../parsers';
 import { NormalisedPkgs } from '../types';
 import { getGraphDependencies, PkgNode } from '../util';
+import * as semver from 'semver';
+import * as debugModule from 'debug';
+
+const debug = debugModule('snyk-nodejs-plugin');
 
 const BUILTIN_PLACEHOLDER = 'builtin';
 const MULTIPLE_KEYS_REGEXP = / *, */g;
@@ -104,16 +108,41 @@ export const getYarnLockV2ChildNode = (
   resolutions: Record<string, string>,
   parentNode: PkgNode,
 ) => {
-  // First check if a resolution would be used
+  // First, check if a resolution would be used
   const resolvedVersionFromResolution = (() => {
-    // First check for scoped then simple
+    // Check for scoped resolution (e.g., "parentPackageName/dependencyName")
     const scopedKey = `${parentNode.name}/${name}`;
     if (resolutions[scopedKey]) {
       return resolutions[scopedKey];
-    } else if (resolutions[name]) {
+    }
+
+    // Check for resolutions matching "packageName@versionOrRangeToOverride"
+    for (const resKey in resolutions) {
+      if (Object.prototype.hasOwnProperty.call(resolutions, resKey)) {
+        try {
+          const descriptor = structUtils.parseDescriptor(resKey);
+          const resKeyPkgName = structUtils.stringifyIdent(descriptor);
+
+          // Check if the resolution key targets the current package name
+          if (resKeyPkgName === name) {
+            if (descriptor.range && descriptor.range !== 'unknown') {
+              // Check if the current dependency's version satisfies the
+              // version/range specified in the resolution key.
+              if (semver.satisfies(depInfo.version, descriptor.range)) {
+                return resolutions[resKey];
+              }
+            }
+          }
+        } catch (e) {
+          debug(`Error parsing resolution key(${resKey}): ${e}$`);
+        }
+      }
+    }
+    // Check for global resolution by package name (e.g., "packageName": "version")
+    if (resolutions[name]) {
       return resolutions[name];
     }
-    return '';
+    return ''; // No resolution applies
   })();
 
   if (resolvedVersionFromResolution) {
