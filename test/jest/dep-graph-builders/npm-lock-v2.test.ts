@@ -19,6 +19,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'different-versions',
         'local-pkg-without-workspaces',
         'dist-tag-sub-dependency',
+        'bundled-top-level-dep',
       ])('[simple tests] project: %s ', (fixtureName) => {
         it('matches expected', async () => {
           const pkgJsonContent = readFileSync(
@@ -43,7 +44,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
               includeDevDeps: false,
               includeOptionalDeps: true,
               pruneCycles: true,
-              strictOutOfSync: false,
+              strictOutOfSync: true,
             },
           );
 
