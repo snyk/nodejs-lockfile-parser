@@ -24,6 +24,8 @@ import { eventLoopSpinner } from 'event-loop-spinner';
 
 export { extractPkgsFromNpmLockV2 };
 
+const ROOT_NODE_ID = 'root-node';
+
 export const parseNpmLockV2Project = async (
   pkgJsonContent: string,
   pkgLockContent: string,
@@ -72,7 +74,7 @@ export const buildDepGraphNpmLockV2 = async (
   });
 
   const rootNode: PkgNode = {
-    id: 'root-node',
+    id: ROOT_NODE_ID,
     name: pkgJson.name,
     version: pkgJson.version,
     dependencies: topLevelDeps,
@@ -117,6 +119,7 @@ export const buildDepGraphNpmLockV2 = async (
 };
 
 interface Ancestry {
+  id: string;
   name: string;
   version: string;
   key: string;
@@ -153,6 +156,7 @@ const dfsVisit = async (
       [
         ...ancestry,
         {
+          id: node.id,
           name: node.name,
           version: node.version,
           key: node.key || '',
@@ -177,6 +181,7 @@ const dfsVisit = async (
         [
           ...ancestry,
           {
+            id: node.id,
             name: node.name,
             version: node.version,
             key: node.key as string,
@@ -304,7 +309,7 @@ const getChildNode = (
 export const getChildNodeKey = (
   name: string,
   version: string,
-  ancestry: { name: string; key: string; inBundle: boolean }[],
+  ancestry: { id: string; name: string; key: string; inBundle: boolean }[],
   pkgs: Record<string, NpmLockPkg>,
   pkgKeysByName: Map<string, string[]>,
   pruneNpmStrictOutOfSync?: boolean,
@@ -337,8 +342,8 @@ export const getChildNodeKey = (
     ? ancestry.findIndex((el) => el.inBundle === true) - 1
     : 1;
   const ancestryFromRootOperatingIdx = [
-    ...ancestry.slice(rootOperatingIdx).map((el) => el.name),
-    name,
+    ...ancestry.slice(rootOperatingIdx),
+    { id: `${name}@${version}`, name, version },
   ];
 
   // We filter on a number of cases
@@ -364,7 +369,7 @@ export const getChildNodeKey = (
     // valid key.
     const isCandidateAncestryIsSubsetOfPkgAncestry = candidateAncestry.every(
       (pkg) => {
-        return ancestryFromRootOperatingIdx.includes(pkg);
+        return ancestryFromRootOperatingIdx.find((p) => p.name == pkg);
       },
     );
 
@@ -374,9 +379,9 @@ export const getChildNodeKey = (
 
     // If we are bundled we assume the bundle root is the first value
     // in the candidates scoping
-    if (isBundled) {
+    if (isBundled && ancestryFromRootOperatingIdx[0].id !== ROOT_NODE_ID) {
       const doesBundledPkgShareBundleRoot =
-        candidateAncestry[0] === ancestryFromRootOperatingIdx[0];
+        candidateAncestry[0] === ancestryFromRootOperatingIdx[0].name;
 
       if (doesBundledPkgShareBundleRoot === false) {
         return false;
