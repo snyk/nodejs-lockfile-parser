@@ -1,11 +1,25 @@
 import { NormalisedPkgs } from '../dep-graph-builders/types';
 import * as cloneDeep from 'lodash.clonedeep';
 export const rewriteAliasesInYarnLockV2 = (
+  pkgJson: string,
   lockfileNormalisedPkgs: NormalisedPkgs,
 ): NormalisedPkgs => {
   const lockfileNormalisedPkgsPreprocessed: NormalisedPkgs = cloneDeep(
     lockfileNormalisedPkgs,
   );
+
+  const topLevelPkgs = JSON.parse(pkgJson).dependencies as Record<
+    string,
+    string
+  >;
+  const topLevelAliasedPkgs = Object.entries(topLevelPkgs)
+    .filter((entry) => {
+      return entry[1].startsWith('npm:');
+    })
+    .map((entry) => {
+      return `${entry[0]}@${entry[1]}`;
+    });
+
   for (const pkg in lockfileNormalisedPkgsPreprocessed) {
     const pkgSplit = pkg.substring(0, pkg.lastIndexOf('@'));
     const resolutionSplit =
@@ -16,7 +30,8 @@ export const rewriteAliasesInYarnLockV2 = (
     if (
       !pkg.startsWith('v2@workspace') &&
       resolutionSplit &&
-      pkgSplit != resolutionSplit
+      pkgSplit != resolutionSplit &&
+      topLevelAliasedPkgs.includes(pkg)
     ) {
       const newPkg = lockfileNormalisedPkgsPreprocessed[pkg];
       delete lockfileNormalisedPkgsPreprocessed[pkg];
