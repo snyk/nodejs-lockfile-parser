@@ -25,7 +25,10 @@ export const parseYarnLockV2Project = async (
   } = options;
 
   const pkgs = honorAliases
-    ? rewriteAliasesInYarnLockV2(extractPkgsFromYarnLockV2(yarnLockContent))
+    ? rewriteAliasesInYarnLockV2(
+        pkgJsonContent,
+        extractPkgsFromYarnLockV2(yarnLockContent),
+      )
     : extractPkgsFromYarnLockV2(yarnLockContent);
 
   const pkgJson: PackageJsonBase = parsePkgJson(

@@ -5,6 +5,7 @@ export const rewriteAliasesInNpmLockV2 = (
 ): Record<string, NpmLockPkg> => {
   // 1. Rewrite top level "" packages in "".dependencies
   const rootPkg = lockfilePackages[''];
+  const mutatedRootPkg: Array<string> = [];
   const lockFileToReturn: Record<string, NpmLockPkg> = lockfilePackages;
   if (rootPkg && rootPkg.dependencies) {
     const dependencies = rootPkg.dependencies;
@@ -19,6 +20,7 @@ export const rewriteAliasesInNpmLockV2 = (
           rootPkg.dependencies[pkgName].length,
         );
         dependencies[aliasName] = aliasVersion;
+        mutatedRootPkg.push(pkgName);
       } else {
         dependencies[pkgName] = rootPkg.dependencies[pkgName];
       }
@@ -28,7 +30,11 @@ export const rewriteAliasesInNpmLockV2 = (
 
   // 2. Rewrite alias packages
   for (const pkgName in lockfilePackages) {
-    if (pkgName != '' && lockfilePackages[pkgName].name) {
+    if (
+      pkgName != '' &&
+      lockfilePackages[pkgName].name &&
+      mutatedRootPkg.includes(pkgName.replace('node_modules/', ''))
+    ) {
       lockFileToReturn[`node_modules/${lockfilePackages[pkgName].name}`] =
         lockfilePackages[pkgName];
       delete lockFileToReturn[pkgName];

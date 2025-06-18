@@ -1,0 +1,11 @@
+{
+  "name": "yarnalias",
+  "version": "2.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "npm:lodash@^4.17.15",
+    "pkg": "npm:@yao-pkg/pkg@^6.4.1",
+    "semantic-release": "22.0.10"
+  }
+}
