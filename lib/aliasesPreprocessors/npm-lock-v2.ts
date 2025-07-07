@@ -6,6 +6,7 @@ export const rewriteAliasesInNpmLockV2 = (
   // 1. Rewrite top level "" packages in "".dependencies
   const rootPkg = lockfilePackages[''];
   const mutatedRootPkg: Array<string> = [];
+  const aliasedPackages: Array<string> = [];
   const lockFileToReturn: Record<string, NpmLockPkg> = lockfilePackages;
   if (rootPkg && rootPkg.dependencies) {
     const dependencies = rootPkg.dependencies;
@@ -21,6 +22,7 @@ export const rewriteAliasesInNpmLockV2 = (
         );
         dependencies[aliasName] = aliasVersion;
         mutatedRootPkg.push(pkgName);
+        aliasedPackages.push(pkgName);
       } else {
         dependencies[pkgName] = rootPkg.dependencies[pkgName];
       }
@@ -38,6 +40,37 @@ export const rewriteAliasesInNpmLockV2 = (
       lockFileToReturn[`node_modules/${lockfilePackages[pkgName].name}`] =
         lockfilePackages[pkgName];
       delete lockFileToReturn[pkgName];
+    }
+
+    // rewrite possible references in transitive deps
+    if (
+      pkgName != '' &&
+      lockfilePackages[pkgName] &&
+      lockfilePackages[pkgName].dependencies
+    ) {
+      for (const depName in lockfilePackages[pkgName].dependencies) {
+        if (
+          aliasedPackages.includes(depName) &&
+          lockfilePackages[pkgName].dependencies[depName].startsWith('npm:')
+        ) {
+          const aliasName = lockfilePackages[pkgName].dependencies[
+            depName
+          ].substring(
+            4,
+            lockfilePackages[pkgName].dependencies[depName].lastIndexOf('@'),
+          );
+          const aliasVersion = lockfilePackages[pkgName].dependencies[
+            depName
+          ].substring(
+            lockfilePackages[pkgName].dependencies[depName].lastIndexOf('@') +
+              1,
+            lockfilePackages[pkgName].dependencies[depName].length,
+          );
+
+          lockFileToReturn[pkgName].dependencies![aliasName] = aliasVersion;
+          delete lockFileToReturn[pkgName].dependencies![depName];
+        }
+      }
     }
   }
 

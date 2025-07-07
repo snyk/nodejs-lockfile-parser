@@ -17,6 +17,25 @@ export const rewriteAliasesInNpmLockV1 = (lockfileContent: string): string => {
         jsonLockfile.dependencies[pkg].version.length,
       );
       delete jsonLockfile.dependencies[pkg];
+
+      // Also transform possible references in transitive deps
+      // if any deps with requires have pkg in the list and with the same aliased value, we need to replace it with aliased value,
+
+      for (const topLevelPkg in jsonLockfile.dependencies) {
+        const requires = jsonLockfile.dependencies[topLevelPkg]
+          .requires as Record<string, string>;
+        for (const requiredDep in requires) {
+          if (
+            requiredDep === pkg &&
+            requires[requiredDep] ===
+              `npm:${aliasName}@${jsonLockfile.dependencies[aliasName].version}`
+          ) {
+            jsonLockfile.dependencies[topLevelPkg].requires[aliasName] =
+              jsonLockfile.dependencies[aliasName].version;
+            delete jsonLockfile.dependencies[topLevelPkg].requires[requiredDep];
+          }
+        }
+      }
     }
   }
 
