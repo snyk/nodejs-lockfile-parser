@@ -50,6 +50,26 @@ export const rewriteAliasesInYarnLockV2 = (
         }
       }
       lockfileNormalisedPkgsPreprocessed[pkg].dependencies = newDependencies;
+    } else if (
+      // Replace aliased top level deps possible references in transitive deps
+      lockfileNormalisedPkgsPreprocessed[pkg] &&
+      lockfileNormalisedPkgsPreprocessed[pkg].dependencies
+    ) {
+      const newDependencies: Record<string, string> = {};
+      for (const key in lockfileNormalisedPkgsPreprocessed[pkg].dependencies) {
+        const value = lockfileNormalisedPkgsPreprocessed[pkg].dependencies[key];
+
+        if (
+          value.includes('@') &&
+          topLevelAliasedPkgs.includes(`${key}@${value}`)
+        ) {
+          newDependencies[value.substring(4, value.lastIndexOf('@'))] =
+            value.substring(value.lastIndexOf('@') + 1, value.length);
+        } else {
+          newDependencies[key] = value;
+        }
+      }
+      lockfileNormalisedPkgsPreprocessed[pkg].dependencies = newDependencies;
     }
   }
 
