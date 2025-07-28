@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import {
   buildDepTreeFromFiles,
   parseNpmLockV2Project,
+  parsePnpmProject,
   parseYarnLockV1Project,
   parseYarnLockV2Project,
 } from '../../../lib/';
@@ -454,3 +455,112 @@ describe('Testing aliases for npm', () => {
     expect(() => JSON.parse(JSON.stringify(newDepGraph))).not.toThrow();
   });
 });
+
+describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
+  'Testing aliases for pnpm %s',
+  (lockFileVersionPath) => {
+    it('match aliased package', async () => {
+      const fixtureName = 'pnpm-lock';
+      const pkgJsonContent = readFileSync(
+        join(
+          __dirname,
+          `./fixtures/aliases/pnpm/${lockFileVersionPath}/${fixtureName}/package.json`,
+        ),
+        'utf8',
+      );
+      const pkgLockContent = readFileSync(
+        join(
+          __dirname,
+          `./fixtures/aliases/pnpm/${lockFileVersionPath}/${fixtureName}/pnpm-lock.yaml`,
+        ),
+        'utf8',
+      );
+
+      const newDepGraph = await parsePnpmProject(
+        pkgJsonContent,
+        pkgLockContent,
+        {
+          includeDevDeps: true,
+          includePeerDeps: true,
+          includeOptionalDeps: true,
+          strictOutOfSync: true,
+          pruneWithinTopLevelDeps: true,
+        },
+      );
+
+      expect(newDepGraph).toBeDefined;
+      expect(() => JSON.parse(JSON.stringify(newDepGraph))).not.toThrow();
+      expect(JSON.stringify(newDepGraph)).toContain('@yao-pkg/pkg');
+      expect(JSON.stringify(newDepGraph)).not.toContain('"pkg"');
+    });
+    it('match aliased package also used in transitive deps', async () => {
+      const fixtureName = 'pnpm-lock-with-npm-alias-also-on-transitive';
+      const pkgJsonContent = readFileSync(
+        join(
+          __dirname,
+          `./fixtures/aliases/pnpm/${lockFileVersionPath}/${fixtureName}/package.json`,
+        ),
+        'utf8',
+      );
+      const pkgLockContent = readFileSync(
+        join(
+          __dirname,
+          `./fixtures/aliases/pnpm/${lockFileVersionPath}/${fixtureName}/pnpm-lock.yaml`,
+        ),
+        'utf8',
+      );
+
+      const newDepGraph = await parsePnpmProject(
+        pkgJsonContent,
+        pkgLockContent,
+        {
+          includeDevDeps: true,
+          includePeerDeps: true,
+          includeOptionalDeps: true,
+          strictOutOfSync: true,
+          pruneWithinTopLevelDeps: true,
+        },
+      );
+
+      expect(newDepGraph).toBeDefined;
+      expect(() => JSON.parse(JSON.stringify(newDepGraph))).not.toThrow();
+      expect(JSON.stringify(newDepGraph)).toContain('@yao-pkg/pkg');
+      expect(JSON.stringify(newDepGraph)).not.toContain('"pkg"');
+    });
+
+    it('ignore aliased package in transitive deps not throwing out of sync error', async () => {
+      const fixtureName = 'pnpm-lock-with-npm-prefixed-sub-dep-version';
+      const pkgJsonContent = readFileSync(
+        join(
+          __dirname,
+          `./fixtures/aliases/pnpm/${lockFileVersionPath}/${fixtureName}/package.json`,
+        ),
+        'utf8',
+      );
+      const pkgLockContent = readFileSync(
+        join(
+          __dirname,
+          `./fixtures/aliases/pnpm/${lockFileVersionPath}/${fixtureName}/pnpm-lock.yaml`,
+        ),
+        'utf8',
+      );
+
+      const newDepGraph = await parsePnpmProject(
+        pkgJsonContent,
+        pkgLockContent,
+        {
+          includeDevDeps: true,
+          includePeerDeps: true,
+          includeOptionalDeps: true,
+          strictOutOfSync: true,
+          pruneWithinTopLevelDeps: true,
+        },
+      );
+
+      expect(newDepGraph).toBeDefined;
+      expect(() => JSON.parse(JSON.stringify(newDepGraph))).not.toThrow();
+      expect(JSON.stringify(newDepGraph)).toContain('@yao-pkg/pkg');
+      expect(JSON.stringify(newDepGraph)).not.toContain('"pkg"');
+    });
+  },
+);
