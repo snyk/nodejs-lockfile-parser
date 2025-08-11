@@ -12,7 +12,7 @@ export const rewriteAliasesInYarnLockV2 = (
     string,
     string
   >;
-  const topLevelAliasedPkgs = Object.entries(topLevelPkgs)
+  const topLevelAliasedPkgs = Object.entries(topLevelPkgs || {})
     .filter((entry) => {
       return entry[1].startsWith('npm:');
     })
