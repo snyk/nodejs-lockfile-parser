@@ -13,6 +13,15 @@ export type PackageJsonBase = {
   pnpm?: {
     overrides?: Overrides;
   };
+  aliases?: Record<
+    string,
+    {
+      aliasName: string;
+      aliasTargetDepName: string;
+      semver: string;
+      version: string | null;
+    }
+  >;
 };
 
 export type Overrides = string | { [key: string]: Overrides };

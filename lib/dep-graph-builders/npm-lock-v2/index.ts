@@ -22,7 +22,6 @@ import * as micromatch from 'micromatch';
 import * as pathUtil from 'path';
 import { eventLoopSpinner } from 'event-loop-spinner';
 import { rewriteAliasesPkgJson } from '../../aliasesPreprocessors/pkgJson';
-import { rewriteAliasesInNpmLockV2 } from '../../aliasesPreprocessors/npm-lock-v2';
 
 export { extractPkgsFromNpmLockV2 };
 
@@ -45,9 +44,7 @@ export const parseNpmLockV2Project = async (
       ? rewriteAliasesPkgJson(pkgJsonContent)
       : pkgJsonContent,
   );
-  const pkgs = options.honorAliases
-    ? rewriteAliasesInNpmLockV2(extractPkgsFromNpmLockV2(pkgLockContent))
-    : extractPkgsFromNpmLockV2(pkgLockContent);
+  const pkgs = extractPkgsFromNpmLockV2(pkgLockContent);
 
   const depgraph = await buildDepGraphNpmLockV2(pkgs, pkgJson, {
     includeDevDeps,
@@ -207,7 +204,16 @@ const dfsVisit = async (
 
 const getChildNode = (
   name: string,
-  depInfo: { version: string; isDev: boolean },
+  depInfo: {
+    version: string;
+    isDev: boolean;
+    alias?: {
+      aliasName: string;
+      aliasTargetDepName: string;
+      semver: string;
+      version: string;
+    };
+  },
   pkgs: Record<string, NpmLockPkg>,
   strictOutOfSync: boolean,
   includeDevDeps: boolean,
@@ -232,7 +238,7 @@ const getChildNode = (
   }
 
   let childNodeKey = getChildNodeKey(
-    name,
+    depInfo.alias ? depInfo.alias.aliasName : name,
     version,
     ancestry,
     pkgs,
@@ -301,7 +307,7 @@ const getChildNode = (
 
   return {
     id: `${name}@${depData.version}`,
-    name: name,
+    name: depInfo.alias?.aliasTargetDepName ?? name,
     version: depData.version,
     dependencies: {
       ...dependencies,
@@ -311,6 +317,9 @@ const getChildNode = (
     isDev: depInfo.isDev,
     inBundle: depData.inBundle,
     key: childNodeKey,
+    ...(depInfo.alias
+      ? { alias: { ...depInfo.alias, version: depData.version } }
+      : {}),
   };
 };
 

@@ -101,7 +101,16 @@ export const yarnLockFileKeyNormalizer =
 
 export const getYarnLockV2ChildNode = (
   name: string,
-  depInfo: { version: string; isDev: boolean },
+  depInfo: {
+    version: string;
+    isDev: boolean;
+    alias?: {
+      aliasName: string;
+      aliasTargetDepName: string;
+      semver: string;
+      version: string;
+    };
+  },
   pkgs: NormalisedPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
@@ -156,11 +165,19 @@ export const getYarnLockV2ChildNode = (
       } else {
         return {
           id: childNodeKeyFromResolution,
-          name: name,
+          name: depInfo.alias ? depInfo.alias.aliasTargetDepName : name,
           version: resolvedVersionFromResolution,
           dependencies: {},
           isDev: depInfo.isDev,
           missingLockFileEntry: true,
+          ...(depInfo.alias
+            ? {
+                alias: {
+                  ...depInfo.alias,
+                  version: resolvedVersionFromResolution,
+                },
+              }
+            : {}),
         };
       }
     }
@@ -181,13 +198,16 @@ export const getYarnLockV2ChildNode = (
 
     return {
       id: childNodeKeyFromResolution,
-      name: name,
+      name: depInfo.alias ? depInfo.alias.aliasTargetDepName : name,
       version: versionFromResolution,
       dependencies: {
         ...formattedOptionalDependencies,
         ...formattedDependencies,
       },
       isDev: depInfo.isDev,
+      ...(depInfo.alias
+        ? { alias: { ...depInfo.alias, version: versionFromResolution } }
+        : {}),
     };
   }
 
@@ -199,11 +219,14 @@ export const getYarnLockV2ChildNode = (
     } else {
       return {
         id: childNodeKey,
-        name: name,
+        name: depInfo.alias ? depInfo.alias.aliasTargetDepName : name,
         version: depInfo.version,
         dependencies: {},
         isDev: depInfo.isDev,
         missingLockFileEntry: true,
+        ...(depInfo.alias
+          ? { alias: { ...depInfo.alias, version: depInfo.version } }
+          : {}),
       };
     }
   } else {
@@ -217,10 +240,13 @@ export const getYarnLockV2ChildNode = (
       : {};
     return {
       id: `${name}@${depData.version}`,
-      name: name,
+      name: depInfo.alias ? depInfo.alias.aliasTargetDepName : name,
       version: depData.version,
       dependencies: { ...dependencies, ...optionalDependencies },
       isDev: depInfo.isDev,
+      ...(depInfo.alias
+        ? { alias: { ...depInfo.alias, version: depData.version } }
+        : {}),
     };
   }
 };
