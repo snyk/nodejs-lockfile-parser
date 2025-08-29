@@ -16,6 +16,12 @@ export interface PkgNode {
   missingLockFileEntry?: boolean;
   inBundle?: boolean;
   key?: string;
+  alias?: {
+    aliasName: string;
+    aliasTargetDepName: string;
+    semver: string;
+    version: string;
+  };
 }
 
 export const addPkgNodeToGraph = (
@@ -35,6 +41,9 @@ export const addPkgNodeToGraph = (
         ...(options.isCyclic && { pruned: 'cyclic' }),
         ...(options.isWorkspacePkg && { pruned: 'true' }),
         ...(node.missingLockFileEntry && { missingLockFileEntry: 'true' }),
+        ...(node.alias && {
+          alias: `${node.alias.aliasName}=>${node.alias.aliasTargetDepName}@${node.version}`,
+        }),
       },
     },
   );
@@ -65,6 +74,15 @@ export const getTopLevelDeps = (
     : {};
 
   const deps = { ...prodDeps, ...optionalDeps, ...peerDeps };
+
+  if (pkgJson.aliases) {
+    for (const alias of Object.keys(pkgJson.aliases)) {
+      deps[alias] = {
+        ...deps[alias],
+        ...{ alias: { ...pkgJson.aliases[alias] } },
+      };
+    }
+  }
 
   if (options.includeDevDeps) {
     // Ensure dev dependency 'isDev' flags are correctly set.
@@ -117,7 +135,16 @@ export function parsePkgJson(pkgJsonContent: string): PackageJsonBase {
 
 export const getChildNode = (
   name: string,
-  depInfo: { version: string; isDev: boolean },
+  depInfo: {
+    version: string;
+    isDev: boolean;
+    alias?: {
+      aliasName: string;
+      aliasTargetDepName: string;
+      semver: string;
+      version: string;
+    };
+  },
   pkgs: NormalisedPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
@@ -131,7 +158,7 @@ export const getChildNode = (
     } else {
       childNode = {
         id: childNodeKey,
-        name: name,
+        name: depInfo.alias?.aliasTargetDepName ?? name,
         version: depInfo.version,
         dependencies: {},
         isDev: depInfo.isDev,
@@ -149,7 +176,7 @@ export const getChildNode = (
       : {};
     childNode = {
       id: `${name}@${depData.version}`,
-      name: name,
+      name: depInfo.alias?.aliasTargetDepName ?? name,
       version: depData.version,
       dependencies: { ...dependencies, ...optionalDependencies },
       isDev: depInfo.isDev,
