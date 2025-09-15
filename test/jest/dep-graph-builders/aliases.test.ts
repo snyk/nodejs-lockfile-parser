@@ -204,6 +204,34 @@ describe('Testing aliases for yarn', () => {
     expect(pkgs.some((x) => x.name === 'pkg')).toBeFalsy();
     expect(pkgs.some((x) => x.name === '@yao-pkg/pkg')).toBeTruthy();
   });
+
+  it('handle missing dependencies field - yarn-lock-v2', async () => {
+    const pkgJsonContent = JSON.stringify({
+      name: 'test-missing-deps',
+      version: '1.0.0',
+      // No dependencies field
+    });
+    const yarnLockContent = readFileSync(
+      join(__dirname, `./fixtures/aliases/yarn-lock-v2/yarn.lock`),
+      'utf8',
+    );
+
+    const newDepGraph = await parseYarnLockV2Project(
+      pkgJsonContent,
+      yarnLockContent,
+      {
+        includeDevDeps: true,
+        includeOptionalDeps: true,
+        strictOutOfSync: false,
+        pruneWithinTopLevelDeps: true,
+        honorAliases: true,
+      },
+    );
+
+    expect(newDepGraph).toBeDefined();
+    const pkgs = newDepGraph.getPkgs();
+    expect(pkgs).toBeDefined();
+  });
 });
 describe('Testing aliases for npm', () => {
   it('match aliased package - npm-lock-v1', async () => {
