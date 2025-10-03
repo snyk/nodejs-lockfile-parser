@@ -70,15 +70,39 @@ const dfsVisit = async (
   visited?: Set<string>,
 ): Promise<void> => {
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
+    let scopeDepInfo = depInfo;
     if (eventLoopSpinner.isStarving()) {
       await eventLoopSpinner.spin();
+    }
+
+    if (
+      depInfo.version.startsWith('npm:') &&
+      depInfo.version.indexOf('@') > -1
+    ) {
+      scopeDepInfo = {
+        ...scopeDepInfo,
+        ...{
+          alias: {
+            aliasName: name,
+            aliasTargetDepName: depInfo.version.substring(
+              4,
+              depInfo.version.lastIndexOf('@'),
+            ),
+            semver: depInfo.version.substring(
+              depInfo.version.lastIndexOf('@') + 1,
+              depInfo.version.length,
+            ),
+            version: null,
+          },
+        },
+      };
     }
 
     const localVisited = visited || new Set<string>();
 
     const childNode = getYarnLockV2ChildNode(
       name,
-      depInfo,
+      scopeDepInfo,
       extractedYarnLockV2Pkgs,
       strictOutOfSync,
       includeOptionalDeps,

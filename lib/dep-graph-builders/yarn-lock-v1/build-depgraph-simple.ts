@@ -64,13 +64,33 @@ const dfsVisit = async (
   visited?: Set<string>,
 ): Promise<void> => {
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
+    let scopeDepInfo = Object.assign({}, depInfo);
     if (eventLoopSpinner.isStarving()) {
       await eventLoopSpinner.spin();
     }
     const localVisited = visited || new Set<string>();
+    if (depInfo.version.startsWith('npm:')) {
+      scopeDepInfo = {
+        ...scopeDepInfo,
+        ...{
+          alias: {
+            aliasName: name,
+            aliasTargetDepName: depInfo.version.substring(
+              4,
+              depInfo.version.lastIndexOf('@'),
+            ),
+            semver: depInfo.version.substring(
+              depInfo.version.lastIndexOf('@') + 1,
+              depInfo.version.length,
+            ),
+            version: null,
+          },
+        },
+      };
+    }
     const childNode = getChildNode(
       name,
-      depInfo,
+      scopeDepInfo,
       extractedYarnLockV1Pkgs,
       strictOutOfSync,
       includeOptionalDeps,

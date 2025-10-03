@@ -10,7 +10,7 @@ import {
 } from '../types';
 import { valid } from 'semver';
 import * as pathUtil from 'path';
-import { isEmpty } from 'lodash';
+import * as isEmpty from 'lodash.isempty';
 import * as debugModule from 'debug';
 import { UNDEFINED_VERSION } from '../constants';
 

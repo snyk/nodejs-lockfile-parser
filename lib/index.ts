@@ -70,7 +70,7 @@ import {
   getPnpmLockfileVersion,
   NodeLockfileVersion,
 } from './utils';
-import { rewriteAliasesInNpmLockV1 } from './aliasesPreprocessors/npm-lock-v1';
+
 import { rewriteAliasesPkgJson } from './aliasesPreprocessors/pkgJson';
 export {
   parseNpmLockV2Project,
@@ -198,9 +198,7 @@ async function buildDepTreeFromFiles(
     honorAliases
       ? rewriteAliasesPkgJson(manifestFileContents)
       : manifestFileContents,
-    honorAliases
-      ? rewriteAliasesInNpmLockV1(lockFileContents)
-      : lockFileContents,
+    lockFileContents,
     includeDev,
     lockFileType,
     strictOutOfSync,

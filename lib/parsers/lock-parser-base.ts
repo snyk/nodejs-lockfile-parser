@@ -143,7 +143,17 @@ export abstract class LockParserBase implements LockfileParser {
       includePeerDeps: lockfile.type === LockfileType.npm7,
       applyYarn2Resolutions: lockfile.type === LockfileType.yarn2,
     });
-
+    for (const alias of Object.keys(manifestFile.aliases ?? [])) {
+      const aliasInfo = manifestFile.aliases![alias];
+      depTrees[aliasInfo.aliasName] = {
+        ...depTrees[aliasInfo.aliasName],
+        name: aliasInfo.aliasTargetDepName,
+        labels: {
+          ...depTrees[aliasInfo.aliasName].labels,
+          ...{ alias: aliasInfo },
+        },
+      };
+    }
     // number of dependencies including root one
     let treeSize = 1;
     for (const dep of topLevelDeps) {

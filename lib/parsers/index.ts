@@ -36,11 +36,26 @@ export interface ManifestFile {
   peerDependenciesMeta?: PeerDependenciesMeta;
   resolutions?: ManifestDependencies;
   version?: string;
+  aliases?: Record<
+    string,
+    {
+      aliasName: string;
+      aliasTargetDepName: string;
+      semver: string;
+      version: string;
+    }
+  >;
 }
 
 // This is a copy/paste from https://github.com/snyk/dep-graph/blob/master/src/legacy/index.ts
 // and should be removed in favour of depgraph library interface
 
+export interface Alias {
+  aliasName: string;
+  aliasTargetDepName: string;
+  semver: string;
+  version: string;
+}
 export interface DepTreeDep {
   name?: string; // shouldn't, but might happen
   version?: string; // shouldn't, but might happen
@@ -48,10 +63,11 @@ export interface DepTreeDep {
     [depName: string]: DepTreeDep;
   };
   labels?: {
-    [key: string]: string | undefined;
+    [key: string]: string | Alias | undefined;
     scope?: 'dev' | 'prod';
     pruned?: 'cyclic' | 'true';
     missingLockFileEntry?: 'true';
+    alias?: Alias;
   };
 }
 

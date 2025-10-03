@@ -8,7 +8,6 @@ import {
 import { buildDepGraphYarnLockV2Simple } from './build-depgraph-simple';
 import { DepGraph } from '@snyk/dep-graph';
 import { rewriteAliasesPkgJson } from '../../aliasesPreprocessors/pkgJson';
-import { rewriteAliasesInYarnLockV2 } from '../../aliasesPreprocessors/yarn-lock-v2';
 
 export const parseYarnLockV2Project = async (
   pkgJsonContent: string,
@@ -24,13 +23,7 @@ export const parseYarnLockV2Project = async (
     honorAliases,
   } = options;
 
-  const pkgs = honorAliases
-    ? rewriteAliasesInYarnLockV2(
-        pkgJsonContent,
-        extractPkgsFromYarnLockV2(yarnLockContent),
-      )
-    : extractPkgsFromYarnLockV2(yarnLockContent);
-
+  const pkgs = extractPkgsFromYarnLockV2(yarnLockContent);
   const pkgJson: PackageJsonBase = parsePkgJson(
     honorAliases ? rewriteAliasesPkgJson(pkgJsonContent) : pkgJsonContent,
   );
