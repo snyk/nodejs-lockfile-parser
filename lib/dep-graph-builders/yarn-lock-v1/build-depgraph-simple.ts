@@ -109,6 +109,9 @@ const dfsVisit = async (
               ...(node.missingLockFileEntry && {
                 missingLockFileEntry: 'true',
               }),
+              ...(childNode.alias && {
+                alias: `${childNode.alias.aliasName}=>${childNode.alias.aliasTargetDepName}@${childNode.version}`,
+              }),
             },
           },
         );
@@ -127,6 +130,9 @@ const dfsVisit = async (
           scope: node.isDev ? 'dev' : 'prod',
           ...(node.missingLockFileEntry && {
             missingLockFileEntry: 'true',
+          }),
+          ...(childNode.alias && {
+            alias: `${childNode.alias.aliasName}=>${childNode.alias.aliasTargetDepName}@${childNode.version}`,
           }),
         },
       },

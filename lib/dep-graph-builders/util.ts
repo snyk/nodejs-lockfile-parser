@@ -163,6 +163,7 @@ export const getChildNode = (
         dependencies: {},
         isDev: depInfo.isDev,
         missingLockFileEntry: true,
+        alias: depInfo.alias,
       };
     }
   } else {
@@ -180,6 +181,7 @@ export const getChildNode = (
       version: depData.version,
       dependencies: { ...dependencies, ...optionalDependencies },
       isDev: depInfo.isDev,
+      alias: depInfo.alias,
     };
   }
 

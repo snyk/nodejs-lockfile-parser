@@ -36,6 +36,9 @@ describe('Testing aliases for yarn', () => {
     const pkgs = newDepGraph.getPkgs();
     expect(pkgs.some((x) => x.name === 'pkg')).toBeFalsy();
     expect(pkgs.some((x) => x.name === '@yao-pkg/pkg')).toBeTruthy();
+    expect(JSON.stringify(newDepGraph)).toContain(
+      '"alias":"pkg=>@yao-pkg/pkg@6.5.0"',
+    );
   });
 
   it('match aliased package also used in transitive deps - yarn-lock-v1', async () => {
@@ -170,6 +173,9 @@ describe('Testing aliases for yarn', () => {
     const pkgs = newDepGraph.getPkgs();
     expect(pkgs.some((x) => x.name === 'pkg')).toBeFalsy();
     expect(pkgs.some((x) => x.name === '@yao-pkg/pkg')).toBeTruthy();
+    expect(JSON.stringify(newDepGraph)).toContain(
+      '"alias":"pkg=>@yao-pkg/pkg@6.5.0"',
+    );
   });
 
   it('match aliased package also used in transitive deps - yarn-lock-v2', async () => {
