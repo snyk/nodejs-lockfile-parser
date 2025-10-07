@@ -37,6 +37,9 @@ export {
   ManifestFile,
 };
 
+import { processNpmProjDir } from './dep-graph-builders-using-tooling/npm7';
+export { processNpmProjDir };
+
 // Straight to Depgraph Functionality *************
 // ************************************************
 import {
