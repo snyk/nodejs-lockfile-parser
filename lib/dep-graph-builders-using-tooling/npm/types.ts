@@ -3,6 +3,15 @@
  * This represents the output format of `npm list --all --json --package-lock-only`
  */
 
+export interface NpmProjectProcessorOptions {
+  /** Whether to include development dependencies */
+  includeDevDeps: boolean;
+  /** Whether to include optional dependencies */
+  includeOptionalDeps: boolean;
+  /** Whether to include peer dependencies */
+  includePeerDeps: boolean;
+}
+
 export interface NpmDependency {
   /** The version of the package */
   version: string;

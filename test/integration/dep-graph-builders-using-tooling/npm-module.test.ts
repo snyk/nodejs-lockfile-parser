@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
-import { processNpmProjDir } from '../../../lib/dep-graph-builders-using-tooling/npm7';
+import { processNpmProjDir } from '../../../lib/dep-graph-builders-using-tooling/npm';
 import {
   assertDepGraphDataMatch,
   compareDepGraphData,
@@ -14,12 +14,12 @@ describe('NPM Module Integration Tests', () => {
         'goof',
         'one-dep',
         'cyclic-dep',
-        // 'deeply-nested-packages',
-        // 'deeply-scoped',
-        // 'different-versions',
-        // 'local-pkg-without-workspaces',
-        // 'dist-tag-sub-dependency',
-        // 'bundled-top-level-dep',
+        'deeply-nested-packages',
+        'deeply-scoped',
+        'different-versions',
+        'local-pkg-without-workspaces',
+        'dist-tag-sub-dependency',
+        'bundled-top-level-dep',
       ])('[simple tests] project: %s ', (fixtureName) => {
         it('matches expected', async () => {
           const fixtureDir = join(
@@ -30,23 +30,9 @@ describe('NPM Module Integration Tests', () => {
           const newDepGraph = await processNpmProjDir(fixtureDir, {
             includeDevDeps: false,
             includeOptionalDeps: true,
-            pruneCycles: true,
-            pruneWithinTopLevelDeps: true,
+            includePeerDeps: true,
           });
           const newDepGraphData = newDepGraph.toJSON();
-
-          // Debug: Write the actual result to a file for manual verification
-          const debugOutputPath = join(
-            __dirname,
-            `../../jest/dep-graph-builders/fixtures/npm-lock-v2/${fixtureName}/expected-npm-list.json`,
-          );
-          writeFileSync(
-            debugOutputPath,
-            JSON.stringify(newDepGraphData, null, 2) + '\n',
-          );
-          console.log(
-            `Debug: Written actual DepGraphData to ${debugOutputPath}`,
-          );
 
           const expectedDepGraphJson = JSON.parse(
             readFileSync(
