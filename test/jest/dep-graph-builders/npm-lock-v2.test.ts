@@ -529,4 +529,56 @@ describe('bundledDependencies', () => {
       Buffer.from(JSON.stringify(expectedDepGraphJson)).toString('base64'),
     );
   });
+
+  it('project: bundled-deps-wasm handles WASM packages with bundled dependencies', async () => {
+    const fixtureName = 'bundled-deps-wasm';
+    const pkgJsonContent = readFileSync(
+      join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/package.json`),
+      'utf8',
+    );
+    const npmLockContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/npm-lock-v2/${fixtureName}/package-lock.json`,
+      ),
+      'utf8',
+    );
+
+    // This should NOT throw OutOfSyncError even though bundled deps
+    // are not listed as separate entries in the lockfile
+    const depGraph = await parseNpmLockV2Project(
+      pkgJsonContent,
+      npmLockContent,
+      {
+        includeDevDeps: false,
+        includeOptionalDeps: true,
+        pruneCycles: true,
+        strictOutOfSync: true,
+      },
+    );
+
+    expect(depGraph).toBeDefined();
+    expect(depGraph.getPkgs().length).toBeGreaterThan(0);
+
+    const depGraphJson = depGraph.toJSON();
+    const wasmPkg = depGraphJson.pkgs.find(
+      (p) => p.info.name === '@tailwindcss/oxide-wasm32-wasi',
+    );
+    expect(wasmPkg).toBeDefined();
+    expect(wasmPkg?.info.version).toBe('4.1.11');
+
+    // Verify bundled dependencies are in the graph as children
+    const wasmNode = depGraphJson.graph.nodes.find(
+      (n) => n.pkgId === wasmPkg?.id,
+    );
+    expect(wasmNode).toBeDefined();
+
+    expect(wasmNode?.deps.length).toBeGreaterThan(0);
+
+    // Check for one of the bundled dependencies
+    const emnapiCoreDep = wasmNode?.deps.find((d) =>
+      d.nodeId.includes('@emnapi/core'),
+    );
+    expect(emnapiCoreDep).toBeDefined();
+  });
 });

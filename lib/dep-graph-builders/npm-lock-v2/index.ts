@@ -247,6 +247,28 @@ const getChildNode = (
   );
 
   if (!childNodeKey) {
+    // https://snyksec.atlassian.net/wiki/spaces/SCA/pages/3785687123/NPM+Bundled+Dependencies+Analysis
+    // Check if this dependency is bundled in the parent package
+    // Bundled dependencies may not have separate lockfile entries when
+    // the package is installed from registry (they're pre-packaged in the tarball)
+    const parentNode = ancestry[ancestry.length - 1];
+    if (parentNode && parentNode.key) {
+      const parentPkg = pkgs[parentNode.key];
+      if (parentPkg && isBundledDependency(name, parentPkg)) {
+        // This is a bundled dependency without a lockfile entry
+        // Return a placeholder node - we don't have sub-dependency information
+        return {
+          id: `${name}@${depInfo.version}`,
+          name: name,
+          version: '', // empty version since we cannot resolve the semver for bundled deps
+          dependencies: {},
+          isDev: depInfo.isDev,
+          inBundle: true,
+          key: '',
+        };
+      }
+    }
+
     if (strictOutOfSync) {
       throw new OutOfSyncError(`${name}@${depInfo.version}`, LockfileType.npm);
     } else {
@@ -322,6 +344,20 @@ const getChildNode = (
       : {}),
   };
 };
+
+// Checks if a dependency is bundled in the parent package.
+// Bundled dependencies are included in the parent's published tarball
+// and may not have separate entries in the lockfile when installed from registry.
+function isBundledDependency(depName: string, parentPkg: NpmLockPkg): boolean {
+  // Check both spellings (bundleDependencies is canonical, bundledDependencies is alternative)
+  const bundled = parentPkg.bundleDependencies || parentPkg.bundledDependencies;
+
+  if (!bundled || !Array.isArray(bundled)) {
+    return false;
+  }
+
+  return bundled.includes(depName);
+}
 
 export const getChildNodeKey = (
   name: string,
@@ -433,7 +469,7 @@ export const getChildNodeKey = (
     ancestryNames.shift();
   }
 
-  // Here we go through th eancestry backwards to find the nearest
+  // Here we go through the ancestry backwards to find the nearest
   // ancestor package
   const reversedAncestry = ancestry.reverse();
   for (
