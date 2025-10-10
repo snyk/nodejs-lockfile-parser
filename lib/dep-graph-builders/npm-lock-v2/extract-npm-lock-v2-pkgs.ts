@@ -11,6 +11,8 @@ export type NpmLockPkg = {
   license?: string;
   engines?: Record<string, string>;
   inBundle?: boolean;
+  bundleDependencies?: string[];
+  bundledDependencies?: string[];
 };
 
 export const extractPkgsFromNpmLockV2 = (
