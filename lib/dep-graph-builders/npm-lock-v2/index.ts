@@ -16,6 +16,7 @@ import {
 } from '../util';
 import { OutOfSyncError } from '../../errors';
 import { LockfileType } from '../../parsers';
+import { parseNpmAlias } from '../../aliasesPreprocessors/pkgJson';
 
 import * as semver from 'semver';
 import * as micromatch from 'micromatch';
@@ -224,6 +225,7 @@ const getChildNode = (
   pruneNpmStrictOutOfSync?: boolean,
 ) => {
   let version = depInfo.version;
+  let aliasInfo = depInfo.alias;
 
   const override =
     overrides &&
@@ -231,14 +233,25 @@ const getChildNode = (
 
   if (override) {
     version = override;
-  }
 
-  if (version.startsWith('npm:')) {
+    // If the override is an alias (starts with npm:), extract alias information
+    const parsed = parseNpmAlias(version);
+    if (parsed) {
+      aliasInfo = {
+        aliasName: name,
+        aliasTargetDepName: parsed.packageName,
+        semver: parsed.version,
+        version: parsed.version,
+      };
+      version = parsed.version;
+    }
+  } else if (version.startsWith('npm:')) {
+    // Handle non-override aliases
     version = version.split('@').pop() || version;
   }
 
   let childNodeKey = getChildNodeKey(
-    depInfo.alias ? depInfo.alias.aliasName : name,
+    aliasInfo ? aliasInfo.aliasName : name,
     version,
     ancestry,
     pkgs,
@@ -329,7 +342,7 @@ const getChildNode = (
 
   return {
     id: `${name}@${depData.version}`,
-    name: depInfo.alias?.aliasTargetDepName ?? name,
+    name: aliasInfo?.aliasTargetDepName ?? name,
     version: depData.version,
     dependencies: {
       ...dependencies,
@@ -339,9 +352,7 @@ const getChildNode = (
     isDev: depInfo.isDev,
     inBundle: depData.inBundle,
     key: childNodeKey,
-    ...(depInfo.alias
-      ? { alias: { ...depInfo.alias, version: depData.version } }
-      : {}),
+    ...(aliasInfo ? { alias: { ...aliasInfo, version: depData.version } } : {}),
   };
 };
 

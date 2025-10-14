@@ -1,0 +1,11 @@
+{
+  "name": "override-with-alias",
+  "version": "1.0.0",
+  "description": "Test npm overrides with alias",
+  "dependencies": {
+    "keycloak-connect": "26.1.1"
+  },
+  "overrides": {
+    "elliptic": "npm:dry-uninstall@0.3.0"
+  }
+}
