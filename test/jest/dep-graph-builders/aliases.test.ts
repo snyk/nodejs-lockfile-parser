@@ -525,6 +525,44 @@ describe('Testing aliases for npm', () => {
     expect(JSON.stringify(newDepGraph)).toContain('hello-world-npm@1.1.1');
     expect(JSON.stringify(newDepGraph)).toContain('hello-world-npm@1.1.0');
   });
+  it('match aliased package in overrides - npm-lock-v2', async () => {
+    const pkgJsonContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/npm-lock-v2/override-with-alias/package.json`,
+      ),
+      'utf8',
+    );
+    const pkgLockContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/npm-lock-v2/override-with-alias/package-lock.json`,
+      ),
+      'utf8',
+    );
+
+    const newDepGraph = await parseNpmLockV2Project(
+      pkgJsonContent,
+      pkgLockContent,
+      {
+        includeDevDeps: true,
+        includeOptionalDeps: true,
+        pruneCycles: true,
+        strictOutOfSync: true,
+        honorAliases: true,
+      },
+    );
+
+    expect(newDepGraph).toBeDefined;
+    expect(() => JSON.parse(JSON.stringify(newDepGraph))).not.toThrow();
+
+    // elliptic should be aliased to dry-uninstall
+    const depGraphJson = JSON.stringify(newDepGraph);
+    expect(depGraphJson).toContain('dry-uninstall');
+
+    // Verify the alias metadata is present
+    expect(depGraphJson).toContain('"alias":"elliptic=>dry-uninstall@0.3.0"');
+  });
 });
 
 describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
