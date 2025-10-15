@@ -9,11 +9,11 @@
     "test": "npm run unit-test && npm run test:jest",
     "unit-test": "tap --ts -Rspec ./test/lib/*.test.[tj]s --timeout=300 --no-check-coverage",
     "test:jest": "jest --coverage --runInBand",
+    "test:integration": "jest test/integration --runInBand",
     "lint": "eslint --color --cache '{lib,test}/**/*.{js,ts}' && prettier --check '{lib,test}/**/*.{js,ts}'",
     "format": "prettier --write '{lib,test}/**/*.{js,ts,json}'",
     "build": "tsc",
-    "build-watch": "tsc -w",
-    "prepare": "npm run build"
+    "build-watch": "tsc -w"
   },
   "types": "./dist/index.d.ts",
   "repository": {
@@ -46,6 +46,7 @@
     "micromatch": "^4.0.8",
     "p-map": "^4.0.0",
     "semver": "^7.6.0",
+    "shescape": "^2.1.6",
     "snyk-config": "^5.2.0",
     "tslib": "^1.9.3",
     "uuid": "^8.3.0"
