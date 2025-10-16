@@ -247,7 +247,19 @@ const getChildNode = (
     }
   } else if (version.startsWith('npm:')) {
     // Handle non-override aliases
-    version = version.split('@').pop() || version;
+    const parsed = parseNpmAlias(version);
+    if (parsed) {
+      aliasInfo = {
+        aliasName: name,
+        aliasTargetDepName: parsed.packageName,
+        semver: parsed.version,
+        version: parsed.version,
+      };
+      version = parsed.version;
+    } else {
+      // Fallback if parsing fails
+      version = version.split('@').pop() || version;
+    }
   }
 
   let childNodeKey = getChildNodeKey(
@@ -404,9 +416,20 @@ export const getChildNodeKey = (
   // The lockfile paths reflect the actual file system structure, which may or may not
   // include all ancestors depending on hoisting
   const isBundled = ancestry[ancestry.length - 1].inBundle;
+
+  // Resolve the real package name in case 'name' is an alias
+  // This ensures ancestry matching works correctly with alias resolution
+  let resolvedName = name;
+  if (candidateKeys.length > 0) {
+    const firstCandidate = pkgs[candidateKeys[0]];
+    if (firstCandidate && firstCandidate.name && firstCandidate.name !== name) {
+      resolvedName = firstCandidate.name;
+    }
+  }
+
   const ancestryFromRootOperatingIdx = [
     ...ancestry.slice(1), // Always start from index 1 (skip only the true root)
-    { id: `${name}@${version}`, name, version },
+    { id: `${name}@${version}`, name: resolvedName, version },
   ];
 
   // Find the bundle owner for the bundle root check below
@@ -434,15 +457,22 @@ export const getChildNodeKey = (
     // To do this we remove the first node_modules substring
     // and then split on the rest
 
-    const candidateAncestry = (
-      candidate.startsWith('node_modules/')
-        ? candidate.replace('node_modules/', '').split('/node_modules/')
-        : candidate.split('/node_modules/')
-    ).map((el) => {
-      if (pkgs[el]) {
-        return pkgs[el].name || el;
+    // Build candidateAncestry by reconstructing full paths and resolving package names
+    // This is needed to properly resolve aliases (e.g., lib-v3 -> @example/component-lib)
+    const segments = candidate.startsWith('node_modules/')
+      ? candidate.replace('node_modules/', '').split('/node_modules/')
+      : candidate.split('/node_modules/');
+
+    const candidateAncestry = segments.map((segment, idx) => {
+      // Reconstruct the full path up to this segment
+      const pathSegments = segments.slice(0, idx + 1);
+      const fullPath = 'node_modules/' + pathSegments.join('/node_modules/');
+
+      // Look up using the full path to resolve aliases
+      if (pkgs[fullPath]) {
+        return pkgs[fullPath].name || segment;
       }
-      return el;
+      return segment;
     });
 
     // Check the ancestry of the candidate is a subset of
@@ -487,7 +517,7 @@ export const getChildNodeKey = (
     return filteredCandidates[0];
   }
 
-  const ancestryNames = ancestry.map((el) => el.name).concat(name);
+  const ancestryNames = ancestry.map((el) => el.name).concat(resolvedName);
   while (ancestryNames.length > 0) {
     const possibleKey = `node_modules/${ancestryNames.join('/node_modules/')}`;
 
