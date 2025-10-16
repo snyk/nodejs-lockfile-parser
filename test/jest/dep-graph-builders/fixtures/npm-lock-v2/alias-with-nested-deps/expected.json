@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "npm"
+  },
+  "pkgs": [
+    {
+      "id": "alias-nested-deps-test@1.0.0",
+      "info": {
+        "name": "alias-nested-deps-test",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "@example/component-lib@3.0.0",
+      "info": {
+        "name": "@example/component-lib",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "@types/helper-lib@1.2.3",
+      "info": {
+        "name": "@types/helper-lib",
+        "version": "1.2.3"
+      }
+    },
+    {
+      "id": "lodash@4.17.21",
+      "info": {
+        "name": "lodash",
+        "version": "4.17.21"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "alias-nested-deps-test@1.0.0",
+        "deps": [
+          {
+            "nodeId": "lib-v3@3.0.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "lib-v3@3.0.0",
+        "pkgId": "@example/component-lib@3.0.0",
+        "deps": [
+          {
+            "nodeId": "@types/helper-lib@1.2.3"
+          },
+          {
+            "nodeId": "lodash@4.17.21"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "alias": "lib-v3=>@example/component-lib@3.0.0"
+          }
+        }
+      },
+      {
+        "nodeId": "@types/helper-lib@1.2.3",
+        "pkgId": "@types/helper-lib@1.2.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lodash@4.17.21",
+        "pkgId": "lodash@4.17.21",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}

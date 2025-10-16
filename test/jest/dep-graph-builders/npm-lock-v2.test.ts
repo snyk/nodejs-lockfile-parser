@@ -13,6 +13,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
       describe.each([
         'nested-bundled-deps',
         'root-level-bundled',
+        'alias-with-nested-deps',
         'goof',
         'one-dep',
         'cyclic-dep',
@@ -47,6 +48,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
               includeOptionalDeps: true,
               pruneCycles: true,
               strictOutOfSync: true,
+              honorAliases: true,
             },
           );
 

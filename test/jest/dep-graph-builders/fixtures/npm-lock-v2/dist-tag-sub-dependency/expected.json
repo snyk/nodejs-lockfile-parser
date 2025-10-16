@@ -950,9 +950,9 @@
       }
     },
     {
-      "id": "string-width-cjs@4.2.3",
+      "id": "string-width@4.2.3",
       "info": {
-        "name": "string-width-cjs",
+        "name": "string-width",
         "version": "4.2.3"
       }
     },
@@ -971,13 +971,6 @@
       }
     },
     {
-      "id": "strip-ansi-cjs@6.0.1",
-      "info": {
-        "name": "strip-ansi-cjs",
-        "version": "6.0.1"
-      }
-    },
-    {
       "id": "wrap-ansi@8.1.0",
       "info": {
         "name": "wrap-ansi",
@@ -992,9 +985,9 @@
       }
     },
     {
-      "id": "wrap-ansi-cjs@7.0.0",
+      "id": "wrap-ansi@7.0.0",
       "info": {
-        "name": "wrap-ansi-cjs",
+        "name": "wrap-ansi",
         "version": "7.0.0"
       }
     },
@@ -1017,13 +1010,6 @@
       "info": {
         "name": "color-name",
         "version": "1.1.4"
-      }
-    },
-    {
-      "id": "string-width@4.2.3",
-      "info": {
-        "name": "string-width",
-        "version": "4.2.3"
       }
     },
     {
@@ -1325,13 +1311,6 @@
       "info": {
         "name": "cliui",
         "version": "8.0.1"
-      }
-    },
-    {
-      "id": "wrap-ansi@7.0.0",
-      "info": {
-        "name": "wrap-ansi",
-        "version": "7.0.0"
       }
     },
     {
@@ -5582,7 +5561,7 @@
       },
       {
         "nodeId": "string-width-cjs@4.2.3",
-        "pkgId": "string-width-cjs@4.2.3",
+        "pkgId": "string-width@4.2.3",
         "deps": [
           {
             "nodeId": "emoji-regex@8.0.0"
@@ -5596,7 +5575,8 @@
         ],
         "info": {
           "labels": {
-            "scope": "prod"
+            "scope": "prod",
+            "alias": "string-width-cjs=>string-width@4.2.3"
           }
         }
       },
@@ -5622,7 +5602,7 @@
       },
       {
         "nodeId": "strip-ansi-cjs@6.0.1",
-        "pkgId": "strip-ansi-cjs@6.0.1",
+        "pkgId": "strip-ansi@6.0.1",
         "deps": [
           {
             "nodeId": "ansi-regex@5.0.1"
@@ -5630,7 +5610,8 @@
         ],
         "info": {
           "labels": {
-            "scope": "prod"
+            "scope": "prod",
+            "alias": "strip-ansi-cjs=>strip-ansi@6.0.1"
           }
         }
       },
@@ -5666,7 +5647,7 @@
       },
       {
         "nodeId": "wrap-ansi-cjs@7.0.0",
-        "pkgId": "wrap-ansi-cjs@7.0.0",
+        "pkgId": "wrap-ansi@7.0.0",
         "deps": [
           {
             "nodeId": "ansi-styles@4.3.0"
@@ -5680,7 +5661,8 @@
         ],
         "info": {
           "labels": {
-            "scope": "prod"
+            "scope": "prod",
+            "alias": "wrap-ansi-cjs=>wrap-ansi@7.0.0"
           }
         }
       },
