@@ -399,16 +399,33 @@ export const getChildNodeKey = (
     }
     return candidateKeys[0];
   }
-  // If we are bundled we assume we are scoped by the bundle root at least
-  // otherwise the ancestry root is the root ignoring the true root
+
+  // Always use the full ancestry (excluding the true root)
+  // The lockfile paths reflect the actual file system structure, which may or may not
+  // include all ancestors depending on hoisting
   const isBundled = ancestry[ancestry.length - 1].inBundle;
-  const rootOperatingIdx = isBundled
-    ? ancestry.findIndex((el) => el.inBundle === true) - 1
-    : 1;
   const ancestryFromRootOperatingIdx = [
-    ...ancestry.slice(rootOperatingIdx),
+    ...ancestry.slice(1), // Always start from index 1 (skip only the true root)
     { id: `${name}@${version}`, name, version },
   ];
+
+  // Find the bundle owner for the bundle root check below
+  let bundleOwnerName: string | undefined;
+  if (isBundled) {
+    const firstBundledIdx = ancestry.findIndex((el) => el.inBundle === true);
+    if (firstBundledIdx > 0) {
+      const potentialBundleOwner = ancestry[firstBundledIdx - 1];
+      if (potentialBundleOwner && potentialBundleOwner.key) {
+        const ownerPkg = pkgs[potentialBundleOwner.key];
+        if (
+          ownerPkg &&
+          (ownerPkg.bundledDependencies || ownerPkg.bundleDependencies)
+        ) {
+          bundleOwnerName = potentialBundleOwner.name;
+        }
+      }
+    }
+  }
 
   // We filter on a number of cases
   let filteredCandidates = candidateKeys.filter((candidate) => {
@@ -441,13 +458,13 @@ export const getChildNodeKey = (
       return false;
     }
 
-    // If we are bundled we assume the bundle root is the first value
-    // in the candidates scoping
-    if (isBundled && ancestryFromRootOperatingIdx[0].id !== ROOT_NODE_ID) {
-      const doesBundledPkgShareBundleRoot =
-        candidateAncestry[0] === ancestryFromRootOperatingIdx[0].name;
+    // If we are bundled, check if the candidate shares the same bundle owner
+    // The bundle owner should appear in the candidate path
+    if (isBundled && bundleOwnerName) {
+      const doesCandidateIncludeBundleOwner =
+        candidateAncestry.includes(bundleOwnerName);
 
-      if (doesBundledPkgShareBundleRoot === false) {
+      if (!doesCandidateIncludeBundleOwner) {
         return false;
       }
     }
@@ -504,7 +521,18 @@ export const getChildNodeKey = (
     filteredCandidates = possibleFilteredKeys;
   }
 
-  return undefined;
+  // If we still have multiple candidates, prefer the one with the most path segments
+  // (i.e., the deepest one, which is closest to the requesting package)
+  if (filteredCandidates.length > 1) {
+    filteredCandidates.sort((a, b) => {
+      const aDepth = a.split('/node_modules/').length;
+      const bDepth = b.split('/node_modules/').length;
+      return bDepth - aDepth; // Prefer deeper paths
+    });
+    return filteredCandidates[0];
+  }
+
+  return filteredCandidates.length === 1 ? filteredCandidates[0] : undefined;
 };
 
 const checkOverrides = (

@@ -1,0 +1,12 @@
+{
+  "name": "root-level-bundled-test",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Test fixture for root-level bundled dependencies",
+  "bundleDependencies": [
+    "bundled-at-root"
+  ],
+  "dependencies": {
+    "bundled-at-root": "1.0.0"
+  }
+}

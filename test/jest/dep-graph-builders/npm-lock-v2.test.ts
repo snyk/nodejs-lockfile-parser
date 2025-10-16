@@ -11,6 +11,8 @@ describe('dep-graph-builder npm-lock-v2', () => {
   describe('Happy path tests', () => {
     describe('Expected Result tests', () => {
       describe.each([
+        'nested-bundled-deps',
+        'root-level-bundled',
         'goof',
         'one-dep',
         'cyclic-dep',
