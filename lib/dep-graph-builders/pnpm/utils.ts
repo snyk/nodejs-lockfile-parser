@@ -57,15 +57,17 @@ export const getPnpmChildNode = (
     }
   } else {
     const depData = pkgs[childNodeKey];
-    const dependencies = getGraphDependencies(
-      depData.dependencies || {},
-      depInfo.isDev,
-    );
+    const dependencies = getGraphDependencies(depData.dependencies || {}, {
+      isDev: depInfo.isDev,
+    });
     const devDependencies = includeDevDeps
-      ? getGraphDependencies(depData.devDependencies || {}, true)
+      ? getGraphDependencies(depData.devDependencies || {}, { isDev: true })
       : {};
     const optionalDependencies = includeOptionalDeps
-      ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
+      ? getGraphDependencies(depData.optionalDependencies || {}, {
+          isDev: depInfo.isDev,
+          isOptional: true,
+        })
       : {};
     return {
       id: `${depData.name}@${depData.version}`,

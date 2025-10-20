@@ -23,6 +23,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'local-pkg-without-workspaces',
         'dist-tag-sub-dependency',
         'bundled-top-level-dep',
+        'missing-optional-dep-minimal',
       ])('[simple tests] project: %s ', (fixtureName) => {
         it('matches expected', async () => {
           const pkgJsonContent = readFileSync(

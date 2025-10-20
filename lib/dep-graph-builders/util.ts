@@ -5,7 +5,10 @@ import { NormalisedPkgs } from './types';
 import { OutOfSyncError } from '../errors';
 import { LockfileType } from '../parsers';
 
-export type Dependencies = Record<string, { version: string; isDev: boolean }>;
+export type Dependencies = Record<
+  string,
+  { version: string; isDev: boolean; isOptional?: boolean }
+>;
 
 export interface PkgNode {
   id: string;
@@ -61,16 +64,23 @@ export const getTopLevelDeps = (
     includePeerDeps?: boolean;
   },
 ): Dependencies => {
-  const prodDeps = getGraphDependencies(pkgJson.dependencies || {}, false);
+  const prodDeps = getGraphDependencies(pkgJson.dependencies || {}, {
+    isDev: false,
+  });
 
-  const devDeps = getGraphDependencies(pkgJson.devDependencies || {}, true);
+  const devDeps = getGraphDependencies(pkgJson.devDependencies || {}, {
+    isDev: true,
+  });
 
   const optionalDeps = options.includeOptionalDeps
-    ? getGraphDependencies(pkgJson.optionalDependencies || {}, false)
+    ? getGraphDependencies(pkgJson.optionalDependencies || {}, {
+        isDev: false,
+        isOptional: true,
+      })
     : {};
 
   const peerDeps = options.includePeerDeps
-    ? getGraphDependencies(pkgJson.peerDependencies || {}, false)
+    ? getGraphDependencies(pkgJson.peerDependencies || {}, { isDev: false })
     : {};
 
   const deps = { ...prodDeps, ...optionalDeps, ...peerDeps };
@@ -108,11 +118,18 @@ export const getTopLevelDeps = (
  */
 export const getGraphDependencies = (
   dependencies: Record<string, string>,
-  isDev,
+  options: {
+    isDev: boolean;
+    isOptional?: boolean;
+  },
 ): Dependencies => {
   return Object.entries(dependencies).reduce(
     (pnpmDeps: Dependencies, [name, semver]) => {
-      pnpmDeps[name] = { version: semver, isDev: isDev };
+      pnpmDeps[name] = {
+        version: semver,
+        isDev: options.isDev,
+        isOptional: options.isOptional || false,
+      };
       return pnpmDeps;
     },
     {},
@@ -138,6 +155,7 @@ export const getChildNode = (
   depInfo: {
     version: string;
     isDev: boolean;
+    isOptional?: boolean;
     alias?: {
       aliasName: string;
       aliasTargetDepName: string;
@@ -153,7 +171,18 @@ export const getChildNode = (
   let childNode: PkgNode;
 
   if (!pkgs[childNodeKey]) {
-    if (strictOutOfSync && !/^file:/.test(depInfo.version)) {
+    // Handle optional dependencies that don't have separate package entries
+    if (depInfo.isOptional) {
+      childNode = {
+        id: childNodeKey,
+        name: depInfo.alias?.aliasTargetDepName ?? name,
+        version: depInfo.version,
+        dependencies: {},
+        isDev: depInfo.isDev,
+        missingLockFileEntry: true,
+        alias: depInfo.alias,
+      };
+    } else if (strictOutOfSync && !/^file:/.test(depInfo.version)) {
       throw new OutOfSyncError(childNodeKey, LockfileType.yarn);
     } else {
       childNode = {
@@ -168,12 +197,14 @@ export const getChildNode = (
     }
   } else {
     const depData = pkgs[childNodeKey];
-    const dependencies = getGraphDependencies(
-      depData.dependencies || {},
-      depInfo.isDev,
-    );
+    const dependencies = getGraphDependencies(depData.dependencies || {}, {
+      isDev: depInfo.isDev,
+    });
     const optionalDependencies = includeOptionalDeps
-      ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
+      ? getGraphDependencies(depData.optionalDependencies || {}, {
+          isDev: depInfo.isDev,
+          isOptional: true,
+        })
       : {};
     childNode = {
       id: `${name}@${depData.version}`,

@@ -188,12 +188,14 @@ export const getYarnLockV2ChildNode = (
       optionalDependencies,
     } = pkgs[childNodeKeyFromResolution];
 
-    const formattedDependencies = getGraphDependencies(
-      dependencies || {},
-      depInfo.isDev,
-    );
+    const formattedDependencies = getGraphDependencies(dependencies || {}, {
+      isDev: depInfo.isDev,
+    });
     const formattedOptionalDependencies = includeOptionalDeps
-      ? getGraphDependencies(optionalDependencies || {}, depInfo.isDev)
+      ? getGraphDependencies(optionalDependencies || {}, {
+          isDev: depInfo.isDev,
+          isOptional: true,
+        })
       : {};
 
     return {
@@ -231,12 +233,14 @@ export const getYarnLockV2ChildNode = (
     }
   } else {
     const depData = pkgs[childNodeKey];
-    const dependencies = getGraphDependencies(
-      depData.dependencies || {},
-      depInfo.isDev,
-    );
+    const dependencies = getGraphDependencies(depData.dependencies || {}, {
+      isDev: depInfo.isDev,
+    });
     const optionalDependencies = includeOptionalDeps
-      ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
+      ? getGraphDependencies(depData.optionalDependencies || {}, {
+          isDev: depInfo.isDev,
+          isOptional: true,
+        })
       : {};
     return {
       id: `${name}@${depData.version}`,
