@@ -4,6 +4,7 @@ import { InvalidUserInputError } from '../errors';
 import { NormalisedPkgs } from './types';
 import { OutOfSyncError } from '../errors';
 import { LockfileType } from '../parsers';
+import { parseNpmAlias } from '../aliasesPreprocessors/pkgJson';
 
 export type Dependencies = Record<
   string,
@@ -87,10 +88,13 @@ export const getTopLevelDeps = (
 
   if (pkgJson.aliases) {
     for (const alias of Object.keys(pkgJson.aliases)) {
-      deps[alias] = {
-        ...deps[alias],
-        ...{ alias: { ...pkgJson.aliases[alias] } },
-      };
+      // Only add alias metadata to dependencies that are actually in deps
+      if (deps[alias]) {
+        deps[alias] = {
+          ...deps[alias],
+          ...{ alias: { ...pkgJson.aliases[alias] } },
+        };
+      }
     }
   }
 
@@ -170,29 +174,60 @@ export const getChildNode = (
   const childNodeKey = `${name}@${depInfo.version}`;
   let childNode: PkgNode;
 
+  // Check if this lockfile entry is for an aliased package
+  // by looking for a corresponding npm: entry in the lockfile
+  let aliasInfo = depInfo.alias;
+  if (!aliasInfo && pkgs[childNodeKey]) {
+    // Look for any key in pkgs that matches the pattern: name@npm:*
+    // and has the same version as our current entry
+    for (const key in pkgs) {
+      if (key.startsWith(`${name}@npm:`)) {
+        const pkgEntry = pkgs[key];
+        if (pkgEntry.version === pkgs[childNodeKey].version) {
+          // Extract the npm: portion and parse it using the shared helper
+          const npmPortion = key.substring(name.length + 1); // Remove "name@" prefix
+          const parsed = parseNpmAlias(npmPortion);
+          if (parsed) {
+            const targetPkgName = parsed.packageName;
+            // Only add alias info if the alias name is different from the target name
+            if (targetPkgName !== name) {
+              aliasInfo = {
+                aliasName: name,
+                aliasTargetDepName: targetPkgName,
+                semver: parsed.version,
+                version: parsed.version,
+              };
+            }
+            break;
+          }
+        }
+      }
+    }
+  }
+
   if (!pkgs[childNodeKey]) {
     // Handle optional dependencies that don't have separate package entries
     if (depInfo.isOptional) {
       childNode = {
         id: childNodeKey,
-        name: depInfo.alias?.aliasTargetDepName ?? name,
+        name: aliasInfo?.aliasTargetDepName ?? name,
         version: depInfo.version,
         dependencies: {},
         isDev: depInfo.isDev,
         missingLockFileEntry: true,
-        alias: depInfo.alias,
+        alias: aliasInfo,
       };
     } else if (strictOutOfSync && !/^file:/.test(depInfo.version)) {
       throw new OutOfSyncError(childNodeKey, LockfileType.yarn);
     } else {
       childNode = {
         id: childNodeKey,
-        name: depInfo.alias?.aliasTargetDepName ?? name,
+        name: aliasInfo?.aliasTargetDepName ?? name,
         version: depInfo.version,
         dependencies: {},
         isDev: depInfo.isDev,
         missingLockFileEntry: true,
-        alias: depInfo.alias,
+        alias: aliasInfo,
       };
     }
   } else {
@@ -208,11 +243,11 @@ export const getChildNode = (
       : {};
     childNode = {
       id: `${name}@${depData.version}`,
-      name: depInfo.alias?.aliasTargetDepName ?? name,
+      name: aliasInfo?.aliasTargetDepName ?? name,
       version: depData.version,
       dependencies: { ...dependencies, ...optionalDependencies },
       isDev: depInfo.isDev,
-      alias: depInfo.alias,
+      alias: aliasInfo,
     };
   }
 
