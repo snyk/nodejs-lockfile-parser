@@ -563,6 +563,46 @@ describe('Testing aliases for npm', () => {
     // Verify the alias metadata is present
     expect(depGraphJson).toContain('"alias":"elliptic=>dry-uninstall@0.3.0"');
   });
+
+  it('match aliased package in resolutions field - yarn-lock-v1', async () => {
+    const pkgJsonContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/aliases/yarn-lock-v1-with-resolutions/package.json`,
+      ),
+      'utf8',
+    );
+    const yarnLockContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/aliases/yarn-lock-v1-with-resolutions/yarn.lock`,
+      ),
+      'utf8',
+    );
+
+    const newDepGraph = await parseYarnLockV1Project(
+      pkgJsonContent,
+      yarnLockContent,
+      {
+        includeDevDeps: false,
+        includeOptionalDeps: false,
+        includePeerDeps: false,
+        pruneLevel: 'cycles',
+        strictOutOfSync: false,
+        honorAliases: true,
+      },
+    );
+
+    expect(newDepGraph).toBeDefined();
+    expect(() => JSON.parse(JSON.stringify(newDepGraph))).not.toThrow();
+
+    // ms should be aliased to dry-uninstall via resolutions
+    const depGraphJson = JSON.stringify(newDepGraph);
+    expect(depGraphJson).toContain('dry-uninstall');
+
+    // Verify the alias metadata is present (version will be from lockfile)
+    expect(depGraphJson).toContain('"alias":"ms=>dry-uninstall');
+  });
 });
 
 describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(

@@ -66,6 +66,13 @@ export const rewriteAliasesPkgJson = (packageJsonContent: string): string => {
       pkgJsonPreprocessed.overrides,
     );
   }
+  // Process resolutions field to extract aliases (yarn)
+  if (pkgJsonPreprocessed.resolutions) {
+    rewriteAliasesInOverrides(
+      pkgJsonPreprocessed,
+      pkgJsonPreprocessed.resolutions,
+    );
+  }
   return JSON.stringify(pkgJsonPreprocessed);
 };
 
