@@ -208,6 +208,7 @@ const getChildNode = (
   depInfo: {
     version: string;
     isDev: boolean;
+    isOptional?: boolean;
     alias?: {
       aliasName: string;
       aliasTargetDepName: string;
@@ -272,6 +273,19 @@ const getChildNode = (
   );
 
   if (!childNodeKey) {
+    // Handle optional dependencies that don't have separate package entries
+    if (depInfo.isOptional) {
+      return {
+        id: `${name}@${depInfo.version}`,
+        name: name,
+        version: depInfo.version,
+        dependencies: {},
+        isDev: depInfo.isDev,
+        missingLockFileEntry: true,
+        key: '',
+      };
+    }
+
     // https://snyksec.atlassian.net/wiki/spaces/SCA/pages/3785687123/NPM+Bundled+Dependencies+Analysis
     // Check if this dependency is bundled in the parent package
     // Bundled dependencies may not have separate lockfile entries when
@@ -339,17 +353,21 @@ const getChildNode = (
     depData = pkgs[depData.resolved as string];
   }
 
-  const dependencies = getGraphDependencies(
-    depData.dependencies || {},
-    depInfo.isDev,
-  );
+  const dependencies = getGraphDependencies(depData.dependencies || {}, {
+    isDev: depInfo.isDev,
+  });
 
   const devDependencies = includeDevDeps
-    ? getGraphDependencies(depData.devDependencies || {}, depInfo.isDev)
+    ? getGraphDependencies(depData.devDependencies || {}, {
+        isDev: depInfo.isDev,
+      })
     : {};
 
   const optionalDependencies = includeOptionalDeps
-    ? getGraphDependencies(depData.optionalDependencies || {}, depInfo.isDev)
+    ? getGraphDependencies(depData.optionalDependencies || {}, {
+        isDev: depInfo.isDev,
+        isOptional: true,
+      })
     : {};
 
   return {

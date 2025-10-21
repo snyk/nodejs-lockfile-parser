@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "npm"
+  },
+  "pkgs": [
+    {
+      "id": "test-optional-deps@1.0.0",
+      "info": {
+        "name": "test-optional-deps",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "@parcel/watcher@2.5.1",
+      "info": {
+        "name": "@parcel/watcher",
+        "version": "2.5.1"
+      }
+    },
+    {
+      "id": "@parcel/watcher-darwin-x64@2.5.1",
+      "info": {
+        "name": "@parcel/watcher-darwin-x64",
+        "version": "2.5.1"
+      }
+    },
+    {
+      "id": "@parcel/watcher-darwin-arm64@2.5.1",
+      "info": {
+        "name": "@parcel/watcher-darwin-arm64",
+        "version": "2.5.1"
+      }
+    },
+    {
+      "id": "@parcel/watcher-linux-x64-glibc@2.5.1",
+      "info": {
+        "name": "@parcel/watcher-linux-x64-glibc",
+        "version": "2.5.1"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "test-optional-deps@1.0.0",
+        "deps": [
+          {
+            "nodeId": "@parcel/watcher@2.5.1"
+          }
+        ]
+      },
+      {
+        "nodeId": "@parcel/watcher@2.5.1",
+        "pkgId": "@parcel/watcher@2.5.1",
+        "deps": [
+          {
+            "nodeId": "@parcel/watcher-darwin-x64@2.5.1"
+          },
+          {
+            "nodeId": "@parcel/watcher-darwin-arm64@2.5.1"
+          },
+          {
+            "nodeId": "@parcel/watcher-linux-x64-glibc@2.5.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@parcel/watcher-darwin-x64@2.5.1",
+        "pkgId": "@parcel/watcher-darwin-x64@2.5.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "missingLockFileEntry": "true"
+          }
+        }
+      },
+      {
+        "nodeId": "@parcel/watcher-darwin-arm64@2.5.1",
+        "pkgId": "@parcel/watcher-darwin-arm64@2.5.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "missingLockFileEntry": "true"
+          }
+        }
+      },
+      {
+        "nodeId": "@parcel/watcher-linux-x64-glibc@2.5.1",
+        "pkgId": "@parcel/watcher-linux-x64-glibc@2.5.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "missingLockFileEntry": "true"
+          }
+        }
+      }
+    ]
+  }
+}
