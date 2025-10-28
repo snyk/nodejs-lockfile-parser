@@ -1,0 +1,11 @@
+{
+  "name": "root-workspace",
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "@test/workspace-pkg": "file:packages/workspace-pkg"
+  },
+  "devDependencies": {}
+}

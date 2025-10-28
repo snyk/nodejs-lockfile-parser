@@ -490,6 +490,14 @@ export const getChildNodeKey = (
       if (pkgs[fullPath]) {
         return pkgs[fullPath].name || segment;
       }
+
+      // For workspace packages, the path might not have node_modules/ prefix
+      // Check if this segment (or joined path) exists as a workspace package
+      const workspacePath = pathSegments.join('/node_modules/');
+      if (pkgs[workspacePath]) {
+        return pkgs[workspacePath].name || segment;
+      }
+
       return segment;
     });
 

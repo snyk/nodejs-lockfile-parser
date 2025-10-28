@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "npm"
+  },
+  "pkgs": [
+    {
+      "id": "root-workspace@1.0.0",
+      "info": {
+        "name": "root-workspace",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "@test/workspace-pkg@1.0.0",
+      "info": {
+        "name": "@test/workspace-pkg",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "lodash@4.17.21",
+      "info": {
+        "name": "lodash",
+        "version": "4.17.21"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "root-workspace@1.0.0",
+        "deps": [
+          {
+            "nodeId": "@test/workspace-pkg@1.0.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "@test/workspace-pkg@1.0.0",
+        "pkgId": "@test/workspace-pkg@1.0.0",
+        "deps": [
+          {
+            "nodeId": "lodash@4.17.21"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "lodash@4.17.21",
+        "pkgId": "lodash@4.17.21",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}
