@@ -112,6 +112,7 @@ export type PnpmProjectParseOptions = {
   includeOptionalDeps: boolean;
   strictOutOfSync: boolean;
   pruneWithinTopLevelDeps: boolean;
+  exclude?: string;
 };
 
 type NodePkgManagers = 'npm' | 'yarn' | 'pnpm';

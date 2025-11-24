@@ -313,3 +313,150 @@ describe('pnpm-lock-v9 catalogs support tests', () => {
     );
   });
 });
+
+describe('pnpm workspaces with exclude option', () => {
+  describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
+    '%s',
+    (lockFileVersionPath) => {
+      it('excludes single directory', async () => {
+        const fixtureName = 'workspace-cyclic';
+        const result = await parsePnpmWorkspace(
+          __dirname,
+          join(__dirname, `./fixtures/${lockFileVersionPath}/${fixtureName}`),
+          {
+            includeDevDeps: false,
+            includeOptionalDeps: true,
+            pruneWithinTopLevelDeps: true,
+            strictOutOfSync: false,
+            exclude: 'backend',
+          },
+        );
+
+        expect(result).toHaveLength(2);
+
+        const targetFiles = result.map((r) => r.targetFile.replace(/\\/g, '/'));
+        expect(targetFiles).toContain(
+          `fixtures/${lockFileVersionPath}/${fixtureName}/package.json`,
+        );
+        expect(targetFiles).toContain(
+          `fixtures/${lockFileVersionPath}/${fixtureName}/shared/react/package.json`,
+        );
+        expect(targetFiles).not.toContain(
+          `fixtures/${lockFileVersionPath}/${fixtureName}/shared/backend/package.json`,
+        );
+      });
+
+      it('excludes multiple directories', async () => {
+        const fixtureName = 'workspace-cyclic';
+        const result = await parsePnpmWorkspace(
+          __dirname,
+          join(__dirname, `./fixtures/${lockFileVersionPath}/${fixtureName}`),
+          {
+            includeDevDeps: false,
+            includeOptionalDeps: true,
+            pruneWithinTopLevelDeps: true,
+            strictOutOfSync: false,
+            exclude: 'backend,react',
+          },
+        );
+
+        expect(result).toHaveLength(1);
+
+        const targetFiles = result.map((r) => r.targetFile.replace(/\\/g, '/'));
+        expect(targetFiles).toContain(
+          `fixtures/${lockFileVersionPath}/${fixtureName}/package.json`,
+        );
+        expect(targetFiles).not.toContain(
+          `fixtures/${lockFileVersionPath}/${fixtureName}/shared/backend/package.json`,
+        );
+        expect(targetFiles).not.toContain(
+          `fixtures/${lockFileVersionPath}/${fixtureName}/shared/react/package.json`,
+        );
+      });
+
+      it('matches any path segment', async () => {
+        const fixtureName = 'workspace-cyclic';
+        const result = await parsePnpmWorkspace(
+          __dirname,
+          join(__dirname, `./fixtures/${lockFileVersionPath}/${fixtureName}`),
+          {
+            includeDevDeps: false,
+            includeOptionalDeps: true,
+            pruneWithinTopLevelDeps: true,
+            strictOutOfSync: false,
+            exclude: 'shared',
+          },
+        );
+
+        expect(result).toHaveLength(1);
+
+        const targetFiles = result.map((r) => r.targetFile.replace(/\\/g, '/'));
+        expect(targetFiles).toContain(
+          `fixtures/${lockFileVersionPath}/${fixtureName}/package.json`,
+        );
+        expect(targetFiles).not.toContain(
+          `fixtures/${lockFileVersionPath}/${fixtureName}/shared/backend/package.json`,
+        );
+        expect(targetFiles).not.toContain(
+          `fixtures/${lockFileVersionPath}/${fixtureName}/shared/react/package.json`,
+        );
+      });
+
+      it('handles spaces in comma-separated list', async () => {
+        const fixtureName = 'workspace-cyclic';
+        const result = await parsePnpmWorkspace(
+          __dirname,
+          join(__dirname, `./fixtures/${lockFileVersionPath}/${fixtureName}`),
+          {
+            includeDevDeps: false,
+            includeOptionalDeps: true,
+            pruneWithinTopLevelDeps: true,
+            strictOutOfSync: false,
+            exclude: ' backend , react ',
+          },
+        );
+
+        expect(result).toHaveLength(1);
+
+        const targetFiles = result.map((r) => r.targetFile.replace(/\\/g, '/'));
+        expect(targetFiles).toContain(
+          `fixtures/${lockFileVersionPath}/${fixtureName}/package.json`,
+        );
+      });
+
+      it('works normally when exclude is undefined', async () => {
+        const fixtureName = 'workspace-cyclic';
+        const result = await parsePnpmWorkspace(
+          __dirname,
+          join(__dirname, `./fixtures/${lockFileVersionPath}/${fixtureName}`),
+          {
+            includeDevDeps: false,
+            includeOptionalDeps: true,
+            pruneWithinTopLevelDeps: true,
+            strictOutOfSync: false,
+            exclude: undefined,
+          },
+        );
+
+        expect(result).toHaveLength(3);
+      });
+
+      it('works normally when exclude is empty string', async () => {
+        const fixtureName = 'workspace-cyclic';
+        const result = await parsePnpmWorkspace(
+          __dirname,
+          join(__dirname, `./fixtures/${lockFileVersionPath}/${fixtureName}`),
+          {
+            includeDevDeps: false,
+            includeOptionalDeps: true,
+            pruneWithinTopLevelDeps: true,
+            strictOutOfSync: false,
+            exclude: '',
+          },
+        );
+
+        expect(result).toHaveLength(3);
+      });
+    },
+  );
+});
