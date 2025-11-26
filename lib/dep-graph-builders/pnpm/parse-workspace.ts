@@ -1,18 +1,18 @@
+import { DepGraph } from '@snyk/dep-graph';
 import * as debugModule from 'debug';
 import * as path from 'path';
-import { parsePkgJson } from '../util';
+import { getPnpmLockfileVersion } from '../../utils';
 import {
   PackageJsonBase,
   PnpmProjectParseOptions,
   ScannedNodeProject,
 } from '../types';
+import { parsePkgJson } from '../util';
 import { buildDepGraphPnpm } from './build-dep-graph-pnpm';
-import { DepGraph } from '@snyk/dep-graph';
+import { UNDEFINED_VERSION } from './constants';
 import { getPnpmLockfileParser } from './lockfile-parser/index';
 import { PnpmLockfileParser } from './lockfile-parser/lockfile-parser';
-import { getPnpmLockfileVersion } from '../../utils';
 import { getFileContents } from './utils';
-import { UNDEFINED_VERSION } from './constants';
 
 const debug = debugModule('snyk-pnpm-workspaces');
 
@@ -55,6 +55,7 @@ export const parsePnpmWorkspace = async (
     includeOptionalDeps,
     strictOutOfSync,
     pruneWithinTopLevelDeps,
+    exclude,
   } = options;
 
   const pnpmLockfileContents = getFileContents(
@@ -73,7 +74,20 @@ export const parsePnpmWorkspace = async (
     Object.keys(lockFileParser.importers),
   );
 
+  const excludeList = exclude ? exclude.split(',').map((s) => s.trim()) : [];
+
   for (const importer of Object.keys(lockFileParser.importers)) {
+    if (excludeList.length > 0) {
+      const importerParts = importer.split('/');
+      const shouldExclude = excludeList.some((excludeName) =>
+        importerParts.includes(excludeName),
+      );
+
+      if (shouldExclude) {
+        debug(`Skipping excluded importer: ${importer}`);
+        continue;
+      }
+    }
     const resolvedImporterPath = path.join(workspaceDir, importer);
     const packagePath = path.join(resolvedImporterPath, 'package.json');
     debug(`Processing project ${packagePath} as part of a pnpm workspace`);
