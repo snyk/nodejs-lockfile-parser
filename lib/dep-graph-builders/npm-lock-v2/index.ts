@@ -435,20 +435,9 @@ export const getChildNodeKey = (
   // include all ancestors depending on hoisting
   const isBundled = ancestry[ancestry.length - 1].inBundle;
 
-  // Resolve the real package name in case 'name' is an alias
-  // This ensures ancestry matching works correctly with alias resolution
-  let resolvedName = name;
-  if (candidateKeys.length > 0) {
-    const firstCandidate = pkgs[candidateKeys[0]];
-    if (firstCandidate && firstCandidate.name && firstCandidate.name !== name) {
-      resolvedName = firstCandidate.name;
-    }
-  }
-
-  const ancestryFromRootOperatingIdx = [
-    ...ancestry.slice(1), // Always start from index 1 (skip only the true root)
-    { id: `${name}@${version}`, name: resolvedName, version },
-  ];
+  // Base ancestry without the current package - we'll add the package with
+  // the correct resolved name per-candidate during filtering
+  const baseAncestryFromRoot = ancestry.slice(1);
 
   // Find the bundle owner for the bundle root check below
   let bundleOwnerName: string | undefined;
@@ -501,6 +490,18 @@ export const getChildNodeKey = (
       return segment;
     });
 
+    // Resolve the real package name for THIS specific candidate
+    // This is important when there are aliases - each candidate may resolve to a different real name
+    const candidatePkg = pkgs[candidate];
+    const resolvedNameForCandidate =
+      candidatePkg && candidatePkg.name ? candidatePkg.name : name;
+
+    // Build the full ancestry including the current package with its resolved name
+    const ancestryFromRootOperatingIdx = [
+      ...baseAncestryFromRoot,
+      { id: `${name}@${version}`, name: resolvedNameForCandidate, version },
+    ];
+
     // Check the ancestry of the candidate is a subset of
     // the current pkg. If it is not then it can't be a
     // valid key.
@@ -543,7 +544,7 @@ export const getChildNodeKey = (
     return filteredCandidates[0];
   }
 
-  const ancestryNames = ancestry.map((el) => el.name).concat(resolvedName);
+  const ancestryNames = ancestry.map((el) => el.name).concat(name);
   while (ancestryNames.length > 0) {
     const possibleKey = `node_modules/${ancestryNames.join('/node_modules/')}`;
 
