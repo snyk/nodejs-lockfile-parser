@@ -18,6 +18,7 @@ export const parseYarnLockV1Project = async (
     pruneLevel,
     strictOutOfSync,
     honorAliases,
+    showNpmScope,
   } = options;
 
   const pkgs = extractPkgsFromYarnLockV1(yarnLockContent);
@@ -32,6 +33,7 @@ export const parseYarnLockV1Project = async (
           includeDevDeps,
           strictOutOfSync,
           includeOptionalDeps,
+          showNpmScope,
         })
       : await buildDepGraphYarnLockV1Simple(pkgs, pkgJson, {
           includeDevDeps,
@@ -39,6 +41,7 @@ export const parseYarnLockV1Project = async (
           includePeerDeps,
           strictOutOfSync,
           pruneWithinTopLevelDeps: pruneLevel === 'withinTopLevelDeps',
+          showNpmScope,
         });
 
   return depGraph;

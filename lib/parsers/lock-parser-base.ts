@@ -70,6 +70,7 @@ export abstract class LockParserBase implements LockfileParser {
     lockfile: Lockfile,
     includeDev = false,
     strictOutOfSync = true,
+    showNpmScope?: boolean,
   ): Promise<PkgTree> {
     if (lockfile.type !== this.type) {
       throw new InvalidUserInputError(
@@ -85,6 +86,11 @@ export abstract class LockParserBase implements LockfileParser {
       name: manifestFile.name,
       size: 1,
       version: manifestFile.version || '',
+      ...(showNpmScope && {
+        labels: {
+          'npm:scope': 'unknown',
+        },
+      }),
     };
 
     const nodeVersion = manifestFile?.engines?.node;
@@ -105,7 +111,11 @@ export abstract class LockParserBase implements LockfileParser {
     // prepare a flat map, where dependency path is a key to dependency object
     // path is an unique identifier for each dependency and corresponds to the
     // relative path on disc
-    const depMap: DepMap = this.getDepMap(yarnLock, manifestFile.resolutions);
+    const depMap: DepMap = this.getDepMap(
+      yarnLock,
+      manifestFile.resolutions,
+      showNpmScope,
+    );
 
     // all paths are identified, we can create a graph representing what depends on what
     const depGraph: graphlib.Graph = this.createGraphOfDependencies(
@@ -132,6 +142,7 @@ export abstract class LockParserBase implements LockfileParser {
     const { depTrees, depTreesSizes } = await this.createDepTrees(
       depMap,
       depGraph,
+      showNpmScope,
     );
 
     // Only include peerDependencies if using npm and npm is at least
@@ -174,7 +185,10 @@ export abstract class LockParserBase implements LockfileParser {
           await eventLoopSpinner.spin();
         }
       } else if (/^file:/.test(dep.version)) {
-        depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
+        depTree.dependencies[dep.name] = createDepTreeDepFromDep(
+          dep,
+          showNpmScope,
+        );
         treeSize++;
       } else {
         // TODO: also check the package version
@@ -182,7 +196,10 @@ export abstract class LockParserBase implements LockfileParser {
         if (strictOutOfSync) {
           throw new OutOfSyncError(dep.name, this.type);
         }
-        depTree.dependencies[dep.name] = createDepTreeDepFromDep(dep);
+        depTree.dependencies[dep.name] = createDepTreeDepFromDep(
+          dep,
+          showNpmScope,
+        );
         if (!depTree.dependencies[dep.name].labels) {
           depTree.dependencies[dep.name].labels = {};
         }
@@ -195,13 +212,14 @@ export abstract class LockParserBase implements LockfileParser {
     return depTree;
   }
 
-  private setDevDepRec(pkgTree: DepTreeDep) {
+  private setDevDepRec(pkgTree: DepTreeDep, showNpmScope?: boolean) {
     for (const [name, subTree] of _toPairs(pkgTree.dependencies)) {
-      pkgTree.dependencies![name] = this.setDevDepRec(subTree);
+      pkgTree.dependencies![name] = this.setDevDepRec(subTree, showNpmScope);
     }
     pkgTree.labels = {
       ...pkgTree.labels,
       scope: Scope.dev,
+      ...(showNpmScope && { 'npm:scope': Scope.dev }),
     };
 
     return pkgTree;
@@ -395,6 +413,7 @@ export abstract class LockParserBase implements LockfileParser {
   private async createDepTrees(
     depMap: DepMap,
     depGraph,
+    showNpmScope?: boolean,
   ): Promise<{
     depTrees: { [depPath: string]: DepTreeDep };
     depTreesSizes: { [depPath: string]: number };
@@ -438,6 +457,8 @@ export abstract class LockParserBase implements LockfileParser {
             labels: {
               missingLockFileEntry: 'true',
               ...(dep.labels?.scope && { scope: dep.labels.scope }),
+              ...(showNpmScope &&
+                dep.labels?.scope && { 'npm:scope': dep.labels.scope }),
             },
           };
 
@@ -471,6 +492,7 @@ export abstract class LockParserBase implements LockfileParser {
   protected getDepMap(
     lockfile: Lockfile, // eslint-disable-line @typescript-eslint/no-unused-vars
     resolutions?: ManifestDependencies, // eslint-disable-line @typescript-eslint/no-unused-vars
+    showNpmScope?: boolean, // eslint-disable-line @typescript-eslint/no-unused-vars
   ): DepMap {
     throw new Error('Not implemented');
   }

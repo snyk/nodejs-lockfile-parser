@@ -1,5 +1,5 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
-import { getTopLevelDeps } from '../util';
+import { createNodeInfo, getTopLevelDeps } from '../util';
 import type { Overrides, PnpmProjectParseOptions } from '../types';
 import type { PackageJsonBase } from '../types';
 import { getPnpmChildNode } from './utils';
@@ -28,11 +28,13 @@ export const buildDepGraphPnpm = async (
     includeOptionalDeps,
     includeDevDeps,
     pruneWithinTopLevelDeps,
+    showNpmScope,
   } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'pnpm' },
     { name: pkgJson.name, version: pkgJson.version || UNDEFINED_VERSION },
+    createNodeInfo(options),
   );
 
   lockFileParser.extractedPackages = lockFileParser.extractPackages();
@@ -84,6 +86,8 @@ export const buildDepGraphPnpm = async (
     pkgJson.pnpm?.overrides || {},
     pruneWithinTopLevelDeps,
     lockFileParser,
+    undefined,
+    showNpmScope,
   );
 
   return depGraphBuilder.build();
@@ -107,6 +111,7 @@ const dfsVisit = async (
   pruneWithinTopLevel: boolean,
   lockFileParser: PnpmLockfileParser,
   visited?: Set<string>,
+  showNpmScope?: boolean,
 ): Promise<void> => {
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     if (eventLoopSpinner.isStarving()) {
@@ -134,6 +139,9 @@ const dfsVisit = async (
           {
             labels: {
               scope: childNode.isDev ? 'dev' : 'prod',
+              ...(showNpmScope && {
+                'npm:scope': childNode.isDev ? 'dev' : 'prod',
+              }),
               pruned: 'true',
               ...(node.missingLockFileEntry && {
                 missingLockFileEntry: 'true',
@@ -154,6 +162,9 @@ const dfsVisit = async (
       {
         labels: {
           scope: childNode.isDev ? 'dev' : 'prod',
+          ...(showNpmScope && {
+            'npm:scope': childNode.isDev ? 'dev' : 'prod',
+          }),
           ...(node.missingLockFileEntry && {
             missingLockFileEntry: 'true',
           }),
@@ -174,6 +185,7 @@ const dfsVisit = async (
       pruneWithinTopLevel,
       lockFileParser,
       localVisited,
+      showNpmScope,
     );
   }
 };

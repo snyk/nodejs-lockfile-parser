@@ -1,5 +1,10 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
-import { addPkgNodeToGraph, getTopLevelDeps, PkgNode } from '../util';
+import {
+  addPkgNodeToGraph,
+  getTopLevelDeps,
+  PkgNode,
+  createNodeInfo,
+} from '../util';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
 import type { DepGraphBuildOptions } from '../types';
 import { getChildNodeYarnLockV1Workspace } from './util';
@@ -11,11 +16,13 @@ export const buildDepGraphYarnLockV1Workspace = async (
   workspacePkgNameToVersion: Record<string, string>,
   options: DepGraphBuildOptions,
 ) => {
-  const { includeDevDeps, strictOutOfSync, includeOptionalDeps } = options;
+  const { includeDevDeps, strictOutOfSync, includeOptionalDeps, showNpmScope } =
+    options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
     { name: pkgJson.name, version: pkgJson.version },
+    createNodeInfo(options),
   );
 
   const visitedMap: Set<string> = new Set();
@@ -38,6 +45,7 @@ export const buildDepGraphYarnLockV1Workspace = async (
     workspacePkgNameToVersion,
     strictOutOfSync,
     includeOptionalDeps,
+    showNpmScope,
   );
 
   return depGraphBuilder.build();
@@ -61,6 +69,7 @@ const dfsVisit = async (
   workspacePkgNameToVersion: Record<string, string>,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
+  showNpmScope?: boolean,
 ): Promise<void> => {
   visitedMap.add(node.id);
 
@@ -83,6 +92,7 @@ const dfsVisit = async (
       addPkgNodeToGraph(depGraphBuilder, childNode, {
         isCyclic: false,
         isWorkspacePkg,
+        showNpmScope,
       });
       if (!isWorkspacePkg) {
         await dfsVisit(
@@ -93,6 +103,7 @@ const dfsVisit = async (
           workspacePkgNameToVersion,
           strictOutOfSync,
           includeOptionalDeps,
+          showNpmScope,
         );
       }
     }

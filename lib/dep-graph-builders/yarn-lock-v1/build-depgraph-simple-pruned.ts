@@ -4,6 +4,7 @@ import {
   getChildNode,
   getTopLevelDeps,
   PkgNode,
+  createNodeInfo,
 } from '../util';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
 import type { DepGraphBuildOptions } from '../types';
@@ -19,11 +20,13 @@ export const buildDepGraphYarnLockV1SimpleCyclesPruned = async (
   pkgJson: PackageJsonBase,
   options: DepGraphBuildOptions,
 ) => {
-  const { includeDevDeps, strictOutOfSync, includeOptionalDeps } = options;
+  const { includeDevDeps, strictOutOfSync, includeOptionalDeps, showNpmScope } =
+    options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
     { name: pkgJson.name, version: pkgJson.version },
+    createNodeInfo(options),
   );
 
   const colorMap: Record<string, Color> = {};
@@ -45,6 +48,7 @@ export const buildDepGraphYarnLockV1SimpleCyclesPruned = async (
     extractedYarnLockV1Pkgs,
     strictOutOfSync,
     includeOptionalDeps,
+    showNpmScope,
   );
 
   return depGraphBuilder.build();
@@ -66,6 +70,7 @@ const dfsVisit = async (
   extractedYarnLockV1Pkgs: NormalisedPkgs,
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
+  showNpmScope?: boolean,
 ): Promise<void> => {
   colorMap[node.id] = Color.GRAY;
 
@@ -84,7 +89,7 @@ const dfsVisit = async (
     );
 
     if (!colorMap.hasOwnProperty(childNode.id)) {
-      addPkgNodeToGraph(depGraphBuilder, childNode, {});
+      addPkgNodeToGraph(depGraphBuilder, childNode, { showNpmScope });
       await dfsVisit(
         depGraphBuilder,
         childNode,
@@ -92,11 +97,15 @@ const dfsVisit = async (
         extractedYarnLockV1Pkgs,
         strictOutOfSync,
         includeOptionalDeps,
+        showNpmScope,
       );
     } else if (colorMap[childNode.id] === Color.GRAY) {
       // cycle detected
       childNode.id = `${childNode.id}:pruned`;
-      addPkgNodeToGraph(depGraphBuilder, childNode, { isCyclic: true });
+      addPkgNodeToGraph(depGraphBuilder, childNode, {
+        isCyclic: true,
+        showNpmScope,
+      });
     }
 
     depGraphBuilder.connectDep(node.id, childNode.id);

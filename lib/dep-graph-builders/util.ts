@@ -1,5 +1,6 @@
-import { PackageJsonBase } from './types';
+import { DepGraphBuildOptions, PackageJsonBase } from './types';
 import { DepGraphBuilder } from '@snyk/dep-graph';
+import type { NodeInfo } from '@snyk/dep-graph/dist/core/types';
 import { InvalidUserInputError } from '../errors';
 import { NormalisedPkgs } from './types';
 import { OutOfSyncError } from '../errors';
@@ -28,12 +29,27 @@ export interface PkgNode {
   };
 }
 
+export const createNodeInfo = (
+  options: DepGraphBuildOptions,
+  scope = 'unknown',
+): NodeInfo | undefined => {
+  if (options.showNpmScope) {
+    return {
+      labels: {
+        'npm:scope': scope,
+      },
+    };
+  }
+  return;
+};
+
 export const addPkgNodeToGraph = (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
   options: {
     isCyclic?: boolean;
     isWorkspacePkg?: boolean;
+    showNpmScope?: boolean;
   },
 ): DepGraphBuilder => {
   return depGraphBuilder.addPkgNode(
@@ -42,6 +58,9 @@ export const addPkgNodeToGraph = (
     {
       labels: {
         scope: node.isDev ? 'dev' : 'prod',
+        ...(options.showNpmScope && {
+          'npm:scope': node.isDev ? 'dev' : 'prod',
+        }),
         ...(options.isCyclic && { pruned: 'cyclic' }),
         ...(options.isWorkspacePkg && { pruned: 'true' }),
         ...(node.missingLockFileEntry && { missingLockFileEntry: 'true' }),

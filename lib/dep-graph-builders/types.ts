@@ -46,6 +46,7 @@ export type DepGraphBuildOptions = {
   includePeerDeps?: boolean;
   pruneNpmStrictOutOfSync?: boolean;
   honorAliases?: boolean;
+  showNpmScope?: boolean;
 };
 
 export type LockFileParseOptions = {
@@ -69,6 +70,7 @@ export type YarnLockV2ProjectParseOptions = {
   strictOutOfSync: boolean;
   pruneWithinTopLevelDeps: boolean;
   honorAliases?: boolean;
+  showNpmScope?: boolean;
 };
 
 /*
@@ -86,6 +88,7 @@ export type YarnLockV1ProjectParseOptions = {
   strictOutOfSync: boolean;
   pruneLevel: PruneLevel;
   honorAliases?: boolean;
+  showNpmScope?: boolean;
 };
 
 export type Yarn1DepGraphBuildOptions = {
@@ -94,6 +97,7 @@ export type Yarn1DepGraphBuildOptions = {
   includePeerDeps: boolean;
   strictOutOfSync: boolean;
   pruneWithinTopLevelDeps: boolean;
+  showNpmScope?: boolean;
 };
 
 export type PnpmWorkspaceArgs = {
@@ -113,6 +117,7 @@ export type PnpmProjectParseOptions = {
   strictOutOfSync: boolean;
   pruneWithinTopLevelDeps: boolean;
   exclude?: string;
+  showNpmScope?: boolean;
 };
 
 type NodePkgManagers = 'npm' | 'yarn' | 'pnpm';

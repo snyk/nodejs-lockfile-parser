@@ -21,6 +21,7 @@ export const parseYarnLockV2Project = async (
     strictOutOfSync,
     pruneWithinTopLevelDeps,
     honorAliases,
+    showNpmScope,
   } = options;
 
   const pkgs = extractPkgsFromYarnLockV2(yarnLockContent);
@@ -36,6 +37,7 @@ export const parseYarnLockV2Project = async (
       strictOutOfSync,
       includeOptionalDeps,
       pruneWithinTopLevelDeps,
+      showNpmScope,
     },
     workspaceArgs,
   );
