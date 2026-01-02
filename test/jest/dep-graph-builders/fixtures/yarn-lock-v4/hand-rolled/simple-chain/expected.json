@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "simple-chain@1.0.0",
+      "info": {
+        "name": "simple-chain",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "a@1.0.0",
+      "info": {
+        "name": "a",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "b@1.0.0",
+      "info": {
+        "name": "b",
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "simple-chain@1.0.0",
+        "deps": [
+          {
+            "nodeId": "a@1.0.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "a@1.0.0",
+        "pkgId": "a@1.0.0",
+        "deps": [
+          {
+            "nodeId": "b@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "b@1.0.0",
+        "pkgId": "b@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}

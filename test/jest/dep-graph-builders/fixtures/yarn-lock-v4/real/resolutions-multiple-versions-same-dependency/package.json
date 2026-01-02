@@ -1,0 +1,13 @@
+{
+  "name": "yarn-workspaces-test",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "libraries/*"
+  ],
+  "resolutions": {
+    "shelljs@0.6.0": "^0.9.1",
+    "shelljs@0.8.4": "^0.8.5"
+  },
+  "packageManager": "yarn@3.7.0"
+}

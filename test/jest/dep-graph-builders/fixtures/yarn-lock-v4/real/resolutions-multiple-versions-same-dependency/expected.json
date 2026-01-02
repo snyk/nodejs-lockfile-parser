@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "yarn-workspaces-test@1.0.0",
+      "info": {
+        "name": "yarn-workspaces-test",
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "yarn-workspaces-test@1.0.0",
+        "deps": []
+      }
+    ]
+  }
+}
