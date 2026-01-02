@@ -590,4 +590,26 @@ describe('yarn.lock v4 parsing', () => {
       },
     ]);
   });
+
+  it('handles npm: protocol in versions with strictOutOfSync', async () => {
+    const opts: YarnLockV2ProjectParseOptions = {
+      includeDevDeps: false,
+      includeOptionalDeps: true,
+      strictOutOfSync: true,
+      pruneWithinTopLevelDeps: false,
+    };
+    const pkgJson = getHandRolledPkgJson('npm-protocol-in-versions');
+    const yarnLock = getHandRolledYarnLock('npm-protocol-in-versions');
+
+    // This should not throw with the fix for yarn protocol in versions
+    const dg = await parseYarnLockV2Project(pkgJson, yarnLock, opts);
+
+    expect(dg).toBeTruthy();
+    expect(dg.rootPkg.name).toBe('npm-protocol-test');
+    expect(dg.rootPkg.version).toBe('1.0.0');
+    expect(dg.getPkgs()).toMatchObject([
+      { name: 'npm-protocol-test', version: '1.0.0' },
+      { name: 'lodash', version: '4.17.21' },
+    ]);
+  });
 });
