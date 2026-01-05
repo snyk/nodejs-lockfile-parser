@@ -135,9 +135,28 @@ export const getYarnLockV2ChildNode = (
           // Check if the resolution key targets the current package name
           if (resKeyPkgName === name) {
             if (descriptor.range && descriptor.range !== 'unknown') {
-              // Check if the current dependency's version satisfies the
-              // version/range specified in the resolution key.
-              if (semver.satisfies(depInfo.version, descriptor.range)) {
+              // Strip protocol prefix from both sides (e.g., 'npm:^3.5.4' -> '^3.5.4')
+              const versionWithoutProtocol = depInfo.version.replace(
+                /^[a-z]+:/,
+                '',
+              );
+              const rangeWithoutProtocol = descriptor.range.replace(
+                /^[a-z]+:/,
+                '',
+              );
+              // Check if the current dependency's version/range matches or satisfies
+              // the version/range specified in the resolution key.
+              // If the dependency version is a concrete version (e.g., '3.5.4'),
+              // check if it satisfies the resolution range.
+              // If the dependency version is a range (e.g., '^3.5.4'), check for equality.
+              if (
+                versionWithoutProtocol === rangeWithoutProtocol ||
+                (semver.valid(versionWithoutProtocol) &&
+                  semver.satisfies(
+                    versionWithoutProtocol,
+                    rangeWithoutProtocol,
+                  ))
+              ) {
                 return resolutions[resKey];
               }
             }
