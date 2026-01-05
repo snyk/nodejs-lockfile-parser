@@ -1,0 +1,11 @@
+{
+  "packageManager": "yarn@3.5.1",
+  "name": "workspace-test",
+  "private": true,
+  "workspaces": [
+    "workspace1"
+  ],
+  "resolutions": {
+    "lodash": "4.17.20"
+  }
+}

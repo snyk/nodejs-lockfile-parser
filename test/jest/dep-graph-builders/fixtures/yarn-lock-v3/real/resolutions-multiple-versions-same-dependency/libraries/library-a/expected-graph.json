@@ -1,0 +1,1021 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "library-a@1.0.0",
+      "info": {
+        "name": "library-a",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "git-rev-sync@1.5.0",
+      "info": {
+        "name": "git-rev-sync",
+        "version": "1.5.0"
+      }
+    },
+    {
+      "id": "graceful-fs@4.1.3",
+      "info": {
+        "name": "graceful-fs",
+        "version": "4.1.3"
+      }
+    },
+    {
+      "id": "shelljs@0.9.2",
+      "info": {
+        "name": "shelljs",
+        "version": "0.9.2"
+      }
+    },
+    {
+      "id": "execa@1.0.0",
+      "info": {
+        "name": "execa",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "cross-spawn@6.0.6",
+      "info": {
+        "name": "cross-spawn",
+        "version": "6.0.6"
+      }
+    },
+    {
+      "id": "nice-try@1.0.5",
+      "info": {
+        "name": "nice-try",
+        "version": "1.0.5"
+      }
+    },
+    {
+      "id": "path-key@2.0.1",
+      "info": {
+        "name": "path-key",
+        "version": "2.0.1"
+      }
+    },
+    {
+      "id": "semver@5.7.2",
+      "info": {
+        "name": "semver",
+        "version": "5.7.2"
+      }
+    },
+    {
+      "id": "shebang-command@1.2.0",
+      "info": {
+        "name": "shebang-command",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "id": "shebang-regex@1.0.0",
+      "info": {
+        "name": "shebang-regex",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "which@1.3.1",
+      "info": {
+        "name": "which",
+        "version": "1.3.1"
+      }
+    },
+    {
+      "id": "isexe@2.0.0",
+      "info": {
+        "name": "isexe",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "id": "get-stream@4.1.0",
+      "info": {
+        "name": "get-stream",
+        "version": "4.1.0"
+      }
+    },
+    {
+      "id": "pump@3.0.2",
+      "info": {
+        "name": "pump",
+        "version": "3.0.2"
+      }
+    },
+    {
+      "id": "end-of-stream@1.4.4",
+      "info": {
+        "name": "end-of-stream",
+        "version": "1.4.4"
+      }
+    },
+    {
+      "id": "once@1.4.0",
+      "info": {
+        "name": "once",
+        "version": "1.4.0"
+      }
+    },
+    {
+      "id": "wrappy@1.0.2",
+      "info": {
+        "name": "wrappy",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "is-stream@1.1.0",
+      "info": {
+        "name": "is-stream",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "id": "npm-run-path@2.0.2",
+      "info": {
+        "name": "npm-run-path",
+        "version": "2.0.2"
+      }
+    },
+    {
+      "id": "p-finally@1.0.0",
+      "info": {
+        "name": "p-finally",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "signal-exit@3.0.7",
+      "info": {
+        "name": "signal-exit",
+        "version": "3.0.7"
+      }
+    },
+    {
+      "id": "strip-eof@1.0.0",
+      "info": {
+        "name": "strip-eof",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "fast-glob@3.3.3",
+      "info": {
+        "name": "fast-glob",
+        "version": "3.3.3"
+      }
+    },
+    {
+      "id": "@nodelib/fs.stat@2.0.5",
+      "info": {
+        "name": "@nodelib/fs.stat",
+        "version": "2.0.5"
+      }
+    },
+    {
+      "id": "@nodelib/fs.walk@1.2.8",
+      "info": {
+        "name": "@nodelib/fs.walk",
+        "version": "1.2.8"
+      }
+    },
+    {
+      "id": "@nodelib/fs.scandir@2.1.5",
+      "info": {
+        "name": "@nodelib/fs.scandir",
+        "version": "2.1.5"
+      }
+    },
+    {
+      "id": "run-parallel@1.2.0",
+      "info": {
+        "name": "run-parallel",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "id": "queue-microtask@1.2.3",
+      "info": {
+        "name": "queue-microtask",
+        "version": "1.2.3"
+      }
+    },
+    {
+      "id": "fastq@1.19.1",
+      "info": {
+        "name": "fastq",
+        "version": "1.19.1"
+      }
+    },
+    {
+      "id": "reusify@1.1.0",
+      "info": {
+        "name": "reusify",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "id": "glob-parent@5.1.2",
+      "info": {
+        "name": "glob-parent",
+        "version": "5.1.2"
+      }
+    },
+    {
+      "id": "is-glob@4.0.3",
+      "info": {
+        "name": "is-glob",
+        "version": "4.0.3"
+      }
+    },
+    {
+      "id": "is-extglob@2.1.1",
+      "info": {
+        "name": "is-extglob",
+        "version": "2.1.1"
+      }
+    },
+    {
+      "id": "merge2@1.4.1",
+      "info": {
+        "name": "merge2",
+        "version": "1.4.1"
+      }
+    },
+    {
+      "id": "micromatch@4.0.8",
+      "info": {
+        "name": "micromatch",
+        "version": "4.0.8"
+      }
+    },
+    {
+      "id": "braces@3.0.3",
+      "info": {
+        "name": "braces",
+        "version": "3.0.3"
+      }
+    },
+    {
+      "id": "fill-range@7.1.1",
+      "info": {
+        "name": "fill-range",
+        "version": "7.1.1"
+      }
+    },
+    {
+      "id": "to-regex-range@5.0.1",
+      "info": {
+        "name": "to-regex-range",
+        "version": "5.0.1"
+      }
+    },
+    {
+      "id": "is-number@7.0.0",
+      "info": {
+        "name": "is-number",
+        "version": "7.0.0"
+      }
+    },
+    {
+      "id": "picomatch@2.3.1",
+      "info": {
+        "name": "picomatch",
+        "version": "2.3.1"
+      }
+    },
+    {
+      "id": "interpret@1.4.0",
+      "info": {
+        "name": "interpret",
+        "version": "1.4.0"
+      }
+    },
+    {
+      "id": "rechoir@0.6.2",
+      "info": {
+        "name": "rechoir",
+        "version": "0.6.2"
+      }
+    },
+    {
+      "id": "resolve@1.22.10",
+      "info": {
+        "name": "resolve",
+        "version": "1.22.10"
+      }
+    },
+    {
+      "id": "is-core-module@2.16.1",
+      "info": {
+        "name": "is-core-module",
+        "version": "2.16.1"
+      }
+    },
+    {
+      "id": "hasown@2.0.2",
+      "info": {
+        "name": "hasown",
+        "version": "2.0.2"
+      }
+    },
+    {
+      "id": "function-bind@1.1.2",
+      "info": {
+        "name": "function-bind",
+        "version": "1.1.2"
+      }
+    },
+    {
+      "id": "path-parse@1.0.7",
+      "info": {
+        "name": "path-parse",
+        "version": "1.0.7"
+      }
+    },
+    {
+      "id": "supports-preserve-symlinks-flag@1.0.0",
+      "info": {
+        "name": "supports-preserve-symlinks-flag",
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "library-a@1.0.0",
+        "deps": [
+          {
+            "nodeId": "git-rev-sync@1.5.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "git-rev-sync@1.5.0",
+        "pkgId": "git-rev-sync@1.5.0",
+        "deps": [
+          {
+            "nodeId": "graceful-fs@4.1.3"
+          },
+          {
+            "nodeId": "shelljs@^0.9.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "graceful-fs@4.1.3",
+        "pkgId": "graceful-fs@4.1.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "shelljs@^0.9.1",
+        "pkgId": "shelljs@0.9.2",
+        "deps": [
+          {
+            "nodeId": "execa@1.0.0"
+          },
+          {
+            "nodeId": "fast-glob@3.3.3"
+          },
+          {
+            "nodeId": "interpret@1.4.0"
+          },
+          {
+            "nodeId": "rechoir@0.6.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "execa@1.0.0",
+        "pkgId": "execa@1.0.0",
+        "deps": [
+          {
+            "nodeId": "cross-spawn@6.0.6"
+          },
+          {
+            "nodeId": "get-stream@4.1.0"
+          },
+          {
+            "nodeId": "is-stream@1.1.0"
+          },
+          {
+            "nodeId": "npm-run-path@2.0.2"
+          },
+          {
+            "nodeId": "p-finally@1.0.0"
+          },
+          {
+            "nodeId": "signal-exit@3.0.7"
+          },
+          {
+            "nodeId": "strip-eof@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "cross-spawn@6.0.6",
+        "pkgId": "cross-spawn@6.0.6",
+        "deps": [
+          {
+            "nodeId": "nice-try@1.0.5"
+          },
+          {
+            "nodeId": "path-key@2.0.1"
+          },
+          {
+            "nodeId": "semver@5.7.2"
+          },
+          {
+            "nodeId": "shebang-command@1.2.0"
+          },
+          {
+            "nodeId": "which@1.3.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "nice-try@1.0.5",
+        "pkgId": "nice-try@1.0.5",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-key@2.0.1",
+        "pkgId": "path-key@2.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "semver@5.7.2",
+        "pkgId": "semver@5.7.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "shebang-command@1.2.0",
+        "pkgId": "shebang-command@1.2.0",
+        "deps": [
+          {
+            "nodeId": "shebang-regex@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "shebang-regex@1.0.0",
+        "pkgId": "shebang-regex@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "which@1.3.1",
+        "pkgId": "which@1.3.1",
+        "deps": [
+          {
+            "nodeId": "isexe@2.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "isexe@2.0.0",
+        "pkgId": "isexe@2.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "get-stream@4.1.0",
+        "pkgId": "get-stream@4.1.0",
+        "deps": [
+          {
+            "nodeId": "pump@3.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "pump@3.0.2",
+        "pkgId": "pump@3.0.2",
+        "deps": [
+          {
+            "nodeId": "end-of-stream@1.4.4"
+          },
+          {
+            "nodeId": "once@1.4.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "end-of-stream@1.4.4",
+        "pkgId": "end-of-stream@1.4.4",
+        "deps": [
+          {
+            "nodeId": "once@1.4.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "once@1.4.0",
+        "pkgId": "once@1.4.0",
+        "deps": [
+          {
+            "nodeId": "wrappy@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "wrappy@1.0.2",
+        "pkgId": "wrappy@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-stream@1.1.0",
+        "pkgId": "is-stream@1.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "npm-run-path@2.0.2",
+        "pkgId": "npm-run-path@2.0.2",
+        "deps": [
+          {
+            "nodeId": "path-key@2.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "p-finally@1.0.0",
+        "pkgId": "p-finally@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "signal-exit@3.0.7",
+        "pkgId": "signal-exit@3.0.7",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "strip-eof@1.0.0",
+        "pkgId": "strip-eof@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "fast-glob@3.3.3",
+        "pkgId": "fast-glob@3.3.3",
+        "deps": [
+          {
+            "nodeId": "@nodelib/fs.stat@2.0.5"
+          },
+          {
+            "nodeId": "@nodelib/fs.walk@1.2.8"
+          },
+          {
+            "nodeId": "glob-parent@5.1.2"
+          },
+          {
+            "nodeId": "merge2@1.4.1"
+          },
+          {
+            "nodeId": "micromatch@4.0.8"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@nodelib/fs.stat@2.0.5",
+        "pkgId": "@nodelib/fs.stat@2.0.5",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@nodelib/fs.walk@1.2.8",
+        "pkgId": "@nodelib/fs.walk@1.2.8",
+        "deps": [
+          {
+            "nodeId": "@nodelib/fs.scandir@2.1.5"
+          },
+          {
+            "nodeId": "fastq@1.19.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@nodelib/fs.scandir@2.1.5",
+        "pkgId": "@nodelib/fs.scandir@2.1.5",
+        "deps": [
+          {
+            "nodeId": "@nodelib/fs.stat@2.0.5"
+          },
+          {
+            "nodeId": "run-parallel@1.2.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "run-parallel@1.2.0",
+        "pkgId": "run-parallel@1.2.0",
+        "deps": [
+          {
+            "nodeId": "queue-microtask@1.2.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "queue-microtask@1.2.3",
+        "pkgId": "queue-microtask@1.2.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "fastq@1.19.1",
+        "pkgId": "fastq@1.19.1",
+        "deps": [
+          {
+            "nodeId": "reusify@1.1.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "reusify@1.1.0",
+        "pkgId": "reusify@1.1.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "glob-parent@5.1.2",
+        "pkgId": "glob-parent@5.1.2",
+        "deps": [
+          {
+            "nodeId": "is-glob@4.0.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-glob@4.0.3",
+        "pkgId": "is-glob@4.0.3",
+        "deps": [
+          {
+            "nodeId": "is-extglob@2.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-extglob@2.1.1",
+        "pkgId": "is-extglob@2.1.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "merge2@1.4.1",
+        "pkgId": "merge2@1.4.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "micromatch@4.0.8",
+        "pkgId": "micromatch@4.0.8",
+        "deps": [
+          {
+            "nodeId": "braces@3.0.3"
+          },
+          {
+            "nodeId": "picomatch@2.3.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "braces@3.0.3",
+        "pkgId": "braces@3.0.3",
+        "deps": [
+          {
+            "nodeId": "fill-range@7.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "fill-range@7.1.1",
+        "pkgId": "fill-range@7.1.1",
+        "deps": [
+          {
+            "nodeId": "to-regex-range@5.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "to-regex-range@5.0.1",
+        "pkgId": "to-regex-range@5.0.1",
+        "deps": [
+          {
+            "nodeId": "is-number@7.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-number@7.0.0",
+        "pkgId": "is-number@7.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "picomatch@2.3.1",
+        "pkgId": "picomatch@2.3.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "interpret@1.4.0",
+        "pkgId": "interpret@1.4.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "rechoir@0.6.2",
+        "pkgId": "rechoir@0.6.2",
+        "deps": [
+          {
+            "nodeId": "resolve@1.22.10"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "resolve@1.22.10",
+        "pkgId": "resolve@1.22.10",
+        "deps": [
+          {
+            "nodeId": "is-core-module@2.16.1"
+          },
+          {
+            "nodeId": "path-parse@1.0.7"
+          },
+          {
+            "nodeId": "supports-preserve-symlinks-flag@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-core-module@2.16.1",
+        "pkgId": "is-core-module@2.16.1",
+        "deps": [
+          {
+            "nodeId": "hasown@2.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "hasown@2.0.2",
+        "pkgId": "hasown@2.0.2",
+        "deps": [
+          {
+            "nodeId": "function-bind@1.1.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "function-bind@1.1.2",
+        "pkgId": "function-bind@1.1.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-parse@1.0.7",
+        "pkgId": "path-parse@1.0.7",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "supports-preserve-symlinks-flag@1.0.0",
+        "pkgId": "supports-preserve-symlinks-flag@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}

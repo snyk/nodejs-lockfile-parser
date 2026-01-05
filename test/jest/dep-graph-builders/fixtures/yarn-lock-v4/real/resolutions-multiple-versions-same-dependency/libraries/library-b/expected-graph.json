@@ -1,0 +1,442 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "library-b@1.0.0",
+      "info": {
+        "name": "library-b",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "shelljs@0.8.5",
+      "info": {
+        "name": "shelljs",
+        "version": "0.8.5"
+      }
+    },
+    {
+      "id": "glob@7.2.3",
+      "info": {
+        "name": "glob",
+        "version": "7.2.3"
+      }
+    },
+    {
+      "id": "fs.realpath@1.0.0",
+      "info": {
+        "name": "fs.realpath",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "inflight@1.0.6",
+      "info": {
+        "name": "inflight",
+        "version": "1.0.6"
+      }
+    },
+    {
+      "id": "once@1.4.0",
+      "info": {
+        "name": "once",
+        "version": "1.4.0"
+      }
+    },
+    {
+      "id": "wrappy@1.0.2",
+      "info": {
+        "name": "wrappy",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "inherits@2.0.4",
+      "info": {
+        "name": "inherits",
+        "version": "2.0.4"
+      }
+    },
+    {
+      "id": "minimatch@3.1.2",
+      "info": {
+        "name": "minimatch",
+        "version": "3.1.2"
+      }
+    },
+    {
+      "id": "brace-expansion@1.1.11",
+      "info": {
+        "name": "brace-expansion",
+        "version": "1.1.11"
+      }
+    },
+    {
+      "id": "balanced-match@1.0.2",
+      "info": {
+        "name": "balanced-match",
+        "version": "1.0.2"
+      }
+    },
+    {
+      "id": "concat-map@0.0.1",
+      "info": {
+        "name": "concat-map",
+        "version": "0.0.1"
+      }
+    },
+    {
+      "id": "path-is-absolute@1.0.1",
+      "info": {
+        "name": "path-is-absolute",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "interpret@1.4.0",
+      "info": {
+        "name": "interpret",
+        "version": "1.4.0"
+      }
+    },
+    {
+      "id": "rechoir@0.6.2",
+      "info": {
+        "name": "rechoir",
+        "version": "0.6.2"
+      }
+    },
+    {
+      "id": "resolve@1.22.10",
+      "info": {
+        "name": "resolve",
+        "version": "1.22.10"
+      }
+    },
+    {
+      "id": "is-core-module@2.16.1",
+      "info": {
+        "name": "is-core-module",
+        "version": "2.16.1"
+      }
+    },
+    {
+      "id": "hasown@2.0.2",
+      "info": {
+        "name": "hasown",
+        "version": "2.0.2"
+      }
+    },
+    {
+      "id": "function-bind@1.1.2",
+      "info": {
+        "name": "function-bind",
+        "version": "1.1.2"
+      }
+    },
+    {
+      "id": "path-parse@1.0.7",
+      "info": {
+        "name": "path-parse",
+        "version": "1.0.7"
+      }
+    },
+    {
+      "id": "supports-preserve-symlinks-flag@1.0.0",
+      "info": {
+        "name": "supports-preserve-symlinks-flag",
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "library-b@1.0.0",
+        "deps": [
+          {
+            "nodeId": "shelljs@0.8.5"
+          }
+        ]
+      },
+      {
+        "nodeId": "shelljs@0.8.5",
+        "pkgId": "shelljs@0.8.5",
+        "deps": [
+          {
+            "nodeId": "glob@7.2.3"
+          },
+          {
+            "nodeId": "interpret@1.4.0"
+          },
+          {
+            "nodeId": "rechoir@0.6.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "glob@7.2.3",
+        "pkgId": "glob@7.2.3",
+        "deps": [
+          {
+            "nodeId": "fs.realpath@1.0.0"
+          },
+          {
+            "nodeId": "inflight@1.0.6"
+          },
+          {
+            "nodeId": "inherits@2.0.4"
+          },
+          {
+            "nodeId": "minimatch@3.1.2"
+          },
+          {
+            "nodeId": "once@1.4.0"
+          },
+          {
+            "nodeId": "path-is-absolute@1.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "fs.realpath@1.0.0",
+        "pkgId": "fs.realpath@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "inflight@1.0.6",
+        "pkgId": "inflight@1.0.6",
+        "deps": [
+          {
+            "nodeId": "once@1.4.0"
+          },
+          {
+            "nodeId": "wrappy@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "once@1.4.0",
+        "pkgId": "once@1.4.0",
+        "deps": [
+          {
+            "nodeId": "wrappy@1.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "wrappy@1.0.2",
+        "pkgId": "wrappy@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "inherits@2.0.4",
+        "pkgId": "inherits@2.0.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "minimatch@3.1.2",
+        "pkgId": "minimatch@3.1.2",
+        "deps": [
+          {
+            "nodeId": "brace-expansion@1.1.11"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "brace-expansion@1.1.11",
+        "pkgId": "brace-expansion@1.1.11",
+        "deps": [
+          {
+            "nodeId": "balanced-match@1.0.2"
+          },
+          {
+            "nodeId": "concat-map@0.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "balanced-match@1.0.2",
+        "pkgId": "balanced-match@1.0.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "concat-map@0.0.1",
+        "pkgId": "concat-map@0.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-is-absolute@1.0.1",
+        "pkgId": "path-is-absolute@1.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "interpret@1.4.0",
+        "pkgId": "interpret@1.4.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "rechoir@0.6.2",
+        "pkgId": "rechoir@0.6.2",
+        "deps": [
+          {
+            "nodeId": "resolve@1.22.10"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "resolve@1.22.10",
+        "pkgId": "resolve@1.22.10",
+        "deps": [
+          {
+            "nodeId": "is-core-module@2.16.1"
+          },
+          {
+            "nodeId": "path-parse@1.0.7"
+          },
+          {
+            "nodeId": "supports-preserve-symlinks-flag@1.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-core-module@2.16.1",
+        "pkgId": "is-core-module@2.16.1",
+        "deps": [
+          {
+            "nodeId": "hasown@2.0.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "hasown@2.0.2",
+        "pkgId": "hasown@2.0.2",
+        "deps": [
+          {
+            "nodeId": "function-bind@1.1.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "function-bind@1.1.2",
+        "pkgId": "function-bind@1.1.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "path-parse@1.0.7",
+        "pkgId": "path-parse@1.0.7",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "supports-preserve-symlinks-flag@1.0.0",
+        "pkgId": "supports-preserve-symlinks-flag@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}
