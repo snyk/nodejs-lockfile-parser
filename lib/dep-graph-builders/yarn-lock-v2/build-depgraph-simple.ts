@@ -1,5 +1,5 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
-import { getTopLevelDeps, PkgNode } from '../util';
+import { createNodeInfo, getTopLevelDeps, PkgNode } from '../util';
 import type {
   YarnLockV2ProjectParseOptions,
   YarnLockV2WorkspaceArgs,
@@ -19,11 +19,13 @@ export const buildDepGraphYarnLockV2Simple = async (
     strictOutOfSync,
     includeOptionalDeps,
     pruneWithinTopLevelDeps,
+    showNpmScope,
   } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
     { name: pkgJson.name, version: pkgJson.version },
+    createNodeInfo(options),
   );
 
   const topLevelDeps = getTopLevelDeps(pkgJson, {
@@ -48,6 +50,8 @@ export const buildDepGraphYarnLockV2Simple = async (
     // at root - therefore it should take precedent
     workspaceArgs?.rootResolutions || pkgJson.resolutions || {},
     pruneWithinTopLevelDeps,
+    undefined,
+    showNpmScope,
   );
 
   return depGraphBuilder.build();
@@ -68,6 +72,7 @@ const dfsVisit = async (
   resolutions: Record<string, string>,
   pruneWithinTopLevel: boolean,
   visited?: Set<string>,
+  showNpmScope?: boolean,
 ): Promise<void> => {
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     let scopeDepInfo = depInfo;
@@ -119,6 +124,7 @@ const dfsVisit = async (
           {
             labels: {
               scope: node.isDev ? 'dev' : 'prod',
+              ...(showNpmScope && { 'npm:scope': node.isDev ? 'dev' : 'prod' }),
               pruned: 'true',
               ...(node.missingLockFileEntry && {
                 missingLockFileEntry: 'true',
@@ -142,6 +148,7 @@ const dfsVisit = async (
       {
         labels: {
           scope: node.isDev ? 'dev' : 'prod',
+          ...(showNpmScope && { 'npm:scope': node.isDev ? 'dev' : 'prod' }),
           ...(node.missingLockFileEntry && {
             missingLockFileEntry: 'true',
           }),
@@ -162,6 +169,7 @@ const dfsVisit = async (
       resolutions,
       pruneWithinTopLevel,
       localVisited,
+      showNpmScope,
     );
   }
 };

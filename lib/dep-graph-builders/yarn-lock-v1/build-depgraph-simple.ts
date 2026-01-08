@@ -1,5 +1,10 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
-import { getChildNode, getTopLevelDeps, PkgNode } from '../util';
+import {
+  createNodeInfo,
+  getChildNode,
+  getTopLevelDeps,
+  PkgNode,
+} from '../util';
 import type { Yarn1DepGraphBuildOptions } from '../types';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
 import { eventLoopSpinner } from 'event-loop-spinner';
@@ -15,11 +20,13 @@ export const buildDepGraphYarnLockV1Simple = async (
     includePeerDeps,
     strictOutOfSync,
     pruneWithinTopLevelDeps,
+    showNpmScope,
   } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
     { name: pkgJson.name, version: pkgJson.version },
+    createNodeInfo(options),
   );
 
   const topLevelDeps = getTopLevelDeps(pkgJson, {
@@ -43,6 +50,8 @@ export const buildDepGraphYarnLockV1Simple = async (
     strictOutOfSync,
     includeOptionalDeps,
     pruneWithinTopLevelDeps,
+    undefined,
+    showNpmScope,
   );
 
   return depGraphBuilder.build();
@@ -62,6 +71,7 @@ const dfsVisit = async (
   includeOptionalDeps: boolean,
   pruneWithinTopLevel: boolean,
   visited?: Set<string>,
+  showNpmScope?: boolean,
 ): Promise<void> => {
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     let scopeDepInfo = Object.assign({}, depInfo);
@@ -105,6 +115,7 @@ const dfsVisit = async (
           {
             labels: {
               scope: node.isDev ? 'dev' : 'prod',
+              ...(showNpmScope && { 'npm:scope': node.isDev ? 'dev' : 'prod' }),
               pruned: 'true',
               ...(node.missingLockFileEntry && {
                 missingLockFileEntry: 'true',
@@ -128,6 +139,7 @@ const dfsVisit = async (
       {
         labels: {
           scope: node.isDev ? 'dev' : 'prod',
+          ...(showNpmScope && { 'npm:scope': node.isDev ? 'dev' : 'prod' }),
           ...(node.missingLockFileEntry && {
             missingLockFileEntry: 'true',
           }),
@@ -147,6 +159,7 @@ const dfsVisit = async (
       includeOptionalDeps,
       pruneWithinTopLevel,
       localVisited,
+      showNpmScope,
     );
   }
 };

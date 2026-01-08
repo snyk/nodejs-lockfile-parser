@@ -56,6 +56,7 @@ export const parsePnpmWorkspace = async (
     strictOutOfSync,
     pruneWithinTopLevelDeps,
     exclude,
+    showNpmScope,
   } = options;
 
   const pnpmLockfileContents = getFileContents(
@@ -110,6 +111,7 @@ export const parsePnpmWorkspace = async (
           strictOutOfSync,
           includeOptionalDeps,
           pruneWithinTopLevelDeps,
+          showNpmScope,
         },
         importer,
       );

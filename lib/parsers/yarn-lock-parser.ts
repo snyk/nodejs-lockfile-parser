@@ -4,6 +4,7 @@ import {
   Dep,
   Lockfile,
   LockfileType,
+  ManifestDependencies,
   ManifestFile,
   PkgTree,
   Scope,
@@ -58,12 +59,14 @@ export class YarnLockParser extends LockParserBase {
     lockfile: Lockfile,
     includeDev = false,
     strictOutOfSync = true,
+    showNpmScope?: boolean,
   ): Promise<PkgTree> {
     const depTree = await super.getDependencyTree(
       manifestFile,
       lockfile,
       includeDev,
       strictOutOfSync,
+      showNpmScope,
     );
 
     const meta = { lockfileVersion: 1, packageManager: 'yarn' };
@@ -75,7 +78,11 @@ export class YarnLockParser extends LockParserBase {
     return depTreeWithMeta;
   }
 
-  protected getDepMap(lockfile: Lockfile): DepMap {
+  protected getDepMap(
+    lockfile: Lockfile,
+    resolutions?: ManifestDependencies,
+    showNpmScope?: boolean,
+  ): DepMap {
     const yarnLockfile = lockfile as YarnLock;
     const depMap: DepMap = {};
 
@@ -87,6 +94,7 @@ export class YarnLockParser extends LockParserBase {
       depMap[depName] = {
         labels: {
           scope: Scope.prod,
+          ...(showNpmScope && { 'npm:scope': Scope.prod }),
         },
         name: getName(depName),
         requires: subDependencies.map(([key, ver]) => `${key}@${ver}`),

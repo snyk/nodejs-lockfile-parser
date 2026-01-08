@@ -64,6 +64,7 @@ export interface DepTreeDep {
   };
   labels?: {
     [key: string]: string | Alias | undefined;
+    'npm:scope'?: 'prod' | 'dev' | 'unknown';
     scope?: 'dev' | 'prod';
     pruned?: 'cyclic' | 'true';
     missingLockFileEntry?: 'true';
@@ -107,6 +108,7 @@ export interface LockfileParser {
     lockfile: Lockfile,
     includeDev?: boolean,
     strictOutOfSync?: boolean,
+    showNpmScope?: boolean,
   ) => Promise<PkgTree>;
 }
 
@@ -179,10 +181,14 @@ export function getTopLevelDeps({
   return dependencies;
 }
 
-export function createDepTreeDepFromDep(dep: Dep): DepTreeDep {
+export function createDepTreeDepFromDep(
+  dep: Dep,
+  showNpmScope?: boolean,
+): DepTreeDep {
   return {
     labels: {
       scope: dep.dev ? Scope.dev : Scope.prod,
+      ...(showNpmScope && { 'npm:scope': dep.dev ? Scope.dev : Scope.prod }),
     },
     name: dep.name,
     version: dep.version,

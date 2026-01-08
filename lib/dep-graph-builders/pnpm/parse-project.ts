@@ -17,6 +17,7 @@ export const parsePnpmProject = async (
     includeOptionalDeps,
     strictOutOfSync,
     pruneWithinTopLevelDeps,
+    showNpmScope,
   } = options;
   let importer = '';
 
@@ -47,6 +48,7 @@ export const parsePnpmProject = async (
       includePeerDeps,
       includeOptionalDeps,
       pruneWithinTopLevelDeps,
+      showNpmScope,
     },
     importer,
   );

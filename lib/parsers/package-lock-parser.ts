@@ -2,6 +2,7 @@ import {
   Dep,
   Lockfile,
   LockfileType,
+  ManifestDependencies,
   ManifestFile,
   PkgTree,
   Scope,
@@ -58,12 +59,14 @@ export class PackageLockParser extends LockParserBase {
     lockfile: Lockfile,
     includeDev: boolean = false,
     strictOutOfSync: boolean = true,
+    showNpmScope?: boolean,
   ): Promise<PkgTree> {
     const dependencyTree = await super.getDependencyTree(
       manifestFile,
       lockfile,
       includeDev,
       strictOutOfSync,
+      showNpmScope,
     );
     const meta = {
       lockfileVersion: (lockfile as PackageLock).lockfileVersion,
@@ -76,7 +79,11 @@ export class PackageLockParser extends LockParserBase {
     return depTreeWithMeta;
   }
 
-  protected getDepMap(lockfile: Lockfile): DepMap {
+  protected getDepMap(
+    lockfile: Lockfile,
+    resolutions?: ManifestDependencies,
+    showNpmScope?: boolean,
+  ): DepMap {
     const packageLock = lockfile as PackageLock;
     const depMap: DepMap = {};
 
@@ -88,6 +95,9 @@ export class PackageLockParser extends LockParserBase {
         const depNode: DepMapItem = {
           labels: {
             scope: dep.dev ? Scope.dev : Scope.prod,
+            ...(showNpmScope && {
+              'npm:scope': dep.dev ? Scope.dev : Scope.prod,
+            }),
           },
           name: depName,
           requires: [],

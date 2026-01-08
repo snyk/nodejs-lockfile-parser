@@ -13,6 +13,7 @@ import {
   getTopLevelDeps,
   parsePkgJson,
   PkgNode,
+  createNodeInfo,
 } from '../util';
 import { OutOfSyncError } from '../../errors';
 import { LockfileType } from '../../parsers';
@@ -38,6 +39,7 @@ export const parseNpmLockV2Project = async (
     strictOutOfSync,
     includeOptionalDeps,
     pruneNpmStrictOutOfSync,
+    showNpmScope,
   } = options;
 
   const pkgJson: PackageJsonBase = parsePkgJson(
@@ -52,6 +54,7 @@ export const parseNpmLockV2Project = async (
     includeOptionalDeps,
     strictOutOfSync,
     pruneNpmStrictOutOfSync,
+    showNpmScope,
   });
 
   return depgraph;
@@ -67,10 +70,12 @@ export const buildDepGraphNpmLockV2 = async (
     strictOutOfSync,
     includeOptionalDeps,
     pruneNpmStrictOutOfSync,
+    showNpmScope,
   } = options;
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'npm' },
     { name: pkgJson.name as string, version: pkgJson.version },
+    createNodeInfo(options),
   );
 
   const topLevelDeps = getTopLevelDeps(pkgJson, {
@@ -120,6 +125,7 @@ export const buildDepGraphNpmLockV2 = async (
     pkgKeysByName,
     pkgJson.overrides,
     pruneNpmStrictOutOfSync,
+    showNpmScope,
   );
   return depGraphBuilder.build();
 };
@@ -144,6 +150,7 @@ const dfsVisit = async (
   pkgKeysByName: Map<string, string[]>,
   overrides: Overrides | undefined,
   pruneNpmStrictOutOfSync?: boolean,
+  showNpmScope?: boolean,
 ): Promise<void> => {
   visitedMap.add(node.id);
 
@@ -175,7 +182,7 @@ const dfsVisit = async (
     );
 
     if (!visitedMap.has(childNode.id)) {
-      addPkgNodeToGraph(depGraphBuilder, childNode, {});
+      addPkgNodeToGraph(depGraphBuilder, childNode, { showNpmScope });
       await dfsVisit(
         depGraphBuilder,
         childNode,
@@ -196,6 +203,8 @@ const dfsVisit = async (
         ],
         pkgKeysByName,
         overrides,
+        undefined,
+        showNpmScope,
       );
     }
 
