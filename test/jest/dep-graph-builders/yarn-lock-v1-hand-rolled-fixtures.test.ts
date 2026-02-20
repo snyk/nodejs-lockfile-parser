@@ -18,6 +18,15 @@ const getHandRolledPkgJson = (fixture: string) => {
     'utf8',
   );
 };
+const getHandRolledPkgJsonV1 = (fixture: string) => {
+  return readFileSync(
+    join(
+      __dirname,
+      `./fixtures/yarn-lock-v1/hand-rolled/${fixture}/package.json`,
+    ),
+    'utf8',
+  );
+};
 
 describe('yarn.lock v1 parsing', () => {
   it('returns package manager', async () => {
@@ -451,6 +460,56 @@ describe('yarn.lock v1 parsing', () => {
         nodeId: 'd@1.0.0',
         pkgId: 'd@1.0.0',
         deps: [{ nodeId: 'b@1.0.0' }],
+        info: { labels: { scope: 'prod' } },
+      },
+    ]);
+  });
+
+  it('returns packages - scoped npm alias', async () => {
+    const opts: YarnLockV1ProjectParseOptions = {
+      includeDevDeps: false,
+      includeOptionalDeps: false,
+      includePeerDeps: false,
+      pruneLevel: 'none',
+      strictOutOfSync: false,
+    };
+    const pkgJson = getHandRolledPkgJsonV1('scoped-alias');
+    const yarnLock = getHandRolledYarnLock('scoped-alias');
+    const dg = await parseYarnLockV1Project(pkgJson, yarnLock, opts);
+    expect(dg.getPkgs()).toMatchObject([
+      { name: 'scoped-alias', version: '1.0.0' },
+      { name: 'a', version: '1.0.0' },
+      { name: '@scope/types', version: '1.0.0' },
+    ]);
+  });
+
+  it('returns pkg deps - scoped npm alias', async () => {
+    const opts: YarnLockV1ProjectParseOptions = {
+      includeDevDeps: false,
+      includeOptionalDeps: false,
+      includePeerDeps: false,
+      pruneLevel: 'none',
+      strictOutOfSync: false,
+    };
+    const pkgJson = getHandRolledPkgJsonV1('scoped-alias');
+    const yarnLock = getHandRolledYarnLock('scoped-alias');
+    const dg = await parseYarnLockV1Project(pkgJson, yarnLock, opts);
+    expect(dg.toJSON().graph.nodes).toMatchObject([
+      {
+        nodeId: 'root-node',
+        pkgId: 'scoped-alias@1.0.0',
+        deps: [{ nodeId: 'a@1.0.0' }, { nodeId: 'lib-types@1.0.0' }],
+      },
+      {
+        nodeId: 'a@1.0.0',
+        pkgId: 'a@1.0.0',
+        deps: [],
+        info: { labels: { scope: 'prod' } },
+      },
+      {
+        nodeId: 'lib-types@1.0.0',
+        pkgId: '@scope/types@1.0.0',
+        deps: [],
         info: { labels: { scope: 'prod' } },
       },
     ]);

@@ -136,6 +136,34 @@ export const getTopLevelDeps = (
 };
 
 /**
+ * Validates if a package name is valid for inclusion in dependency graph.
+ * Invalid cases include:
+ * - Empty names
+ * - Scoped packages with empty names after the scope (e.g., "@types/")
+ */
+function isValidPackageName(name: string): boolean {
+  if (!name || name.trim() === '') {
+    return false;
+  }
+
+  // Check for scoped packages with empty names after the scope
+  // e.g., "@types/" is invalid (ends with slash after scope)
+  if (name.startsWith('@')) {
+    const slashIndex = name.indexOf('/');
+    if (slashIndex !== -1) {
+      // Get the part after the scope
+      const afterScope = name.substring(slashIndex + 1);
+      // Invalid if nothing after the slash or only whitespace
+      if (!afterScope || afterScope.trim() === '') {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+/**
  * Converts dependencies parsed from the a lock file to a dependencies object required by the graph.
  * For example, { 'mime-db': '~1.12.0' } will be converted to { 'mime-db': { version: '~1.12.0', isDev: true/false } }.
  */
@@ -148,6 +176,11 @@ export const getGraphDependencies = (
 ): Dependencies => {
   return Object.entries(dependencies).reduce(
     (pnpmDeps: Dependencies, [name, semver]) => {
+      // Skip invalid package names to prevent downstream errors
+      if (!isValidPackageName(name)) {
+        return pnpmDeps;
+      }
+
       pnpmDeps[name] = {
         version: semver,
         isDev: options.isDev,
