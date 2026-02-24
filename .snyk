@@ -4,4 +4,4 @@ ignore:
   SNYK-JS-TAR-15307072:
     - '@yarnpkg/core > tar':
         reason: 'Indirect dependency from @yarnpkg/core, waiting for upstream fix'
-        expires: 2026-06-24T00:00:00.000Z
+        expires: 2026-03-26T00:00:00.000Z
