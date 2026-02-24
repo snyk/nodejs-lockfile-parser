@@ -3,6 +3,7 @@ import { parsePkgJson } from '../dep-graph-builders/util';
 
 /**
  * Parses a npm alias string (e.g., "npm:package@1.0.0") and returns the package name and version
+ * Handles scoped packages correctly (e.g., "npm:@scope/pkg@1.0.0")
  */
 export const parseNpmAlias = (
   aliasString: string,
@@ -10,15 +11,58 @@ export const parseNpmAlias = (
   if (!aliasString.startsWith('npm:')) {
     return null;
   }
-  const lastAtIndex = aliasString.lastIndexOf('@');
-  if (lastAtIndex <= 4) {
-    // Invalid format: must have content after 'npm:' and before '@'
-    return null;
+
+  // Find the last @ that separates package name from version
+  // For scoped packages, we need to skip the first @ in the scope
+  const afterNpm = aliasString.substring(4); // Remove "npm:" prefix
+
+  // If it starts with @, it's a scoped package
+  if (afterNpm.startsWith('@')) {
+    // Find the @ that separates the package name from version
+    // It should be after the scope (e.g., @scope/name@version)
+    const slashIndex = afterNpm.indexOf('/');
+    if (slashIndex === -1) {
+      // Malformed scoped package - no slash after @scope
+      return null;
+    }
+
+    // Look for @ after the slash
+    const versionSeparatorIndex = afterNpm.indexOf('@', slashIndex);
+
+    if (versionSeparatorIndex === -1) {
+      // No version specified - the whole string is the package name
+      // This happens with keys like "@typescript/lib-dom@npm:@types/web" where there's no explicit version
+      return {
+        packageName: afterNpm,
+        version: '', // No version specified
+      };
+    }
+
+    return {
+      packageName: afterNpm.substring(0, versionSeparatorIndex),
+      version: afterNpm.substring(versionSeparatorIndex + 1),
+    };
+  } else {
+    // Non-scoped package
+    const lastAtIndex = afterNpm.lastIndexOf('@');
+    if (lastAtIndex === -1) {
+      // No version specified
+      return {
+        packageName: afterNpm,
+        version: '',
+      };
+    }
+
+    if (lastAtIndex === 0) {
+      // Invalid format: starts with @ but not a scoped package
+      return null;
+    }
+
+    return {
+      packageName: afterNpm.substring(0, lastAtIndex),
+      version: afterNpm.substring(lastAtIndex + 1),
+    };
   }
-  return {
-    packageName: aliasString.substring(4, lastAtIndex),
-    version: aliasString.substring(lastAtIndex + 1),
-  };
 };
 
 /**

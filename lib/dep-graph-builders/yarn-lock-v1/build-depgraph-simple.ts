@@ -8,6 +8,7 @@ import {
 import type { Yarn1DepGraphBuildOptions } from '../types';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
 import { eventLoopSpinner } from 'event-loop-spinner';
+import { parseNpmAlias } from '../../aliasesPreprocessors/pkgJson';
 
 export const buildDepGraphYarnLockV1Simple = async (
   extractedYarnLockV1Pkgs: NormalisedPkgs,
@@ -80,23 +81,20 @@ const dfsVisit = async (
     }
     const localVisited = visited || new Set<string>();
     if (depInfo.version.startsWith('npm:')) {
-      scopeDepInfo = {
-        ...scopeDepInfo,
-        ...{
-          alias: {
-            aliasName: name,
-            aliasTargetDepName: depInfo.version.substring(
-              4,
-              depInfo.version.lastIndexOf('@'),
-            ),
-            semver: depInfo.version.substring(
-              depInfo.version.lastIndexOf('@') + 1,
-              depInfo.version.length,
-            ),
-            version: null,
+      const parsed = parseNpmAlias(depInfo.version);
+      if (parsed && parsed.packageName) {
+        scopeDepInfo = {
+          ...scopeDepInfo,
+          ...{
+            alias: {
+              aliasName: name,
+              aliasTargetDepName: parsed.packageName,
+              semver: parsed.version,
+              version: null,
+            },
           },
-        },
-      };
+        };
+      }
     }
     const childNode = getChildNode(
       name,

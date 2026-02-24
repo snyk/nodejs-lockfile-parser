@@ -7,6 +7,7 @@ import type {
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
 import { getYarnLockV2ChildNode } from './utils';
 import { eventLoopSpinner } from 'event-loop-spinner';
+import { parseNpmAlias } from '../../aliasesPreprocessors/pkgJson';
 
 export const buildDepGraphYarnLockV2Simple = async (
   extractedYarnLockV2Pkgs: NormalisedPkgs,
@@ -84,23 +85,20 @@ const dfsVisit = async (
       depInfo.version.startsWith('npm:') &&
       depInfo.version.indexOf('@') > -1
     ) {
-      scopeDepInfo = {
-        ...scopeDepInfo,
-        ...{
-          alias: {
-            aliasName: name,
-            aliasTargetDepName: depInfo.version.substring(
-              4,
-              depInfo.version.lastIndexOf('@'),
-            ),
-            semver: depInfo.version.substring(
-              depInfo.version.lastIndexOf('@') + 1,
-              depInfo.version.length,
-            ),
-            version: null,
+      const parsed = parseNpmAlias(depInfo.version);
+      if (parsed && parsed.packageName) {
+        scopeDepInfo = {
+          ...scopeDepInfo,
+          ...{
+            alias: {
+              aliasName: name,
+              aliasTargetDepName: parsed.packageName,
+              semver: parsed.version,
+              version: null,
+            },
           },
-        },
-      };
+        };
+      }
     }
 
     const localVisited = visited || new Set<string>();
