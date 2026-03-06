@@ -1,0 +1,8 @@
+{
+  "name": "npm-alias-packages",
+  "version": "1.0.0",
+  "dependencies": {
+    "string-width-cjs": "npm:string-width@^4.2.0",
+    "strip-ansi-cjs": "npm:strip-ansi@^6.0.1"
+  }
+}

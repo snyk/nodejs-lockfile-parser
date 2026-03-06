@@ -1,0 +1,10 @@
+{
+  "name": "patch-protocol-test",
+  "version": "1.0.0",
+  "dependencies": {
+    "lodash": "4.17.21"
+  },
+  "resolutions": {
+    "lodash@4.17.21": "patch:lodash@npm%3A4.17.21#./patches/lodash.patch"
+  }
+}

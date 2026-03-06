@@ -604,7 +604,7 @@ describe('yarn.lock v2 parsing', () => {
     expect(dg.getPkgs()).toMatchObject([
       { name: 'scoped-alias', version: '1.0.0' },
       { name: 'a', version: '1.0.0' },
-      { name: '@scope/types', version: '1.0.0' },
+      { name: 'lib-types', version: '1.0.0' },
     ]);
   });
 
@@ -632,10 +632,109 @@ describe('yarn.lock v2 parsing', () => {
       },
       {
         nodeId: 'lib-types@1.0.0',
-        pkgId: '@scope/types@1.0.0',
+        pkgId: 'lib-types@1.0.0',
         deps: [],
         info: { labels: { scope: 'prod' } },
       },
     ]);
+  });
+
+  it('handles patch protocol with URL-encoded resolutions', async () => {
+    const opts: YarnLockV2ProjectParseOptions = {
+      includeDevDeps: false,
+      includeOptionalDeps: false,
+      strictOutOfSync: false,
+      pruneWithinTopLevelDeps: false,
+    };
+    const pkgJson = getHandRolledPkgJson('patch-protocol');
+    const yarnLock = getHandRolledYarnLock('patch-protocol');
+    const dg = await parseYarnLockV2Project(pkgJson, yarnLock, opts, {
+      isWorkspacePkg: true,
+      isRoot: true,
+      rootResolutions: {
+        'lodash@4.17.21': 'patch:lodash@npm%3A4.17.21#./patches/lodash.patch',
+      },
+    });
+
+    // Verify the package is found and has correct structure
+    expect(dg.getPkgs()).toMatchObject([
+      { name: 'patch-protocol-test', version: '1.0.0' },
+      { name: 'lodash', version: '4.17.21' },
+    ]);
+
+    // Verify node IDs use simple version format, not full patch protocol string
+    expect(dg.toJSON().graph.nodes).toMatchObject([
+      {
+        nodeId: 'root-node',
+        pkgId: 'patch-protocol-test@1.0.0',
+        deps: [{ nodeId: 'lodash@4.17.21' }],
+      },
+      {
+        nodeId: 'lodash@4.17.21',
+        pkgId: 'lodash@4.17.21',
+        deps: [],
+        info: { labels: { scope: 'prod' } },
+      },
+    ]);
+
+    // Verify no node IDs contain the patch protocol string
+    const allNodeIds = dg.toJSON().graph.nodes.map((n) => n.nodeId);
+    allNodeIds.forEach((nodeId) => {
+      expect(nodeId).not.toContain('patch:');
+      expect(nodeId).not.toContain('npm%3A');
+    });
+  });
+
+  it('creates separate package entries for npm aliases', async () => {
+    const opts: YarnLockV2ProjectParseOptions = {
+      includeDevDeps: false,
+      includeOptionalDeps: false,
+      strictOutOfSync: false,
+      pruneWithinTopLevelDeps: false,
+    };
+    const pkgJson = getHandRolledPkgJson('npm-alias-packages');
+    const yarnLock = getHandRolledYarnLock('npm-alias-packages');
+    const dg = await parseYarnLockV2Project(pkgJson, yarnLock, opts);
+
+    const depGraphJson = dg.toJSON();
+
+    // Verify alias package entries exist with correct names
+    const pkgIds = depGraphJson.pkgs.map((p) => p.id);
+    expect(pkgIds).toContain('string-width-cjs@4.2.3');
+    expect(pkgIds).toContain('strip-ansi-cjs@6.0.1');
+
+    // Verify alias packages have correct name (alias name, not target name)
+    const stringWidthCjsPkg = depGraphJson.pkgs.find(
+      (p) => p.id === 'string-width-cjs@4.2.3',
+    );
+    expect(stringWidthCjsPkg?.info.name).toBe('string-width-cjs');
+    expect(stringWidthCjsPkg?.info.version).toBe('4.2.3');
+
+    const stripAnsiCjsPkg = depGraphJson.pkgs.find(
+      (p) => p.id === 'strip-ansi-cjs@6.0.1',
+    );
+    expect(stripAnsiCjsPkg?.info.name).toBe('strip-ansi-cjs');
+    expect(stripAnsiCjsPkg?.info.version).toBe('6.0.1');
+
+    // Verify nodes reference the correct package IDs (alias package IDs match node IDs)
+    const stringWidthCjsNode = depGraphJson.graph.nodes.find(
+      (n) => n.nodeId === 'string-width-cjs@4.2.3',
+    );
+    expect(stringWidthCjsNode?.pkgId).toBe('string-width-cjs@4.2.3');
+    expect(stringWidthCjsNode?.nodeId).toBe('string-width-cjs@4.2.3');
+
+    const stripAnsiCjsNode = depGraphJson.graph.nodes.find(
+      (n) => n.nodeId === 'strip-ansi-cjs@6.0.1',
+    );
+    expect(stripAnsiCjsNode?.pkgId).toBe('strip-ansi-cjs@6.0.1');
+    expect(stripAnsiCjsNode?.nodeId).toBe('strip-ansi-cjs@6.0.1');
+
+    // Verify the alias metadata is present in node info
+    expect(stringWidthCjsNode?.info?.labels?.alias).toContain(
+      'string-width-cjs=>string-width@',
+    );
+    expect(stripAnsiCjsNode?.info?.labels?.alias).toContain(
+      'strip-ansi-cjs=>strip-ansi@',
+    );
   });
 });
