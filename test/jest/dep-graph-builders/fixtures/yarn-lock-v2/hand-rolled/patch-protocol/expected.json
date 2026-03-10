@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "patch-protocol-test@1.0.0",
+      "info": {
+        "name": "patch-protocol-test",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "lodash@4.17.21",
+      "info": {
+        "name": "lodash",
+        "version": "4.17.21"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "patch-protocol-test@1.0.0",
+        "deps": [
+          {
+            "nodeId": "lodash@4.17.21"
+          }
+        ]
+      },
+      {
+        "nodeId": "lodash@4.17.21",
+        "pkgId": "lodash@4.17.21",
+        "deps": []
+      }
+    ]
+  }
+}

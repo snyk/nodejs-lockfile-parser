@@ -117,7 +117,10 @@ const dfsVisit = async (
       if (pruneWithinTopLevel) {
         const prunedId = `${childNode.id}:pruned`;
         depGraphBuilder.addPkgNode(
-          { name: childNode.name, version: childNode.version },
+          {
+            name: childNode.alias ? childNode.alias.aliasName : childNode.name,
+            version: childNode.version,
+          },
           prunedId,
           {
             labels: {
@@ -141,7 +144,10 @@ const dfsVisit = async (
     }
 
     depGraphBuilder.addPkgNode(
-      { name: childNode.name, version: childNode.version },
+      {
+        name: childNode.alias ? childNode.alias.aliasName : childNode.name,
+        version: childNode.version,
+      },
       childNode.id,
       {
         labels: {

@@ -171,8 +171,8 @@ describe('Testing aliases for yarn', () => {
     );
     expect(newDepGraph).toBeDefined;
     const pkgs = newDepGraph.getPkgs();
-    expect(pkgs.some((x) => x.name === 'pkg')).toBeFalsy();
-    expect(pkgs.some((x) => x.name === '@yao-pkg/pkg')).toBeTruthy();
+    // With the fix, alias packages are created with the alias name
+    expect(pkgs.some((x) => x.name === 'pkg')).toBeTruthy();
     expect(JSON.stringify(newDepGraph)).toContain(
       '"alias":"pkg=>@yao-pkg/pkg@6.5.0"',
     );
@@ -207,8 +207,8 @@ describe('Testing aliases for yarn', () => {
     );
     expect(newDepGraph).toBeDefined;
     const pkgs = newDepGraph.getPkgs();
-    expect(pkgs.some((x) => x.name === 'pkg')).toBeFalsy();
-    expect(pkgs.some((x) => x.name === '@yao-pkg/pkg')).toBeTruthy();
+    // With the fix, alias packages are created with the alias name
+    expect(pkgs.some((x) => x.name === 'pkg')).toBeTruthy();
   });
 
   it('ignore aliased package in transitive deps - yarn-lock-v2', async () => {
@@ -240,9 +240,8 @@ describe('Testing aliases for yarn', () => {
     );
     expect(newDepGraph).toBeDefined;
     const pkgs = newDepGraph.getPkgs();
-    // expect(JSON.stringify(newDepGraph)).toContain('@yao-pkg/pkg');
-    expect(pkgs.some((x) => x.name === 'pkg')).toBeFalsy();
-    expect(pkgs.some((x) => x.name === '@yao-pkg/pkg')).toBeTruthy();
+    // With the fix, alias packages are created with the alias name
+    expect(pkgs.some((x) => x.name === 'pkg')).toBeTruthy();
   });
 });
 describe('Testing aliases for npm', () => {

@@ -174,9 +174,12 @@ export const getYarnLockV2ChildNode = (
   })();
 
   if (resolvedVersionFromResolution) {
-    const childNodeKeyFromResolution = `${name}@${resolvedVersionFromResolution}`;
+    // Decode URL-encoded characters in resolution values (e.g., npm%3A -> npm:)
+    // to match the keys extracted from yarn.lock
+    const decodedResolution = decodeURIComponent(resolvedVersionFromResolution);
+    const childNodeKeyFromResolution = `${name}@${decodedResolution}`;
     if (!pkgs[childNodeKeyFromResolution]) {
-      if (strictOutOfSync && !/^file:/.test(resolvedVersionFromResolution)) {
+      if (strictOutOfSync && !/^file:/.test(decodedResolution)) {
         throw new OutOfSyncError(
           childNodeKeyFromResolution,
           LockfileType.yarn2,
@@ -185,7 +188,7 @@ export const getYarnLockV2ChildNode = (
         return {
           id: childNodeKeyFromResolution,
           name: depInfo.alias ? depInfo.alias.aliasTargetDepName : name,
-          version: resolvedVersionFromResolution,
+          version: decodedResolution,
           dependencies: {},
           isDev: depInfo.isDev,
           missingLockFileEntry: true,
@@ -193,7 +196,7 @@ export const getYarnLockV2ChildNode = (
             ? {
                 alias: {
                   ...depInfo.alias,
-                  version: resolvedVersionFromResolution,
+                  version: decodedResolution,
                 },
               }
             : {}),
@@ -201,11 +204,13 @@ export const getYarnLockV2ChildNode = (
       }
     }
 
+    const pkgData = pkgs[childNodeKeyFromResolution];
+
     const {
       version: versionFromResolution,
       dependencies,
       optionalDependencies,
-    } = pkgs[childNodeKeyFromResolution];
+    } = pkgData;
 
     const formattedDependencies = getGraphDependencies(dependencies || {}, {
       isDev: depInfo.isDev,
@@ -218,7 +223,7 @@ export const getYarnLockV2ChildNode = (
       : {};
 
     return {
-      id: childNodeKeyFromResolution,
+      id: `${name}@${versionFromResolution}`,
       name: depInfo.alias ? depInfo.alias.aliasTargetDepName : name,
       version: versionFromResolution,
       dependencies: {
