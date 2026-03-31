@@ -99,7 +99,20 @@ export class LockfileV6Parser extends PnpmLockfileParser {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public normaliseImporters(rawPnpmLock: any): PnpmImporters {
     if (!('importers' in rawPnpmLock)) {
-      return {};
+      // Some pnpm versions embed the root importer as '.' inside the
+      // top-level dependencies map instead of using an importers section.
+      // Synthesize an importers entry so the workspace machinery can handle it.
+      const dotEntry = rawPnpmLock.dependencies?.['.'];
+      if (
+        dotEntry &&
+        typeof dotEntry === 'object' &&
+        'dependencies' in dotEntry
+      ) {
+        rawPnpmLock.importers = { '.': dotEntry };
+        delete rawPnpmLock.dependencies['.'];
+      } else {
+        return {};
+      }
     }
 
     const rawImporters = rawPnpmLock.importers as Record<

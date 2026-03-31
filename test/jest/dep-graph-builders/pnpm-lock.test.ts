@@ -285,6 +285,43 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
         expect(deGraph).toBeDefined();
       });
 
+      it('project: dot-as-dependency does not crash and processes nested deps when "." appears in root dependencies', async () => {
+        const fixtureName = 'workspace-with-dot-dep';
+        const pkgJsonContent = readFileSync(
+          join(
+            __dirname,
+            `./fixtures/pnpm-lock-v6/${fixtureName}/package.json`,
+          ),
+          'utf8',
+        );
+        const pnpmLockContent = readFileSync(
+          join(
+            __dirname,
+            `./fixtures/pnpm-lock-v6/${fixtureName}/pnpm-lock.yaml`,
+          ),
+          'utf8',
+        );
+        const depGraph = await parsePnpmProject(
+          pkgJsonContent,
+          pnpmLockContent,
+          {
+            includeDevDeps: false,
+            includeOptionalDeps: false,
+            strictOutOfSync: true,
+            pruneWithinTopLevelDeps: false,
+          },
+        );
+        expect(depGraph).toBeDefined();
+        expect(depGraph.rootPkg.name).toEqual('dot-dep-project');
+
+        // '.' should not appear as a dependency
+        const depPkgNames = depGraph.getDepPkgs().map((pkg) => pkg.name);
+        expect(depPkgNames).not.toContain('.');
+        // deps from the '.' nested block should be resolved
+        expect(depPkgNames).toContain('ms');
+        expect(depPkgNames).toContain('debug');
+      });
+
       it('project: simple-top-level-out-of-sync does not throws OutOfSyncError for strictOutOfSync=false', async () => {
         const fixtureName = 'missing-top-level-deps';
         const pkgJsonContent = readFileSync(

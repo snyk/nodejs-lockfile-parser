@@ -1,0 +1,8 @@
+{
+  "name": "dot-dep-project",
+  "version": "1.0.0",
+  "dependencies": {
+    "ms": "2.1.2",
+    "debug": "4.3.1"
+  }
+}

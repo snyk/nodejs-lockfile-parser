@@ -1,0 +1,45 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+dependencies:
+  ms:
+    specifier: 2.1.2
+    version: 2.1.2
+
+  .:
+    dependencies:
+      ms:
+        specifier: 2.1.2
+        version: 2.1.2
+      debug:
+        specifier: 4.3.1
+        version: 4.3.1
+    devDependencies:
+      sass:
+        specifier: 1.77.8
+        version: 1.77.8
+
+packages:
+
+  /debug@4.3.1:
+    resolution: {integrity: sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.2
+    dev: false
+
+  /ms@2.1.2:
+    resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+    dev: false
+
+  /sass@1.77.8:
+    resolution: {integrity: sha512-abcdefg==}
+    dev: true
