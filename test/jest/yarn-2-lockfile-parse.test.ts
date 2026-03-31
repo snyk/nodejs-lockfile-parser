@@ -36,4 +36,20 @@ describe('buildDepTreeFromFiles for yarn2', () => {
     const expectedTree = load('goof/yarn2/expected-tree.json');
     expect(result).toStrictEqual(expectedTree);
   });
+
+  it('should be able to parse yarn.lock files with patches', async () => {
+    const rootPath = join(__dirname, '../fixtures/yarn/yarn2/patches');
+    const manifestFileFullPath = join(rootPath, 'package.json');
+    const lockFileFullPath = join(rootPath, 'yarn.lock');
+
+    expect(async () => {
+      await buildDepTreeFromFiles(
+        rootPath,
+        manifestFileFullPath,
+        lockFileFullPath,
+        false,
+        true,
+      );
+    }).not.toThrow();
+  });
 });

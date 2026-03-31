@@ -168,10 +168,18 @@ export function getTopLevelDeps({
 
   if (applyYarn2Resolutions && targetFile.resolutions) {
     const resMap = new Map(
-      Object.entries(targetFile.resolutions).map(([resName, resVersion]) => [
-        resName.replace(`${targetFile.name}/`, ''),
-        resVersion,
-      ]),
+      Object.entries(targetFile.resolutions).map(([resName, resVersion]) => {
+        let key = resName.replace(`${targetFile.name}/`, '');
+        // Patch resolution keys use the format "name@npm:range" (e.g. "papaparse@npm:^5.3.0").
+        // Extract the bare package name so it can be matched against dep.name.
+        // The [^/] guard avoids matching scoped resolutions that target a sub-dependency
+        // (e.g. "debug@npm:4.3.2/ms"), which are handled separately in findResolutions.
+        const npmPrefixMatch = key.match(/^(.+)@npm:[^/]+$/);
+        if (npmPrefixMatch) {
+          key = npmPrefixMatch[1];
+        }
+        return [key, resVersion];
+      }),
     );
 
     dependencies = dependencies.map((dep) =>

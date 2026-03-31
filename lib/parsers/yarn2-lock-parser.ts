@@ -103,6 +103,10 @@ export class Yarn2LockParser extends LockParserBase {
     const dependencies = (lockfile.dependencies as YarnLockDeps) || {};
 
     for (const [depName, dep] of Object.entries(yarnLockfile.object)) {
+      if (depName.endsWith('@workspace:.')) {
+        continue;
+      }
+
       const subDependencies = Object.entries({
         ...(dep.dependencies || {}),
         ...(dep.optionalDependencies || {}),
