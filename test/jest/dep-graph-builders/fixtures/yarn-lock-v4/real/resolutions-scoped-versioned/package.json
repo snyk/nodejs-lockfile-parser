@@ -1,0 +1,10 @@
+{
+  "name": "resolutions-scoped-versioned",
+  "version": "0.0.1",
+  "dependencies": {
+    "isomorphic-fetch": "^2.1.1"
+  },
+  "resolutions": {
+    "isomorphic-fetch@npm:2.2.1/node-fetch": "2.6.7"
+  }
+}

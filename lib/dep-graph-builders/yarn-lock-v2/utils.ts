@@ -125,6 +125,50 @@ export const getYarnLockV2ChildNode = (
       return resolutions[scopedKey];
     }
 
+    // Check for scoped + versioned resolution (e.g., "parentPkg@npm:version/depName")
+    // These have the format: parentPackageName@versionOrProtocol/dependencyName
+    // The dep name suffix could be scoped (e.g., "@scope/dep"), so we check
+    // if the key ends with `/${name}` to correctly split parent from dep.
+    const suffix = `/${name}`;
+    for (const resKey in resolutions) {
+      if (Object.prototype.hasOwnProperty.call(resolutions, resKey)) {
+        if (!resKey.endsWith(suffix)) continue;
+        const parentPart = resKey.substring(0, resKey.length - suffix.length);
+        // Skip if parentPart is just a plain name (handled by simple scoped check above)
+        if (!parentPart.includes('@') || parentPart === parentNode.name) {
+          continue;
+        }
+        try {
+          const descriptor = structUtils.parseDescriptor(parentPart);
+          const parentPkgName = structUtils.stringifyIdent(descriptor);
+          if (parentPkgName !== parentNode.name) continue;
+          // If the resolution key includes a version/range for the parent,
+          // verify the parent's resolved version satisfies it
+          if (descriptor.range && descriptor.range !== 'unknown') {
+            const rangeWithoutProtocol = descriptor.range.replace(
+              /^[a-z]+:/,
+              '',
+            );
+            if (
+              parentNode.version !== rangeWithoutProtocol &&
+              !(
+                semver.valid(parentNode.version) &&
+                semver.validRange(rangeWithoutProtocol) &&
+                semver.satisfies(parentNode.version, rangeWithoutProtocol)
+              )
+            ) {
+              continue;
+            }
+          }
+          return resolutions[resKey];
+        } catch (e) {
+          debug(
+            `Error parsing scoped-versioned resolution key(${resKey}): ${e}`,
+          );
+        }
+      }
+    }
+
     // Check for resolutions matching "packageName@versionOrRangeToOverride"
     for (const resKey in resolutions) {
       if (Object.prototype.hasOwnProperty.call(resolutions, resKey)) {

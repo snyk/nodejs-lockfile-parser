@@ -11,7 +11,7 @@ describe('yarn.lock v4 (lockfile version 8) "real" projects', () => {
     'goof',
     'resolutions-simple',
     'resolutions-scoped',
-    'out-of-sync-resolutions',
+    'resolutions-scoped-versioned',
   ])('[simple tests] project: %s ', (fixtureName) => {
     test('matches expected - no pruning', async () => {
       const pkgJsonContent = readFileSync(
@@ -31,7 +31,7 @@ describe('yarn.lock v4 (lockfile version 8) "real" projects', () => {
       const opts: YarnLockV2ProjectParseOptions = {
         includeDevDeps: false,
         includeOptionalDeps: true,
-        strictOutOfSync: false,
+        strictOutOfSync: true,
         pruneWithinTopLevelDeps: false,
       };
 
@@ -56,6 +56,50 @@ describe('yarn.lock v4 (lockfile version 8) "real" projects', () => {
       const expectedDepGraph = createFromJSON(expectedDepGraphJson);
       expect(dg.equals(expectedDepGraph)).toBeTruthy();
     });
+  });
+
+  test('[simple tests] project: out-of-sync lockfile', async () => {
+    const pkgJsonContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/yarn-lock-v4/real/out-of-sync-resolutions/package.json`,
+      ),
+      'utf8',
+    );
+    const yarnLockContent = readFileSync(
+      join(
+        __dirname,
+        `./fixtures/yarn-lock-v4/real/out-of-sync-resolutions/yarn.lock`,
+      ),
+      'utf8',
+    );
+    const opts: YarnLockV2ProjectParseOptions = {
+      includeDevDeps: false,
+      includeOptionalDeps: true,
+      strictOutOfSync: false,
+      pruneWithinTopLevelDeps: false,
+    };
+
+    const dg = await parseYarnLockV2Project(
+      pkgJsonContent,
+      yarnLockContent,
+      opts,
+    );
+
+    const expectedDepGraphJson = JSON.parse(
+      readFileSync(
+        join(
+          __dirname,
+          `./fixtures/yarn-lock-v4/real/out-of-sync-resolutions/expected.json`,
+        ),
+        'utf8',
+      ),
+    );
+
+    expect(dg).toBeTruthy();
+
+    const expectedDepGraph = createFromJSON(expectedDepGraphJson);
+    expect(dg.equals(expectedDepGraph)).toBeTruthy();
   });
 
   test('project: out-of-sync-resolutions -> throws OutOfSyncError', async () => {
