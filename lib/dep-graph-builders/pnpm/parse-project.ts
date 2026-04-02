@@ -28,8 +28,10 @@ export const parsePnpmProject = async (
     lockfileVersion,
   );
 
-  // Lockfile V9 simple project has the root importer
-  if (lockFileParser.lockFileVersion.startsWith('9')) {
+  // Lockfile V9 simple project has the root importer.
+  // Some V6 lockfiles also embed the root importer as '.' inside the
+  // top-level dependencies map (normaliseImporters moves it to importers).
+  if (lockFileParser.rawPnpmLock.importers?.['.']) {
     importer = '.';
     lockFileParser.workspaceArgs = {
       projectsVersionMap: {
