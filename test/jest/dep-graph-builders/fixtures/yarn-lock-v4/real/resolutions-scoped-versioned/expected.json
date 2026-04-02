@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "yarn"
+  },
+  "pkgs": [
+    {
+      "id": "resolutions-scoped-versioned@0.0.1",
+      "info": {
+        "name": "resolutions-scoped-versioned",
+        "version": "0.0.1"
+      }
+    },
+    {
+      "id": "isomorphic-fetch@2.2.1",
+      "info": {
+        "name": "isomorphic-fetch",
+        "version": "2.2.1"
+      }
+    },
+    {
+      "id": "node-fetch@2.6.7",
+      "info": {
+        "name": "node-fetch",
+        "version": "2.6.7"
+      }
+    },
+    {
+      "id": "whatwg-url@5.0.0",
+      "info": {
+        "name": "whatwg-url",
+        "version": "5.0.0"
+      }
+    },
+    {
+      "id": "tr46@0.0.3",
+      "info": {
+        "name": "tr46",
+        "version": "0.0.3"
+      }
+    },
+    {
+      "id": "webidl-conversions@3.0.1",
+      "info": {
+        "name": "webidl-conversions",
+        "version": "3.0.1"
+      }
+    },
+    {
+      "id": "whatwg-fetch@3.6.20",
+      "info": {
+        "name": "whatwg-fetch",
+        "version": "3.6.20"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "resolutions-scoped-versioned@0.0.1",
+        "deps": [
+          {
+            "nodeId": "isomorphic-fetch@2.2.1"
+          }
+        ]
+      },
+      {
+        "nodeId": "isomorphic-fetch@2.2.1",
+        "pkgId": "isomorphic-fetch@2.2.1",
+        "deps": [
+          {
+            "nodeId": "node-fetch@2.6.7"
+          },
+          {
+            "nodeId": "whatwg-fetch@3.6.20"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "node-fetch@2.6.7",
+        "pkgId": "node-fetch@2.6.7",
+        "deps": [
+          {
+            "nodeId": "whatwg-url@5.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "whatwg-url@5.0.0",
+        "pkgId": "whatwg-url@5.0.0",
+        "deps": [
+          {
+            "nodeId": "tr46@0.0.3"
+          },
+          {
+            "nodeId": "webidl-conversions@3.0.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "tr46@0.0.3",
+        "pkgId": "tr46@0.0.3",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "webidl-conversions@3.0.1",
+        "pkgId": "webidl-conversions@3.0.1",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "whatwg-fetch@3.6.20",
+        "pkgId": "whatwg-fetch@3.6.20",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}

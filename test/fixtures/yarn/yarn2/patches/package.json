@@ -1,0 +1,37 @@
+{
+  "name": "@snyk/test-lockfile-v8",
+  "description": "v8 lockfile format",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Snyk Open Source",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:snyk/nodejs-lockfile-parser.git"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "convert-units": "^2.3.4",
+    "history": "4.10.1",
+    "hoist-non-react-statics": "^3.3.2",
+    "humanize-duration": "^3.9.0",
+    "i18next": "^19.8.7",
+    "i18next-intervalplural-postprocessor": "^2.0.2",
+    "leaflet": "^1.6.0",
+    "lodash": "^4.17.21",
+    "papaparse": "^5.3.0"
+  },
+  "devDependencies": {
+    "assert": "^2.0.0",
+    "jest": "^29.7.0",
+    "recast": "^0.21.0"
+  },
+  "resolutions": {
+    "hoist-non-react-statics": "^3.3.2",
+    "papaparse@npm:^5.3.0": "patch:papaparse@npm%3A5.5.3#~/.yarn/patches/papaparse-npm-5.5.3-0aa0a0000a.patch",
+    "recast": "0.21.0"
+  },
+  "engines": {
+    "node": "^20.12.0",
+    "yarn": "^4.4.0"
+  }
+}
