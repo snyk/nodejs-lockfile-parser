@@ -41,12 +41,12 @@
         "pkgId": "alias-nested-deps-test@1.0.0",
         "deps": [
           {
-            "nodeId": "lib-v3@3.0.0"
+            "nodeId": "@example/component-lib@3.0.0"
           }
         ]
       },
       {
-        "nodeId": "lib-v3@3.0.0",
+        "nodeId": "@example/component-lib@3.0.0",
         "pkgId": "@example/component-lib@3.0.0",
         "deps": [
           {

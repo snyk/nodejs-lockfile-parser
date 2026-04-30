@@ -5474,19 +5474,19 @@
             "nodeId": "string-width@5.1.2"
           },
           {
-            "nodeId": "string-width-cjs@4.2.3"
+            "nodeId": "string-width@4.2.3"
           },
           {
             "nodeId": "strip-ansi@7.1.0"
           },
           {
-            "nodeId": "strip-ansi-cjs@6.0.1"
+            "nodeId": "strip-ansi@6.0.1"
           },
           {
             "nodeId": "wrap-ansi@8.1.0"
           },
           {
-            "nodeId": "wrap-ansi-cjs@7.0.0"
+            "nodeId": "wrap-ansi@7.0.0"
           }
         ],
         "info": {
@@ -5560,7 +5560,7 @@
         }
       },
       {
-        "nodeId": "string-width-cjs@4.2.3",
+        "nodeId": "string-width@4.2.3",
         "pkgId": "string-width@4.2.3",
         "deps": [
           {
@@ -5601,21 +5601,6 @@
         }
       },
       {
-        "nodeId": "strip-ansi-cjs@6.0.1",
-        "pkgId": "strip-ansi@6.0.1",
-        "deps": [
-          {
-            "nodeId": "ansi-regex@5.0.1"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod",
-            "alias": "strip-ansi-cjs=>strip-ansi@6.0.1"
-          }
-        }
-      },
-      {
         "nodeId": "wrap-ansi@8.1.0",
         "pkgId": "wrap-ansi@8.1.0",
         "deps": [
@@ -5646,7 +5631,7 @@
         }
       },
       {
-        "nodeId": "wrap-ansi-cjs@7.0.0",
+        "nodeId": "wrap-ansi@7.0.0",
         "pkgId": "wrap-ansi@7.0.0",
         "deps": [
           {
@@ -5698,26 +5683,6 @@
         "nodeId": "color-name@1.1.4",
         "pkgId": "color-name@1.1.4",
         "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "string-width@4.2.3",
-        "pkgId": "string-width@4.2.3",
-        "deps": [
-          {
-            "nodeId": "emoji-regex@8.0.0"
-          },
-          {
-            "nodeId": "is-fullwidth-code-point@3.0.0"
-          },
-          {
-            "nodeId": "strip-ansi@6.0.1"
-          }
-        ],
         "info": {
           "labels": {
             "scope": "prod"
@@ -6379,26 +6344,6 @@
           },
           {
             "nodeId": "wrap-ansi@7.0.0"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "wrap-ansi@7.0.0",
-        "pkgId": "wrap-ansi@7.0.0",
-        "deps": [
-          {
-            "nodeId": "ansi-styles@4.3.0"
-          },
-          {
-            "nodeId": "string-width@4.2.3"
-          },
-          {
-            "nodeId": "strip-ansi@6.0.1"
           }
         ],
         "info": {

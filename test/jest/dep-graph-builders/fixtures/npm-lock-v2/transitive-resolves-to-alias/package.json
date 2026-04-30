@@ -1,0 +1,8 @@
+{
+  "name": "transitive-resolves-to-alias",
+  "version": "1.0.0",
+  "dependencies": {
+    "parent-with-alias": "1.0.0",
+    "parent-without-alias": "1.0.0"
+  }
+}

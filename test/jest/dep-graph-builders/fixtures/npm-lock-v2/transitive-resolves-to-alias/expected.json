@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "npm"
+  },
+  "pkgs": [
+    {
+      "id": "transitive-resolves-to-alias@1.0.0",
+      "info": {
+        "name": "transitive-resolves-to-alias",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "parent-with-alias@1.0.0",
+      "info": {
+        "name": "parent-with-alias",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "@scoped/shared-dep@",
+      "info": {
+        "name": "@scoped/shared-dep"
+      }
+    },
+    {
+      "id": "parent-without-alias@1.0.0",
+      "info": {
+        "name": "parent-without-alias",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "shared-dep@",
+      "info": {
+        "name": "shared-dep"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "transitive-resolves-to-alias@1.0.0",
+        "deps": [
+          {
+            "nodeId": "parent-with-alias@1.0.0"
+          },
+          {
+            "nodeId": "parent-without-alias@1.0.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "parent-with-alias@1.0.0",
+        "pkgId": "parent-with-alias@1.0.0",
+        "deps": [
+          {
+            "nodeId": "@scoped/shared-dep@undefined"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@scoped/shared-dep@undefined",
+        "pkgId": "@scoped/shared-dep@",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod",
+            "alias": "shared-dep=>@scoped/shared-dep@undefined"
+          }
+        }
+      },
+      {
+        "nodeId": "parent-without-alias@1.0.0",
+        "pkgId": "parent-without-alias@1.0.0",
+        "deps": [
+          {
+            "nodeId": "shared-dep@undefined"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "shared-dep@undefined",
+        "pkgId": "shared-dep@",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}
