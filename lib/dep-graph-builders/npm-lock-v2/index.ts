@@ -96,16 +96,25 @@ export const buildDepGraphNpmLockV2 = async (
 
   const pkgKeysByName: Map<string, string[]> = Object.keys(npmLockPkgs).reduce(
     (acc, key) => {
-      const name = key.replace(/.*node_modules\//, '');
-      if (!name) {
+      const folderName = key.replace(/.*node_modules\//, '');
+      if (!folderName) {
         return acc;
       }
 
-      if (!acc.has(name)) {
-        acc.set(name, []);
+      // Add entry for folder name
+      if (!acc.has(folderName)) {
+        acc.set(folderName, []);
       }
+      acc.get(folderName)!.push(key);
 
-      acc.get(name)!.push(key);
+      // Also add entry for actual package name if it differs from folder name (aliased packages)
+      const actualName = npmLockPkgs[key].name;
+      if (actualName && actualName !== folderName) {
+        if (!acc.has(actualName)) {
+          acc.set(actualName, []);
+        }
+        acc.get(actualName)!.push(key);
+      }
 
       return acc;
     },
@@ -379,9 +388,14 @@ const getChildNode = (
       })
     : {};
 
+  // Use the actual package name from the lockfile entry if it exists (for aliased packages),
+  // otherwise use the aliasInfo target name if available, otherwise use the dependency name
+  const actualPackageName =
+    depData.name ?? aliasInfo?.aliasTargetDepName ?? name;
+
   return {
-    id: `${name}@${depData.version}`,
-    name: aliasInfo?.aliasTargetDepName ?? name,
+    id: `${actualPackageName}@${depData.version}`,
+    name: actualPackageName,
     version: depData.version,
     dependencies: {
       ...dependencies,
