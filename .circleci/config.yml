@@ -228,7 +228,7 @@ workflows:
           <<: *filters_branches_ignore_main
       - release:
           name: Release
-          context: nodejs-app-release
+          context: github-release
           node_version: "16.20.2"
           filters:
             branches:
