@@ -7,9 +7,9 @@ import {
   PkgTree,
   Scope,
 } from './index';
-import { InvalidUserInputError } from '../errors';
 import { DepMap, DepMapItem, LockParserBase } from './lock-parser-base';
 import { config } from '../config';
+import { parseJsonFile } from '../utils';
 
 export interface PackageLock {
   name: string;
@@ -38,20 +38,14 @@ export class PackageLockParser extends LockParserBase {
   }
 
   public parseLockFile(lockFileContents: string): PackageLock {
-    try {
-      const packageLock: PackageLock = JSON.parse(lockFileContents);
-      packageLock.type =
-        packageLock.lockfileVersion === 1
-          ? LockfileType.npm
-          : LockfileType.npm7;
-      this.type = packageLock.type;
-      return packageLock;
-    } catch (e) {
-      throw new InvalidUserInputError(
-        'package-lock.json parsing failed with ' +
-          `error ${(e as Error).message}`,
-      );
-    }
+    const packageLock: PackageLock = parseJsonFile<PackageLock>(
+      lockFileContents,
+      'package-lock.json',
+    );
+    packageLock.type =
+      packageLock.lockfileVersion === 1 ? LockfileType.npm : LockfileType.npm7;
+    this.type = packageLock.type;
+    return packageLock;
   }
 
   public async getDependencyTree(

@@ -1,9 +1,9 @@
 import { DepGraphBuildOptions, PackageJsonBase } from './types';
 import { DepGraphBuilder } from '@snyk/dep-graph';
 import type { NodeInfo } from '@snyk/dep-graph/dist/core/types';
-import { InvalidUserInputError } from '../errors';
 import { NormalisedPkgs } from './types';
 import { OutOfSyncError } from '../errors';
+import { parseJsonFile } from '../utils';
 import { LockfileType } from '../parsers';
 import { parseNpmAlias } from '../aliasesPreprocessors/pkgJson';
 
@@ -193,17 +193,14 @@ export const getGraphDependencies = (
 };
 
 export function parsePkgJson(pkgJsonContent: string): PackageJsonBase {
-  try {
-    const parsedPkgJson = JSON.parse(pkgJsonContent);
-    if (!parsedPkgJson.name) {
-      parsedPkgJson.name = 'package.json';
-    }
-    return parsedPkgJson;
-  } catch (e) {
-    throw new InvalidUserInputError(
-      'package.json parsing failed with error ' + (e as Error).message,
-    );
+  const parsedPkgJson = parseJsonFile<PackageJsonBase>(
+    pkgJsonContent,
+    'package.json',
+  );
+  if (!parsedPkgJson.name) {
+    parsedPkgJson.name = 'package.json';
   }
+  return parsedPkgJson;
 }
 
 export const getChildNode = (

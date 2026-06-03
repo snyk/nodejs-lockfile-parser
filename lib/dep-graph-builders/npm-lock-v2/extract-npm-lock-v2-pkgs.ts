@@ -1,3 +1,5 @@
+import { parseJsonFile } from '../../utils';
+
 // Values from the packages key on Npm Lock V2+
 export type NpmLockPkg = {
   name?: string;
@@ -18,5 +20,8 @@ export type NpmLockPkg = {
 export const extractPkgsFromNpmLockV2 = (
   pkgLockContent: string,
 ): Record<string, NpmLockPkg> => {
-  return JSON.parse(pkgLockContent).packages;
+  return parseJsonFile<{ packages: Record<string, NpmLockPkg> }>(
+    pkgLockContent,
+    'package-lock.json',
+  ).packages;
 };

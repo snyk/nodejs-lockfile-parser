@@ -3,6 +3,7 @@ import { YarnLock } from './yarn-lock-parser';
 import { InvalidUserInputError } from '../errors';
 import { Yarn2Lock } from './yarn2-lock-parser';
 import { load, FAILSAFE_SCHEMA } from 'js-yaml';
+import { parseJsonFile } from '../utils';
 
 export interface Dep {
   name: string;
@@ -115,13 +116,7 @@ export interface LockfileParser {
 export type Lockfile = PackageLock | YarnLock | Yarn2Lock;
 
 export function parseManifestFile(manifestFileContents: string): ManifestFile {
-  try {
-    return JSON.parse(manifestFileContents);
-  } catch (e) {
-    throw new InvalidUserInputError(
-      'package.json parsing failed with error ' + (e as Error).message,
-    );
-  }
+  return parseJsonFile<ManifestFile>(manifestFileContents, 'package.json');
 }
 
 export function getTopLevelDeps({
