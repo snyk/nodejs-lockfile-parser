@@ -72,27 +72,70 @@ export function getNpmLockfileVersion(
   | NodeLockfileVersion.NpmLockV1
   | NodeLockfileVersion.NpmLockV2
   | NodeLockfileVersion.NpmLockV3 {
-  try {
-    const lockfileJson = JSON.parse(lockFileContents);
-    const lockfileVersion: number | null = lockfileJson.lockfileVersion || null;
+  // Parse first; surfacing the real JSON error happens inside parseJsonFile.
+  const lockfileJson = parseJsonFile(lockFileContents, 'package-lock.json');
 
-    switch (lockfileVersion) {
-      case null:
-      case 1:
-        return NodeLockfileVersion.NpmLockV1;
-      case 2:
-        return NodeLockfileVersion.NpmLockV2;
-      case 3:
-        return NodeLockfileVersion.NpmLockV3;
-      default:
-        throw new InvalidUserInputError(
-          `Unsupported npm lockfile version in package-lock.json. ` +
-            'Please provide a package-lock.json with lockfileVersion 1, 2 or 3',
-        );
-    }
+  // The version check runs *outside* the parse try/catch so that an
+  // unsupported (but otherwise valid JSON) lockfile is not mis-reported as a
+  // JSON syntax error.
+  const lockfileVersion: number | null = lockfileJson.lockfileVersion || null;
+  switch (lockfileVersion) {
+    case null:
+    case 1:
+      return NodeLockfileVersion.NpmLockV1;
+    case 2:
+      return NodeLockfileVersion.NpmLockV2;
+    case 3:
+      return NodeLockfileVersion.NpmLockV3;
+    default:
+      throw new InvalidUserInputError(
+        `Unsupported npm lockfile version "${lockfileVersion}" in package-lock.json. ` +
+          'Please provide a package-lock.json with lockfileVersion 1, 2 or 3',
+      );
+  }
+}
+
+/**
+ * Parse JSON from a manifest or lockfile. On failure throws an
+ * InvalidUserInputError that preserves the underlying parser message
+ * (including the position of the syntax error) and appends a best-effort hint
+ * about the likely cause.
+ *
+ * `fileLabel` is the file kind shown in the error, e.g. 'package.json' or
+ * 'package-lock.json'.
+ */
+export function parseJsonFile<T = any>(content: string, fileLabel: string): T {
+  try {
+    return JSON.parse(content);
   } catch (e) {
     throw new InvalidUserInputError(
-      `Problem parsing package-lock.json - make sure the package-lock.json is a valid JSON file`,
+      `${fileLabel} parsing failed with error ${(e as Error).message}` +
+        describeLikelyJsonCause(content),
     );
   }
+}
+
+/**
+ * Best-effort, allocation-light hint describing the most likely reason a JSON
+ * parse failed. Inspects only the leading characters of the content, never
+ * throws, and returns '' when nothing recognisable is found - so it is always
+ * safe to append to a parse-error message.
+ */
+export function describeLikelyJsonCause(content: string): string {
+  if (!content) {
+    return ' The file is empty.';
+  }
+  // A byte-order mark (UTF-8/UTF-16/UTF-32) decoded into the string.
+  if (content.charCodeAt(0) === 0xfeff) {
+    return ' The file begins with a byte-order mark (BOM); re-save it as UTF-8 without a BOM.';
+  }
+  // NUL bytes strongly suggest the file is UTF-16/UTF-32 encoded.
+  if (content.includes('\x00')) {
+    return ' The file contains NUL bytes; it may be UTF-16/UTF-32 encoded. Re-save it as UTF-8.';
+  }
+  // Unresolved git merge-conflict markers.
+  if (/^(<{7}|={7}|>{7})( |$)/m.test(content)) {
+    return ' The file appears to contain unresolved git merge-conflict markers.';
+  }
+  return '';
 }
