@@ -24,7 +24,7 @@ windows_defaults: &windows_defaults
     name: win/default
 
 test_matrix: &test_matrix
-  node_version: ['18.18.1', '22.11.0']
+  node_version: ['20.20', '22.22', '24.16']
 
 commands:
   install_deps:
@@ -156,11 +156,16 @@ jobs:
       - image: cimg/node:<< parameters.node_version >>
     resource_class: small
     steps:
-      - install_deps
-      - run: sudo npm i -g semantic-release@17 @semantic-release/exec pkg
+      - checkout
+      - run: sudo npm i -g semantic-release@25 @semantic-release/exec pkg
+      - run:
+          name: Install NPM packages
+          command: npm i
       - run:
           name: Publish to GitHub
-          command: semantic-release
+          command: |
+            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            semantic-release
 
 workflows:
   version: 2
@@ -177,14 +182,14 @@ workflows:
                 - main
       - security-scans:
           name: Security Scans
-          node_version: "18.18.1"
+          node_version: "24.16"
           context:
             - open_source-managed
             - nodejs-install
       - lint:
           name: Lint
           context: nodejs-install
-          node_version: "16.20.2"
+          node_version: "24.16"
           <<: *filters_branches_ignore_main
       - test-windows-jest:
           matrix:
@@ -228,8 +233,10 @@ workflows:
           <<: *filters_branches_ignore_main
       - release:
           name: Release
-          context: github-release
-          node_version: "16.20.2"
+          context:
+            - nodejs-install
+            - github-release
+          node_version: "24.16"
           filters:
             branches:
               only:
