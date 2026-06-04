@@ -2,9 +2,9 @@
     "compilerOptions": {
         "outDir": "./dist",
         "pretty": true,
-        "target": "es2017",
+        "target": "es2023",
         "lib": [
-            "es2017",
+            "es2023",
             "dom"
         ],
         "allowSyntheticDefaultImports": true,
