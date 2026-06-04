@@ -190,6 +190,8 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
         const expectedErrorMessage =
           nodeMajorVersion >= 22
             ? 'package.json parsing failed with error Expected double-quoted property name in JSON at position 100 (line 6 column 3)'
+            : nodeMajorVersion >= 20
+            ? 'package.json parsing failed with error Expected double-quoted property name in JSON at position 100'
             : 'package.json parsing failed with error Unexpected token } in JSON at position 100';
 
         await expect(
