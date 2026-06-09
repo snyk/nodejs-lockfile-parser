@@ -301,7 +301,12 @@ export const getYarnLockV2ChildNode = (
         })
       : {};
 
-    const workspaceManifestFromResolution = workspacePackages?.[name];
+    // Key by the resolved package name, not the parent's name, so npm aliases
+    // (e.g. "alias": "npm:@scope/real-pkg@1") still match the workspace manifest.
+    const workspaceManifestFromResolution =
+      workspacePackages?.[
+        depInfo.alias ? depInfo.alias.aliasTargetDepName : name
+      ];
     if (
       !includeDevDeps &&
       workspaceManifestFromResolution &&
@@ -358,7 +363,12 @@ export const getYarnLockV2ChildNode = (
         })
       : {};
 
-    const workspaceManifest = workspacePackages?.[name];
+    // Key by the resolved package name, not the parent's name, so npm aliases
+    // (e.g. "alias": "npm:@scope/real-pkg@1") still match the workspace manifest.
+    const workspaceManifest =
+      workspacePackages?.[
+        depInfo.alias ? depInfo.alias.aliasTargetDepName : name
+      ];
     if (
       !includeDevDeps &&
       workspaceManifest &&
