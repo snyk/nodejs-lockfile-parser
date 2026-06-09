@@ -738,3 +738,112 @@ describe('yarn.lock v2 parsing', () => {
     );
   });
 });
+
+// Regression: when a Yarn Berry workspace package is consumed as a production
+// dependency, its dev-only tooling must not be promoted into the production graph.
+// Yarn merges a workspace member's dependencies + devDependencies into a single
+// `dependencies` block in yarn.lock, losing the dev marker; the builder uses the member's
+// own package.json (via workspaceArgs.workspacePackages) to prune the dev-only entries.
+describe('Workspace consumed as a prod dependency (dev-dep leak)', () => {
+  const fixtureBasePath = join(
+    __dirname,
+    './fixtures/yarn-lock-v2/real/workspace-dev-deps',
+  );
+
+  const rootYarnLockContent = readFileSync(
+    join(fixtureBasePath, 'yarn.lock'),
+    'utf8',
+  );
+  const myAppPkgJsonContent = readFileSync(
+    join(fixtureBasePath, 'apps/my-app/package.json'),
+    'utf8',
+  );
+  const sharedLibManifest = JSON.parse(
+    readFileSync(
+      join(fixtureBasePath, 'libraries/shared-lib/package.json'),
+      'utf8',
+    ),
+  );
+  const privateLibManifest = JSON.parse(
+    readFileSync(
+      join(fixtureBasePath, 'libraries/private-lib/package.json'),
+      'utf8',
+    ),
+  );
+
+  // shared-lib's dev-only build tooling that was leaking into my-app's prod graph
+  const DEV_ONLY_TOOLING = [
+    'webpack',
+    'webpack-cli',
+    '@babel/core',
+    '@babel/preset-env',
+    'babel-loader',
+  ];
+
+  const workspacePackages = {
+    '@demo/shared-lib': sharedLibManifest,
+    '@demo/private-lib': privateLibManifest,
+  };
+
+  const baseOpts: YarnLockV2ProjectParseOptions = {
+    includeDevDeps: false,
+    includeOptionalDeps: true,
+    strictOutOfSync: false,
+    pruneWithinTopLevelDeps: false,
+  };
+
+  it('leaks shared-lib devDependencies into prod graph WITHOUT workspacePackages (bug)', async () => {
+    const dg = await parseYarnLockV2Project(
+      myAppPkgJsonContent,
+      rootYarnLockContent,
+      baseOpts,
+      { isRoot: false, isWorkspacePkg: true, rootResolutions: {} },
+    );
+
+    const pkgNames = dg.getDepPkgs().map((p) => p.name);
+    // Demonstrates the defect: dev-only tooling is present as prod.
+    expect(pkgNames).toEqual(expect.arrayContaining(DEV_ONLY_TOOLING));
+  });
+
+  it('prunes shared-lib devDependencies WITH workspacePackages (fix)', async () => {
+    const dg = await parseYarnLockV2Project(
+      myAppPkgJsonContent,
+      rootYarnLockContent,
+      baseOpts,
+      {
+        isRoot: false,
+        isWorkspacePkg: true,
+        rootResolutions: {},
+        workspacePackages,
+      },
+    );
+
+    const pkgNames = dg.getDepPkgs().map((p) => p.name);
+
+    // shared-lib is a real prod dependency of my-app and must remain.
+    expect(pkgNames).toContain('@demo/shared-lib');
+
+    // shared-lib has ONLY devDependencies, so none of its tooling should appear.
+    for (const devPkg of DEV_ONLY_TOOLING) {
+      expect(pkgNames).not.toContain(devPkg);
+    }
+  });
+
+  it('keeps devDependencies when includeDevDeps is true', async () => {
+    const dg = await parseYarnLockV2Project(
+      myAppPkgJsonContent,
+      rootYarnLockContent,
+      { ...baseOpts, includeDevDeps: true },
+      {
+        isRoot: false,
+        isWorkspacePkg: true,
+        rootResolutions: {},
+        workspacePackages,
+      },
+    );
+
+    const pkgNames = dg.getDepPkgs().map((p) => p.name);
+    // With includeDevDeps the dev tooling is expected to be present again.
+    expect(pkgNames).toEqual(expect.arrayContaining(DEV_ONLY_TOOLING));
+  });
+});

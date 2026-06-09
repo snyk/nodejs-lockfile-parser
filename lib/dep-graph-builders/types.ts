@@ -62,6 +62,19 @@ export type YarnLockV2WorkspaceArgs = {
   isWorkspacePkg: boolean;
   isRoot: boolean;
   rootResolutions: Record<string, string>;
+  // Map of workspace package name -> that member's package.json dependency groups.
+  // Yarn Berry merges a workspace package's dependencies + devDependencies into a single
+  // `dependencies` block in yarn.lock, dropping the dev marker. When a workspace package is
+  // consumed as a production dependency we use this map to prune its dev-only dependencies
+  // so they are not promoted into the production graph.
+  workspacePackages?: Record<string, WorkspacePackageManifest>;
+};
+
+export type WorkspacePackageManifest = {
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+  optionalDependencies?: Record<string, string>;
+  peerDependencies?: Record<string, string>;
 };
 
 export type YarnLockV2ProjectParseOptions = {
