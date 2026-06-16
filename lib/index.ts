@@ -62,6 +62,7 @@ import type {
   NormalisedPkgs,
   ProjectParseOptions,
   YarnLockV2ProjectParseOptions,
+  WorkspacePackageManifest,
 } from './dep-graph-builders/types';
 import {
   getLockfileVersionFromFile,
@@ -92,6 +93,7 @@ export {
   PackageJsonBase,
   ProjectParseOptions,
   YarnLockV2ProjectParseOptions,
+  WorkspacePackageManifest,
   NormalisedPkgs,
   NormalisedPkgs as YarnLockPackages,
   getLockfileVersionFromFile,

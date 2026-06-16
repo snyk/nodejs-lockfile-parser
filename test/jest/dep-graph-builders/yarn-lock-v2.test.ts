@@ -3,6 +3,8 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { YarnLockV2ProjectParseOptions } from '../../../lib/dep-graph-builders/types';
 import { parseYarnLockV2Project } from '../../../lib/dep-graph-builders/yarn-lock-v2/simple';
+import { getYarnLockV2ChildNode } from '../../../lib/dep-graph-builders/yarn-lock-v2/utils';
+import { PkgNode } from '../../../lib/dep-graph-builders/util';
 import { LockfileType, OutOfSyncError } from '../../../lib';
 
 describe('yarn.lock v2 "real" projects', () => {
@@ -736,5 +738,185 @@ describe('yarn.lock v2 parsing', () => {
     expect(stripAnsiCjsNode?.info?.labels?.alias).toContain(
       'strip-ansi-cjs=>strip-ansi@',
     );
+  });
+});
+
+// Regression: when a Yarn Berry workspace package is consumed as a production
+// dependency, its dev-only tooling must not be promoted into the production graph.
+// Yarn merges a workspace member's dependencies + devDependencies into a single
+// `dependencies` block in yarn.lock, losing the dev marker; the builder uses the member's
+// own package.json (via workspaceArgs.workspacePackages) to prune the dev-only entries.
+describe('Workspace consumed as a prod dependency (dev-dep leak)', () => {
+  const fixtureBasePath = join(
+    __dirname,
+    './fixtures/yarn-lock-v2/real/workspace-dev-deps',
+  );
+
+  const rootYarnLockContent = readFileSync(
+    join(fixtureBasePath, 'yarn.lock'),
+    'utf8',
+  );
+  const myAppPkgJsonContent = readFileSync(
+    join(fixtureBasePath, 'apps/my-app/package.json'),
+    'utf8',
+  );
+  const sharedLibManifest = JSON.parse(
+    readFileSync(
+      join(fixtureBasePath, 'libraries/shared-lib/package.json'),
+      'utf8',
+    ),
+  );
+  const privateLibManifest = JSON.parse(
+    readFileSync(
+      join(fixtureBasePath, 'libraries/private-lib/package.json'),
+      'utf8',
+    ),
+  );
+
+  // shared-lib's dev-only build tooling that was leaking into my-app's prod graph
+  const DEV_ONLY_TOOLING = [
+    'webpack',
+    'webpack-cli',
+    '@babel/core',
+    '@babel/preset-env',
+    'babel-loader',
+  ];
+
+  const workspacePackages = {
+    '@demo/shared-lib': sharedLibManifest,
+    '@demo/private-lib': privateLibManifest,
+  };
+
+  const baseOpts: YarnLockV2ProjectParseOptions = {
+    includeDevDeps: false,
+    includeOptionalDeps: true,
+    strictOutOfSync: false,
+    pruneWithinTopLevelDeps: false,
+  };
+
+  it('leaks shared-lib devDependencies into prod graph WITHOUT workspacePackages (bug)', async () => {
+    const dg = await parseYarnLockV2Project(
+      myAppPkgJsonContent,
+      rootYarnLockContent,
+      baseOpts,
+      { isRoot: false, isWorkspacePkg: true, rootResolutions: {} },
+    );
+
+    const pkgNames = dg.getDepPkgs().map((p) => p.name);
+    // Demonstrates the defect: dev-only tooling is present as prod.
+    expect(pkgNames).toEqual(expect.arrayContaining(DEV_ONLY_TOOLING));
+  });
+
+  it('prunes shared-lib devDependencies WITH workspacePackages (fix)', async () => {
+    const dg = await parseYarnLockV2Project(
+      myAppPkgJsonContent,
+      rootYarnLockContent,
+      baseOpts,
+      {
+        isRoot: false,
+        isWorkspacePkg: true,
+        rootResolutions: {},
+        workspacePackages,
+      },
+    );
+
+    const pkgNames = dg.getDepPkgs().map((p) => p.name);
+
+    // shared-lib is a real prod dependency of my-app and must remain.
+    expect(pkgNames).toContain('@demo/shared-lib');
+
+    // shared-lib has ONLY devDependencies, so none of its tooling should appear.
+    for (const devPkg of DEV_ONLY_TOOLING) {
+      expect(pkgNames).not.toContain(devPkg);
+    }
+  });
+
+  it('keeps devDependencies when includeDevDeps is true', async () => {
+    const dg = await parseYarnLockV2Project(
+      myAppPkgJsonContent,
+      rootYarnLockContent,
+      { ...baseOpts, includeDevDeps: true },
+      {
+        isRoot: false,
+        isWorkspacePkg: true,
+        rootResolutions: {},
+        workspacePackages,
+      },
+    );
+
+    const pkgNames = dg.getDepPkgs().map((p) => p.name);
+    // With includeDevDeps the dev tooling is expected to be present again.
+    expect(pkgNames).toEqual(expect.arrayContaining(DEV_ONLY_TOOLING));
+  });
+});
+
+// The workspace dev-dep prune looks up the consumed member's manifest. When the member is
+// consumed via an npm alias, the parent knows it by the alias name, but the workspacePackages
+// map is keyed by the member's real package name. The lookup must use the resolved (alias
+// target) name, otherwise it misses the manifest and skips pruning.
+describe('getYarnLockV2ChildNode workspace prune keys by resolved (alias) name', () => {
+  const parentNode: PkgNode = {
+    id: 'app@1.0.0',
+    name: 'app',
+    version: '1.0.0',
+    dependencies: {},
+    isDev: false,
+  };
+
+  // `shared-alias` is an npm alias for the workspace package `@acme/shared`, which is resolved
+  // to a `@workspace:` node whose merged dependency block contains its dev-only `ms`.
+  const depInfo = {
+    version: 'npm:@acme/shared@*',
+    isDev: false,
+    alias: {
+      aliasName: 'shared-alias',
+      aliasTargetDepName: '@acme/shared',
+      semver: '*',
+      version: '0.0.0-use.local',
+    },
+  };
+
+  const pkgs = {
+    'shared-alias@npm:@acme/shared@*': {
+      version: '0.0.0-use.local',
+      resolution: '@acme/shared@workspace:packages/shared',
+      dependencies: { ms: 'npm:^2.1.3' },
+      optionalDependencies: {},
+    },
+  } as any;
+
+  // @acme/shared declares `ms` as a dev-only dependency.
+  const workspacePackages = {
+    '@acme/shared': { dependencies: {}, devDependencies: { ms: '^2.1.3' } },
+  };
+
+  it('prunes the dev-only dependency of an aliased workspace package', () => {
+    const child = getYarnLockV2ChildNode(
+      'shared-alias',
+      depInfo,
+      pkgs,
+      false,
+      false,
+      {},
+      parentNode,
+      false,
+      workspacePackages,
+    );
+    expect(Object.keys(child.dependencies)).not.toContain('ms');
+  });
+
+  it('keeps the dependency when no workspacePackages map is provided', () => {
+    const child = getYarnLockV2ChildNode(
+      'shared-alias',
+      depInfo,
+      pkgs,
+      false,
+      false,
+      {},
+      parentNode,
+      false,
+      undefined,
+    );
+    expect(Object.keys(child.dependencies)).toContain('ms');
   });
 });

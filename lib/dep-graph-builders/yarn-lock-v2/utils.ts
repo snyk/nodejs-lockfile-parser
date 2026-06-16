@@ -2,8 +2,8 @@ import { structUtils } from '@yarnpkg/core';
 import * as _flatMap from 'lodash.flatmap';
 import { OutOfSyncError } from '../../errors';
 import { LockfileType } from '../../parsers';
-import { NormalisedPkgs } from '../types';
-import { getGraphDependencies, PkgNode } from '../util';
+import { NormalisedPkgs, WorkspacePackageManifest } from '../types';
+import { Dependencies, getGraphDependencies, PkgNode } from '../util';
 import * as semver from 'semver';
 import * as debugModule from 'debug';
 
@@ -99,6 +99,39 @@ export const yarnLockFileKeyNormalizer =
     return new Set<string>(_flatMap(allKeys));
   };
 
+/**
+ * Yarn Berry merges a workspace package's dependencies, devDependencies and peerDependencies
+ * into a single `dependencies` block in yarn.lock, so the dev marker is lost. When such a
+ * workspace package is consumed as a production dependency, walking that merged block would
+ * promote its dev-only tooling (e.g. webpack, babel) into the production graph.
+ *
+ * Given the consumed workspace member's own package.json (via `workspaceManifest`), drop the
+ * dev-only entries: names that appear in devDependencies but not in dependencies /
+ * optionalDependencies / peerDependencies (prod wins on overlap).
+ */
+const pruneWorkspaceDevDependencies = (
+  deps: Dependencies,
+  workspaceManifest: WorkspacePackageManifest,
+): Dependencies => {
+  const nonDev = new Set<string>([
+    ...Object.keys(workspaceManifest.dependencies || {}),
+    ...Object.keys(workspaceManifest.optionalDependencies || {}),
+    ...Object.keys(workspaceManifest.peerDependencies || {}),
+  ]);
+  const dev = new Set<string>(
+    Object.keys(workspaceManifest.devDependencies || {}),
+  );
+
+  return Object.entries(deps).reduce((acc: Dependencies, [name, depInfo]) => {
+    // Drop only names that are exclusively devDependencies of the workspace member.
+    if (dev.has(name) && !nonDev.has(name)) {
+      return acc;
+    }
+    acc[name] = depInfo;
+    return acc;
+  }, {});
+};
+
 export const getYarnLockV2ChildNode = (
   name: string,
   depInfo: {
@@ -116,6 +149,8 @@ export const getYarnLockV2ChildNode = (
   includeOptionalDeps: boolean,
   resolutions: Record<string, string>,
   parentNode: PkgNode,
+  includeDevDeps = false,
+  workspacePackages?: Record<string, WorkspacePackageManifest>,
 ) => {
   // First, check if a resolution would be used
   const resolvedVersionFromResolution = (() => {
@@ -256,7 +291,7 @@ export const getYarnLockV2ChildNode = (
       optionalDependencies,
     } = pkgData;
 
-    const formattedDependencies = getGraphDependencies(dependencies || {}, {
+    let formattedDependencies = getGraphDependencies(dependencies || {}, {
       isDev: depInfo.isDev,
     });
     const formattedOptionalDependencies = includeOptionalDeps
@@ -265,6 +300,23 @@ export const getYarnLockV2ChildNode = (
           isOptional: true,
         })
       : {};
+
+    // Key by the resolved package name, not the parent's name, so npm aliases
+    // (e.g. "alias": "npm:@scope/real-pkg@1") still match the workspace manifest.
+    const workspaceManifestFromResolution =
+      workspacePackages?.[
+        depInfo.alias ? depInfo.alias.aliasTargetDepName : name
+      ];
+    if (
+      !includeDevDeps &&
+      workspaceManifestFromResolution &&
+      pkgData.resolution?.includes('@workspace:')
+    ) {
+      formattedDependencies = pruneWorkspaceDevDependencies(
+        formattedDependencies,
+        workspaceManifestFromResolution,
+      );
+    }
 
     return {
       id: `${name}@${versionFromResolution}`,
@@ -301,7 +353,7 @@ export const getYarnLockV2ChildNode = (
     }
   } else {
     const depData = pkgs[childNodeKey];
-    const dependencies = getGraphDependencies(depData.dependencies || {}, {
+    let dependencies = getGraphDependencies(depData.dependencies || {}, {
       isDev: depInfo.isDev,
     });
     const optionalDependencies = includeOptionalDeps
@@ -310,6 +362,24 @@ export const getYarnLockV2ChildNode = (
           isOptional: true,
         })
       : {};
+
+    // Key by the resolved package name, not the parent's name, so npm aliases
+    // (e.g. "alias": "npm:@scope/real-pkg@1") still match the workspace manifest.
+    const workspaceManifest =
+      workspacePackages?.[
+        depInfo.alias ? depInfo.alias.aliasTargetDepName : name
+      ];
+    if (
+      !includeDevDeps &&
+      workspaceManifest &&
+      depData.resolution?.includes('@workspace:')
+    ) {
+      dependencies = pruneWorkspaceDevDependencies(
+        dependencies,
+        workspaceManifest,
+      );
+    }
+
     return {
       id: `${name}@${depData.version}`,
       name: depInfo.alias ? depInfo.alias.aliasTargetDepName : name,

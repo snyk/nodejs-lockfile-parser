@@ -53,6 +53,8 @@ export const buildDepGraphYarnLockV2Simple = async (
     pruneWithinTopLevelDeps,
     undefined,
     showNpmScope,
+    includeDevDeps,
+    workspaceArgs?.workspacePackages,
   );
 
   return depGraphBuilder.build();
@@ -74,6 +76,8 @@ const dfsVisit = async (
   pruneWithinTopLevel: boolean,
   visited?: Set<string>,
   showNpmScope?: boolean,
+  includeDevDeps = false,
+  workspacePackages?: YarnLockV2WorkspaceArgs['workspacePackages'],
 ): Promise<void> => {
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     let scopeDepInfo = depInfo;
@@ -111,6 +115,8 @@ const dfsVisit = async (
       includeOptionalDeps,
       resolutions,
       node,
+      includeDevDeps,
+      workspacePackages,
     );
 
     if (localVisited.has(childNode.id)) {
@@ -174,6 +180,8 @@ const dfsVisit = async (
       pruneWithinTopLevel,
       localVisited,
       showNpmScope,
+      includeDevDeps,
+      workspacePackages,
     );
   }
 };
