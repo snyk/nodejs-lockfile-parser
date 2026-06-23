@@ -40,6 +40,7 @@ export const parseNpmLockV2Project = async (
     includeOptionalDeps,
     pruneNpmStrictOutOfSync,
     showNpmScope,
+    includeComponentMetadata,
   } = options;
 
   const pkgJson: PackageJsonBase = parsePkgJson(
@@ -55,6 +56,7 @@ export const parseNpmLockV2Project = async (
     strictOutOfSync,
     pruneNpmStrictOutOfSync,
     showNpmScope,
+    includeComponentMetadata,
   });
 
   return depgraph;
@@ -71,6 +73,7 @@ export const buildDepGraphNpmLockV2 = async (
     includeOptionalDeps,
     pruneNpmStrictOutOfSync,
     showNpmScope,
+    includeComponentMetadata,
   } = options;
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'npm' },
@@ -135,6 +138,7 @@ export const buildDepGraphNpmLockV2 = async (
     pkgJson.overrides,
     pruneNpmStrictOutOfSync,
     showNpmScope,
+    includeComponentMetadata,
   );
   return depGraphBuilder.build();
 };
@@ -160,6 +164,7 @@ const dfsVisit = async (
   overrides: Overrides | undefined,
   pruneNpmStrictOutOfSync?: boolean,
   showNpmScope?: boolean,
+  includeComponentMetadata?: boolean,
 ): Promise<void> => {
   visitedMap.add(node.id);
 
@@ -191,7 +196,10 @@ const dfsVisit = async (
     );
 
     if (!visitedMap.has(childNode.id)) {
-      addPkgNodeToGraph(depGraphBuilder, childNode, { showNpmScope });
+      addPkgNodeToGraph(depGraphBuilder, childNode, {
+        showNpmScope,
+        includeComponentMetadata,
+      });
       await dfsVisit(
         depGraphBuilder,
         childNode,
@@ -214,6 +222,7 @@ const dfsVisit = async (
         overrides,
         undefined,
         showNpmScope,
+        includeComponentMetadata,
       );
     }
 
@@ -405,6 +414,8 @@ const getChildNode = (
     isDev: depInfo.isDev,
     inBundle: depData.inBundle,
     key: childNodeKey,
+    integrity: depData.integrity,
+    resolved: depData.resolved,
     ...(aliasInfo ? { alias: { ...aliasInfo, version: depData.version } } : {}),
   };
 };
