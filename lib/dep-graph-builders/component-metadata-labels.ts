@@ -2,17 +2,29 @@ import * as debugModule from 'debug';
 
 const debug = debugModule('snyk-nodejs-lockfile-parser:component-metadata');
 
-// Maps a Subresource Integrity (SRI) algorithm token to the dep-graph label key.
-// Label keys mirror the snyk-mvn-plugin convention (`hash:<algorithm>` with hyphenated
-// algorithm names) so downstream SBOM generation can populate CycloneDX `component.Hashes`
-// / SPDX `Package.PackageChecksums` consistently across ecosystems. CycloneDX requires the
-// hash content to be hex-encoded, so SRI base64 values are decoded to lowercase hex below.
+// Maps a Subresource Integrity (SRI) algorithm token to its dep-graph label key.
+// Labels use the `hash:<algorithm>` convention with hyphenated algorithm names
+// (`hash:sha-512`, `hash:sha-256`, ...) and lowercase-hex values. Hex matches the CycloneDX
+// hash `content` format, so downstream SBOM generation can populate CycloneDX component
+// hashes / SPDX package checksums directly. SRI base64 values are decoded to lowercase hex
+// below.
 const SRI_ALG_TO_LABEL: Record<string, string> = {
   md5: 'hash:md5',
   sha1: 'hash:sha-1',
   sha256: 'hash:sha-256',
   sha384: 'hash:sha-384',
   sha512: 'hash:sha-512',
+};
+
+// Expected raw digest length (bytes) per algorithm. `Buffer.from(x, 'base64')` is lenient and
+// will not throw on a corrupt/truncated value, so we reject anything whose decoded length does
+// not match — otherwise we would emit a hex string that violates the CycloneDX `content` regex.
+const SRI_ALG_BYTES: Record<string, number> = {
+  md5: 16,
+  sha1: 20,
+  sha256: 32,
+  sha384: 48,
+  sha512: 64,
 };
 
 /**
@@ -37,14 +49,22 @@ export function hashLabelsFromIntegrity(
       debug(`Unrecognised integrity "${token}" for ${nodeId}; skipping`);
       continue;
     }
-    const alg = token.slice(0, dashIdx);
+    const alg = token.slice(0, dashIdx).toLowerCase();
     const base64 = token.slice(dashIdx + 1).split('?')[0]; // strip optional ?opts
     const key = SRI_ALG_TO_LABEL[alg];
     if (!key || !base64) {
       debug(`Unrecognised integrity "${token}" for ${nodeId}; skipping`);
       continue;
     }
-    labels[key] = Buffer.from(base64, 'base64').toString('hex');
+    const digest = Buffer.from(base64, 'base64');
+    if (digest.length !== SRI_ALG_BYTES[alg]) {
+      debug(
+        `Integrity "${token}" for ${nodeId} decoded to ${digest.length} bytes, ` +
+          `expected ${SRI_ALG_BYTES[alg]} for ${alg}; skipping`,
+      );
+      continue;
+    }
+    labels[key] = digest.toString('hex');
   }
 
   return labels;

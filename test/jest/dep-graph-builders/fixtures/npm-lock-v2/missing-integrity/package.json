@@ -1,0 +1,8 @@
+{
+  "name": "missing-integrity",
+  "version": "1.0.0",
+  "dependencies": {
+    "accepts": "1.3.7",
+    "git-dep": "git+https://github.com/example/git-dep.git"
+  }
+}

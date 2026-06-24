@@ -53,6 +53,19 @@ describe('hashLabelsFromIntegrity', () => {
     expect(hashLabelsFromIntegrity('not-a-real-sri', 'x@1')).toEqual({});
     expect(hashLabelsFromIntegrity('nodash', 'x@1')).toEqual({});
   });
+
+  it('skips a hash whose decoded length does not match the algorithm', () => {
+    // sha512 expects 64 bytes; a 10-byte digest is malformed and must be rejected.
+    const tooShort = `sha512-${Buffer.from('x'.repeat(10)).toString('base64')}`;
+    expect(hashLabelsFromIntegrity(tooShort, 'x@1')).toEqual({});
+  });
+
+  it('matches uppercase algorithm tokens', () => {
+    const value = `SHA512-${Buffer.from('d'.repeat(64)).toString('base64')}`;
+    expect(hashLabelsFromIntegrity(value, 'x@1')).toEqual({
+      'hash:sha-512': Buffer.from('d'.repeat(64)).toString('hex'),
+    });
+  });
 });
 
 describe('distributionUrlLabel', () => {
@@ -151,5 +164,31 @@ describe('npm lockfile v2 component-metadata labels (end-to-end)', () => {
       expect(node.info?.labels?.['hash:sha-512']).toBeUndefined();
       expect(node.info?.labels?.['distribution:url']).toBeUndefined();
     });
+  });
+
+  it('GIVEN a package with no integrity / non-http resolved THEN it carries neither label, while a registry dep carries both', async () => {
+    const dir = join(__dirname, './fixtures/npm-lock-v2/missing-integrity');
+    const depGraph = await parseNpmLockV2Project(
+      readFileSync(join(dir, 'package.json'), 'utf8'),
+      readFileSync(join(dir, 'package-lock.json'), 'utf8'),
+      { ...baseOptions, includeComponentMetadata: true },
+    );
+
+    const nodes = depGraph.toJSON().graph.nodes;
+
+    // Registry dependency: has integrity + an https registry URL -> both labels.
+    const acceptsNode = nodes.find((node) => node.nodeId === 'accepts@1.3.7');
+    expect(acceptsNode?.info?.labels?.['hash:sha-512']).toMatch(
+      /^[0-9a-f]{128}$/,
+    );
+    expect(acceptsNode?.info?.labels?.['distribution:url']).toMatch(
+      /^https:\/\//,
+    );
+
+    // Git dependency: no integrity and a git+ssh resolved -> neither label.
+    const gitNode = nodes.find((node) => node.nodeId === 'git-dep@2.0.0');
+    expect(gitNode).toBeDefined();
+    expect(gitNode?.info?.labels?.['hash:sha-512']).toBeUndefined();
+    expect(gitNode?.info?.labels?.['distribution:url']).toBeUndefined();
   });
 });
