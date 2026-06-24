@@ -1,4 +1,5 @@
 import * as yarnLockfileParser from '@yarnpkg/lockfile';
+import * as debugModule from 'debug';
 
 import {
   Dep,
@@ -12,6 +13,8 @@ import {
 import { InvalidUserInputError } from '../errors';
 import { DepMap, LockParserBase } from './lock-parser-base';
 import { config } from '../config';
+
+const debug = debugModule('snyk-nodejs-lockfile-parser:component-metadata');
 
 export type YarnLockFileTypes = LockfileType.yarn | LockfileType.yarn2;
 
@@ -60,7 +63,15 @@ export class YarnLockParser extends LockParserBase {
     includeDev = false,
     strictOutOfSync = true,
     showNpmScope?: boolean,
+    includeComponentMetadata?: boolean,
   ): Promise<PkgTree> {
+    if (includeComponentMetadata) {
+      debug(
+        'includeComponentMetadata is not yet supported for yarn lockfiles; ' +
+          'no hash:* / distribution:url labels will be emitted',
+      );
+    }
+
     const depTree = await super.getDependencyTree(
       manifestFile,
       lockfile,

@@ -81,6 +81,44 @@ describe('distributionUrlLabel', () => {
     expect(distributionUrlLabel('file:../local-pkg', 'x@1')).toEqual({});
     expect(distributionUrlLabel('', 'x@1')).toEqual({});
   });
+
+  it('accepts uppercase/mixed-case http(s) schemes (normalised to lowercase)', () => {
+    expect(
+      distributionUrlLabel(
+        'HTTPS://registry.internal/pkg/-/pkg-1.0.0.tgz',
+        'pkg@1.0.0',
+      ),
+    ).toEqual({
+      'distribution:url': 'https://registry.internal/pkg/-/pkg-1.0.0.tgz',
+    });
+  });
+
+  it('strips embedded basic-auth credentials from the resolved URL', () => {
+    expect(
+      distributionUrlLabel(
+        'https://user:token@registry.internal/pkg/-/pkg-1.0.0.tgz',
+        'pkg@1.0.0',
+      ),
+    ).toEqual({
+      'distribution:url': 'https://registry.internal/pkg/-/pkg-1.0.0.tgz',
+    });
+    // userless token form (e.g. _authToken in URL) is also stripped
+    expect(
+      distributionUrlLabel(
+        'https://sometoken@registry.internal/pkg/-/pkg-1.0.0.tgz',
+        'pkg@1.0.0',
+      ),
+    ).toEqual({
+      'distribution:url': 'https://registry.internal/pkg/-/pkg-1.0.0.tgz',
+    });
+  });
+
+  it('leaves a literal @ in a path segment untouched', () => {
+    const url = 'https://registry.npmjs.org/@scope/pkg/-/pkg-1.0.0.tgz';
+    expect(distributionUrlLabel(url, '@scope/pkg@1.0.0')).toEqual({
+      'distribution:url': url,
+    });
+  });
 });
 
 describe('getComponentMetadataLabels', () => {

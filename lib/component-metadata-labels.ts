@@ -83,13 +83,34 @@ export function distributionUrlLabel(
     debug(`No resolved URL for ${nodeId}; skipping distribution:url label`);
     return {};
   }
-  if (!/^https?:\/\//.test(resolved)) {
+
+  let url: URL;
+  try {
+    url = new URL(resolved);
+  } catch {
+    debug(
+      `resolved "${resolved}" for ${nodeId} is not a parseable URL; skipping distribution:url label`,
+    );
+    return {};
+  }
+
+  // URL normalises the scheme to lowercase, so this also accepts HTTPS://, Http://, etc.
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') {
     debug(
       `resolved "${resolved}" for ${nodeId} is not an http(s) URL; skipping distribution:url label`,
     );
     return {};
   }
-  return { 'distribution:url': resolved };
+
+  // Strip any embedded basic-auth userinfo (scheme://user:pass@host) so private-registry
+  // credentials never leak into the emitted label or downstream SBOM externalReferences.
+  if (url.username || url.password) {
+    url.password = '';
+    url.username = '';
+    debug(`Stripped credentials from resolved URL for ${nodeId}`);
+  }
+
+  return { 'distribution:url': url.toString() };
 }
 
 /**
