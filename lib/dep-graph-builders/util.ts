@@ -6,7 +6,7 @@ import { OutOfSyncError } from '../errors';
 import { parseJsonFile } from '../utils';
 import { LockfileType } from '../parsers';
 import { parseNpmAlias } from '../aliasesPreprocessors/pkgJson';
-import { getComponentMetadataLabels } from './component-metadata-labels';
+import { getComponentMetadataLabels } from '../component-metadata-labels';
 
 export type Dependencies = Record<
   string,

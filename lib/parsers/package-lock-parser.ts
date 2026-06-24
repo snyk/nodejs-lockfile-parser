@@ -10,6 +10,7 @@ import {
 import { DepMap, DepMapItem, LockParserBase } from './lock-parser-base';
 import { config } from '../config';
 import { parseJsonFile } from '../utils';
+import { getComponentMetadataLabels } from '../component-metadata-labels';
 
 export interface PackageLock {
   name: string;
@@ -30,6 +31,8 @@ export interface PackageLockDep {
   };
   dependencies?: PackageLockDeps;
   dev?: boolean;
+  integrity?: string;
+  resolved?: string;
 }
 
 export class PackageLockParser extends LockParserBase {
@@ -54,6 +57,7 @@ export class PackageLockParser extends LockParserBase {
     includeDev: boolean = false,
     strictOutOfSync: boolean = true,
     showNpmScope?: boolean,
+    includeComponentMetadata?: boolean,
   ): Promise<PkgTree> {
     const dependencyTree = await super.getDependencyTree(
       manifestFile,
@@ -61,6 +65,7 @@ export class PackageLockParser extends LockParserBase {
       includeDev,
       strictOutOfSync,
       showNpmScope,
+      includeComponentMetadata,
     );
     const meta = {
       lockfileVersion: (lockfile as PackageLock).lockfileVersion,
@@ -77,6 +82,7 @@ export class PackageLockParser extends LockParserBase {
     lockfile: Lockfile,
     resolutions?: ManifestDependencies,
     showNpmScope?: boolean,
+    includeComponentMetadata?: boolean,
   ): DepMap {
     const packageLock = lockfile as PackageLock;
     const depMap: DepMap = {};
@@ -92,6 +98,12 @@ export class PackageLockParser extends LockParserBase {
             ...(showNpmScope && {
               'npm:scope': dep.dev ? Scope.dev : Scope.prod,
             }),
+            ...(includeComponentMetadata &&
+              getComponentMetadataLabels({
+                id: `${depName}@${dep.version}`,
+                integrity: dep.integrity,
+                resolved: dep.resolved,
+              })),
           },
           name: depName,
           requires: [],

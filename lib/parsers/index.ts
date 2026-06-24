@@ -110,6 +110,7 @@ export interface LockfileParser {
     includeDev?: boolean,
     strictOutOfSync?: boolean,
     showNpmScope?: boolean,
+    includeComponentMetadata?: boolean,
   ) => Promise<PkgTree>;
 }
 

@@ -5,7 +5,7 @@ import {
   hashLabelsFromIntegrity,
   distributionUrlLabel,
   getComponentMetadataLabels,
-} from '../../../lib/dep-graph-builders/component-metadata-labels';
+} from '../../../lib/component-metadata-labels';
 
 describe('hashLabelsFromIntegrity', () => {
   it('converts an sha512 SRI value to a lowercase-hex hash:sha-512 label', () => {
@@ -190,5 +190,62 @@ describe('npm lockfile v2 component-metadata labels (end-to-end)', () => {
     expect(gitNode).toBeDefined();
     expect(gitNode?.info?.labels?.['hash:sha-512']).toBeUndefined();
     expect(gitNode?.info?.labels?.['distribution:url']).toBeUndefined();
+  });
+});
+
+describe('npm lockfile v1 component-metadata labels (legacy depTree)', () => {
+  const dir = join(__dirname, './fixtures/npm-lock-v1/mixed-hashes');
+  const pkgJson = readFileSync(join(dir, 'package.json'), 'utf8');
+  const lock = readFileSync(join(dir, 'package-lock.json'), 'utf8');
+
+  it('GIVEN includeComponentMetadata true THEN v1 depTree nodes carry hash:* (sha-1 + sha-512) and distribution:url', async () => {
+    const { buildDepTree, LockfileType } = await import('../../../lib');
+    const depTree = await buildDepTree(
+      pkgJson,
+      lock,
+      false, // includeDev
+      LockfileType.npm,
+      true, // strictOutOfSync
+      'package.json',
+      false, // showNpmScope
+      true, // includeComponentMetadata
+    );
+
+    const accepts = depTree.dependencies?.['accepts'];
+    expect(accepts?.labels?.['hash:sha-512']).toBe(
+      Buffer.from(
+        'Il80Qs2WjYlJIBNzNkK6KYqlVMTbZLXgHx2oT0pU/fjRHyEp+PEfEPY0R3WCwAGVOtauxh1hOxNgIf5bv7dQpA==',
+        'base64',
+      ).toString('hex'),
+    );
+    expect(accepts?.labels?.['distribution:url']).toBe(
+      'https://registry.npmjs.org/accepts/-/accepts-1.3.7.tgz',
+    );
+
+    // sha1 integrity (common in v1 lockfiles) maps to hash:sha-1.
+    const ansiRegex = depTree.dependencies?.['ansi-regex'];
+    expect(ansiRegex?.labels?.['hash:sha-1']).toBe(
+      Buffer.from('w7M6te42DYbg5ijwRorn7yfWVN8=', 'base64').toString('hex'),
+    );
+    expect(ansiRegex?.labels?.['distribution:url']).toBe(
+      'https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.1.1.tgz',
+    );
+  });
+
+  it('GIVEN includeComponentMetadata false THEN no hash:* / distribution:url labels on v1 depTree nodes', async () => {
+    const { buildDepTree, LockfileType } = await import('../../../lib');
+    const depTree = await buildDepTree(
+      pkgJson,
+      lock,
+      false,
+      LockfileType.npm,
+      true,
+      'package.json',
+      false,
+      false,
+    );
+    const accepts = depTree.dependencies?.['accepts'];
+    expect(accepts?.labels?.['hash:sha-512']).toBeUndefined();
+    expect(accepts?.labels?.['distribution:url']).toBeUndefined();
   });
 });
