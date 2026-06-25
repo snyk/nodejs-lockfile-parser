@@ -6,6 +6,7 @@ import { OutOfSyncError } from '../errors';
 import { parseJsonFile } from '../utils';
 import { LockfileType } from '../parsers';
 import { parseNpmAlias } from '../aliasesPreprocessors/pkgJson';
+import { getComponentMetadataLabels } from '../component-metadata-labels';
 
 export type Dependencies = Record<
   string,
@@ -21,6 +22,9 @@ export interface PkgNode {
   missingLockFileEntry?: boolean;
   inBundle?: boolean;
   key?: string;
+  // Raw lockfile metadata, emitted as component-metadata labels when requested.
+  integrity?: string;
+  resolved?: string;
   alias?: {
     aliasName: string;
     aliasTargetDepName: string;
@@ -50,6 +54,7 @@ export const addPkgNodeToGraph = (
     isCyclic?: boolean;
     isWorkspacePkg?: boolean;
     showNpmScope?: boolean;
+    includeComponentMetadata?: boolean;
   },
 ): DepGraphBuilder => {
   return depGraphBuilder.addPkgNode(
@@ -67,6 +72,8 @@ export const addPkgNodeToGraph = (
         ...(node.alias && {
           alias: `${node.alias.aliasName}=>${node.alias.aliasTargetDepName}@${node.version}`,
         }),
+        ...(options.includeComponentMetadata &&
+          getComponentMetadataLabels(node)),
       },
     },
   );

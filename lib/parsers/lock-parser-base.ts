@@ -71,6 +71,7 @@ export abstract class LockParserBase implements LockfileParser {
     includeDev = false,
     strictOutOfSync = true,
     showNpmScope?: boolean,
+    includeComponentMetadata?: boolean,
   ): Promise<PkgTree> {
     if (lockfile.type !== this.type) {
       throw new InvalidUserInputError(
@@ -115,6 +116,7 @@ export abstract class LockParserBase implements LockfileParser {
       yarnLock,
       manifestFile.resolutions,
       showNpmScope,
+      includeComponentMetadata,
     );
 
     // all paths are identified, we can create a graph representing what depends on what
@@ -493,6 +495,7 @@ export abstract class LockParserBase implements LockfileParser {
     lockfile: Lockfile, // eslint-disable-line @typescript-eslint/no-unused-vars
     resolutions?: ManifestDependencies, // eslint-disable-line @typescript-eslint/no-unused-vars
     showNpmScope?: boolean, // eslint-disable-line @typescript-eslint/no-unused-vars
+    includeComponentMetadata?: boolean, // eslint-disable-line @typescript-eslint/no-unused-vars
   ): DepMap {
     throw new Error('Not implemented');
   }

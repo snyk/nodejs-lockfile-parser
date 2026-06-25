@@ -47,6 +47,7 @@ export type DepGraphBuildOptions = {
   pruneNpmStrictOutOfSync?: boolean;
   honorAliases?: boolean;
   showNpmScope?: boolean;
+  includeComponentMetadata?: boolean;
 };
 
 export type LockFileParseOptions = {

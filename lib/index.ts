@@ -112,6 +112,7 @@ async function buildDepTree(
   strictOutOfSync: boolean = true,
   defaultManifestFileName: string = 'package.json',
   showNpmScope?: boolean,
+  includeComponentMetadata?: boolean,
 ): Promise<PkgTree> {
   if (!lockfileType) {
     lockfileType = LockfileType.npm;
@@ -153,6 +154,7 @@ async function buildDepTree(
     includeDev,
     strictOutOfSync,
     showNpmScope,
+    includeComponentMetadata,
   );
 }
 
@@ -164,6 +166,7 @@ async function buildDepTreeFromFiles(
   strictOutOfSync = true,
   honorAliases?: boolean,
   showNpmScope?: boolean,
+  includeComponentMetadata?: boolean,
 ): Promise<PkgTree> {
   if (!root || !manifestFilePath || !lockFilePath) {
     throw new Error('Missing required parameters for buildDepTreeFromFiles()');
@@ -209,6 +212,7 @@ async function buildDepTreeFromFiles(
     strictOutOfSync,
     manifestFilePath,
     showNpmScope,
+    includeComponentMetadata,
   );
 }
 
