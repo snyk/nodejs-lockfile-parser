@@ -31,9 +31,11 @@
     "npm": ">=10"
   },
   "files": [
-    "bin",
     "dist"
   ],
+  "bugs": {
+    "url": "https://github.com/snyk/nodejs-lockfile-parser/issues"
+  },
   "homepage": "https://github.com/snyk/nodejs-lockfile-parser#readme",
   "dependencies": {
     "@snyk/dep-graph": "^2.12.0",
