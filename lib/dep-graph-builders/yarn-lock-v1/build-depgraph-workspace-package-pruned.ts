@@ -24,8 +24,13 @@ export const buildDepGraphYarnLockV1WorkspaceCyclesPruned = async (
   workspacePkgNameToVersion: Record<string, string>,
   options: DepGraphBuildOptions,
 ) => {
-  const { includeDevDeps, strictOutOfSync, includeOptionalDeps, showNpmScope } =
-    options;
+  const {
+    includeDevDeps,
+    strictOutOfSync,
+    includeOptionalDeps,
+    showNpmScope,
+    includeComponentMetadata,
+  } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
@@ -54,6 +59,7 @@ export const buildDepGraphYarnLockV1WorkspaceCyclesPruned = async (
     strictOutOfSync,
     includeOptionalDeps,
     showNpmScope,
+    includeComponentMetadata,
   );
 
   return depGraphBuilder.build();
@@ -78,6 +84,7 @@ const dfsVisit = async (
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
   showNpmScope?: boolean,
+  includeComponentMetadata?: boolean,
 ): Promise<void> => {
   colorMap[node.id] = Color.GRAY;
 
@@ -101,6 +108,7 @@ const dfsVisit = async (
         isCyclic: false,
         isWorkspacePkg,
         showNpmScope,
+        includeComponentMetadata,
       });
       if (!isWorkspacePkg) {
         await dfsVisit(
@@ -112,6 +120,7 @@ const dfsVisit = async (
           strictOutOfSync,
           includeOptionalDeps,
           showNpmScope,
+          includeComponentMetadata,
         );
       } else {
         colorMap[childNode.id] = Color.BLACK;
@@ -123,6 +132,7 @@ const dfsVisit = async (
         isCyclic: true,
         isWorkspacePkg,
         showNpmScope,
+        includeComponentMetadata,
       });
     }
 

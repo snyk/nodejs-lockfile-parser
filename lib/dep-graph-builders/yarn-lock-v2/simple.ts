@@ -8,6 +8,9 @@ import {
 import { buildDepGraphYarnLockV2Simple } from './build-depgraph-simple';
 import { DepGraph } from '@snyk/dep-graph';
 import { rewriteAliasesPkgJson } from '../../aliasesPreprocessors/pkgJson';
+import * as debugModule from 'debug';
+
+const debug = debugModule('snyk-nodejs-lockfile-parser:component-metadata');
 
 export const parseYarnLockV2Project = async (
   pkgJsonContent: string,
@@ -22,7 +25,17 @@ export const parseYarnLockV2Project = async (
     pruneWithinTopLevelDeps,
     honorAliases,
     showNpmScope,
+    includeComponentMetadata,
   } = options;
+
+  if (includeComponentMetadata) {
+    // Berry lockfiles store no tarball URL and only a `checksum` over yarn's cache artifact
+    // (not the published tarball SRI), so component-metadata labels are deferred for yarn berry.
+    debug(
+      'includeComponentMetadata is set but component-metadata labels are not yet produced ' +
+        'for yarn berry (v2-4) lockfiles; skipping',
+    );
+  }
 
   const pkgs = extractPkgsFromYarnLockV2(yarnLockContent);
   const pkgJson: PackageJsonBase = parsePkgJson(

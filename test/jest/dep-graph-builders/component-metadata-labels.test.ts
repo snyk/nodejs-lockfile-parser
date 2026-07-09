@@ -1,9 +1,14 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
-import { parseNpmLockV2Project } from '../../../lib/dep-graph-builders';
+import {
+  parseNpmLockV2Project,
+  parseYarnLockV1Project,
+  parseYarnLockV2Project,
+} from '../../../lib/dep-graph-builders';
 import {
   hashLabelsFromIntegrity,
   distributionUrlLabel,
+  hashLabelFromResolvedFragment,
   getComponentMetadataLabels,
 } from '../../../lib/component-metadata-labels';
 
@@ -119,6 +124,65 @@ describe('distributionUrlLabel', () => {
       'distribution:url': url,
     });
   });
+
+  it('strips the yarn v1 shasum fragment from the emitted URL', () => {
+    expect(
+      distributionUrlLabel(
+        'https://registry.yarnpkg.com/pkg/-/pkg-1.0.0.tgz#80aec64c9d6d97e65cc2a9caa93c0aa6abf73aaa',
+        'pkg@1.0.0',
+      ),
+    ).toEqual({
+      'distribution:url': 'https://registry.yarnpkg.com/pkg/-/pkg-1.0.0.tgz',
+    });
+  });
+});
+
+describe('hashLabelFromResolvedFragment', () => {
+  it('emits hash:sha-1 from a 40-hex fragment on an http(s) tarball URL', () => {
+    expect(
+      hashLabelFromResolvedFragment(
+        'https://registry.yarnpkg.com/pkg/-/pkg-1.0.0.tgz#80aec64c9d6d97e65cc2a9caa93c0aa6abf73aaa',
+        'pkg@1.0.0',
+      ),
+    ).toEqual({ 'hash:sha-1': '80aec64c9d6d97e65cc2a9caa93c0aa6abf73aaa' });
+  });
+
+  it('lowercases the fragment', () => {
+    expect(
+      hashLabelFromResolvedFragment(
+        'https://registry.yarnpkg.com/pkg/-/pkg-1.0.0.tgz#80AEC64C9D6D97E65CC2A9CAA93C0AA6ABF73AAA',
+        'pkg@1.0.0',
+      ),
+    ).toEqual({ 'hash:sha-1': '80aec64c9d6d97e65cc2a9caa93c0aa6abf73aaa' });
+  });
+
+  it('does NOT mine a fragment from git resolutions (it is a commit SHA, not a shasum)', () => {
+    expect(
+      hashLabelFromResolvedFragment(
+        'git+ssh://git@github.com/foo/bar.git#263f602e6ae34add6332c1eb4caa808893b0b711',
+        'git-dep@2.0.0',
+      ),
+    ).toEqual({});
+  });
+
+  it('returns {} for missing, non-http, or non-sha1 fragments (no throw)', () => {
+    expect(hashLabelFromResolvedFragment(undefined, 'x@1')).toEqual({});
+    expect(
+      hashLabelFromResolvedFragment(
+        'https://registry.yarnpkg.com/pkg/-/pkg-1.0.0.tgz',
+        'x@1',
+      ),
+    ).toEqual({});
+    expect(
+      hashLabelFromResolvedFragment(
+        'https://registry.yarnpkg.com/pkg/-/pkg-1.0.0.tgz#notahash',
+        'x@1',
+      ),
+    ).toEqual({});
+    expect(hashLabelFromResolvedFragment('file:../local#abc', 'x@1')).toEqual(
+      {},
+    );
+  });
 });
 
 describe('getComponentMetadataLabels', () => {
@@ -139,6 +203,32 @@ describe('getComponentMetadataLabels', () => {
 
   it('returns {} when no metadata is available', () => {
     expect(getComponentMetadataLabels({ id: 'x@1' })).toEqual({});
+  });
+
+  it('derives hash:sha-1 from the resolved fragment when there is no integrity (yarn v1)', () => {
+    expect(
+      getComponentMetadataLabels({
+        id: 'pkg@1.0.0',
+        resolved:
+          'https://registry.yarnpkg.com/pkg/-/pkg-1.0.0.tgz#80aec64c9d6d97e65cc2a9caa93c0aa6abf73aaa',
+      }),
+    ).toEqual({
+      'distribution:url': 'https://registry.yarnpkg.com/pkg/-/pkg-1.0.0.tgz',
+      'hash:sha-1': '80aec64c9d6d97e65cc2a9caa93c0aa6abf73aaa',
+    });
+  });
+
+  it('lets an explicit integrity sha1 win over the resolved-fragment sha1', () => {
+    const integrity = `sha1-${Buffer.from('a'.repeat(20)).toString('base64')}`;
+    const labels = getComponentMetadataLabels({
+      id: 'pkg@1.0.0',
+      integrity,
+      resolved:
+        'https://registry.yarnpkg.com/pkg/-/pkg-1.0.0.tgz#80aec64c9d6d97e65cc2a9caa93c0aa6abf73aaa',
+    });
+    expect(labels['hash:sha-1']).toBe(
+      Buffer.from('a'.repeat(20)).toString('hex'),
+    );
   });
 });
 
@@ -285,5 +375,147 @@ describe('npm lockfile v1 component-metadata labels (legacy depTree)', () => {
     const accepts = depTree.dependencies?.['accepts'];
     expect(accepts?.labels?.['hash:sha-512']).toBeUndefined();
     expect(accepts?.labels?.['distribution:url']).toBeUndefined();
+  });
+});
+
+describe('yarn lockfile v1 component-metadata labels (modern dep-graph)', () => {
+  const dir = join(__dirname, './fixtures/yarn-lock-v1/component-metadata');
+  const pkgJson = readFileSync(join(dir, 'package.json'), 'utf8');
+  const lock = readFileSync(join(dir, 'yarn.lock'), 'utf8');
+
+  const baseOptions = {
+    includeDevDeps: false,
+    includeOptionalDeps: true,
+    includePeerDeps: false,
+    pruneLevel: 'withinTopLevelDeps' as const,
+    strictOutOfSync: false,
+    honorAliases: true,
+  };
+
+  it('GIVEN includeComponentMetadata true THEN v1 nodes carry hash:* and distribution:url labels from integrity/resolved', async () => {
+    const depGraph = await parseYarnLockV1Project(pkgJson, lock, {
+      ...baseOptions,
+      includeComponentMetadata: true,
+    });
+    const nodes = depGraph.toJSON().graph.nodes;
+    const labelsFor = (id: string) =>
+      nodes.find((n) => n.nodeId === id)?.info?.labels || {};
+
+    // sha512 integrity -> hash:sha-512; resolved URL fragment stripped.
+    expect(labelsFor('pkg-sha512@1.0.0')['hash:sha-512']).toBe(
+      Buffer.from(
+        'Il80Qs2WjYlJIBNzNkK6KYqlVMTbZLXgHx2oT0pU/fjRHyEp+PEfEPY0R3WCwAGVOtauxh1hOxNgIf5bv7dQpA==',
+        'base64',
+      ).toString('hex'),
+    );
+    expect(labelsFor('pkg-sha512@1.0.0')['distribution:url']).toBe(
+      'https://registry.yarnpkg.com/pkg-sha512/-/pkg-sha512-1.0.0.tgz',
+    );
+
+    // sha1 integrity -> hash:sha-1.
+    expect(labelsFor('pkg-sha1@1.0.0')['hash:sha-1']).toBe(
+      Buffer.from('w7M6te42DYbg5ijwRorn7yfWVN8=', 'base64').toString('hex'),
+    );
+
+    // No integrity line, but the resolved URL fragment carries the shasum -> hash:sha-1.
+    expect(labelsFor('pkg-fragment-only@1.0.0')['hash:sha-1']).toBe(
+      '80aec64c9d6d97e65cc2a9caa93c0aa6abf73aaa',
+    );
+    expect(labelsFor('pkg-fragment-only@1.0.0')['distribution:url']).toBe(
+      'https://registry.yarnpkg.com/pkg-fragment-only/-/pkg-fragment-only-1.0.0.tgz',
+    );
+
+    // git dependency: fragment is a commit SHA, not a package hash -> no hash / no url.
+    expect(labelsFor('git-dep@2.0.0')['hash:sha-1']).toBeUndefined();
+    expect(labelsFor('git-dep@2.0.0')['distribution:url']).toBeUndefined();
+  });
+
+  it('GIVEN includeComponentMetadata false THEN no hash:* / distribution:url labels appear', async () => {
+    const depGraph = await parseYarnLockV1Project(pkgJson, lock, {
+      ...baseOptions,
+      includeComponentMetadata: false,
+    });
+    depGraph.toJSON().graph.nodes.forEach((node) => {
+      expect(node.info?.labels?.['hash:sha-512']).toBeUndefined();
+      expect(node.info?.labels?.['hash:sha-1']).toBeUndefined();
+      expect(node.info?.labels?.['distribution:url']).toBeUndefined();
+    });
+  });
+});
+
+describe('yarn lockfile v1 component-metadata labels (legacy depTree)', () => {
+  const dir = join(__dirname, './fixtures/yarn-lock-v1/component-metadata');
+  const pkgJson = readFileSync(join(dir, 'package.json'), 'utf8');
+  const lock = readFileSync(join(dir, 'yarn.lock'), 'utf8');
+
+  it('GIVEN includeComponentMetadata true THEN v1 depTree nodes carry hash:* / distribution:url', async () => {
+    const { buildDepTree, LockfileType } = await import('../../../lib');
+    const depTree = await buildDepTree(
+      pkgJson,
+      lock,
+      false, // includeDev
+      LockfileType.yarn,
+      false, // strictOutOfSync
+      'package.json',
+      false, // showNpmScope
+      true, // includeComponentMetadata
+    );
+
+    const sha512 = depTree.dependencies?.['pkg-sha512'];
+    expect(sha512?.labels?.['hash:sha-512']).toBe(
+      Buffer.from(
+        'Il80Qs2WjYlJIBNzNkK6KYqlVMTbZLXgHx2oT0pU/fjRHyEp+PEfEPY0R3WCwAGVOtauxh1hOxNgIf5bv7dQpA==',
+        'base64',
+      ).toString('hex'),
+    );
+    expect(sha512?.labels?.['distribution:url']).toBe(
+      'https://registry.yarnpkg.com/pkg-sha512/-/pkg-sha512-1.0.0.tgz',
+    );
+
+    const fragmentOnly = depTree.dependencies?.['pkg-fragment-only'];
+    expect(fragmentOnly?.labels?.['hash:sha-1']).toBe(
+      '80aec64c9d6d97e65cc2a9caa93c0aa6abf73aaa',
+    );
+  });
+
+  it('GIVEN includeComponentMetadata false THEN no hash:* / distribution:url labels', async () => {
+    const { buildDepTree, LockfileType } = await import('../../../lib');
+    const depTree = await buildDepTree(
+      pkgJson,
+      lock,
+      false,
+      LockfileType.yarn,
+      false,
+      'package.json',
+      false,
+      false,
+    );
+    const sha512 = depTree.dependencies?.['pkg-sha512'];
+    expect(sha512?.labels?.['hash:sha-512']).toBeUndefined();
+    expect(sha512?.labels?.['distribution:url']).toBeUndefined();
+  });
+});
+
+describe('yarn berry component-metadata labels (deferred - no-op)', () => {
+  const dir = join(
+    __dirname,
+    './fixtures/yarn-lock-v2/hand-rolled/simple-chain',
+  );
+  const pkgJson = readFileSync(join(dir, 'package.json'), 'utf8');
+  const lock = readFileSync(join(dir, 'yarn.lock'), 'utf8');
+
+  it('GIVEN includeComponentMetadata true THEN berry emits no hash:* / distribution:url labels (deferred)', async () => {
+    const depGraph = await parseYarnLockV2Project(pkgJson, lock, {
+      includeDevDeps: false,
+      includeOptionalDeps: true,
+      strictOutOfSync: false,
+      pruneWithinTopLevelDeps: true,
+      includeComponentMetadata: true,
+    });
+    depGraph.toJSON().graph.nodes.forEach((node) => {
+      expect(node.info?.labels?.['hash:sha-512']).toBeUndefined();
+      expect(node.info?.labels?.['hash:sha-1']).toBeUndefined();
+      expect(node.info?.labels?.['distribution:url']).toBeUndefined();
+    });
   });
 });

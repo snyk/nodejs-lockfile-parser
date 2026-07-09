@@ -1,5 +1,4 @@
 import * as yarnLockfileParser from '@yarnpkg/lockfile';
-import * as debugModule from 'debug';
 
 import {
   Dep,
@@ -13,8 +12,7 @@ import {
 import { InvalidUserInputError } from '../errors';
 import { DepMap, LockParserBase } from './lock-parser-base';
 import { config } from '../config';
-
-const debug = debugModule('snyk-nodejs-lockfile-parser:component-metadata');
+import { getComponentMetadataLabels } from '../component-metadata-labels';
 
 export type YarnLockFileTypes = LockfileType.yarn | LockfileType.yarn2;
 
@@ -31,6 +29,9 @@ export interface YarnLockDeps {
 
 export interface YarnLockDep {
   version: string;
+  // Component-metadata sources from the raw yarn v1 lockfile entry (SRI integrity + tarball URL).
+  resolved?: string;
+  integrity?: string;
   dependencies?: {
     [depName: string]: string;
   };
@@ -65,19 +66,13 @@ export class YarnLockParser extends LockParserBase {
     showNpmScope?: boolean,
     includeComponentMetadata?: boolean,
   ): Promise<PkgTree> {
-    if (includeComponentMetadata) {
-      debug(
-        'includeComponentMetadata is not yet supported for yarn lockfiles; ' +
-          'no hash:* / distribution:url labels will be emitted',
-      );
-    }
-
     const depTree = await super.getDependencyTree(
       manifestFile,
       lockfile,
       includeDev,
       strictOutOfSync,
       showNpmScope,
+      includeComponentMetadata,
     );
 
     const meta = { lockfileVersion: 1, packageManager: 'yarn' };
@@ -93,6 +88,7 @@ export class YarnLockParser extends LockParserBase {
     lockfile: Lockfile,
     resolutions?: ManifestDependencies,
     showNpmScope?: boolean,
+    includeComponentMetadata?: boolean,
   ): DepMap {
     const yarnLockfile = lockfile as YarnLock;
     const depMap: DepMap = {};
@@ -102,12 +98,19 @@ export class YarnLockParser extends LockParserBase {
         ...(dep.dependencies || {}),
         ...(dep.optionalDependencies || {}),
       });
+      const name = getName(depName);
       depMap[depName] = {
         labels: {
           scope: Scope.prod,
           ...(showNpmScope && { 'npm:scope': Scope.prod }),
+          ...(includeComponentMetadata &&
+            getComponentMetadataLabels({
+              id: `${name}@${dep.version}`,
+              integrity: dep.integrity,
+              resolved: dep.resolved,
+            })),
         },
-        name: getName(depName),
+        name,
         requires: subDependencies.map(([key, ver]) => `${key}@${ver}`),
         version: dep.version,
       };

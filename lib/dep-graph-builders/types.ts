@@ -36,6 +36,12 @@ export type NormalisedPkgs = Record<
     resolution?: string;
     dependencies: Record<string, string>;
     optionalDependencies: Record<string, string>;
+    // Component-metadata sources present in the raw lockfile entry. yarn v1 carries npm-shaped
+    // `integrity` (SRI) + `resolved` (tarball URL); yarn berry carries `checksum` (currently
+    // unused — berry component metadata is deferred). Consumed only when includeComponentMetadata.
+    resolved?: string;
+    integrity?: string;
+    checksum?: string;
   }
 >;
 
@@ -85,6 +91,8 @@ export type YarnLockV2ProjectParseOptions = {
   pruneWithinTopLevelDeps: boolean;
   honorAliases?: boolean;
   showNpmScope?: boolean;
+  // Threaded for a uniform API; berry component-metadata labels are deferred (no-op downstream).
+  includeComponentMetadata?: boolean;
 };
 
 /*
@@ -103,6 +111,7 @@ export type YarnLockV1ProjectParseOptions = {
   pruneLevel: PruneLevel;
   honorAliases?: boolean;
   showNpmScope?: boolean;
+  includeComponentMetadata?: boolean;
 };
 
 export type Yarn1DepGraphBuildOptions = {
@@ -112,6 +121,7 @@ export type Yarn1DepGraphBuildOptions = {
   strictOutOfSync: boolean;
   pruneWithinTopLevelDeps: boolean;
   showNpmScope?: boolean;
+  includeComponentMetadata?: boolean;
 };
 
 export type PnpmWorkspaceArgs = {

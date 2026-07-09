@@ -80,8 +80,10 @@ export class Yarn2LockParser extends LockParserBase {
     includeComponentMetadata?: boolean,
   ): Promise<PkgTree> {
     if (includeComponentMetadata) {
+      // Berry lockfiles store no tarball URL and only a `checksum` over yarn's cache artifact
+      // (not the published tarball SRI), so component-metadata labels are deferred for berry.
       debug(
-        'includeComponentMetadata is not yet supported for yarn lockfiles; ' +
+        'includeComponentMetadata is not yet supported for yarn berry (v2-4) lockfiles; ' +
           'no hash:* / distribution:url labels will be emitted',
       );
     }
