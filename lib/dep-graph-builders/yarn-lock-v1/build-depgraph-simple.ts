@@ -9,6 +9,7 @@ import type { Yarn1DepGraphBuildOptions } from '../types';
 import type { NormalisedPkgs, PackageJsonBase } from '../types';
 import { eventLoopSpinner } from 'event-loop-spinner';
 import { parseNpmAlias } from '../../aliasesPreprocessors/pkgJson';
+import { getComponentMetadataLabels } from '../../component-metadata-labels';
 
 export const buildDepGraphYarnLockV1Simple = async (
   extractedYarnLockV1Pkgs: NormalisedPkgs,
@@ -22,6 +23,7 @@ export const buildDepGraphYarnLockV1Simple = async (
     strictOutOfSync,
     pruneWithinTopLevelDeps,
     showNpmScope,
+    includeComponentMetadata,
   } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
@@ -53,6 +55,7 @@ export const buildDepGraphYarnLockV1Simple = async (
     pruneWithinTopLevelDeps,
     undefined,
     showNpmScope,
+    includeComponentMetadata,
   );
 
   return depGraphBuilder.build();
@@ -73,6 +76,7 @@ const dfsVisit = async (
   pruneWithinTopLevel: boolean,
   visited?: Set<string>,
   showNpmScope?: boolean,
+  includeComponentMetadata?: boolean,
 ): Promise<void> => {
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     let scopeDepInfo = Object.assign({}, depInfo);
@@ -121,6 +125,8 @@ const dfsVisit = async (
               ...(childNode.alias && {
                 alias: `${childNode.alias.aliasName}=>${childNode.alias.aliasTargetDepName}@${childNode.version}`,
               }),
+              ...(includeComponentMetadata &&
+                getComponentMetadataLabels(childNode)),
             },
           },
         );
@@ -144,6 +150,8 @@ const dfsVisit = async (
           ...(childNode.alias && {
             alias: `${childNode.alias.aliasName}=>${childNode.alias.aliasTargetDepName}@${childNode.version}`,
           }),
+          ...(includeComponentMetadata &&
+            getComponentMetadataLabels(childNode)),
         },
       },
     );
@@ -158,6 +166,7 @@ const dfsVisit = async (
       pruneWithinTopLevel,
       localVisited,
       showNpmScope,
+      includeComponentMetadata,
     );
   }
 };

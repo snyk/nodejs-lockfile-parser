@@ -1,0 +1,10 @@
+{
+  "name": "yarn-v1-component-metadata",
+  "version": "1.0.0",
+  "dependencies": {
+    "pkg-sha512": "^1.0.0",
+    "pkg-sha1": "^1.0.0",
+    "pkg-fragment-only": "^1.0.0",
+    "git-dep": "github:foo/bar"
+  }
+}

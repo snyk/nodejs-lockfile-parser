@@ -16,8 +16,13 @@ export const buildDepGraphYarnLockV1Workspace = async (
   workspacePkgNameToVersion: Record<string, string>,
   options: DepGraphBuildOptions,
 ) => {
-  const { includeDevDeps, strictOutOfSync, includeOptionalDeps, showNpmScope } =
-    options;
+  const {
+    includeDevDeps,
+    strictOutOfSync,
+    includeOptionalDeps,
+    showNpmScope,
+    includeComponentMetadata,
+  } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
@@ -46,6 +51,7 @@ export const buildDepGraphYarnLockV1Workspace = async (
     strictOutOfSync,
     includeOptionalDeps,
     showNpmScope,
+    includeComponentMetadata,
   );
 
   return depGraphBuilder.build();
@@ -70,6 +76,7 @@ const dfsVisit = async (
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
   showNpmScope?: boolean,
+  includeComponentMetadata?: boolean,
 ): Promise<void> => {
   visitedMap.add(node.id);
 
@@ -93,6 +100,7 @@ const dfsVisit = async (
         isCyclic: false,
         isWorkspacePkg,
         showNpmScope,
+        includeComponentMetadata,
       });
       if (!isWorkspacePkg) {
         await dfsVisit(
@@ -104,6 +112,7 @@ const dfsVisit = async (
           strictOutOfSync,
           includeOptionalDeps,
           showNpmScope,
+          includeComponentMetadata,
         );
       }
     }

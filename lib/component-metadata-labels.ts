@@ -110,7 +110,49 @@ export function distributionUrlLabel(
     debug(`Stripped credentials from resolved URL for ${nodeId}`);
   }
 
+  // yarn v1 appends the tarball shasum as a URL fragment (`…-1.0.0.tgz#<sha1>`); npm does not.
+  // Drop it so distribution:url is a clean tarball URL — the shasum is surfaced separately as a
+  // hash:sha-1 label (see hashLabelFromResolvedFragment).
+  if (url.hash) {
+    url.hash = '';
+  }
+
   return { 'distribution:url': url.toString() };
+}
+
+/**
+ * yarn v1 `resolved` values embed the npm-registry tarball shasum as a URL fragment
+ * (`…-1.0.0.tgz#<40-hex-sha1>`). For older lockfiles that carry no `integrity` line this is the
+ * only available hash, so surface it as `hash:sha-1`. Restricted to http(s) tarball URLs: a
+ * `#<40-hex>` fragment on a `git:`/`git+ssh:` resolution is a commit SHA, not a package hash.
+ */
+export function hashLabelFromResolvedFragment(
+  resolved: string | undefined,
+  nodeId: string,
+): Record<string, string> {
+  if (!resolved) {
+    return {};
+  }
+  let url: URL;
+  try {
+    url = new URL(resolved);
+  } catch {
+    return {};
+  }
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+    // git/file/etc. — a fragment here is a commit-ish, not a package shasum.
+    return {};
+  }
+  const fragment = url.hash.replace(/^#/, '');
+  if (!/^[0-9a-f]{40}$/i.test(fragment)) {
+    if (fragment) {
+      debug(
+        `resolved fragment "${fragment}" for ${nodeId} is not a sha1 shasum; skipping`,
+      );
+    }
+    return {};
+  }
+  return { 'hash:sha-1': fragment.toLowerCase() };
 }
 
 /**
@@ -123,7 +165,10 @@ export function getComponentMetadataLabels(node: {
   resolved?: string;
 }): Record<string, string> {
   return {
-    ...hashLabelsFromIntegrity(node.integrity, node.id),
     ...distributionUrlLabel(node.resolved, node.id),
+    // Fragment-derived sha1 first so an explicit `integrity` sha1 wins on overlap (they describe
+    // the same digest for npm-registry tarballs).
+    ...hashLabelFromResolvedFragment(node.resolved, node.id),
+    ...hashLabelsFromIntegrity(node.integrity, node.id),
   };
 }

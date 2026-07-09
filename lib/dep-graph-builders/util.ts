@@ -304,6 +304,9 @@ export const getChildNode = (
       dependencies: { ...dependencies, ...optionalDependencies },
       isDev: depInfo.isDev,
       alias: aliasInfo,
+      // Raw lockfile metadata, emitted as component-metadata labels when requested (yarn v1).
+      integrity: depData.integrity,
+      resolved: depData.resolved,
     };
   }
 

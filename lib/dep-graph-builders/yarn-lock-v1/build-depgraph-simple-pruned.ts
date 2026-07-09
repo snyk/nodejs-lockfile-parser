@@ -20,8 +20,13 @@ export const buildDepGraphYarnLockV1SimpleCyclesPruned = async (
   pkgJson: PackageJsonBase,
   options: DepGraphBuildOptions,
 ) => {
-  const { includeDevDeps, strictOutOfSync, includeOptionalDeps, showNpmScope } =
-    options;
+  const {
+    includeDevDeps,
+    strictOutOfSync,
+    includeOptionalDeps,
+    showNpmScope,
+    includeComponentMetadata,
+  } = options;
 
   const depGraphBuilder = new DepGraphBuilder(
     { name: 'yarn' },
@@ -49,6 +54,7 @@ export const buildDepGraphYarnLockV1SimpleCyclesPruned = async (
     strictOutOfSync,
     includeOptionalDeps,
     showNpmScope,
+    includeComponentMetadata,
   );
 
   return depGraphBuilder.build();
@@ -71,6 +77,7 @@ const dfsVisit = async (
   strictOutOfSync: boolean,
   includeOptionalDeps: boolean,
   showNpmScope?: boolean,
+  includeComponentMetadata?: boolean,
 ): Promise<void> => {
   colorMap[node.id] = Color.GRAY;
 
@@ -89,7 +96,10 @@ const dfsVisit = async (
     );
 
     if (!colorMap.hasOwnProperty(childNode.id)) {
-      addPkgNodeToGraph(depGraphBuilder, childNode, { showNpmScope });
+      addPkgNodeToGraph(depGraphBuilder, childNode, {
+        showNpmScope,
+        includeComponentMetadata,
+      });
       await dfsVisit(
         depGraphBuilder,
         childNode,
@@ -98,6 +108,7 @@ const dfsVisit = async (
         strictOutOfSync,
         includeOptionalDeps,
         showNpmScope,
+        includeComponentMetadata,
       );
     } else if (colorMap[childNode.id] === Color.GRAY) {
       // cycle detected
@@ -105,6 +116,7 @@ const dfsVisit = async (
       addPkgNodeToGraph(depGraphBuilder, childNode, {
         isCyclic: true,
         showNpmScope,
+        includeComponentMetadata,
       });
     }
 
