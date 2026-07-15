@@ -75,6 +75,13 @@
       }
     },
     {
+      "id": "constructs@10.1.167",
+      "info": {
+        "name": "constructs",
+        "version": "10.1.167"
+      }
+    },
+    {
       "id": "archiver@6.0.1",
       "info": {
         "name": "archiver",
@@ -1993,6 +2000,13 @@
       }
     },
     {
+      "id": "graphology-types@0.24.7",
+      "info": {
+        "name": "graphology-types",
+        "version": "0.24.7"
+      }
+    },
+    {
       "id": "events@3.3.0",
       "info": {
         "name": "events",
@@ -2004,13 +2018,6 @@
       "info": {
         "name": "obliterator",
         "version": "2.0.4"
-      }
-    },
-    {
-      "id": "graphology-types@0.24.7",
-      "info": {
-        "name": "graphology-types",
-        "version": "0.24.7"
       }
     },
     {
@@ -2434,13 +2441,6 @@
       }
     },
     {
-      "id": "constructs@10.1.167",
-      "info": {
-        "name": "constructs",
-        "version": "10.1.167"
-      }
-    },
-    {
       "id": "cross-fetch@3.1.8",
       "info": {
         "name": "cross-fetch",
@@ -2623,6 +2623,27 @@
       }
     },
     {
+      "id": "react@17.0.2",
+      "info": {
+        "name": "react",
+        "version": "17.0.2"
+      }
+    },
+    {
+      "id": "loose-envify@1.4.0",
+      "info": {
+        "name": "loose-envify",
+        "version": "1.4.0"
+      }
+    },
+    {
+      "id": "object-assign@4.1.1",
+      "info": {
+        "name": "object-assign",
+        "version": "4.1.1"
+      }
+    },
+    {
       "id": "ansi-escapes@4.3.2",
       "info": {
         "name": "ansi-escapes",
@@ -2746,20 +2767,6 @@
       "info": {
         "name": "react-reconciler",
         "version": "0.26.2"
-      }
-    },
-    {
-      "id": "loose-envify@1.4.0",
-      "info": {
-        "name": "loose-envify",
-        "version": "1.4.0"
-      }
-    },
-    {
-      "id": "object-assign@4.1.1",
-      "info": {
-        "name": "object-assign",
-        "version": "4.1.1"
       }
     },
     {
@@ -3687,6 +3694,9 @@
         "pkgId": "cdktf@0.20.3",
         "deps": [
           {
+            "nodeId": "constructs@10.1.167"
+          },
+          {
             "nodeId": "archiver@6.0.1"
           },
           {
@@ -3696,6 +3706,16 @@
             "nodeId": "semver@7.5.4"
           }
         ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "constructs@10.1.167",
+        "pkgId": "constructs@10.1.167",
+        "deps": [],
         "info": {
           "labels": {
             "scope": "prod"
@@ -7930,12 +7950,25 @@
         "pkgId": "graphology@0.25.4",
         "deps": [
           {
+            "nodeId": "graphology-types@0.24.7"
+          },
+          {
             "nodeId": "events@3.3.0"
           },
           {
             "nodeId": "obliterator@2.0.4"
           }
         ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "graphology-types@0.24.7",
+        "pkgId": "graphology-types@0.24.7",
+        "deps": [],
         "info": {
           "labels": {
             "scope": "prod"
@@ -7955,16 +7988,6 @@
       {
         "nodeId": "obliterator@2.0.4",
         "pkgId": "obliterator@2.0.4",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "graphology-types@0.24.7",
-        "pkgId": "graphology-types@0.24.7",
         "deps": [],
         "info": {
           "labels": {
@@ -9008,16 +9031,6 @@
         }
       },
       {
-        "nodeId": "constructs@10.1.167",
-        "pkgId": "constructs@10.1.167",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
         "nodeId": "cross-fetch@3.1.8",
         "pkgId": "cross-fetch@3.1.8",
         "deps": [
@@ -9362,6 +9375,9 @@
         "pkgId": "ink@3.2.0",
         "deps": [
           {
+            "nodeId": "react@17.0.2"
+          },
+          {
             "nodeId": "ansi-escapes@4.3.2"
           },
           {
@@ -9431,6 +9447,47 @@
             "nodeId": "yoga-layout-prebuilt@1.10.0"
           }
         ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "react@17.0.2",
+        "pkgId": "react@17.0.2",
+        "deps": [
+          {
+            "nodeId": "loose-envify@1.4.0"
+          },
+          {
+            "nodeId": "object-assign@4.1.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "loose-envify@1.4.0",
+        "pkgId": "loose-envify@1.4.0",
+        "deps": [
+          {
+            "nodeId": "js-tokens@4.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "object-assign@4.1.1",
+        "pkgId": "object-assign@4.1.1",
+        "deps": [],
         "info": {
           "labels": {
             "scope": "prod"
@@ -9659,6 +9716,9 @@
         "pkgId": "react-reconciler@0.26.2",
         "deps": [
           {
+            "nodeId": "react@17.0.2"
+          },
+          {
             "nodeId": "loose-envify@1.4.0"
           },
           {
@@ -9668,30 +9728,6 @@
             "nodeId": "scheduler@0.20.2"
           }
         ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "loose-envify@1.4.0",
-        "pkgId": "loose-envify@1.4.0",
-        "deps": [
-          {
-            "nodeId": "js-tokens@4.0.0"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "object-assign@4.1.1",
-        "pkgId": "object-assign@4.1.1",
-        "deps": [],
         "info": {
           "labels": {
             "scope": "prod"
@@ -9792,6 +9828,12 @@
         "pkgId": "ink-select-input@4.2.2",
         "deps": [
           {
+            "nodeId": "ink@3.2.0"
+          },
+          {
+            "nodeId": "react@17.0.2"
+          },
+          {
             "nodeId": "arr-rotate@1.0.0"
           },
           {
@@ -9846,6 +9888,12 @@
         "pkgId": "ink-spinner@4.0.3",
         "deps": [
           {
+            "nodeId": "ink@3.2.0"
+          },
+          {
+            "nodeId": "react@17.0.2"
+          },
+          {
             "nodeId": "cli-spinners@2.9.2"
           }
         ],
@@ -9868,7 +9916,14 @@
       {
         "nodeId": "ink-use-stdout-dimensions@1.0.5",
         "pkgId": "ink-use-stdout-dimensions@1.0.5",
-        "deps": [],
+        "deps": [
+          {
+            "nodeId": "ink@3.2.0"
+          },
+          {
+            "nodeId": "react@17.0.2"
+          }
+        ],
         "info": {
           "labels": {
             "scope": "prod"
@@ -10890,6 +10945,12 @@
         "pkgId": "ink-select-input@4.2.1",
         "deps": [
           {
+            "nodeId": "ink@3.2.0"
+          },
+          {
+            "nodeId": "react@17.0.2"
+          },
+          {
             "nodeId": "arr-rotate@1.0.0"
           },
           {
@@ -10909,6 +10970,12 @@
         "nodeId": "ink-table@3.0.0",
         "pkgId": "ink-table@3.0.0",
         "deps": [
+          {
+            "nodeId": "ink@3.2.0"
+          },
+          {
+            "nodeId": "react@17.0.2"
+          },
           {
             "nodeId": "object-hash@2.2.0"
           }

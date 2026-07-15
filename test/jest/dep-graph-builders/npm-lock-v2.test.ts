@@ -27,6 +27,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'workspace-nested-deps',
         'nested-non-alias-with-top-level-alias',
         'transitive-resolves-to-alias',
+        'transitive-peer-deps',
       ])('[simple tests] project: %s ', (fixtureName) => {
         it('matches expected', async () => {
           const pkgJsonContent = readFileSync(
@@ -502,6 +503,78 @@ describe('dep-graph-builder npm-lock-v2', () => {
         }),
       ).rejects.toThrow(new OutOfSyncError('lodash@4.17.11', LockfileType.npm));
     });
+  });
+});
+
+describe('peerDependencies', () => {
+  const loadFixture = (fixtureName: string) => ({
+    pkgJsonContent: readFileSync(
+      join(__dirname, `./fixtures/npm-lock-v2/${fixtureName}/package.json`),
+      'utf8',
+    ),
+    npmLockContent: readFileSync(
+      join(
+        __dirname,
+        `./fixtures/npm-lock-v2/${fixtureName}/package-lock.json`,
+      ),
+      'utf8',
+    ),
+  });
+
+  // npm v7+ installs peer dependencies by default and records them in the
+  // lockfile. A peer dependency of a (transitive) dependency must therefore be
+  // included in the dep graph, not just peers declared on the root package.
+  it('includes the peer dependencies of a transitive dependency', async () => {
+    const { pkgJsonContent, npmLockContent } = loadFixture(
+      'transitive-peer-deps',
+    );
+
+    const depGraph = await parseNpmLockV2Project(
+      pkgJsonContent,
+      npmLockContent,
+      {
+        includeDevDeps: false,
+        includeOptionalDeps: true,
+        pruneCycles: true,
+        strictOutOfSync: true,
+      },
+    );
+
+    const pkgs = depGraph
+      .getDepPkgs()
+      .map((pkg) => `${pkg.name}@${pkg.version}`);
+    // lib-with-peer peers minimatch, which pulls in the whole peer subtree.
+    expect(pkgs).toEqual(
+      expect.arrayContaining([
+        'lib-with-peer@1.0.0',
+        'minimatch@10.2.2',
+        'brace-expansion@5.0.6',
+        'balanced-match@4.0.4',
+      ]),
+    );
+  });
+
+  // Optional peers (peerDependenciesMeta.optional === true) are not installed
+  // by npm v7+, so they must be skipped rather than treated as out-of-sync -
+  // even under strictOutOfSync. This is what previous attempts got wrong.
+  it('skips optional peer dependencies without throwing in strict mode', async () => {
+    const { pkgJsonContent, npmLockContent } = loadFixture(
+      'transitive-peer-deps',
+    );
+
+    const depGraph = await parseNpmLockV2Project(
+      pkgJsonContent,
+      npmLockContent,
+      {
+        includeDevDeps: false,
+        includeOptionalDeps: true,
+        pruneCycles: true,
+        strictOutOfSync: true,
+      },
+    );
+
+    const names = depGraph.getDepPkgs().map((pkg) => pkg.name);
+    expect(names).not.toContain('unused-optional-peer');
   });
 });
 
