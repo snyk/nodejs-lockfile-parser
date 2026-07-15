@@ -3505,7 +3505,11 @@
       {
         "nodeId": "dustjs-helpers@1.5.0",
         "pkgId": "dustjs-helpers@1.5.0",
-        "deps": [],
+        "deps": [
+          {
+            "nodeId": "dustjs-linkedin@2.5.0"
+          }
+        ],
         "info": {
           "labels": {
             "scope": "prod"

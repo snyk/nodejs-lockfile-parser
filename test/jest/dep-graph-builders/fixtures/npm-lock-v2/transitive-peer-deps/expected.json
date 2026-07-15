@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "npm"
+  },
+  "pkgs": [
+    {
+      "id": "transitive-peer-deps@1.0.0",
+      "info": {
+        "name": "transitive-peer-deps",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "lib-with-peer@1.0.0",
+      "info": {
+        "name": "lib-with-peer",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "minimatch@10.2.2",
+      "info": {
+        "name": "minimatch",
+        "version": "10.2.2"
+      }
+    },
+    {
+      "id": "brace-expansion@5.0.6",
+      "info": {
+        "name": "brace-expansion",
+        "version": "5.0.6"
+      }
+    },
+    {
+      "id": "balanced-match@4.0.4",
+      "info": {
+        "name": "balanced-match",
+        "version": "4.0.4"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "transitive-peer-deps@1.0.0",
+        "deps": [
+          {
+            "nodeId": "lib-with-peer@1.0.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "lib-with-peer@1.0.0",
+        "pkgId": "lib-with-peer@1.0.0",
+        "deps": [
+          {
+            "nodeId": "minimatch@10.2.2"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "minimatch@10.2.2",
+        "pkgId": "minimatch@10.2.2",
+        "deps": [
+          {
+            "nodeId": "brace-expansion@5.0.6"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "brace-expansion@5.0.6",
+        "pkgId": "brace-expansion@5.0.6",
+        "deps": [
+          {
+            "nodeId": "balanced-match@4.0.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "balanced-match@4.0.4",
+        "pkgId": "balanced-match@4.0.4",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}

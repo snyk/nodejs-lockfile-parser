@@ -1,0 +1,9 @@
+{
+  "name": "transitive-peer-deps",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "lib-with-peer": "^1.0.0"
+  }
+}
