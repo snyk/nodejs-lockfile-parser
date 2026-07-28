@@ -4,8 +4,7 @@ import { LockfileV5Parser } from './lockfile-v5';
 import { LockfileV9Parser } from './lockfile-v9';
 import { PnpmWorkspaceArgs } from '../../types';
 import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
-import { NodeLockfileVersion, loadYamlOrNull } from '../../../utils';
-import { InvalidUserInputError } from '../../../errors';
+import { NodeLockfileVersion, loadYamlMappingOrThrow } from '../../../utils';
 
 export function getPnpmLockfileParser(
   pnpmLockContent: string | undefined,
@@ -18,34 +17,30 @@ export function getPnpmLockfileParser(
   if (!pnpmLockContent) {
     return new LockfileV5Parser(pnpmLockContent, workspaceArgs);
   }
-  const rawPnpmLock = loadYamlOrNull<any>(pnpmLockContent);
-  // A lockfile that parses to anything other than a mapping (empty,
-  // comment-only, or a bare document separator) is rejected loudly rather
-  // than silently building an empty dependency graph.
-  if (!rawPnpmLock || typeof rawPnpmLock !== 'object') {
-    throw new InvalidUserInputError(
-      'pnpm-lock.yaml parsing failed: the file is empty or does not contain a YAML mapping',
-    );
-  }
+  const rawPnpmLock = loadYamlMappingOrThrow<any>(
+    pnpmLockContent,
+    'pnpm-lock.yaml',
+  );
   const version = rawPnpmLock.lockfileVersion;
+  const versionStr = typeof version === 'string' ? version : '';
 
   if (
     lockfileVersion === NodeLockfileVersion.PnpmLockV5 ||
-    (typeof version === 'string' && version.startsWith('5'))
+    versionStr.startsWith('5')
   ) {
     return new LockfileV5Parser(rawPnpmLock, workspaceArgs);
   }
 
   if (
     lockfileVersion === NodeLockfileVersion.PnpmLockV6 ||
-    (typeof version === 'string' && version.startsWith('6'))
+    versionStr.startsWith('6')
   ) {
     return new LockfileV6Parser(rawPnpmLock, workspaceArgs);
   }
 
   if (
     lockfileVersion === NodeLockfileVersion.PnpmLockV9 ||
-    (typeof version === 'string' && version.startsWith('9'))
+    versionStr.startsWith('9')
   ) {
     return new LockfileV9Parser(rawPnpmLock, workspaceArgs);
   }

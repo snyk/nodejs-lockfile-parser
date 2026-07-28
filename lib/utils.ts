@@ -38,14 +38,10 @@ export function getPnpmLockfileVersion(
   | NodeLockfileVersion.PnpmLockV5
   | NodeLockfileVersion.PnpmLockV6
   | NodeLockfileVersion.PnpmLockV9 {
-  const rawPnpmLock = loadYamlOrNull<{ lockfileVersion?: unknown }>(
+  const rawPnpmLock = loadYamlMappingOrThrow<{ lockfileVersion?: unknown }>(
     lockFileContents,
+    'pnpm-lock.yaml',
   );
-  if (!rawPnpmLock || typeof rawPnpmLock !== 'object') {
-    throw new InvalidUserInputError(
-      'pnpm-lock.yaml parsing failed: the file is empty or does not contain a YAML mapping',
-    );
-  }
   const { lockfileVersion } = rawPnpmLock;
   const version = typeof lockfileVersion === 'string' ? lockfileVersion : '';
   if (version.startsWith('5')) {
@@ -171,4 +167,25 @@ export function loadYamlOrNull<T = any>(content: string): T | null {
     }
     throw e;
   }
+}
+
+/**
+ * Like loadYamlOrNull, but for files that must contain a YAML mapping
+ * (lockfiles). Content that parses to anything else (empty, comment-only, or
+ * a bare document separator) is rejected loudly with an InvalidUserInputError
+ * rather than silently producing an empty dependency graph.
+ *
+ * `fileLabel` names the file in the error, e.g. 'pnpm-lock.yaml'.
+ */
+export function loadYamlMappingOrThrow<T = any>(
+  content: string,
+  fileLabel: string,
+): T {
+  const parsed = loadYamlOrNull<T>(content);
+  if (!parsed || typeof parsed !== 'object') {
+    throw new InvalidUserInputError(
+      `${fileLabel} parsing failed: the file is empty or does not contain a YAML mapping`,
+    );
+  }
+  return parsed;
 }
