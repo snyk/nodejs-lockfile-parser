@@ -1,10 +1,8 @@
 import { load, FAILSAFE_SCHEMA } from 'js-yaml';
-import * as structUtils from '../../parsers/yarn-structs';
+import { parseDescriptor, parseRange } from '../../parsers/yarn-structs';
 import { yarnLockFileKeyNormalizer } from './utils';
 import { NormalisedPkgs } from '../types';
 
-const parseDescriptor = structUtils.parseDescriptor;
-const parseRange = structUtils.parseRange;
 const keyNormalizer = yarnLockFileKeyNormalizer(parseDescriptor, parseRange);
 
 export const extractPkgsFromYarnLockV2 = (

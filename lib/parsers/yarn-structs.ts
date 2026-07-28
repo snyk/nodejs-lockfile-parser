@@ -5,7 +5,9 @@
  * Only the three helpers this library uses are ported (parseDescriptor,
  * parseRange and stringifyIdent), preserving the upstream regexes, thrown
  * error messages and return shapes. The identHash/descriptorHash fields are
- * omitted from the returned descriptors as no caller reads them.
+ * omitted from the returned descriptors as no caller reads them, and
+ * parseDescriptor only supports upstream's loose mode as no caller uses
+ * strict.
  *
  * BSD 2-Clause License
  *
@@ -48,19 +50,16 @@ export interface ParsedRange {
   params: querystring.ParsedUrlQuery | null;
 }
 
-const DESCRIPTOR_REGEX_STRICT = /^(?:@([^/]+?)\/)?([^@/]+?)(?:@(.+))$/;
 const DESCRIPTOR_REGEX_LOOSE = /^(?:@([^/]+?)\/)?([^@/]+?)(?:@(.+))?$/;
 const DESCRIPTOR_RANGE_UNSPECIFIED = 'unknown';
 
 // Parses a descriptor string (eg. `lodash@^1.0.0`) into its scope, name and
-// range. When `strict` is false the range is optional and falls back to the
-// `unknown` sentinel, matching upstream's loose mode. The parameter is named
-// `string` as upstream names it, so that the TypeError thrown on non-string
-// input carries an identical message.
-export function parseDescriptor(string: string, strict = false): Descriptor {
-  const match = strict
-    ? string.match(DESCRIPTOR_REGEX_STRICT)
-    : string.match(DESCRIPTOR_REGEX_LOOSE);
+// range. The range is optional and falls back to the `unknown` sentinel,
+// matching upstream's loose mode. The parameter is named `string` as
+// upstream names it, so that the TypeError thrown on non-string input
+// carries an identical message.
+export function parseDescriptor(string: string): Descriptor {
+  const match = string.match(DESCRIPTOR_REGEX_LOOSE);
   if (!match) {
     throw new Error(`Invalid descriptor (${string})`);
   }

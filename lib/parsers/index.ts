@@ -223,7 +223,7 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
 
 export function getPnpmWorkspaces(workspacesYamlFile: string): string[] {
   try {
-    let rawPnpmWorkspacesYaml: any;
+    let rawPnpmWorkspacesYaml: any = null;
     try {
       rawPnpmWorkspacesYaml = load(workspacesYamlFile, {
         json: true,
@@ -236,7 +236,6 @@ export function getPnpmWorkspaces(workspacesYamlFile: string): string[] {
       if (e?.reason !== 'expected a document, but the input is empty') {
         throw e;
       }
-      rawPnpmWorkspacesYaml = null;
     }
 
     if (rawPnpmWorkspacesYaml && rawPnpmWorkspacesYaml.packages) {
