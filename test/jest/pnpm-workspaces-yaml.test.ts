@@ -30,5 +30,9 @@ describe('getPnpmWorkspaces', () => {
     expect(() => getPnpmWorkspaces('packages:\n"bad')).toThrow(
       InvalidUserInputError,
     );
+    // The error must name the file actually being parsed, not package.json.
+    expect(() => getPnpmWorkspaces('packages:\n"bad')).toThrow(
+      /pnpm-workspace\.yaml parsing failed/,
+    );
   });
 });

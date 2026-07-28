@@ -1,6 +1,6 @@
 /*
  * Ported from Yarn Berry's @yarnpkg/core@4.9.0 structUtils:
- * https://github.com/yarnpkg/berry/blob/master/packages/yarnpkg-core/sources/structUtils.ts
+ * https://github.com/yarnpkg/berry/blob/%40yarnpkg/core/4.9.0/packages/yarnpkg-core/sources/structUtils.ts
  *
  * Only the three helpers this library uses are ported (parseDescriptor,
  * parseRange and stringifyIdent), preserving the upstream regexes, thrown
@@ -55,9 +55,8 @@ const DESCRIPTOR_RANGE_UNSPECIFIED = 'unknown';
 
 // Parses a descriptor string (eg. `lodash@^1.0.0`) into its scope, name and
 // range. The range is optional and falls back to the `unknown` sentinel,
-// matching upstream's loose mode. The parameter is named `string` as
-// upstream names it, so that the TypeError thrown on non-string input
-// carries an identical message.
+// matching upstream's loose mode. The parameter is named `string` to mirror
+// the upstream source exactly.
 export function parseDescriptor(string: string): Descriptor {
   const match = string.match(DESCRIPTOR_REGEX_LOOSE);
   if (!match) {

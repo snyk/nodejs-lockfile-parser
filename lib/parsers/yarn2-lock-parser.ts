@@ -1,4 +1,3 @@
-import { load, FAILSAFE_SCHEMA } from 'js-yaml';
 import { parseDescriptor, parseRange } from './yarn-structs';
 import * as debugModule from 'debug';
 
@@ -16,6 +15,7 @@ import { config } from '../config';
 import { YarnLockDeps } from './yarn-lock-parser';
 import { InvalidUserInputError } from '../errors';
 import { yarnLockFileKeyNormalizer } from './yarn-utils';
+import { loadYamlOrNull } from '../utils';
 
 const debug = debugModule('snyk-nodejs-lockfile-parser:component-metadata');
 
@@ -33,10 +33,12 @@ export class Yarn2LockParser extends LockParserBase {
 
   public parseLockFile(lockFileContents: string): Yarn2Lock {
     try {
-      const rawYarnLock: any = load(lockFileContents, {
-        json: true,
-        schema: FAILSAFE_SCHEMA,
-      });
+      const rawYarnLock = loadYamlOrNull<any>(lockFileContents);
+      // Reject document-less or non-mapping lockfiles loudly; the catch
+      // below wraps this into the usual InvalidUserInputError.
+      if (!rawYarnLock || typeof rawYarnLock !== 'object') {
+        throw new Error('the file is empty or does not contain a YAML mapping');
+      }
 
       delete rawYarnLock.__metadata;
       const dependencies: YarnLockDeps = {};
