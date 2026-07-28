@@ -18,7 +18,7 @@ export function getPnpmLockfileParser(
   if (!pnpmLockContent) {
     return new LockfileV5Parser(pnpmLockContent, workspaceArgs);
   }
-  const rawPnpmLock = load(pnpmLockContent, {
+  const rawPnpmLock: any = load(pnpmLockContent, {
     json: true,
     schema: FAILSAFE_SCHEMA,
   });

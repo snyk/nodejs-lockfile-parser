@@ -223,10 +223,21 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
 
 export function getPnpmWorkspaces(workspacesYamlFile: string): string[] {
   try {
-    const rawPnpmWorkspacesYaml = load(workspacesYamlFile, {
-      json: true,
-      schema: FAILSAFE_SCHEMA,
-    });
+    let rawPnpmWorkspacesYaml: any;
+    try {
+      rawPnpmWorkspacesYaml = load(workspacesYamlFile, {
+        json: true,
+        schema: FAILSAFE_SCHEMA,
+      });
+    } catch (e: any) {
+      // js-yaml 4 returned null for empty (or comment-only) documents,
+      // js-yaml 5 throws instead. Preserve the old behavior of falling
+      // through to the default below.
+      if (e?.reason !== 'expected a document, but the input is empty') {
+        throw e;
+      }
+      rawPnpmWorkspacesYaml = null;
+    }
 
     if (rawPnpmWorkspacesYaml && rawPnpmWorkspacesYaml.packages) {
       if (Array.isArray(rawPnpmWorkspacesYaml.packages)) {

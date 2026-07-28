@@ -1,4 +1,4 @@
-import { structUtils } from '@yarnpkg/core';
+import * as structUtils from '../../parsers/yarn-structs';
 import * as _flatMap from 'lodash.flatmap';
 import { OutOfSyncError } from '../../errors';
 import { LockfileType } from '../../parsers';

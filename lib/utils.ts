@@ -38,7 +38,7 @@ export function getPnpmLockfileVersion(
   | NodeLockfileVersion.PnpmLockV5
   | NodeLockfileVersion.PnpmLockV6
   | NodeLockfileVersion.PnpmLockV9 {
-  const rawPnpmLock = load(lockFileContents, {
+  const rawPnpmLock: any = load(lockFileContents, {
     json: true,
     schema: FAILSAFE_SCHEMA,
   });

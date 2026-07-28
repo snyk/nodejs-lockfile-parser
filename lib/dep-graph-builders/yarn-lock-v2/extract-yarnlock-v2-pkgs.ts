@@ -1,9 +1,8 @@
 import { load, FAILSAFE_SCHEMA } from 'js-yaml';
-import * as yarnCore from '@yarnpkg/core';
+import * as structUtils from '../../parsers/yarn-structs';
 import { yarnLockFileKeyNormalizer } from './utils';
 import { NormalisedPkgs } from '../types';
 
-const structUtils = yarnCore.structUtils;
 const parseDescriptor = structUtils.parseDescriptor;
 const parseRange = structUtils.parseRange;
 const keyNormalizer = yarnLockFileKeyNormalizer(parseDescriptor, parseRange);

@@ -1,5 +1,5 @@
 import { load, FAILSAFE_SCHEMA } from 'js-yaml';
-import * as yarnCore from '@yarnpkg/core';
+import * as structUtils from './yarn-structs';
 import * as debugModule from 'debug';
 
 import { LockParserBase, DepMap } from './lock-parser-base';
@@ -41,7 +41,6 @@ export class Yarn2LockParser extends LockParserBase {
       delete rawYarnLock.__metadata;
       const dependencies: YarnLockDeps = {};
 
-      const structUtils = yarnCore.structUtils;
       const parseDescriptor = structUtils.parseDescriptor;
       const parseRange = structUtils.parseRange;
 

@@ -4,7 +4,7 @@
 import { test } from 'tap';
 import { yarnLockFileKeyNormalizer } from '../../lib/parsers/yarn-utils';
 
-const structUtils = require('@yarnpkg/core').structUtils;
+const structUtils = require('../../lib/parsers/yarn-structs');
 const parseDescriptor = structUtils.parseDescriptor;
 const parseRange = structUtils.parseRange;
 const normalizer = yarnLockFileKeyNormalizer(parseDescriptor, parseRange);

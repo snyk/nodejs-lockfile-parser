@@ -1,4 +1,4 @@
-import { structUtils } from '@yarnpkg/core';
+import * as structUtils from './yarn-structs';
 import * as _flatMap from 'lodash.flatmap';
 
 const BUILTIN_PLACEHOLDER = 'builtin';
