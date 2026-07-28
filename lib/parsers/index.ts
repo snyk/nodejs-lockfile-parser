@@ -2,7 +2,7 @@ import { PackageLock } from './package-lock-parser';
 import { YarnLock } from './yarn-lock-parser';
 import { InvalidUserInputError } from '../errors';
 import { Yarn2Lock } from './yarn2-lock-parser';
-import { load, FAILSAFE_SCHEMA } from 'js-yaml';
+import { load, FAILSAFE_SCHEMA, YAMLException } from 'js-yaml';
 import { parseJsonFile } from '../utils';
 
 export interface Dep {
@@ -221,12 +221,30 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
   }
 }
 
-export function getPnpmWorkspaces(workspacesYamlFile: string): string[] {
+// js-yaml 5 throws on a document with no content, where 4.x returned
+// undefined. An empty or comment-only pnpm-workspace.yaml is a valid file that
+// means "use the default glob", so treat it as an absent document rather than
+// as a parse failure. See the regression test in
+// test/jest/dep-graph-builders/pnpm-empty-workspaces.test.ts.
+function loadWorkspacesYaml(
+  workspacesYamlFile: string,
+): { packages?: string[] } | undefined {
   try {
-    const rawPnpmWorkspacesYaml = load(workspacesYamlFile, {
+    return load(workspacesYamlFile, {
       json: true,
       schema: FAILSAFE_SCHEMA,
     }) as { packages?: string[] };
+  } catch (e) {
+    if (e instanceof YAMLException && e.reason?.includes('input is empty')) {
+      return undefined;
+    }
+    throw e;
+  }
+}
+
+export function getPnpmWorkspaces(workspacesYamlFile: string): string[] {
+  try {
+    const rawPnpmWorkspacesYaml = loadWorkspacesYaml(workspacesYamlFile);
 
     if (rawPnpmWorkspacesYaml && rawPnpmWorkspacesYaml.packages) {
       if (Array.isArray(rawPnpmWorkspacesYaml.packages)) {
