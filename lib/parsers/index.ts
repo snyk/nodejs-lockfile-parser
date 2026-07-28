@@ -226,7 +226,7 @@ export function getPnpmWorkspaces(workspacesYamlFile: string): string[] {
     const rawPnpmWorkspacesYaml = load(workspacesYamlFile, {
       json: true,
       schema: FAILSAFE_SCHEMA,
-    });
+    }) as { packages?: string[] };
 
     if (rawPnpmWorkspacesYaml && rawPnpmWorkspacesYaml.packages) {
       if (Array.isArray(rawPnpmWorkspacesYaml.packages)) {

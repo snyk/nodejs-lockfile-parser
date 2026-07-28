@@ -41,7 +41,7 @@ export function getPnpmLockfileVersion(
   const rawPnpmLock = load(lockFileContents, {
     json: true,
     schema: FAILSAFE_SCHEMA,
-  });
+  }) as { lockfileVersion: string };
   const { lockfileVersion } = rawPnpmLock;
   if (lockfileVersion.startsWith('5')) {
     return NodeLockfileVersion.PnpmLockV5;

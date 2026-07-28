@@ -21,7 +21,7 @@ export function getPnpmLockfileParser(
   const rawPnpmLock = load(pnpmLockContent, {
     json: true,
     schema: FAILSAFE_SCHEMA,
-  });
+  }) as { lockfileVersion: string };
   const version = rawPnpmLock.lockfileVersion;
 
   if (
