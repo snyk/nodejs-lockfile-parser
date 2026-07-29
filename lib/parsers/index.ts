@@ -2,8 +2,7 @@ import { PackageLock } from './package-lock-parser';
 import { YarnLock } from './yarn-lock-parser';
 import { InvalidUserInputError } from '../errors';
 import { Yarn2Lock } from './yarn2-lock-parser';
-import { load, FAILSAFE_SCHEMA } from 'js-yaml';
-import { parseJsonFile } from '../utils';
+import { loadYamlOrNull, parseJsonFile } from '../utils';
 
 export interface Dep {
   name: string;
@@ -223,10 +222,10 @@ export function getYarnWorkspaces(targetFile: string): string[] | false {
 
 export function getPnpmWorkspaces(workspacesYamlFile: string): string[] {
   try {
-    const rawPnpmWorkspacesYaml = load(workspacesYamlFile, {
-      json: true,
-      schema: FAILSAFE_SCHEMA,
-    });
+    // js-yaml 4 returned a nullish value for empty (or comment-only)
+    // documents where js-yaml 5 throws; loadYamlOrNull preserves the old
+    // behavior of falling through to the default below.
+    const rawPnpmWorkspacesYaml = loadYamlOrNull<any>(workspacesYamlFile);
 
     if (rawPnpmWorkspacesYaml && rawPnpmWorkspacesYaml.packages) {
       if (Array.isArray(rawPnpmWorkspacesYaml.packages)) {
@@ -238,7 +237,7 @@ export function getPnpmWorkspaces(workspacesYamlFile: string): string[] {
     return ['*'];
   } catch (e) {
     throw new InvalidUserInputError(
-      'package.json parsing failed with ' + `error ${(e as Error).message}`,
+      `pnpm-workspace.yaml parsing failed with error ${(e as Error).message}`,
     );
   }
 }

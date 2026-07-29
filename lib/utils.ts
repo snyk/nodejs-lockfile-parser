@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import { load, FAILSAFE_SCHEMA } from 'js-yaml';
+import { load, loadAll, FAILSAFE_SCHEMA } from 'js-yaml';
 import { InvalidUserInputError } from './errors';
 import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
 
@@ -38,16 +38,17 @@ export function getPnpmLockfileVersion(
   | NodeLockfileVersion.PnpmLockV5
   | NodeLockfileVersion.PnpmLockV6
   | NodeLockfileVersion.PnpmLockV9 {
-  const rawPnpmLock = load(lockFileContents, {
-    json: true,
-    schema: FAILSAFE_SCHEMA,
-  });
+  const rawPnpmLock = loadYamlMappingOrThrow<{ lockfileVersion?: unknown }>(
+    lockFileContents,
+    'pnpm-lock.yaml',
+  );
   const { lockfileVersion } = rawPnpmLock;
-  if (lockfileVersion.startsWith('5')) {
+  const version = typeof lockfileVersion === 'string' ? lockfileVersion : '';
+  if (version.startsWith('5')) {
     return NodeLockfileVersion.PnpmLockV5;
-  } else if (lockfileVersion.startsWith('6')) {
+  } else if (version.startsWith('6')) {
     return NodeLockfileVersion.PnpmLockV6;
-  } else if (lockfileVersion.startsWith('9')) {
+  } else if (version.startsWith('9')) {
     return NodeLockfileVersion.PnpmLockV9;
   } else {
     throw new OpenSourceEcosystems.PnpmUnsupportedLockfileVersionError(
@@ -138,4 +139,53 @@ export function describeLikelyJsonCause(content: string): string {
     return ' The file appears to contain unresolved git merge-conflict markers.';
   }
   return '';
+}
+
+const YAML_LOAD_OPTIONS = { json: true, schema: FAILSAFE_SCHEMA };
+
+/**
+ * Parse a single-document YAML file with the option set used across this
+ * library. Returns null for a document-less file (empty, only comments, or
+ * only whitespace), matching js-yaml 4's load() behaviour - js-yaml 5 throws
+ * on those instead. Malformed and multi-document input rethrow js-yaml's
+ * original error.
+ *
+ * The document-less case is detected with loadAll(), which returns [] for it
+ * on both major versions, rather than by matching the human-readable text of
+ * the YAMLException, which is not a stable API.
+ */
+export function loadYamlOrNull<T = any>(content: string): T | null {
+  try {
+    return load(content, YAML_LOAD_OPTIONS) as T;
+  } catch (e) {
+    try {
+      if (loadAll(content, YAML_LOAD_OPTIONS).length === 0) {
+        return null;
+      }
+    } catch {
+      // fall through to rethrow the original single-document error
+    }
+    throw e;
+  }
+}
+
+/**
+ * Like loadYamlOrNull, but for files that must contain a YAML mapping
+ * (lockfiles). Content that parses to anything else (empty, comment-only, or
+ * a bare document separator) is rejected loudly with an InvalidUserInputError
+ * rather than silently producing an empty dependency graph.
+ *
+ * `fileLabel` names the file in the error, e.g. 'pnpm-lock.yaml'.
+ */
+export function loadYamlMappingOrThrow<T = any>(
+  content: string,
+  fileLabel: string,
+): T {
+  const parsed = loadYamlOrNull<T>(content);
+  if (!parsed || typeof parsed !== 'object') {
+    throw new InvalidUserInputError(
+      `${fileLabel} parsing failed: the file is empty or does not contain a YAML mapping`,
+    );
+  }
+  return parsed;
 }
