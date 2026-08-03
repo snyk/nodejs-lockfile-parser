@@ -32,14 +32,57 @@ export const getLockfileVersionFromFile = (
   }
 };
 
+const PNPM_YAML_DOCUMENT_START = '---\n';
+const PNPM_YAML_DOCUMENT_SEPARATOR = '\n---\n';
+
+/**
+ * Extract the dependency lockfile document from pnpm-lock.yaml content.
+ *
+ * Since pnpm 11, projects that use configDependencies or a pnpm-managed
+ * package manager version (devEngines.packageManager) get a multi-document
+ * pnpm-lock.yaml: an env/config document first, then the dependency
+ * lockfile, both marked lockfileVersion 9.0. Follows pnpm's own
+ * extractMainDocument() (lockfile/fs/src/yamlDocuments.ts): content that
+ * does not start with a document-start marker is returned unchanged, and an
+ * env-only file (second separator with nothing after it) yields ''. A
+ * leading byte-order mark is ignored for detection (pnpm's readers
+ * strip-bom before the marker check) but preserved on the no-marker path.
+ * One deviation: pnpm's writer always emits both separators, so content
+ * with a lone document-start marker and no second separator is not a pnpm
+ * 11 multi-document lockfile — it is returned unchanged and parses exactly
+ * as it did before this function existed (a bare '---\n' is still rejected
+ * loudly; an explicit-start single document still parses as one document).
+ */
+export function extractPnpmMainDocument(content: string): string {
+  const normalized = content.replace(/\r\n/g, '\n');
+  const detectable =
+    normalized.charCodeAt(0) === 0xfeff ? normalized.slice(1) : normalized;
+  if (!detectable.startsWith(PNPM_YAML_DOCUMENT_START)) {
+    return normalized;
+  }
+  const sep = detectable.indexOf(
+    PNPM_YAML_DOCUMENT_SEPARATOR,
+    PNPM_YAML_DOCUMENT_START.length,
+  );
+  if (sep === -1) {
+    return normalized;
+  }
+  return detectable.slice(sep + PNPM_YAML_DOCUMENT_SEPARATOR.length);
+}
+
 export function getPnpmLockfileVersion(
   lockFileContents: string,
 ):
   | NodeLockfileVersion.PnpmLockV5
   | NodeLockfileVersion.PnpmLockV6
   | NodeLockfileVersion.PnpmLockV9 {
+  const mainDocument = extractPnpmMainDocument(lockFileContents);
+  if (!mainDocument && lockFileContents) {
+    // env-only lockfile: only pnpm 11+ writes this shape
+    return NodeLockfileVersion.PnpmLockV9;
+  }
   const rawPnpmLock = loadYamlMappingOrThrow<{ lockfileVersion?: unknown }>(
-    lockFileContents,
+    mainDocument,
     'pnpm-lock.yaml',
   );
   const { lockfileVersion } = rawPnpmLock;

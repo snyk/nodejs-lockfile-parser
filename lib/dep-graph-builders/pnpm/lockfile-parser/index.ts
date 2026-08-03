@@ -4,7 +4,11 @@ import { LockfileV5Parser } from './lockfile-v5';
 import { LockfileV9Parser } from './lockfile-v9';
 import { PnpmWorkspaceArgs } from '../../types';
 import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
-import { NodeLockfileVersion, loadYamlMappingOrThrow } from '../../../utils';
+import {
+  NodeLockfileVersion,
+  extractPnpmMainDocument,
+  loadYamlMappingOrThrow,
+} from '../../../utils';
 
 export function getPnpmLockfileParser(
   pnpmLockContent: string | undefined,
@@ -17,8 +21,15 @@ export function getPnpmLockfileParser(
   if (!pnpmLockContent) {
     return new LockfileV5Parser(pnpmLockContent, workspaceArgs);
   }
+  // pnpm 11+ may prepend an env/config document to pnpm-lock.yaml;
+  // only the dependency document is parsed. An env-only lockfile has no
+  // dependency document and is treated the same as no lockfile.
+  const mainDocument = extractPnpmMainDocument(pnpmLockContent);
+  if (!mainDocument) {
+    return new LockfileV5Parser(undefined, workspaceArgs);
+  }
   const rawPnpmLock = loadYamlMappingOrThrow<any>(
-    pnpmLockContent,
+    mainDocument,
     'pnpm-lock.yaml',
   );
   const version = rawPnpmLock.lockfileVersion;
