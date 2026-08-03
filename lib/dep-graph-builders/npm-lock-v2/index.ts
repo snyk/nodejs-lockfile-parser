@@ -82,17 +82,26 @@ export const buildDepGraphNpmLockV2 = async (
     createNodeInfo(options),
   );
 
+  // Root peer dependencies are handled here (not via includePeerDeps) so they
+  // get the same treatment as a package's peers deeper in the tree: optional
+  // peers are excluded and a missing peer is skipped rather than throwing.
   const topLevelDeps = getTopLevelDeps(pkgJson, {
     includeDevDeps,
     includeOptionalDeps,
-    includePeerDeps: true,
+    includePeerDeps: false,
   });
+  const rootPeerDeps = getPeerDependencies(
+    pkgJson.peerDependencies,
+    pkgJson.peerDependenciesMeta,
+    { isDev: false },
+  );
 
   const rootNode: PkgNode = {
     id: ROOT_NODE_ID,
     name: pkgJson.name,
     version: pkgJson.version,
-    dependencies: topLevelDeps,
+    // Peers first so a real dependency for the same name takes precedence.
+    dependencies: { ...rootPeerDeps, ...topLevelDeps },
     isDev: false,
     inBundle: false,
     key: '',

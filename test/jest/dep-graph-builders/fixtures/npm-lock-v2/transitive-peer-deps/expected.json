@@ -12,6 +12,13 @@
       }
     },
     {
+      "id": "root-peer@1.0.0",
+      "info": {
+        "name": "root-peer",
+        "version": "1.0.0"
+      }
+    },
+    {
       "id": "lib-with-peer@1.0.0",
       "info": {
         "name": "lib-with-peer",
@@ -48,9 +55,22 @@
         "pkgId": "transitive-peer-deps@1.0.0",
         "deps": [
           {
+            "nodeId": "root-peer@1.0.0"
+          },
+          {
             "nodeId": "lib-with-peer@1.0.0"
           }
         ]
+      },
+      {
+        "nodeId": "root-peer@1.0.0",
+        "pkgId": "root-peer@1.0.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
       },
       {
         "nodeId": "lib-with-peer@1.0.0",
