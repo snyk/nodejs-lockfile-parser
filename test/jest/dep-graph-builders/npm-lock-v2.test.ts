@@ -521,60 +521,70 @@ describe('peerDependencies', () => {
     ),
   });
 
-  // npm v7+ installs peer dependencies by default and records them in the
-  // lockfile. A peer dependency of a (transitive) dependency must therefore be
-  // included in the dep graph, not just peers declared on the root package.
-  it('includes the peer dependencies of a transitive dependency', async () => {
+  const parseTransitivePeerDeps = () => {
     const { pkgJsonContent, npmLockContent } = loadFixture(
       'transitive-peer-deps',
     );
+    return parseNpmLockV2Project(pkgJsonContent, npmLockContent, {
+      includeDevDeps: false,
+      includeOptionalDeps: true,
+      pruneCycles: true,
+      strictOutOfSync: true,
+    });
+  };
 
-    const depGraph = await parseNpmLockV2Project(
-      pkgJsonContent,
-      npmLockContent,
-      {
-        includeDevDeps: false,
-        includeOptionalDeps: true,
-        pruneCycles: true,
-        strictOutOfSync: true,
-      },
-    );
+  // npm v7+ installs peer dependencies by default and records them in the
+  // lockfile. A peer dependency of a (transitive) dependency must therefore be
+  // included in the dep graph, not just peers declared on the root package.
+  // The chain here also covers a peer-of-a-peer: minimatch (a peer of
+  // lib-with-peer) itself peers brace-expansion.
+  it('includes the peer dependencies of a transitive dependency and peers-of-peers', async () => {
+    const depGraph = await parseTransitivePeerDeps();
 
     const pkgs = depGraph
       .getDepPkgs()
       .map((pkg) => `${pkg.name}@${pkg.version}`);
-    // lib-with-peer peers minimatch, which pulls in the whole peer subtree.
     expect(pkgs).toEqual(
       expect.arrayContaining([
         'lib-with-peer@1.0.0',
-        'minimatch@10.2.2',
-        'brace-expansion@5.0.6',
-        'balanced-match@4.0.4',
+        'minimatch@10.2.2', // peer of lib-with-peer
+        'brace-expansion@5.0.6', // peer of minimatch (peer-of-a-peer)
+        'balanced-match@4.0.4', // dependency of brace-expansion
       ]),
     );
   });
 
-  // Optional peers (peerDependenciesMeta.optional === true) are not installed
-  // by npm v7+, so they must be skipped rather than treated as out-of-sync -
-  // even under strictOutOfSync. This is what previous attempts got wrong.
-  it('skips optional peer dependencies without throwing in strict mode', async () => {
-    const { pkgJsonContent, npmLockContent } = loadFixture(
-      'transitive-peer-deps',
-    );
-
-    const depGraph = await parseNpmLockV2Project(
-      pkgJsonContent,
-      npmLockContent,
-      {
-        includeDevDeps: false,
-        includeOptionalDeps: true,
-        pruneCycles: true,
-        strictOutOfSync: true,
-      },
-    );
+  // Peers declared on the root package.json get the same handling as peers
+  // deeper in the tree - included when installed.
+  it('includes a root package peer dependency', async () => {
+    const depGraph = await parseTransitivePeerDeps();
 
     const names = depGraph.getDepPkgs().map((pkg) => pkg.name);
-    expect(names).not.toContain('unused-optional-peer');
+    expect(names).toContain('root-peer');
+  });
+
+  // Optional peers (peerDependenciesMeta.optional === true) are not installed
+  // by npm v7+, so they must be excluded - at both the root and deeper levels.
+  it('excludes optional peer dependencies', async () => {
+    const depGraph = await parseTransitivePeerDeps();
+
+    const names = depGraph.getDepPkgs().map((pkg) => pkg.name);
+    expect(names).not.toContain('unused-optional-peer'); // optional peer of lib-with-peer
+    expect(names).not.toContain('root-optional-absent-peer'); // optional root peer
+  });
+
+  // A non-optional peer that is declared but has no lockfile entry (an unmet or
+  // conflicting peer) must be skipped, NOT raise OutOfSyncError - even under
+  // strictOutOfSync. Earlier attempts that threw here (PRs #233/#239) were
+  // reverted for this reason.
+  it('skips an unmet non-optional peer without throwing in strict mode', async () => {
+    // absent-required-peer is a non-optional peer of lib-with-peer with no
+    // corresponding package entry in the lockfile.
+    await expect(parseTransitivePeerDeps()).resolves.toBeDefined();
+
+    const depGraph = await parseTransitivePeerDeps();
+    const names = depGraph.getDepPkgs().map((pkg) => pkg.name);
+    expect(names).not.toContain('absent-required-peer');
   });
 });
 

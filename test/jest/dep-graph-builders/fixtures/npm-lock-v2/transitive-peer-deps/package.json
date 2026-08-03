@@ -5,5 +5,14 @@
   "license": "MIT",
   "dependencies": {
     "lib-with-peer": "^1.0.0"
+  },
+  "peerDependencies": {
+    "root-peer": "^1.0.0",
+    "root-optional-absent-peer": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "root-optional-absent-peer": {
+      "optional": true
+    }
   }
 }
