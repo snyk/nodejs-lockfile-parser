@@ -4,8 +4,8 @@ metadata:
   name: nodejs-lockfile-parser
   annotations:
     github.com/project-slug: snyk/nodejs-lockfile-parser
-    github.com/team-slug: snyk/os-managed
+    github.com/team-slug: snyk/engines_sca-scanners
 spec:
   type: external-library
   lifecycle: "-"
-  owner: os-managed
+  owner: sca-scanners
