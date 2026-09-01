@@ -10,6 +10,7 @@ import { DepGraph, DepGraphBuilder } from '@snyk/dep-graph';
 import {
   addPkgNodeToGraph,
   getGraphDependencies,
+  getPeerDependencies,
   getTopLevelDeps,
   parsePkgJson,
   PkgNode,
@@ -81,17 +82,26 @@ export const buildDepGraphNpmLockV2 = async (
     createNodeInfo(options),
   );
 
+  // Root peer dependencies are handled here (not via includePeerDeps) so they
+  // get the same treatment as a package's peers deeper in the tree: optional
+  // peers are excluded and a missing peer is skipped rather than throwing.
   const topLevelDeps = getTopLevelDeps(pkgJson, {
     includeDevDeps,
     includeOptionalDeps,
-    includePeerDeps: true,
+    includePeerDeps: false,
   });
+  const rootPeerDeps = getPeerDependencies(
+    pkgJson.peerDependencies,
+    pkgJson.peerDependenciesMeta,
+    { isDev: false },
+  );
 
   const rootNode: PkgNode = {
     id: ROOT_NODE_ID,
     name: pkgJson.name,
     version: pkgJson.version,
-    dependencies: topLevelDeps,
+    // Peers first so a real dependency for the same name takes precedence.
+    dependencies: { ...rootPeerDeps, ...topLevelDeps },
     isDev: false,
     inBundle: false,
     key: '',
@@ -195,6 +205,12 @@ const dfsVisit = async (
       pruneNpmStrictOutOfSync,
     );
 
+    // A peer dependency that could not be resolved in the lockfile (e.g. an
+    // unmet or conflicting peer) is skipped rather than added to the graph.
+    if (!childNode) {
+      continue;
+    }
+
     if (!visitedMap.has(childNode.id)) {
       addPkgNodeToGraph(depGraphBuilder, childNode, {
         showNpmScope,
@@ -236,6 +252,7 @@ const getChildNode = (
     version: string;
     isDev: boolean;
     isOptional?: boolean;
+    isPeer?: boolean;
     alias?: {
       aliasName: string;
       aliasTargetDepName: string;
@@ -251,7 +268,7 @@ const getChildNode = (
   pkgKeysByName: Map<string, string[]>,
   overrides?: Overrides,
   pruneNpmStrictOutOfSync?: boolean,
-) => {
+): PkgNode | null => {
   let version = depInfo.version;
   let aliasInfo = depInfo.alias;
 
@@ -300,6 +317,13 @@ const getChildNode = (
   );
 
   if (!childNodeKey) {
+    // Peer dependencies are installed by npm v7+ and normally recorded in the
+    // lockfile, but an unmet or conflicting peer may have no entry. Skip it
+    // instead of erroring — a missing peer is not an out-of-sync lockfile.
+    if (depInfo.isPeer) {
+      return null;
+    }
+
     // Handle optional dependencies that don't have separate package entries
     if (depInfo.isOptional) {
       return {
@@ -397,6 +421,16 @@ const getChildNode = (
       })
     : {};
 
+  // npm v7+ installs non-optional peer dependencies by default, so include a
+  // resolved package's peers (minus those flagged optional) in its subtree.
+  const peerDependencies = getPeerDependencies(
+    depData.peerDependencies,
+    depData.peerDependenciesMeta,
+    {
+      isDev: depInfo.isDev,
+    },
+  );
+
   // Use the actual package name from the lockfile entry if it exists (for aliased packages),
   // otherwise use the aliasInfo target name if available, otherwise use the dependency name
   const actualPackageName =
@@ -407,6 +441,9 @@ const getChildNode = (
     name: actualPackageName,
     version: depData.version,
     dependencies: {
+      // Peers first so a real dependency/optional/dev entry for the same
+      // package name takes precedence over the peer range.
+      ...peerDependencies,
       ...dependencies,
       ...devDependencies,
       ...optionalDependencies,
