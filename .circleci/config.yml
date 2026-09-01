@@ -185,7 +185,7 @@ workflows:
           name: Security Scans
           node_version: "24.16"
           context:
-            - open_source-managed
+            - engines_sca-scanners
             - nodejs-install
             - prodsec-orb-runtime
       - lint:
