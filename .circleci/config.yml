@@ -176,7 +176,7 @@ workflows:
           context:
             - snyk-bot-slack
             - prodsec-orb-runtime
-          channel: snyk-vuln-alerts-sca
+          channel: snyk-vuln-alerts-sca-scanners
           filters:
             branches:
               ignore:
