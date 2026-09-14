@@ -1383,6 +1383,13 @@
       }
     },
     {
+      "id": "graphql@15.8.0",
+      "info": {
+        "name": "graphql",
+        "version": "15.8.0"
+      }
+    },
+    {
       "id": "@graphql-tools/merge@8.3.1",
       "info": {
         "name": "@graphql-tools/merge",
@@ -1982,13 +1989,6 @@
       "info": {
         "name": "toidentifier",
         "version": "1.0.0"
-      }
-    },
-    {
-      "id": "graphql@15.8.0",
-      "info": {
-        "name": "graphql",
-        "version": "15.8.0"
       }
     },
     {
@@ -3504,6 +3504,13 @@
       }
     },
     {
+      "id": "jsep@1.3.7",
+      "info": {
+        "name": "jsep",
+        "version": "1.3.7"
+      }
+    },
+    {
       "id": "@jsep-plugin/ternary@1.1.3",
       "info": {
         "name": "@jsep-plugin/ternary",
@@ -3515,13 +3522,6 @@
       "info": {
         "name": "astring",
         "version": "1.8.3"
-      }
-    },
-    {
-      "id": "jsep@1.3.7",
-      "info": {
-        "name": "jsep",
-        "version": "1.3.7"
       }
     },
     {
@@ -4987,6 +4987,9 @@
         "pkgId": "@octokit/plugin-paginate-rest@2.21.3",
         "deps": [
           {
+            "nodeId": "@octokit/core@3.6.0"
+          },
+          {
             "nodeId": "@octokit/types@6.41.0"
           }
         ],
@@ -4999,7 +5002,11 @@
       {
         "nodeId": "@octokit/plugin-request-log@1.0.4",
         "pkgId": "@octokit/plugin-request-log@1.0.4",
-        "deps": [],
+        "deps": [
+          {
+            "nodeId": "@octokit/core@3.6.0"
+          }
+        ],
         "info": {
           "labels": {
             "scope": "prod"
@@ -5010,6 +5017,9 @@
         "nodeId": "@octokit/plugin-rest-endpoint-methods@5.16.2",
         "pkgId": "@octokit/plugin-rest-endpoint-methods@5.16.2",
         "deps": [
+          {
+            "nodeId": "@octokit/core@3.6.0"
+          },
           {
             "nodeId": "@octokit/types@6.41.0"
           },
@@ -5103,7 +5113,11 @@
       {
         "nodeId": "ajv-errors@3.0.0",
         "pkgId": "ajv-errors@3.0.0",
-        "deps": [],
+        "deps": [
+          {
+            "nodeId": "ajv@8.11.0"
+          }
+        ],
         "info": {
           "labels": {
             "scope": "prod"
@@ -6808,6 +6822,9 @@
         "pkgId": "log-node@8.0.3",
         "deps": [
           {
+            "nodeId": "log@6.3.1"
+          },
+          {
             "nodeId": "ansi-regex@5.0.1"
           },
           {
@@ -7154,6 +7171,9 @@
         "pkgId": "@graphql-tools/schema@8.5.1",
         "deps": [
           {
+            "nodeId": "graphql@15.8.0"
+          },
+          {
             "nodeId": "@graphql-tools/merge@8.3.1"
           },
           {
@@ -7173,9 +7193,22 @@
         }
       },
       {
+        "nodeId": "graphql@15.8.0",
+        "pkgId": "graphql@15.8.0",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
         "nodeId": "@graphql-tools/merge@8.3.1",
         "pkgId": "@graphql-tools/merge@8.3.1",
         "deps": [
+          {
+            "nodeId": "graphql@15.8.0"
+          },
           {
             "nodeId": "@graphql-tools/utils@8.9.0"
           },
@@ -7193,6 +7226,9 @@
         "nodeId": "@graphql-tools/utils@8.9.0",
         "pkgId": "@graphql-tools/utils@8.9.0",
         "deps": [
+          {
+            "nodeId": "graphql@15.8.0"
+          },
           {
             "nodeId": "tslib@2.4.1"
           }
@@ -7218,6 +7254,9 @@
         "pkgId": "@graphql-tools/utils@8.13.1",
         "deps": [
           {
+            "nodeId": "graphql@15.8.0"
+          },
+          {
             "nodeId": "tslib@2.4.1"
           }
         ],
@@ -7231,6 +7270,9 @@
         "nodeId": "@httptoolkit/subscriptions-transport-ws@0.11.2",
         "pkgId": "@httptoolkit/subscriptions-transport-ws@0.11.2",
         "deps": [
+          {
+            "nodeId": "graphql@15.8.0"
+          },
           {
             "nodeId": "backo2@1.0.2"
           },
@@ -7402,7 +7444,11 @@
       {
         "nodeId": "isomorphic-ws@4.0.1",
         "pkgId": "isomorphic-ws@4.0.1",
-        "deps": [],
+        "deps": [
+          {
+            "nodeId": "ws@8.11.0"
+          }
+        ],
         "info": {
           "labels": {
             "scope": "prod"
@@ -8435,6 +8481,9 @@
         "pkgId": "express-graphql@0.11.0",
         "deps": [
           {
+            "nodeId": "graphql@15.8.0"
+          },
+          {
             "nodeId": "accepts@1.3.8"
           },
           {
@@ -8500,19 +8549,12 @@
         }
       },
       {
-        "nodeId": "graphql@15.8.0",
-        "pkgId": "graphql@15.8.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
         "nodeId": "graphql-subscriptions@1.2.1",
         "pkgId": "graphql-subscriptions@1.2.1",
         "deps": [
+          {
+            "nodeId": "graphql@15.8.0"
+          },
           {
             "nodeId": "iterall@1.3.0"
           }
@@ -8527,6 +8569,9 @@
         "nodeId": "graphql-tag@2.12.6",
         "pkgId": "graphql-tag@2.12.6",
         "deps": [
+          {
+            "nodeId": "graphql@15.8.0"
+          },
           {
             "nodeId": "tslib@2.4.1"
           }
@@ -10860,6 +10905,9 @@
         "pkgId": "@stoplight/better-ajv-errors@1.0.3",
         "deps": [
           {
+            "nodeId": "ajv@8.11.0"
+          },
+          {
             "nodeId": "jsonpointer@5.0.1"
           },
           {
@@ -11895,6 +11943,20 @@
       {
         "nodeId": "@jsep-plugin/regex@1.0.3",
         "pkgId": "@jsep-plugin/regex@1.0.3",
+        "deps": [
+          {
+            "nodeId": "jsep@1.3.7"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "jsep@1.3.7",
+        "pkgId": "jsep@1.3.7",
         "deps": [],
         "info": {
           "labels": {
@@ -11905,7 +11967,11 @@
       {
         "nodeId": "@jsep-plugin/ternary@1.1.3",
         "pkgId": "@jsep-plugin/ternary@1.1.3",
-        "deps": [],
+        "deps": [
+          {
+            "nodeId": "jsep@1.3.7"
+          }
+        ],
         "info": {
           "labels": {
             "scope": "prod"
@@ -11915,16 +11981,6 @@
       {
         "nodeId": "astring@1.8.3",
         "pkgId": "astring@1.8.3",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "jsep@1.3.7",
-        "pkgId": "jsep@1.3.7",
         "deps": [],
         "info": {
           "labels": {
@@ -12554,6 +12610,9 @@
         "pkgId": "@octokit/plugin-paginate-rest@6.0.0",
         "deps": [
           {
+            "nodeId": "@octokit/core@4.1.0"
+          },
+          {
             "nodeId": "@octokit/types@9.0.0"
           }
         ],
@@ -12591,6 +12650,9 @@
         "nodeId": "@octokit/plugin-rest-endpoint-methods@7.0.1",
         "pkgId": "@octokit/plugin-rest-endpoint-methods@7.0.1",
         "deps": [
+          {
+            "nodeId": "@octokit/core@3.6.0"
+          },
           {
             "nodeId": "@octokit/types@9.0.0"
           },
