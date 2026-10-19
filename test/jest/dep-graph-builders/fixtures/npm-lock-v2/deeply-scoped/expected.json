@@ -10652,17 +10652,17 @@
       }
     },
     {
-      "id": "jsonc-parser@3.0.0",
-      "info": {
-        "name": "jsonc-parser",
-        "version": "3.0.0"
-      }
-    },
-    {
       "id": "minimatch@3.0.4",
       "info": {
         "name": "minimatch",
         "version": "3.0.4"
+      }
+    },
+    {
+      "id": "jsonc-parser@3.0.0",
+      "info": {
+        "name": "jsonc-parser",
+        "version": "3.0.0"
       }
     },
     {
@@ -11856,6 +11856,13 @@
       }
     },
     {
+      "id": "@nrwl/cli@13.2.3",
+      "info": {
+        "name": "@nrwl/cli",
+        "version": "13.2.3"
+      }
+    },
+    {
       "id": "yargs-parser@20.0.0",
       "info": {
         "name": "yargs-parser",
@@ -11884,13 +11891,6 @@
       }
     },
     {
-      "id": "istanbul-lib-instrument@4.0.3",
-      "info": {
-        "name": "istanbul-lib-instrument",
-        "version": "4.0.3"
-      }
-    },
-    {
       "id": "@jest/test-result@27.2.2",
       "info": {
         "name": "@jest/test-result",
@@ -11898,17 +11898,10 @@
       }
     },
     {
-      "id": "jest-config@27.2.2",
+      "id": "istanbul-lib-instrument@4.0.3",
       "info": {
-        "name": "jest-config",
-        "version": "27.2.2"
-      }
-    },
-    {
-      "id": "is-ci@3.0.1",
-      "info": {
-        "name": "is-ci",
-        "version": "3.0.1"
+        "name": "istanbul-lib-instrument",
+        "version": "4.0.3"
       }
     },
     {
@@ -11926,16 +11919,23 @@
       }
     },
     {
-      "id": "@nrwl/workspace@13.2.3",
+      "id": "is-ci@3.0.1",
       "info": {
-        "name": "@nrwl/workspace",
-        "version": "13.2.3"
+        "name": "is-ci",
+        "version": "3.0.1"
       }
     },
     {
-      "id": "@nrwl/cli@13.2.3",
+      "id": "jest-config@27.2.2",
       "info": {
-        "name": "@nrwl/cli",
+        "name": "jest-config",
+        "version": "27.2.2"
+      }
+    },
+    {
+      "id": "@nrwl/workspace@13.2.3",
+      "info": {
+        "name": "@nrwl/workspace",
         "version": "13.2.3"
       }
     },
@@ -12283,6 +12283,13 @@
       }
     },
     {
+      "id": "resolve@1.20.0",
+      "info": {
+        "name": "resolve",
+        "version": "1.20.0"
+      }
+    },
+    {
       "id": "babel-plugin-transform-async-to-promises@0.8.18",
       "info": {
         "name": "babel-plugin-transform-async-to-promises",
@@ -12521,10 +12528,10 @@
       }
     },
     {
-      "id": "mini-css-extract-plugin@2.4.7",
+      "id": "mini-css-extract-plugin@2.7.5",
       "info": {
         "name": "mini-css-extract-plugin",
-        "version": "2.4.7"
+        "version": "2.7.5"
       }
     },
     {
@@ -12777,13 +12784,6 @@
       "info": {
         "name": "@rollup/pluginutils",
         "version": "4.2.1"
-      }
-    },
-    {
-      "id": "resolve@1.20.0",
-      "info": {
-        "name": "resolve",
-        "version": "1.20.0"
       }
     },
     {
@@ -13652,13 +13652,6 @@
       "info": {
         "name": "es-array-method-boxes-properly",
         "version": "1.0.0"
-      }
-    },
-    {
-      "id": "eslint-plugin-react@7.28.0",
-      "info": {
-        "name": "eslint-plugin-react",
-        "version": "7.28.0"
       }
     },
     {
@@ -14824,6 +14817,13 @@
       }
     },
     {
+      "id": "mini-css-extract-plugin@2.4.7",
+      "info": {
+        "name": "mini-css-extract-plugin",
+        "version": "2.4.7"
+      }
+    },
+    {
       "id": "rollup-plugin-typescript2@0.31.2",
       "info": {
         "name": "rollup-plugin-typescript2",
@@ -14975,6 +14975,13 @@
       "info": {
         "name": "@svgr/plugin-svgo",
         "version": "6.5.1"
+      }
+    },
+    {
+      "id": "eslint-plugin-react@7.28.0",
+      "info": {
+        "name": "eslint-plugin-react",
+        "version": "7.28.0"
       }
     }
   ],
@@ -40596,7 +40603,7 @@
             "nodeId": "inherits@2.0.4"
           },
           {
-            "nodeId": "minimatch@3.1.2"
+            "nodeId": "minimatch@3.0.4"
           },
           {
             "nodeId": "once@1.4.0"
@@ -40612,16 +40619,6 @@
         }
       },
       {
-        "nodeId": "jsonc-parser@3.0.0",
-        "pkgId": "jsonc-parser@3.0.0",
-        "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
         "nodeId": "minimatch@3.0.4",
         "pkgId": "minimatch@3.0.4",
         "deps": [
@@ -40629,6 +40626,16 @@
             "nodeId": "brace-expansion@1.1.11"
           }
         ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "jsonc-parser@3.0.0",
+        "pkgId": "jsonc-parser@3.0.0",
+        "deps": [],
         "info": {
           "labels": {
             "scope": "prod"
@@ -44136,7 +44143,36 @@
         "pkgId": "nx@13.2.3",
         "deps": [
           {
-            "nodeId": "@nrwl/cli@14.0.5"
+            "nodeId": "@nrwl/cli@13.2.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@nrwl/cli@13.2.3",
+        "pkgId": "@nrwl/cli@13.2.3",
+        "deps": [
+          {
+            "nodeId": "@nrwl/tao@13.2.3"
+          },
+          {
+            "nodeId": "chalk@4.1.0"
+          },
+          {
+            "nodeId": "enquirer@2.3.6"
+          },
+          {
+            "nodeId": "v8-compile-cache@2.3.0"
+          },
+          {
+            "nodeId": "yargs@15.4.1"
+          },
+          {
+            "nodeId": "yargs-parser@20.0.0"
           }
         ],
         "info": {
@@ -44242,7 +44278,7 @@
             "nodeId": "@jest/console@27.5.1"
           },
           {
-            "nodeId": "@jest/test-result@27.5.1"
+            "nodeId": "@jest/test-result@27.2.2"
           },
           {
             "nodeId": "@jest/transform@27.5.1"
@@ -44251,7 +44287,7 @@
             "nodeId": "@jest/types@27.5.1"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "collect-v8-coverage@1.0.1"
@@ -44284,10 +44320,10 @@
             "nodeId": "jest-haste-map@27.5.1"
           },
           {
-            "nodeId": "jest-resolve@27.5.1"
+            "nodeId": "jest-resolve@27.2.2"
           },
           {
-            "nodeId": "jest-util@27.5.1"
+            "nodeId": "jest-util@27.2.0"
           },
           {
             "nodeId": "jest-worker@27.5.1"
@@ -44306,29 +44342,6 @@
           },
           {
             "nodeId": "v8-to-istanbul@8.1.1"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "istanbul-lib-instrument@4.0.3",
-        "pkgId": "istanbul-lib-instrument@4.0.3",
-        "deps": [
-          {
-            "nodeId": "@babel/core@7.12.13"
-          },
-          {
-            "nodeId": "@istanbuljs/schema@0.1.3"
-          },
-          {
-            "nodeId": "istanbul-lib-coverage@3.2.0"
-          },
-          {
-            "nodeId": "semver@6.3.0"
           }
         ],
         "info": {
@@ -44361,6 +44374,113 @@
         }
       },
       {
+        "nodeId": "istanbul-lib-instrument@4.0.3",
+        "pkgId": "istanbul-lib-instrument@4.0.3",
+        "deps": [
+          {
+            "nodeId": "@babel/core@7.12.13"
+          },
+          {
+            "nodeId": "@istanbuljs/schema@0.1.3"
+          },
+          {
+            "nodeId": "istanbul-lib-coverage@3.2.0"
+          },
+          {
+            "nodeId": "semver@6.3.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "jest-resolve@27.2.2",
+        "pkgId": "jest-resolve@27.2.2",
+        "deps": [
+          {
+            "nodeId": "@jest/types@27.5.1"
+          },
+          {
+            "nodeId": "chalk@4.1.0"
+          },
+          {
+            "nodeId": "escalade@3.1.1"
+          },
+          {
+            "nodeId": "graceful-fs@4.2.11"
+          },
+          {
+            "nodeId": "jest-haste-map@27.5.1"
+          },
+          {
+            "nodeId": "jest-pnp-resolver@1.2.3"
+          },
+          {
+            "nodeId": "jest-util@27.2.0"
+          },
+          {
+            "nodeId": "jest-validate@27.5.1"
+          },
+          {
+            "nodeId": "resolve@1.22.1"
+          },
+          {
+            "nodeId": "slash@3.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "jest-util@27.2.0",
+        "pkgId": "jest-util@27.2.0",
+        "deps": [
+          {
+            "nodeId": "@jest/types@27.5.1"
+          },
+          {
+            "nodeId": "@types/node@18.15.10"
+          },
+          {
+            "nodeId": "chalk@4.1.0"
+          },
+          {
+            "nodeId": "graceful-fs@4.2.11"
+          },
+          {
+            "nodeId": "is-ci@3.0.1"
+          },
+          {
+            "nodeId": "picomatch@2.3.1"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "is-ci@3.0.1",
+        "pkgId": "is-ci@3.0.1",
+        "deps": [
+          {
+            "nodeId": "ci-info@3.8.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
         "nodeId": "jest-config@27.2.2",
         "pkgId": "jest-config@27.2.2",
         "deps": [
@@ -44377,7 +44497,7 @@
             "nodeId": "babel-jest@27.5.1"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "deepmerge@4.3.1"
@@ -44410,13 +44530,13 @@
             "nodeId": "jest-regex-util@27.5.1"
           },
           {
-            "nodeId": "jest-resolve@27.5.1"
+            "nodeId": "jest-resolve@27.2.2"
           },
           {
             "nodeId": "jest-runner@27.5.1"
           },
           {
-            "nodeId": "jest-util@27.5.1"
+            "nodeId": "jest-util@27.2.0"
           },
           {
             "nodeId": "jest-validate@27.5.1"
@@ -44426,90 +44546,6 @@
           },
           {
             "nodeId": "pretty-format@27.5.1"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "is-ci@3.0.1",
-        "pkgId": "is-ci@3.0.1",
-        "deps": [
-          {
-            "nodeId": "ci-info@3.8.0"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "jest-resolve@27.2.2",
-        "pkgId": "jest-resolve@27.2.2",
-        "deps": [
-          {
-            "nodeId": "@jest/types@27.5.1"
-          },
-          {
-            "nodeId": "chalk@4.1.2"
-          },
-          {
-            "nodeId": "escalade@3.1.1"
-          },
-          {
-            "nodeId": "graceful-fs@4.2.11"
-          },
-          {
-            "nodeId": "jest-haste-map@27.5.1"
-          },
-          {
-            "nodeId": "jest-pnp-resolver@1.2.3"
-          },
-          {
-            "nodeId": "jest-util@27.5.1"
-          },
-          {
-            "nodeId": "jest-validate@27.5.1"
-          },
-          {
-            "nodeId": "resolve@1.22.1"
-          },
-          {
-            "nodeId": "slash@3.0.0"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "jest-util@27.2.0",
-        "pkgId": "jest-util@27.2.0",
-        "deps": [
-          {
-            "nodeId": "@jest/types@27.5.1"
-          },
-          {
-            "nodeId": "@types/node@18.15.10"
-          },
-          {
-            "nodeId": "chalk@4.1.2"
-          },
-          {
-            "nodeId": "graceful-fs@4.2.11"
-          },
-          {
-            "nodeId": "is-ci@3.0.1"
-          },
-          {
-            "nodeId": "picomatch@2.3.1"
           }
         ],
         "info": {
@@ -44590,35 +44626,6 @@
           },
           {
             "nodeId": "tslib@2.4.1"
-          },
-          {
-            "nodeId": "yargs@15.4.1"
-          },
-          {
-            "nodeId": "yargs-parser@20.0.0"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "@nrwl/cli@13.2.3",
-        "pkgId": "@nrwl/cli@13.2.3",
-        "deps": [
-          {
-            "nodeId": "@nrwl/tao@13.2.3"
-          },
-          {
-            "nodeId": "chalk@4.1.0"
-          },
-          {
-            "nodeId": "enquirer@2.3.6"
-          },
-          {
-            "nodeId": "v8-compile-cache@2.3.0"
           },
           {
             "nodeId": "yargs@15.4.1"
@@ -44984,7 +44991,7 @@
             "nodeId": "@types/json-schema@7.0.11"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "chokidar@3.5.3"
@@ -45005,13 +45012,13 @@
             "nodeId": "memfs@3.4.13"
           },
           {
-            "nodeId": "minimatch@3.1.2"
+            "nodeId": "minimatch@3.0.4"
           },
           {
             "nodeId": "schema-utils@2.7.0"
           },
           {
-            "nodeId": "semver@7.3.8"
+            "nodeId": "semver@7.3.4"
           },
           {
             "nodeId": "tapable@1.1.3"
@@ -45126,7 +45133,7 @@
             "nodeId": "eslint-plugin-jsx-a11y@6.7.1"
           },
           {
-            "nodeId": "eslint-plugin-react@7.28.0"
+            "nodeId": "eslint-plugin-react@7.32.2"
           },
           {
             "nodeId": "eslint-plugin-react-hooks@4.6.0"
@@ -45328,7 +45335,7 @@
             "nodeId": "loader-utils@1.2.3"
           },
           {
-            "nodeId": "mini-css-extract-plugin@2.4.7"
+            "nodeId": "mini-css-extract-plugin@2.7.5"
           },
           {
             "nodeId": "open@7.4.2"
@@ -45774,7 +45781,24 @@
             "nodeId": "cosmiconfig@6.0.0"
           },
           {
-            "nodeId": "resolve@1.22.1"
+            "nodeId": "resolve@1.20.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "resolve@1.20.0",
+        "pkgId": "resolve@1.20.0",
+        "deps": [
+          {
+            "nodeId": "is-core-module@2.11.0"
+          },
+          {
+            "nodeId": "path-parse@1.0.7"
           }
         ],
         "info": {
@@ -46355,8 +46379,8 @@
         }
       },
       {
-        "nodeId": "mini-css-extract-plugin@2.4.7",
-        "pkgId": "mini-css-extract-plugin@2.4.7",
+        "nodeId": "mini-css-extract-plugin@2.7.5",
+        "pkgId": "mini-css-extract-plugin@2.7.5",
         "deps": [
           {
             "nodeId": "schema-utils@4.0.0"
@@ -46946,23 +46970,6 @@
           },
           {
             "nodeId": "picomatch@2.3.1"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "resolve@1.20.0",
-        "pkgId": "resolve@1.20.0",
-        "deps": [
-          {
-            "nodeId": "is-core-module@2.11.0"
-          },
-          {
-            "nodeId": "path-parse@1.0.7"
           }
         ],
         "info": {
@@ -48976,59 +48983,6 @@
         }
       },
       {
-        "nodeId": "eslint-plugin-react@7.28.0",
-        "pkgId": "eslint-plugin-react@7.28.0",
-        "deps": [
-          {
-            "nodeId": "array-includes@3.1.6"
-          },
-          {
-            "nodeId": "array.prototype.flatmap@1.3.1"
-          },
-          {
-            "nodeId": "doctrine@2.1.0"
-          },
-          {
-            "nodeId": "estraverse@5.3.0"
-          },
-          {
-            "nodeId": "jsx-ast-utils@3.3.3"
-          },
-          {
-            "nodeId": "minimatch@3.1.2"
-          },
-          {
-            "nodeId": "object.entries@1.1.6"
-          },
-          {
-            "nodeId": "object.fromentries@2.0.6"
-          },
-          {
-            "nodeId": "object.hasown@1.1.2"
-          },
-          {
-            "nodeId": "object.values@1.1.6"
-          },
-          {
-            "nodeId": "prop-types@15.8.1"
-          },
-          {
-            "nodeId": "resolve@2.0.0-next.4"
-          },
-          {
-            "nodeId": "semver@6.3.0"
-          },
-          {
-            "nodeId": "string.prototype.matchall@4.0.8"
-          }
-        ],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
         "nodeId": "gatsby-codemods@3.25.0",
         "pkgId": "gatsby-codemods@3.25.0",
         "deps": [
@@ -50725,7 +50679,7 @@
             "nodeId": "@types/node@18.15.10"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "collect-v8-coverage@1.0.1"
@@ -50734,7 +50688,7 @@
             "nodeId": "exit@0.1.2"
           },
           {
-            "nodeId": "glob@7.2.3"
+            "nodeId": "glob@7.1.4"
           },
           {
             "nodeId": "graceful-fs@4.2.11"
@@ -50796,7 +50750,7 @@
             "nodeId": "@types/node@18.15.10"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "jest-message-util@28.1.3"
@@ -50834,7 +50788,7 @@
             "nodeId": "@types/yargs@17.0.23"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           }
         ],
         "info": {
@@ -50895,7 +50849,7 @@
             "nodeId": "@types/stack-utils@2.0.1"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "graceful-fs@4.2.11"
@@ -50953,7 +50907,7 @@
             "nodeId": "@types/node@18.15.10"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "ci-info@3.8.0"
@@ -51011,7 +50965,7 @@
             "nodeId": "babel-plugin-istanbul@6.1.1"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "convert-source-map@1.9.0"
@@ -51155,7 +51109,7 @@
             "nodeId": "@types/node@18.15.10"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "ci-info@3.8.0"
@@ -51210,7 +51164,7 @@
             "nodeId": "babel-jest@28.1.3"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "ci-info@3.8.0"
@@ -51219,7 +51173,7 @@
             "nodeId": "deepmerge@4.3.1"
           },
           {
-            "nodeId": "glob@7.2.3"
+            "nodeId": "glob@7.1.4"
           },
           {
             "nodeId": "graceful-fs@4.2.11"
@@ -51333,7 +51287,7 @@
             "nodeId": "babel-preset-jest@28.1.3"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "graceful-fs@4.2.11"
@@ -51408,7 +51362,7 @@
             "nodeId": "@types/node@18.15.10"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "co@4.6.0"
@@ -51750,7 +51704,7 @@
             "nodeId": "@jest/types@28.1.3"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "jest-get-type@28.0.2"
@@ -51794,7 +51748,7 @@
             "nodeId": "@jest/types@28.1.3"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "cjs-module-lexer@1.2.2"
@@ -51806,7 +51760,7 @@
             "nodeId": "execa@5.1.1"
           },
           {
-            "nodeId": "glob@7.2.3"
+            "nodeId": "glob@7.1.4"
           },
           {
             "nodeId": "graceful-fs@4.2.11"
@@ -51890,7 +51844,7 @@
         "pkgId": "jest-resolve@28.1.3",
         "deps": [
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "graceful-fs@4.2.11"
@@ -51934,7 +51888,7 @@
             "nodeId": "camelcase@6.3.0"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "jest-get-type@28.0.2"
@@ -51986,7 +51940,7 @@
         "pkgId": "jest-resolve@28.1.1",
         "deps": [
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "graceful-fs@4.2.11"
@@ -52042,7 +51996,7 @@
             "nodeId": "@types/node@18.15.10"
           },
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "emittery@0.10.2"
@@ -52789,7 +52743,7 @@
         "pkgId": "tsconfig-paths-webpack-plugin@3.5.2",
         "deps": [
           {
-            "nodeId": "chalk@4.1.2"
+            "nodeId": "chalk@4.1.0"
           },
           {
             "nodeId": "enhanced-resolve@5.12.0"
@@ -53207,6 +53161,20 @@
         }
       },
       {
+        "nodeId": "mini-css-extract-plugin@2.4.7",
+        "pkgId": "mini-css-extract-plugin@2.4.7",
+        "deps": [
+          {
+            "nodeId": "schema-utils@4.0.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
         "nodeId": "rollup-plugin-typescript2@0.31.2",
         "pkgId": "rollup-plugin-typescript2@0.31.2",
         "deps": [
@@ -53572,6 +53540,59 @@
           },
           {
             "nodeId": "svgo@2.8.0"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "eslint-plugin-react@7.28.0",
+        "pkgId": "eslint-plugin-react@7.28.0",
+        "deps": [
+          {
+            "nodeId": "array-includes@3.1.6"
+          },
+          {
+            "nodeId": "array.prototype.flatmap@1.3.1"
+          },
+          {
+            "nodeId": "doctrine@2.1.0"
+          },
+          {
+            "nodeId": "estraverse@5.3.0"
+          },
+          {
+            "nodeId": "jsx-ast-utils@3.3.3"
+          },
+          {
+            "nodeId": "minimatch@3.1.2"
+          },
+          {
+            "nodeId": "object.entries@1.1.6"
+          },
+          {
+            "nodeId": "object.fromentries@2.0.6"
+          },
+          {
+            "nodeId": "object.hasown@1.1.2"
+          },
+          {
+            "nodeId": "object.values@1.1.6"
+          },
+          {
+            "nodeId": "prop-types@15.8.1"
+          },
+          {
+            "nodeId": "resolve@2.0.0-next.4"
+          },
+          {
+            "nodeId": "semver@6.3.0"
+          },
+          {
+            "nodeId": "string.prototype.matchall@4.0.8"
           }
         ],
         "info": {

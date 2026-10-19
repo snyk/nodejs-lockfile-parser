@@ -10377,7 +10377,7 @@
         "pkgId": "@types/mute-stream@0.0.4",
         "deps": [
           {
-            "nodeId": "@types/node@18.19.7"
+            "nodeId": "@types/node@20.11.7"
           }
         ],
         "info": {

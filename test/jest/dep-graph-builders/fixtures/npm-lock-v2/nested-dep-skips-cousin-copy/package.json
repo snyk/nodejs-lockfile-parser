@@ -1,0 +1,6 @@
+{
+  "name": "nested-dep-skips-cousin-copy",
+  "version": "1.0.0",
+  "dependencies": { "mv": "2.1.1" },
+  "devDependencies": { "glob": "7.2.3" }
+}

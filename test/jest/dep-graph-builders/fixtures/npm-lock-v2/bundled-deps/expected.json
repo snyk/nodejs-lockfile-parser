@@ -3119,10 +3119,10 @@
       }
     },
     {
-      "id": "@stoplight/types@13.6.0",
+      "id": "@stoplight/types@13.8.0",
       "info": {
         "name": "@stoplight/types",
-        "version": "13.6.0"
+        "version": "13.8.0"
       }
     },
     {
@@ -3249,6 +3249,13 @@
       "info": {
         "name": "event-target-shim",
         "version": "5.0.1"
+      }
+    },
+    {
+      "id": "@stoplight/types@13.6.0",
+      "info": {
+        "name": "@stoplight/types",
+        "version": "13.6.0"
       }
     },
     {
@@ -3585,13 +3592,6 @@
       "info": {
         "name": "ajv-draft-04",
         "version": "1.0.0"
-      }
-    },
-    {
-      "id": "@stoplight/types@13.8.0",
-      "info": {
-        "name": "@stoplight/types",
-        "version": "13.8.0"
       }
     },
     {
@@ -9271,7 +9271,7 @@
         "pkgId": "debug@3.2.7",
         "deps": [
           {
-            "nodeId": "ms@2.1.2"
+            "nodeId": "ms@2.1.3"
           }
         ],
         "info": {
@@ -10893,7 +10893,7 @@
             "nodeId": "@stoplight/path@1.3.2"
           },
           {
-            "nodeId": "@stoplight/types@13.6.0"
+            "nodeId": "@stoplight/types@13.8.0"
           },
           {
             "nodeId": "jsonc-parser@2.2.1"
@@ -10932,8 +10932,8 @@
         }
       },
       {
-        "nodeId": "@stoplight/types@13.6.0",
-        "pkgId": "@stoplight/types@13.6.0",
+        "nodeId": "@stoplight/types@13.8.0",
+        "pkgId": "@stoplight/types@13.8.0",
         "deps": [
           {
             "nodeId": "@types/json-schema@7.0.11"
@@ -10986,7 +10986,7 @@
             "nodeId": "@stoplight/json@3.20.1"
           },
           {
-            "nodeId": "@stoplight/types@13.6.0"
+            "nodeId": "@stoplight/types@13.8.0"
           },
           {
             "nodeId": "@stoplight/yaml@4.2.3"
@@ -11009,7 +11009,7 @@
             "nodeId": "@stoplight/ordered-object-literal@1.0.4"
           },
           {
-            "nodeId": "@stoplight/types@13.6.0"
+            "nodeId": "@stoplight/types@13.8.0"
           },
           {
             "nodeId": "@stoplight/yaml-ast-parser@0.0.48"
@@ -11088,7 +11088,7 @@
             "nodeId": "@stoplight/path@1.3.2"
           },
           {
-            "nodeId": "@stoplight/types@13.6.0"
+            "nodeId": "@stoplight/types@13.8.0"
           },
           {
             "nodeId": "@types/urijs@1.19.19"
@@ -11235,6 +11235,23 @@
         "nodeId": "event-target-shim@5.0.1",
         "pkgId": "event-target-shim@5.0.1",
         "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "@stoplight/types@13.6.0",
+        "pkgId": "@stoplight/types@13.6.0",
+        "deps": [
+          {
+            "nodeId": "@types/json-schema@7.0.11"
+          },
+          {
+            "nodeId": "utility-types@3.10.0"
+          }
+        ],
         "info": {
           "labels": {
             "scope": "prod"
@@ -12129,23 +12146,6 @@
         "nodeId": "ajv-draft-04@1.0.0",
         "pkgId": "ajv-draft-04@1.0.0",
         "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "@stoplight/types@13.8.0",
-        "pkgId": "@stoplight/types@13.8.0",
-        "deps": [
-          {
-            "nodeId": "@types/json-schema@7.0.11"
-          },
-          {
-            "nodeId": "utility-types@3.10.0"
-          }
-        ],
         "info": {
           "labels": {
             "scope": "prod"

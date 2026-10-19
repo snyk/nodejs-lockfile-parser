@@ -464,6 +464,18 @@ export const getChildNodeKey = (
     return candidateKeys[0];
   }
 
+  // Lockfile keys are install paths, so resolve the way Node.js does: look in
+  // the parent's own node_modules, then walk up one node_modules level at a time
+  const nodeResolvedKey = resolveFromParentKey(
+    name,
+    version,
+    ancestry[ancestry.length - 1].key,
+    pkgs,
+  );
+  if (nodeResolvedKey) {
+    return nodeResolvedKey;
+  }
+
   // Always use the full ancestry (excluding the true root)
   // The lockfile paths reflect the actual file system structure, which may or may not
   // include all ancestors depending on hoisting
@@ -624,6 +636,42 @@ export const getChildNodeKey = (
   }
 
   return filteredCandidates.length === 1 ? filteredCandidates[0] : undefined;
+};
+
+const resolveFromParentKey = (
+  name: string,
+  version: string,
+  parentKey: string | undefined,
+  pkgs: Record<string, NpmLockPkg>,
+): string | undefined => {
+  if (parentKey === undefined) {
+    return undefined;
+  }
+  let base = parentKey;
+  for (;;) {
+    const possibleKey = base
+      ? `${base}/node_modules/${name}`
+      : `node_modules/${name}`;
+    const pkg = pkgs[possibleKey];
+    if (pkg) {
+      // Links (workspaces, file: deps), version-less and out-of-sync entries
+      // fall back to the candidate matching below
+      if (
+        pkg['link'] ||
+        !pkg.version ||
+        (semver.validRange(version) && !semver.satisfies(pkg.version, version))
+      ) {
+        return undefined;
+      }
+      return possibleKey;
+    }
+    if (!base) {
+      return undefined;
+    }
+    // A top-level package or a workspace member falls back to the root
+    const idx = base.lastIndexOf('/node_modules/');
+    base = idx !== -1 ? base.slice(0, idx) : '';
+  }
 };
 
 const checkOverrides = (

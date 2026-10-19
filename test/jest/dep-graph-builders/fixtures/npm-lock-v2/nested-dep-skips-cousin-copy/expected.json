@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "npm"
+  },
+  "pkgs": [
+    {
+      "id": "nested-dep-skips-cousin-copy@1.0.0",
+      "info": {
+        "name": "nested-dep-skips-cousin-copy",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "mv@2.1.1",
+      "info": {
+        "name": "mv",
+        "version": "2.1.1"
+      }
+    },
+    {
+      "id": "glob@6.0.4",
+      "info": {
+        "name": "glob",
+        "version": "6.0.4"
+      }
+    },
+    {
+      "id": "minimatch@3.0.8",
+      "info": {
+        "name": "minimatch",
+        "version": "3.0.8"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "nested-dep-skips-cousin-copy@1.0.0",
+        "deps": [
+          {
+            "nodeId": "mv@2.1.1"
+          }
+        ]
+      },
+      {
+        "nodeId": "mv@2.1.1",
+        "pkgId": "mv@2.1.1",
+        "deps": [
+          {
+            "nodeId": "glob@6.0.4"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "glob@6.0.4",
+        "pkgId": "glob@6.0.4",
+        "deps": [
+          {
+            "nodeId": "minimatch@3.0.8"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "minimatch@3.0.8",
+        "pkgId": "minimatch@3.0.8",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1405,6 +1405,13 @@
       }
     },
     {
+      "id": "minizlib@1.3.3",
+      "info": {
+        "name": "minizlib",
+        "version": "1.3.3"
+      }
+    },
+    {
       "id": "safe-buffer@5.2.1",
       "info": {
         "name": "safe-buffer",
@@ -1416,13 +1423,6 @@
       "info": {
         "name": "yallist",
         "version": "3.1.1"
-      }
-    },
-    {
-      "id": "minizlib@1.3.3",
-      "info": {
-        "name": "minizlib",
-        "version": "1.3.3"
       }
     },
     {
@@ -6129,10 +6129,24 @@
         "pkgId": "minipass@2.9.0",
         "deps": [
           {
-            "nodeId": "safe-buffer@5.2.1"
+            "nodeId": "safe-buffer@5.1.2"
           },
           {
-            "nodeId": "yallist@3.1.1"
+            "nodeId": "yallist@3.0.3"
+          }
+        ],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "minizlib@1.3.3",
+        "pkgId": "minizlib@1.3.3",
+        "deps": [
+          {
+            "nodeId": "minipass@2.9.0"
           }
         ],
         "info": {
@@ -6155,20 +6169,6 @@
         "nodeId": "yallist@3.1.1",
         "pkgId": "yallist@3.1.1",
         "deps": [],
-        "info": {
-          "labels": {
-            "scope": "prod"
-          }
-        }
-      },
-      {
-        "nodeId": "minizlib@1.3.3",
-        "pkgId": "minizlib@1.3.3",
-        "deps": [
-          {
-            "nodeId": "minipass@2.9.0"
-          }
-        ],
         "info": {
           "labels": {
             "scope": "prod"
