@@ -654,11 +654,12 @@ const resolveFromParentKey = (
       : `node_modules/${name}`;
     const pkg = pkgs[possibleKey];
     if (pkg) {
-      // An out-of-sync entry falls back to the candidate matching below
+      // Links (workspaces, file: deps), version-less and out-of-sync entries
+      // fall back to the candidate matching below
       if (
-        semver.validRange(version) &&
-        pkg.version &&
-        !semver.satisfies(pkg.version, version)
+        pkg['link'] ||
+        !pkg.version ||
+        (semver.validRange(version) && !semver.satisfies(pkg.version, version))
       ) {
         return undefined;
       }

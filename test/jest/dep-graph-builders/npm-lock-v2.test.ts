@@ -28,6 +28,7 @@ describe('dep-graph-builder npm-lock-v2', () => {
         'nested-non-alias-with-top-level-alias',
         'transitive-resolves-to-alias',
         'nested-dep-skips-cousin-copy',
+        'workspace-trailing-slash-glob',
       ])('[simple tests] project: %s ', (fixtureName) => {
         it('matches expected', async () => {
           const pkgJsonContent = readFileSync(

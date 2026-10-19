@@ -1,0 +1,10 @@
+{
+  "name": "workspace-trailing-slash-glob",
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/*/"
+  ],
+  "dependencies": {
+    "a": "^1.0.0"
+  }
+}
