@@ -411,17 +411,17 @@
       }
     },
     {
-      "id": "string_decoder@1.1.1",
+      "id": "string_decoder@1.3.0",
       "info": {
         "name": "string_decoder",
-        "version": "1.1.1"
+        "version": "1.3.0"
       }
     },
     {
-      "id": "safe-buffer@5.1.2",
+      "id": "safe-buffer@5.2.1",
       "info": {
         "name": "safe-buffer",
-        "version": "5.1.2"
+        "version": "5.2.1"
       }
     },
     {
@@ -569,6 +569,20 @@
       "info": {
         "name": "process-nextick-args",
         "version": "2.0.1"
+      }
+    },
+    {
+      "id": "safe-buffer@5.1.2",
+      "info": {
+        "name": "safe-buffer",
+        "version": "5.1.2"
+      }
+    },
+    {
+      "id": "string_decoder@1.1.1",
+      "info": {
+        "name": "string_decoder",
+        "version": "1.1.1"
       }
     },
     {
@@ -1858,7 +1872,7 @@
             "nodeId": "inherits@2.0.3"
           },
           {
-            "nodeId": "string_decoder@1.1.1"
+            "nodeId": "string_decoder@1.3.0"
           },
           {
             "nodeId": "util-deprecate@1.0.2"
@@ -1871,11 +1885,11 @@
         }
       },
       {
-        "nodeId": "string_decoder@1.1.1",
-        "pkgId": "string_decoder@1.1.1",
+        "nodeId": "string_decoder@1.3.0",
+        "pkgId": "string_decoder@1.3.0",
         "deps": [
           {
-            "nodeId": "safe-buffer@5.1.2"
+            "nodeId": "safe-buffer@5.2.1"
           }
         ],
         "info": {
@@ -1885,8 +1899,8 @@
         }
       },
       {
-        "nodeId": "safe-buffer@5.1.2",
-        "pkgId": "safe-buffer@5.1.2",
+        "nodeId": "safe-buffer@5.2.1",
+        "pkgId": "safe-buffer@5.2.1",
         "deps": [],
         "info": {
           "labels": {
@@ -2197,6 +2211,30 @@
         "nodeId": "process-nextick-args@2.0.1",
         "pkgId": "process-nextick-args@2.0.1",
         "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "safe-buffer@5.1.2",
+        "pkgId": "safe-buffer@5.1.2",
+        "deps": [],
+        "info": {
+          "labels": {
+            "scope": "prod"
+          }
+        }
+      },
+      {
+        "nodeId": "string_decoder@1.1.1",
+        "pkgId": "string_decoder@1.1.1",
+        "deps": [
+          {
+            "nodeId": "safe-buffer@5.1.2"
+          }
+        ],
         "info": {
           "labels": {
             "scope": "prod"

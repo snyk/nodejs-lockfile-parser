@@ -7746,7 +7746,7 @@
             "nodeId": "inherits@2.0.1"
           },
           {
-            "nodeId": "minimatch@3.0.0"
+            "nodeId": "minimatch@2.0.10"
           },
           {
             "nodeId": "once@1.3.3"
