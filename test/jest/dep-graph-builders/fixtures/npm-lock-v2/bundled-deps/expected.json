@@ -12651,7 +12651,7 @@
         "pkgId": "@octokit/plugin-rest-endpoint-methods@7.0.1",
         "deps": [
           {
-            "nodeId": "@octokit/core@3.6.0"
+            "nodeId": "@octokit/core@4.1.0"
           },
           {
             "nodeId": "@octokit/types@9.0.0"
