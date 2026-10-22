@@ -95,6 +95,13 @@ export const buildDepGraphNpmLockV2 = async (
     pkgJson.peerDependenciesMeta,
     { isDev: false },
   );
+  if (!includeDevDeps) {
+    // Same production filter getTopLevelDeps applies: a name that is also a
+    // devDependency is not a production dependency.
+    for (const name of Object.keys(pkgJson.devDependencies || {})) {
+      delete rootPeerDeps[name];
+    }
+  }
 
   const rootNode: PkgNode = {
     id: ROOT_NODE_ID,

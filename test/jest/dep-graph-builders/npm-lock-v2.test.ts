@@ -565,6 +565,37 @@ describe('peerDependencies', () => {
     expect(names).toContain('root-peer');
   });
 
+  // A root peer that is also a devDependency is not a production dependency,
+  // so it must be filtered out when includeDevDeps is false (as getTopLevelDeps
+  // does for regular dependencies) and kept when dev deps are included.
+  it.each([
+    [false, false],
+    [true, true],
+  ])(
+    'applies the production filter to a root peer that is also a devDependency (includeDevDeps: %s)',
+    async (includeDevDeps, expectPresent) => {
+      const { pkgJsonContent, npmLockContent } = loadFixture(
+        'transitive-peer-deps',
+      );
+      const pkgJson = JSON.parse(pkgJsonContent);
+      pkgJson.devDependencies = { 'root-peer': '^1.0.0' };
+
+      const depGraph = await parseNpmLockV2Project(
+        JSON.stringify(pkgJson),
+        npmLockContent,
+        {
+          includeDevDeps,
+          includeOptionalDeps: true,
+          pruneCycles: true,
+          strictOutOfSync: false,
+        },
+      );
+
+      const names = depGraph.getDepPkgs().map((pkg) => pkg.name);
+      expect(names.includes('root-peer')).toBe(expectPresent);
+    },
+  );
+
   // Optional peers (peerDependenciesMeta.optional === true) are not installed
   // by npm v7+, so they must be excluded - at both the root and deeper levels.
   it('excludes optional peer dependencies', async () => {
