@@ -1,8 +1,10 @@
 version: 2.1
 
 orbs:
-  win: circleci/windows@5
+  # Snyk-owned orbs: track the latest release of the major version
   prodsec: snyk/prodsec-orb@1
+  # Third-party orbs: always pin an exact version
+  win: circleci/windows@5.1.1
 
 filters_branches_ignore_main: &filters_branches_ignore_main
   filters:
