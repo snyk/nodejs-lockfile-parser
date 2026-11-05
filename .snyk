@@ -1,0 +1,16 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-JS-BRACES-19963945:
+    - 'micromatch > braces':
+        reason: >-
+          Uncontrolled Recursion in braces@3.0.3 (latest release; Snyk reports
+          Fixed in: none). micromatch@4.0.8 is the latest 4.x and requires braces
+          ^3.0.3, so no upgrade or override fixes it. Reachability: No Path Found.
+          Breached the 30-day SLA gate on 2026-10-20 and blocks every PR here.
+          Time-boxed no-fix exception, same as kubernetes-agent#908 and
+          docker-deps#1941; revisit when braces ships a fix.
+        expires: '2026-12-05T00:00:00.000Z'
+        created: '2026-11-05T00:00:00.000Z'
+patch: {}
