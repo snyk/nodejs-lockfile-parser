@@ -46,10 +46,16 @@ commands:
     steps:
       - run:
           name: Install correct version of Node
-          command: nvm install << parameters.node_version >>
+          # nvm-windows on the Windows Server 2022 image crashes on partial versions like "20.20", so resolve the full version first.
+          command: |
+            $requested = "<< parameters.node_version >>"
+            $version = (Invoke-RestMethod https://nodejs.org/dist/index.json | Where-Object { $_.version -eq "v$requested" -or $_.version -like "v$requested.*" } | Select-Object -First 1).version.TrimStart('v')
+            if (-not $version) { throw "No Node.js release matches $requested" }
+            Set-Content -Path "$HOME\.node-version-resolved" -Value $version
+            nvm install $version
       - run:
           name: Use correct version of Node
-          command: nvm use << parameters.node_version >>
+          command: nvm use (Get-Content "$HOME\.node-version-resolved")
   show_node_version:
     description: Log Node and npm version
     steps:
