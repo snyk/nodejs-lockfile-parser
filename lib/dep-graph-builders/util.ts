@@ -10,7 +10,7 @@ import { getComponentMetadataLabels } from '../component-metadata-labels';
 
 export type Dependencies = Record<
   string,
-  { version: string; isDev: boolean; isOptional?: boolean }
+  { version: string; isDev: boolean; isOptional?: boolean; isPeer?: boolean }
 >;
 
 export interface PkgNode {
@@ -194,6 +194,48 @@ export const getGraphDependencies = (
         isOptional: options.isOptional || false,
       };
       return pnpmDeps;
+    },
+    {},
+  );
+};
+
+/**
+ * Converts a package's peerDependencies into graph dependencies.
+ *
+ * From npm v7 onwards peer dependencies are installed by default and recorded
+ * in the lockfile (flagged `"peer": true`), so they are a real part of the
+ * resolved tree and must be scanned. The only peers npm does NOT auto-install
+ * are those explicitly marked optional in `peerDependenciesMeta`, so those are
+ * excluded here. Dependencies are flagged `isPeer` so the graph builder can
+ * tolerate a peer that is absent from the lockfile (e.g. an unmet/conflicting
+ * peer) by skipping it, rather than treating it as an out-of-sync lockfile.
+ */
+export const getPeerDependencies = (
+  peerDependencies: Record<string, string> | undefined,
+  peerDependenciesMeta: Record<string, { optional?: boolean }> | undefined,
+  options: {
+    isDev: boolean;
+  },
+): Dependencies => {
+  if (!peerDependencies) {
+    return {};
+  }
+  return Object.entries(peerDependencies).reduce(
+    (peerDeps: Dependencies, [name, semver]) => {
+      // Skip invalid package names to prevent downstream errors
+      if (!isValidPackageName(name)) {
+        return peerDeps;
+      }
+      // Optional peer dependencies are not installed by npm v7+ by default.
+      if (peerDependenciesMeta?.[name]?.optional) {
+        return peerDeps;
+      }
+      peerDeps[name] = {
+        version: semver,
+        isDev: options.isDev,
+        isPeer: true,
+      };
+      return peerDeps;
     },
     {},
   );
