@@ -388,3 +388,46 @@ describe('Unhappy path tests', () => {
     ).rejects.toThrow(new OutOfSyncError('ms@0.6.2', LockfileType.yarn));
   });
 });
+
+// OSM-3760: the non-cycle-pruned builder took a node's `scope` label from its parent, so direct
+// devDependencies (children of the prod root) were labelled `prod`.
+describe('yarn.lock v1 scope labels with includeDevDeps', () => {
+  const fixture = './fixtures/yarn-lock-v1/real/dev-deps-only';
+  const pkgJsonContent = readFileSync(
+    join(__dirname, fixture, 'package.json'),
+    'utf8',
+  );
+  const yarnLockContent = readFileSync(
+    join(__dirname, fixture, 'yarn.lock'),
+    'utf8',
+  );
+
+  it.each(['cycles', 'withinTopLevelDeps'] as const)(
+    'labels the direct devDependency and its transitive as dev (pruneLevel: %s)',
+    async (pruneLevel) => {
+      const dg = await parseYarnLockV1Project(pkgJsonContent, yarnLockContent, {
+        includeDevDeps: true,
+        includeOptionalDeps: true,
+        includePeerDeps: false,
+        pruneLevel,
+        strictOutOfSync: false,
+        showNpmScope: true,
+      });
+
+      const labels = Object.fromEntries(
+        dg
+          .toJSON()
+          .graph.nodes.filter((n) => n.nodeId !== 'root-node')
+          .map((n) => [n.pkgId, n.info?.labels]),
+      );
+      expect(labels['debug@2.6.9']).toMatchObject({
+        scope: 'dev',
+        'npm:scope': 'dev',
+      });
+      expect(labels['ms@2.0.0']).toMatchObject({
+        scope: 'dev',
+        'npm:scope': 'dev',
+      });
+    },
+  );
+});

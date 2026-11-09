@@ -920,3 +920,62 @@ describe('getYarnLockV2ChildNode workspace prune keys by resolved (alias) name',
     expect(Object.keys(child.dependencies)).toContain('ms');
   });
 });
+
+// OSM-3760: with includeDevDeps (CLI --dev), a node's `scope` label must reflect the node's own
+// dev status. It was taken from the parent instead, so direct devDependencies (whose parent is the
+// prod root) were labelled `prod` while their transitives were correctly labelled `dev`.
+describe('scope labels with includeDevDeps', () => {
+  const fixtureBasePath = join(
+    __dirname,
+    './fixtures/yarn-lock-v2/real/workspace-dev-deps',
+  );
+  const yarnLockContent = readFileSync(
+    join(fixtureBasePath, 'yarn.lock'),
+    'utf8',
+  );
+  const myAppPkgJsonContent = readFileSync(
+    join(fixtureBasePath, 'apps/my-app/package.json'),
+    'utf8',
+  );
+
+  const scopeOf = (
+    dg: Awaited<ReturnType<typeof parseYarnLockV2Project>>,
+    pkgName: string,
+    label = 'scope',
+  ) => {
+    const node = dg
+      .toJSON()
+      .graph.nodes.find((n) => n.pkgId.startsWith(`${pkgName}@`));
+    expect(node).toBeDefined();
+    return node!.info?.labels?.[label];
+  };
+
+  it.each([false, true])(
+    'labels direct devDependencies as dev and direct dependencies as prod (pruneWithinTopLevelDeps: %s)',
+    async (pruneWithinTopLevelDeps) => {
+      const dg = await parseYarnLockV2Project(
+        myAppPkgJsonContent,
+        yarnLockContent,
+        {
+          includeDevDeps: true,
+          includeOptionalDeps: true,
+          strictOutOfSync: false,
+          pruneWithinTopLevelDeps,
+          showNpmScope: true,
+        },
+        { isRoot: false, isWorkspacePkg: true, rootResolutions: {} },
+      );
+
+      // direct devDependencies of @demo/my-app
+      for (const name of ['eslint', 'webpack', 'webpack-cli']) {
+        expect(scopeOf(dg, name)).toBe('dev');
+        expect(scopeOf(dg, name, 'npm:scope')).toBe('dev');
+      }
+      // transitive of a direct devDependency
+      expect(scopeOf(dg, '@eslint-community/eslint-utils')).toBe('dev');
+      // direct prod dependency
+      expect(scopeOf(dg, '@demo/shared-lib')).toBe('prod');
+      expect(scopeOf(dg, '@demo/shared-lib', 'npm:scope')).toBe('prod');
+    },
+  );
+});

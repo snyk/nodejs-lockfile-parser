@@ -130,8 +130,10 @@ const dfsVisit = async (
           prunedId,
           {
             labels: {
-              scope: node.isDev ? 'dev' : 'prod',
-              ...(showNpmScope && { 'npm:scope': node.isDev ? 'dev' : 'prod' }),
+              scope: childNode.isDev ? 'dev' : 'prod',
+              ...(showNpmScope && {
+                'npm:scope': childNode.isDev ? 'dev' : 'prod',
+              }),
               pruned: 'true',
               ...(node.missingLockFileEntry && {
                 missingLockFileEntry: 'true',
@@ -157,8 +159,10 @@ const dfsVisit = async (
       childNode.id,
       {
         labels: {
-          scope: node.isDev ? 'dev' : 'prod',
-          ...(showNpmScope && { 'npm:scope': node.isDev ? 'dev' : 'prod' }),
+          scope: childNode.isDev ? 'dev' : 'prod',
+          ...(showNpmScope && {
+            'npm:scope': childNode.isDev ? 'dev' : 'prod',
+          }),
           ...(node.missingLockFileEntry && {
             missingLockFileEntry: 'true',
           }),
