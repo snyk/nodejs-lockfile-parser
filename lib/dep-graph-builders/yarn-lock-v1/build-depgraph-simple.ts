@@ -121,7 +121,7 @@ const dfsVisit = async (
                 'npm:scope': childNode.isDev ? 'dev' : 'prod',
               }),
               pruned: 'true',
-              ...(node.missingLockFileEntry && {
+              ...(childNode.missingLockFileEntry && {
                 missingLockFileEntry: 'true',
               }),
               ...(childNode.alias && {
@@ -148,7 +148,7 @@ const dfsVisit = async (
           ...(showNpmScope && {
             'npm:scope': childNode.isDev ? 'dev' : 'prod',
           }),
-          ...(node.missingLockFileEntry && {
+          ...(childNode.missingLockFileEntry && {
             missingLockFileEntry: 'true',
           }),
           ...(childNode.alias && {

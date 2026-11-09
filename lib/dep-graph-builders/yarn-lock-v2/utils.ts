@@ -151,7 +151,7 @@ export const getYarnLockV2ChildNode = (
   parentNode: PkgNode,
   includeDevDeps = false,
   workspacePackages?: Record<string, WorkspacePackageManifest>,
-) => {
+): PkgNode => {
   // First, check if a resolution would be used
   const resolvedVersionFromResolution = (() => {
     // Check for scoped resolution (e.g., "parentPackageName/dependencyName")
