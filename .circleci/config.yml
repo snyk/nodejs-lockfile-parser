@@ -1,8 +1,10 @@
 version: 2.1
 
 orbs:
-  win: circleci/windows@2.4.0
+  # Snyk-owned orbs: track the latest release of the major version
   prodsec: snyk/prodsec-orb@1
+  # Third-party orbs: always pin an exact version
+  win: circleci/windows@5.1.1
 
 filters_branches_ignore_main: &filters_branches_ignore_main
   filters:
@@ -46,10 +48,21 @@ commands:
     steps:
       - run:
           name: Install correct version of Node
-          command: nvm install << parameters.node_version >>
+          # nvm-windows on the Windows Server 2022 image crashes on partial versions like "20.20", so resolve the full version first.
+          command: |
+            $requested = "<< parameters.node_version >>"
+            $releases = Invoke-RestMethod https://nodejs.org/dist/index.json
+            $match = $releases | Where-Object { $_.version -eq "v$requested" -or $_.version -like "v$requested.*" } | Select-Object -First 1
+            if (-not $match) { throw "No Node.js release matches $requested" }
+            [string]$version = $match.version.TrimStart('v')
+            Write-Host "Resolved Node.js $requested to $version"
+            Set-Content -Path "$HOME\.node-version-resolved" -Value $version
+            nvm install $version
       - run:
           name: Use correct version of Node
-          command: nvm use << parameters.node_version >>
+          command: |
+            $version = (Get-Content "$HOME\.node-version-resolved").Trim()
+            nvm use $version
   show_node_version:
     description: Log Node and npm version
     steps:
