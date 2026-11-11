@@ -423,8 +423,8 @@ describe('dep-graph-builder npm-lock-v2', () => {
         nodeMajorVersion >= 22
           ? 'package.json parsing failed with error Expected double-quoted property name in JSON at position 100 (line 6 column 3)'
           : nodeMajorVersion >= 20
-          ? 'package.json parsing failed with error Expected double-quoted property name in JSON at position 100'
-          : 'package.json parsing failed with error Unexpected token } in JSON at position 100';
+            ? 'package.json parsing failed with error Expected double-quoted property name in JSON at position 100'
+            : 'package.json parsing failed with error Unexpected token } in JSON at position 100';
 
       await expect(
         parseNpmLockV2Project(pkgJsonContent, npmLockContent, {

@@ -61,7 +61,10 @@ interface EdgeDirection {
 export abstract class LockParserBase implements LockfileParser {
   protected pathDelimiter = '|';
 
-  constructor(protected type: LockfileType, protected treeSizeLimit: number) {}
+  constructor(
+    protected type: LockfileType,
+    protected treeSizeLimit: number,
+  ) {}
 
   public abstract parseLockFile(lockFileContents: string): Lockfile;
 
