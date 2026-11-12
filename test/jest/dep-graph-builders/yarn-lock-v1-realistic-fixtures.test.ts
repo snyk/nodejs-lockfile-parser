@@ -320,8 +320,8 @@ describe('Unhappy path tests', () => {
       nodeMajorVersion >= 22
         ? 'package.json parsing failed with error Expected double-quoted property name in JSON at position 100 (line 6 column 3)'
         : nodeMajorVersion >= 20
-        ? 'package.json parsing failed with error Expected double-quoted property name in JSON at position 100'
-        : 'package.json parsing failed with error Unexpected token } in JSON at position 100';
+          ? 'package.json parsing failed with error Expected double-quoted property name in JSON at position 100'
+          : 'package.json parsing failed with error Unexpected token } in JSON at position 100';
 
     await expect(
       parseYarnLockV1Project(pkgJsonContent, yarnLockContent, {
