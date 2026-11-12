@@ -111,7 +111,10 @@ const dfsVisit = async (
       includeOptionalDeps,
     );
 
-    if (localVisited.has(childNode.id)) {
+    // A node first reached through a dev path is walked again when a prod path reaches it,
+    // so it and its subtree are relabelled prod. Each node flips at most once.
+    const upgradesToProd = !childNode.isDev && !prodNodeIds.has(childNode.id);
+    if (localVisited.has(childNode.id) && !upgradesToProd) {
       if (pruneWithinTopLevel) {
         const prunedId = `${childNode.id}:pruned`;
         const prunedIsDev = isDevPreferringProd(

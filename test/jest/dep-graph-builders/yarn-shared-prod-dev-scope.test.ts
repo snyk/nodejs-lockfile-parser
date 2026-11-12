@@ -118,3 +118,84 @@ describe('yarn: a package shared by prod and dev dependencies is labelled prod',
     },
   );
 });
+
+// A workspace member's dev-only entry can be visited before one of its prod entries. Here
+// @demo/lib depends on ms and has debug as a devDependency, and debug also requires ms. The
+// lockfile lists debug first, so ms was first reached through debug and labelled dev. The later
+// prod path must relabel ms (and its subtree) as prod.
+describe('yarn berry workspace: prod entry reached first through a dev-only entry', () => {
+  const appPkgJson = JSON.stringify({
+    name: '@demo/app',
+    version: '1.0.0',
+    dependencies: { '@demo/lib': 'workspace:*' },
+  });
+  const workspacePackages = {
+    '@demo/app': { dependencies: { '@demo/lib': 'workspace:*' } },
+    '@demo/lib': {
+      dependencies: { ms: '^2.1.0' },
+      devDependencies: { debug: '^4.3.0' },
+    },
+  };
+  const lock = `__metadata:
+  version: 6
+  cacheKey: 8
+
+"@demo/app@workspace:apps/app":
+  version: 0.0.0-use.local
+  resolution: "@demo/app@workspace:apps/app"
+  dependencies:
+    "@demo/lib": "workspace:*"
+  languageName: unknown
+  linkType: soft
+
+"@demo/lib@workspace:*, @demo/lib@workspace:libs/lib":
+  version: 0.0.0-use.local
+  resolution: "@demo/lib@workspace:libs/lib"
+  dependencies:
+    debug: ^4.3.0
+    ms: ^2.1.0
+  languageName: unknown
+  linkType: soft
+
+"debug@npm:^4.3.0":
+  version: 4.3.4
+  resolution: "debug@npm:4.3.4"
+  dependencies:
+    ms: 2.1.2
+  languageName: node
+  linkType: hard
+
+"ms@npm:2.1.2, ms@npm:^2.1.0":
+  version: 2.1.2
+  resolution: "ms@npm:2.1.2"
+  languageName: node
+  linkType: hard
+`;
+
+  it.each([false, true])(
+    'labels ms prod and debug dev (pruneWithinTopLevelDeps: %s)',
+    async (pruneWithinTopLevelDeps) => {
+      const dg = await parseYarnLockV2Project(
+        appPkgJson,
+        lock,
+        {
+          includeDevDeps: true,
+          includeOptionalDeps: true,
+          strictOutOfSync: false,
+          pruneWithinTopLevelDeps,
+          showNpmScope: true,
+        },
+        {
+          isRoot: false,
+          isWorkspacePkg: true,
+          rootResolutions: {},
+          workspacePackages,
+        },
+      );
+      const s = scopes(dg, 'scope');
+      expect(s['@demo/lib@0.0.0-use.local']).toBe('prod');
+      expect(s['debug@4.3.4']).toBe('dev');
+      expect(s['ms@2.1.2']).toBe('prod');
+    },
+  );
+});
