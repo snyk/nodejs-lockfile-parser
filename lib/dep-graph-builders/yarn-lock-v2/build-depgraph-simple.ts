@@ -1,5 +1,10 @@
 import { DepGraphBuilder } from '@snyk/dep-graph';
-import { createNodeInfo, getTopLevelDeps, PkgNode } from '../util';
+import {
+  createNodeInfo,
+  getTopLevelDeps,
+  isDevPreferringProd,
+  PkgNode,
+} from '../util';
 import type {
   YarnLockV2ProjectParseOptions,
   YarnLockV2WorkspaceArgs,
@@ -55,6 +60,7 @@ export const buildDepGraphYarnLockV2Simple = async (
     showNpmScope,
     includeDevDeps,
     workspaceArgs?.workspacePackages,
+    new Set<string>(),
   );
 
   return depGraphBuilder.build();
@@ -78,6 +84,7 @@ const dfsVisit = async (
   showNpmScope?: boolean,
   includeDevDeps = false,
   workspacePackages?: YarnLockV2WorkspaceArgs['workspacePackages'],
+  prodNodeIds: Set<string> = new Set<string>(),
 ): Promise<void> => {
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     let scopeDepInfo = depInfo;
@@ -122,6 +129,11 @@ const dfsVisit = async (
     if (localVisited.has(childNode.id)) {
       if (pruneWithinTopLevel) {
         const prunedId = `${childNode.id}:pruned`;
+        const prunedIsDev = isDevPreferringProd(
+          prodNodeIds,
+          prunedId,
+          childNode.isDev,
+        );
         depGraphBuilder.addPkgNode(
           {
             name: childNode.alias ? childNode.alias.aliasName : childNode.name,
@@ -130,9 +142,9 @@ const dfsVisit = async (
           prunedId,
           {
             labels: {
-              scope: childNode.isDev ? 'dev' : 'prod',
+              scope: prunedIsDev ? 'dev' : 'prod',
               ...(showNpmScope && {
-                'npm:scope': childNode.isDev ? 'dev' : 'prod',
+                'npm:scope': prunedIsDev ? 'dev' : 'prod',
               }),
               pruned: 'true',
               ...(childNode.missingLockFileEntry && {
@@ -151,6 +163,11 @@ const dfsVisit = async (
       continue;
     }
 
+    const childIsDev = isDevPreferringProd(
+      prodNodeIds,
+      childNode.id,
+      childNode.isDev,
+    );
     depGraphBuilder.addPkgNode(
       {
         name: childNode.alias ? childNode.alias.aliasName : childNode.name,
@@ -159,9 +176,9 @@ const dfsVisit = async (
       childNode.id,
       {
         labels: {
-          scope: childNode.isDev ? 'dev' : 'prod',
+          scope: childIsDev ? 'dev' : 'prod',
           ...(showNpmScope && {
-            'npm:scope': childNode.isDev ? 'dev' : 'prod',
+            'npm:scope': childIsDev ? 'dev' : 'prod',
           }),
           ...(childNode.missingLockFileEntry && {
             missingLockFileEntry: 'true',
@@ -186,6 +203,7 @@ const dfsVisit = async (
       showNpmScope,
       includeDevDeps,
       workspacePackages,
+      prodNodeIds,
     );
   }
 };

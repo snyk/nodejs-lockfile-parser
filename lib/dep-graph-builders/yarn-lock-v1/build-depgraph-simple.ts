@@ -3,6 +3,7 @@ import {
   createNodeInfo,
   getChildNode,
   getTopLevelDeps,
+  isDevPreferringProd,
   PkgNode,
 } from '../util';
 import type { Yarn1DepGraphBuildOptions } from '../types';
@@ -56,6 +57,7 @@ export const buildDepGraphYarnLockV1Simple = async (
     undefined,
     showNpmScope,
     includeComponentMetadata,
+    new Set<string>(),
   );
 
   return depGraphBuilder.build();
@@ -77,6 +79,7 @@ const dfsVisit = async (
   visited?: Set<string>,
   showNpmScope?: boolean,
   includeComponentMetadata?: boolean,
+  prodNodeIds: Set<string> = new Set<string>(),
 ): Promise<void> => {
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     let scopeDepInfo = Object.assign({}, depInfo);
@@ -111,14 +114,19 @@ const dfsVisit = async (
     if (localVisited.has(childNode.id)) {
       if (pruneWithinTopLevel) {
         const prunedId = `${childNode.id}:pruned`;
+        const prunedIsDev = isDevPreferringProd(
+          prodNodeIds,
+          prunedId,
+          childNode.isDev,
+        );
         depGraphBuilder.addPkgNode(
           { name: childNode.name, version: childNode.version },
           prunedId,
           {
             labels: {
-              scope: childNode.isDev ? 'dev' : 'prod',
+              scope: prunedIsDev ? 'dev' : 'prod',
               ...(showNpmScope && {
-                'npm:scope': childNode.isDev ? 'dev' : 'prod',
+                'npm:scope': prunedIsDev ? 'dev' : 'prod',
               }),
               pruned: 'true',
               ...(childNode.missingLockFileEntry && {
@@ -139,14 +147,19 @@ const dfsVisit = async (
       continue;
     }
 
+    const childIsDev = isDevPreferringProd(
+      prodNodeIds,
+      childNode.id,
+      childNode.isDev,
+    );
     depGraphBuilder.addPkgNode(
       { name: childNode.name, version: childNode.version },
       childNode.id,
       {
         labels: {
-          scope: childNode.isDev ? 'dev' : 'prod',
+          scope: childIsDev ? 'dev' : 'prod',
           ...(showNpmScope && {
-            'npm:scope': childNode.isDev ? 'dev' : 'prod',
+            'npm:scope': childIsDev ? 'dev' : 'prod',
           }),
           ...(childNode.missingLockFileEntry && {
             missingLockFileEntry: 'true',
@@ -171,6 +184,7 @@ const dfsVisit = async (
       localVisited,
       showNpmScope,
       includeComponentMetadata,
+      prodNodeIds,
     );
   }
 };
