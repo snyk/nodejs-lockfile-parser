@@ -1,4 +1,8 @@
-import { parseYarnLockV1Project, parseYarnLockV2Project } from '../../../lib';
+import {
+  parsePnpmProject,
+  parseYarnLockV1Project,
+  parseYarnLockV2Project,
+} from '../../../lib';
 import type { PruneLevel } from '../../../lib/dep-graph-builders/types';
 
 // A package reachable from both a prod and a dev dependency is prod, as npm and pnpm label it.
@@ -115,6 +119,148 @@ describe('yarn: a package shared by prod and dev dependencies is labelled prod',
       });
       expect(scopes(dg, 'scope')).toEqual(expected);
       expect(scopes(dg, 'npm:scope')).toEqual(expected);
+    },
+  );
+});
+
+const pnpmLock = `lockfileVersion: '9.0'
+
+importers:
+
+  .:
+    dependencies:
+      kind-of:
+        specifier: ^3.0.2
+        version: 3.2.2
+    devDependencies:
+      is-number:
+        specifier: ^3.0.0
+        version: 3.0.0
+
+packages:
+
+  is-buffer@1.1.6:
+    resolution: {integrity: sha512-isbuffer}
+
+  is-number@3.0.0:
+    resolution: {integrity: sha512-isnumber}
+
+  kind-of@3.2.2:
+    resolution: {integrity: sha512-kindof}
+
+snapshots:
+
+  is-buffer@1.1.6: {}
+
+  is-number@3.0.0:
+    dependencies:
+      kind-of: 3.2.2
+
+  kind-of@3.2.2:
+    dependencies:
+      is-buffer: 1.1.6
+`;
+
+describe('pnpm: a package shared by prod and dev dependencies is labelled prod', () => {
+  it.each([false, true])(
+    'pnpm (pruneWithinTopLevelDeps: %s)',
+    async (pruneWithinTopLevelDeps) => {
+      const dg = await parsePnpmProject(pkgJson, pnpmLock, {
+        includeDevDeps: true,
+        includeOptionalDeps: true,
+        strictOutOfSync: false,
+        pruneWithinTopLevelDeps,
+        showNpmScope: true,
+      });
+      expect(scopes(dg, 'scope')).toEqual(expected);
+      expect(scopes(dg, 'npm:scope')).toEqual(expected);
+    },
+  );
+});
+
+// A name listed in both dependencies and devDependencies. getTopLevelDeps lets the
+// devDependencies entry win, and a production scan (includeDevDeps: false) leaves the package
+// out. With --dev it is labelled dev in every builder, the same as npm and pnpm, so the
+// production and --dev scans agree. Before OSM-3760 the simple yarn builders labelled the
+// direct node prod and its subtree dev.
+describe('a name in both dependencies and devDependencies', () => {
+  const overlapPkgJson = JSON.stringify({
+    name: 'overlap',
+    version: '1.0.0',
+    dependencies: { 'kind-of': '^3.0.2' },
+    devDependencies: { 'kind-of': '^3.0.2' },
+  });
+  const overlapV1 = `# yarn lockfile v1
+
+
+is-buffer@^1.1.5:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz"
+
+kind-of@^3.0.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz"
+  dependencies:
+    is-buffer "^1.1.5"
+`;
+  const overlapV2 = `__metadata:
+  version: 6
+  cacheKey: 8
+
+"is-buffer@npm:^1.1.5":
+  version: 1.1.6
+  resolution: "is-buffer@npm:1.1.6"
+  languageName: node
+  linkType: hard
+
+"kind-of@npm:^3.0.2":
+  version: 3.2.2
+  resolution: "kind-of@npm:3.2.2"
+  dependencies:
+    is-buffer: ^1.1.5
+  languageName: node
+  linkType: hard
+
+"overlap@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "overlap@workspace:."
+  dependencies:
+    kind-of: ^3.0.2
+  languageName: unknown
+  linkType: soft
+`;
+  const allDev = { 'kind-of@3.2.2': 'dev', 'is-buffer@1.1.6': 'dev' };
+
+  it.each<PruneLevel>(['none', 'withinTopLevelDeps', 'cycles'])(
+    'yarn v1 (pruneLevel: %s)',
+    async (pruneLevel) => {
+      for (const includeDevDeps of [true, false]) {
+        const dg = await parseYarnLockV1Project(overlapPkgJson, overlapV1, {
+          includeDevDeps,
+          includeOptionalDeps: true,
+          includePeerDeps: false,
+          strictOutOfSync: false,
+          pruneLevel,
+          showNpmScope: true,
+        });
+        expect(scopes(dg, 'scope')).toEqual(includeDevDeps ? allDev : {});
+      }
+    },
+  );
+
+  it.each([false, true])(
+    'yarn berry (pruneWithinTopLevelDeps: %s)',
+    async (pruneWithinTopLevelDeps) => {
+      for (const includeDevDeps of [true, false]) {
+        const dg = await parseYarnLockV2Project(overlapPkgJson, overlapV2, {
+          includeDevDeps,
+          includeOptionalDeps: true,
+          strictOutOfSync: false,
+          pruneWithinTopLevelDeps,
+          showNpmScope: true,
+        });
+        expect(scopes(dg, 'scope')).toEqual(includeDevDeps ? allDev : {});
+      }
     },
   );
 });
