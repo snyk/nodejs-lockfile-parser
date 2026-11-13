@@ -3,6 +3,7 @@ import {
   createNodeInfo,
   getChildNode,
   getTopLevelDeps,
+  isDevPreferringProd,
   PkgNode,
 } from '../util';
 import type { Yarn1DepGraphBuildOptions } from '../types';
@@ -56,6 +57,7 @@ export const buildDepGraphYarnLockV1Simple = async (
     undefined,
     showNpmScope,
     includeComponentMetadata,
+    new Set<string>(),
   );
 
   return depGraphBuilder.build();
@@ -77,6 +79,7 @@ const dfsVisit = async (
   visited?: Set<string>,
   showNpmScope?: boolean,
   includeComponentMetadata?: boolean,
+  prodNodeIds: Set<string> = new Set<string>(),
 ): Promise<void> => {
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     let scopeDepInfo = Object.assign({}, depInfo);
@@ -108,18 +111,28 @@ const dfsVisit = async (
       includeOptionalDeps,
     );
 
-    if (localVisited.has(childNode.id)) {
+    // A node first reached through a dev path is walked again when a prod path reaches it,
+    // so it and its subtree are relabelled prod. Each node flips at most once.
+    const upgradesToProd = !childNode.isDev && !prodNodeIds.has(childNode.id);
+    if (localVisited.has(childNode.id) && !upgradesToProd) {
       if (pruneWithinTopLevel) {
         const prunedId = `${childNode.id}:pruned`;
+        const prunedIsDev = isDevPreferringProd(
+          prodNodeIds,
+          prunedId,
+          childNode.isDev,
+        );
         depGraphBuilder.addPkgNode(
           { name: childNode.name, version: childNode.version },
           prunedId,
           {
             labels: {
-              scope: node.isDev ? 'dev' : 'prod',
-              ...(showNpmScope && { 'npm:scope': node.isDev ? 'dev' : 'prod' }),
+              scope: prunedIsDev ? 'dev' : 'prod',
+              ...(showNpmScope && {
+                'npm:scope': prunedIsDev ? 'dev' : 'prod',
+              }),
               pruned: 'true',
-              ...(node.missingLockFileEntry && {
+              ...(childNode.missingLockFileEntry && {
                 missingLockFileEntry: 'true',
               }),
               ...(childNode.alias && {
@@ -137,14 +150,21 @@ const dfsVisit = async (
       continue;
     }
 
+    const childIsDev = isDevPreferringProd(
+      prodNodeIds,
+      childNode.id,
+      childNode.isDev,
+    );
     depGraphBuilder.addPkgNode(
       { name: childNode.name, version: childNode.version },
       childNode.id,
       {
         labels: {
-          scope: node.isDev ? 'dev' : 'prod',
-          ...(showNpmScope && { 'npm:scope': node.isDev ? 'dev' : 'prod' }),
-          ...(node.missingLockFileEntry && {
+          scope: childIsDev ? 'dev' : 'prod',
+          ...(showNpmScope && {
+            'npm:scope': childIsDev ? 'dev' : 'prod',
+          }),
+          ...(childNode.missingLockFileEntry && {
             missingLockFileEntry: 'true',
           }),
           ...(childNode.alias && {
@@ -167,6 +187,7 @@ const dfsVisit = async (
       localVisited,
       showNpmScope,
       includeComponentMetadata,
+      prodNodeIds,
     );
   }
 };
