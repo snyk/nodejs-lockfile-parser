@@ -1,7 +1,9 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { LockfileType } from '../..';
-import { getGraphDependencies } from '../util';
+import * as semver from 'semver';
+import { getGraphDependencies, getUnsatisfiedDeclaredRange } from '../util';
+import type { PackageJsonBase } from '../types';
 import { PnpmLockfileParser } from './lockfile-parser/lockfile-parser';
 import { NormalisedPnpmPkgs, PnpmNode } from './types';
 import { OpenSourceEcosystems } from '@snyk/error-catalog-nodejs-public';
@@ -102,3 +104,96 @@ export function getFileContents(
     fileName,
   };
 }
+
+const IMPORTER_SECTIONS = [
+  'dependencies',
+  'devDependencies',
+  'optionalDependencies',
+];
+
+/**
+ * The version string recorded for a direct dependency in the lockfile's importer
+ * (v5: a plain string, v6+: `{ specifier, version }`), untouched by any
+ * normalisation (workspace link resolution, alias lookups, peer suffix removal).
+ */
+const getRawImporterVersion = (
+  rawPnpmLock: any,
+  importer: string | undefined,
+  name: string,
+): string | undefined => {
+  const root = importer ? rawPnpmLock?.importers?.[importer] : rawPnpmLock;
+  for (const section of IMPORTER_SECTIONS) {
+    const entry = root?.[section]?.[name];
+    const version = typeof entry === 'string' ? entry : entry?.version;
+    if (typeof version === 'string') {
+      return version;
+    }
+  }
+  return undefined;
+};
+
+// `foo`, `foo@^1`, `parent>foo`, `parent@1>foo@^2`, `@scope/foo@1` -> `foo`/`@scope/foo`
+const overrideKeyTargetsName = (key: string, name: string): boolean => {
+  const target = key.split('>').pop() as string;
+  const at = target.indexOf('@', 1);
+  return (at === -1 ? target : target.slice(0, at)) === name;
+};
+
+const isOverridden = (
+  name: string,
+  pkgJson: PackageJsonBase,
+  rawPnpmLock: any,
+): boolean => {
+  const sources = [
+    pkgJson.pnpm?.overrides,
+    pkgJson.overrides,
+    pkgJson.resolutions,
+    // overrides configured outside package.json (e.g. pnpm-workspace.yaml)
+    // are recorded in the lockfile
+    rawPnpmLock?.overrides,
+  ];
+  return sources.some(
+    (overrides) =>
+      overrides &&
+      typeof overrides === 'object' &&
+      Object.keys(overrides).some((key) => overrideKeyTargetsName(key, name)),
+  );
+};
+
+/**
+ * Returns the range declared in package.json for a direct dependency when the
+ * version pnpm locked for it demonstrably does not satisfy that range.
+ *
+ * Conservative: nothing is reported for peer-only or ambiguously declared
+ * dependencies, overridden packages, or when the importer's locked version is
+ * not itself a plain registry semver (links, workspace packages, file:, git,
+ * tarball and npm: alias resolutions). Non-semver declared ranges are skipped
+ * by getUnsatisfiedDeclaredRange.
+ */
+export const getPnpmUnsatisfiedDeclaredRange = (
+  name: string,
+  pkgJson: PackageJsonBase,
+  rawPnpmLock: any,
+  importer?: string,
+): string | undefined => {
+  const declared = new Set(
+    [
+      pkgJson.dependencies?.[name],
+      pkgJson.devDependencies?.[name],
+      pkgJson.optionalDependencies?.[name],
+    ].filter((range): range is string => typeof range === 'string'),
+  );
+  if (declared.size !== 1 || isOverridden(name, pkgJson, rawPnpmLock)) {
+    return undefined;
+  }
+  const raw = getRawImporterVersion(rawPnpmLock, importer, name);
+  if (!raw) {
+    return undefined;
+  }
+  // drop transitive peer suffixes: v5 `1.0.0_react@18`, v6+ `1.0.0(react@18)`
+  const lockedVersion = raw.split('(')[0].split('_')[0];
+  if (!semver.valid(lockedVersion)) {
+    return undefined;
+  }
+  return getUnsatisfiedDeclaredRange([...declared][0], lockedVersion);
+};

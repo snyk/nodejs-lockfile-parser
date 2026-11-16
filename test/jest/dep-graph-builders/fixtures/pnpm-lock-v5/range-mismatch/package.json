@@ -1,0 +1,25 @@
+{
+  "name": "range-mismatch",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "a-first": "^1.0.0",
+    "stale-b": "~4.17.20",
+    "stale-a": "^1.2.0",
+    "fresh-c": "^2.0.0",
+    "pre-d": "^1.0.0-beta.1",
+    "stale-e": "^3.0.0",
+    "override-o": "^1.0.0"
+  },
+  "devDependencies": {
+    "stale-dev": "^3.0.0"
+  },
+  "peerDependencies": {
+    "peer-p": ">=5"
+  },
+  "pnpm": {
+    "overrides": {
+      "override-o": "0.9.0"
+    }
+  }
+}
