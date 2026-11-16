@@ -1,0 +1,20 @@
+{
+  "name": "range-mismatch",
+  "version": "1.0.0",
+  "dependencies": {
+    "a-first": "^1.0.0",
+    "stale-a": "^1.2.0",
+    "stale-b": "~4.17.20",
+    "fresh-c": "^2.0.0",
+    "pre-d": "^1.0.0-beta.1"
+  },
+  "devDependencies": {
+    "stale-dev": "^3.0.0"
+  },
+  "optionalDependencies": {
+    "stale-opt": "^1.0.0"
+  },
+  "peerDependencies": {
+    "stale-peer": "^1.0.0"
+  }
+}
