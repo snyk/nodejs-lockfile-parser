@@ -1,0 +1,29 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .: {}
+
+  packages/pkg-a:
+    dependencies:
+      pkg-b:
+        specifier: ^1.0.0
+        version: link:../pkg-b
+      stale-a:
+        specifier: ^1.2.0
+        version: 1.1.0
+
+  packages/pkg-b: {}
+
+packages:
+
+  stale-a@1.1.0:
+    resolution: {integrity: sha512-AAAA}
+
+snapshots:
+
+  stale-a@1.1.0: {}

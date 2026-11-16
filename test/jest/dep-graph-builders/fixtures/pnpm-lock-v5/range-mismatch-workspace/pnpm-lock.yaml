@@ -1,0 +1,23 @@
+lockfileVersion: 5.4
+
+importers:
+
+  .:
+    specifiers: {}
+
+  packages/pkg-a:
+    specifiers:
+      pkg-b: ^1.0.0
+      stale-a: ^1.2.0
+    dependencies:
+      pkg-b: link:../pkg-b
+      stale-a: 1.1.0
+
+  packages/pkg-b:
+    specifiers: {}
+
+packages:
+
+  /stale-a/1.1.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
