@@ -58,7 +58,8 @@
         "deps": [],
         "info": {
           "labels": {
-            "scope": "prod"
+            "scope": "prod",
+            "missingLockFileEntry": "true"
           }
         }
       }

@@ -109,10 +109,9 @@ export const yarnLockFileKeyNormalizer =
  * dev-only entries: names that appear in devDependencies but not in dependencies /
  * optionalDependencies / peerDependencies (prod wins on overlap).
  */
-const pruneWorkspaceDevDependencies = (
-  deps: Dependencies,
+const isWorkspaceDevOnly = (
   workspaceManifest: WorkspacePackageManifest,
-): Dependencies => {
+): ((name: string) => boolean) => {
   const nonDev = new Set<string>([
     ...Object.keys(workspaceManifest.dependencies || {}),
     ...Object.keys(workspaceManifest.optionalDependencies || {}),
@@ -121,16 +120,49 @@ const pruneWorkspaceDevDependencies = (
   const dev = new Set<string>(
     Object.keys(workspaceManifest.devDependencies || {}),
   );
+  return (name) => dev.has(name) && !nonDev.has(name);
+};
 
+const pruneWorkspaceDevDependencies = (
+  deps: Dependencies,
+  workspaceManifest: WorkspacePackageManifest,
+): Dependencies => {
+  const devOnly = isWorkspaceDevOnly(workspaceManifest);
   return Object.entries(deps).reduce((acc: Dependencies, [name, depInfo]) => {
     // Drop only names that are exclusively devDependencies of the workspace member.
-    if (dev.has(name) && !nonDev.has(name)) {
+    if (devOnly(name)) {
       return acc;
     }
     acc[name] = depInfo;
     return acc;
   }, {});
 };
+
+/**
+ * With dev deps included, keep the workspace member's dev-only entries but label them dev.
+ * The lockfile lists a workspace's devDependencies alongside its dependencies, so without this
+ * they inherit the workspace's own scope: a prod workspace dependency's build tooling would be
+ * labelled prod.
+ */
+const markWorkspaceDevDependencies = (
+  deps: Dependencies,
+  workspaceManifest: WorkspacePackageManifest,
+): Dependencies => {
+  const devOnly = isWorkspaceDevOnly(workspaceManifest);
+  return Object.entries(deps).reduce((acc: Dependencies, [name, depInfo]) => {
+    acc[name] = devOnly(name) ? { ...depInfo, isDev: true } : depInfo;
+    return acc;
+  }, {});
+};
+
+const applyWorkspaceManifest = (
+  deps: Dependencies,
+  workspaceManifest: WorkspacePackageManifest,
+  includeDevDeps: boolean,
+): Dependencies =>
+  includeDevDeps
+    ? markWorkspaceDevDependencies(deps, workspaceManifest)
+    : pruneWorkspaceDevDependencies(deps, workspaceManifest);
 
 export const getYarnLockV2ChildNode = (
   name: string,
@@ -151,7 +183,7 @@ export const getYarnLockV2ChildNode = (
   parentNode: PkgNode,
   includeDevDeps = false,
   workspacePackages?: Record<string, WorkspacePackageManifest>,
-) => {
+): PkgNode => {
   // First, check if a resolution would be used
   const resolvedVersionFromResolution = (() => {
     // Check for scoped resolution (e.g., "parentPackageName/dependencyName")
@@ -308,13 +340,13 @@ export const getYarnLockV2ChildNode = (
         depInfo.alias ? depInfo.alias.aliasTargetDepName : name
       ];
     if (
-      !includeDevDeps &&
       workspaceManifestFromResolution &&
       pkgData.resolution?.includes('@workspace:')
     ) {
-      formattedDependencies = pruneWorkspaceDevDependencies(
+      formattedDependencies = applyWorkspaceManifest(
         formattedDependencies,
         workspaceManifestFromResolution,
+        includeDevDeps,
       );
     }
 
@@ -369,14 +401,11 @@ export const getYarnLockV2ChildNode = (
       workspacePackages?.[
         depInfo.alias ? depInfo.alias.aliasTargetDepName : name
       ];
-    if (
-      !includeDevDeps &&
-      workspaceManifest &&
-      depData.resolution?.includes('@workspace:')
-    ) {
-      dependencies = pruneWorkspaceDevDependencies(
+    if (workspaceManifest && depData.resolution?.includes('@workspace:')) {
+      dependencies = applyWorkspaceManifest(
         dependencies,
         workspaceManifest,
+        includeDevDeps,
       );
     }
 

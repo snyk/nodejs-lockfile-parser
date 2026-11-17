@@ -80,6 +80,25 @@ export const addPkgNodeToGraph = (
 };
 
 /**
+ * A package reachable from both a prod and a dev dependency is prod, as npm and pnpm label it.
+ * The simple yarn builders and the pnpm builder visit a shared package once per top-level
+ * dependency, and DepGraphBuilder.addPkgNode overwrites a node's labels, so the last visit
+ * would win, and dev roots are visited last. Once a node id has been labelled prod it stays prod, whatever order
+ * the visits come in.
+ */
+export const isDevPreferringProd = (
+  prodNodeIds: Set<string>,
+  nodeId: string,
+  isDev: boolean,
+): boolean => {
+  if (!isDev) {
+    prodNodeIds.add(nodeId);
+    return false;
+  }
+  return !prodNodeIds.has(nodeId);
+};
+
+/**
  * Get top level dependencies from the given package json object which is parsed from a package.json file.
  * This includes both prod dependencies and dev dependencies supposing includeDevDeps is supported.
  */
