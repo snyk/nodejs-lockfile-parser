@@ -1,4 +1,5 @@
 import { DepGraphBuildOptions, PackageJsonBase } from './types';
+import * as semver from 'semver';
 import { DepGraphBuilder } from '@snyk/dep-graph';
 import type { NodeInfo } from '@snyk/dep-graph/dist/core/types';
 import { NormalisedPkgs } from './types';
@@ -20,6 +21,9 @@ export interface PkgNode {
   dependencies: Dependencies;
   isDev: boolean;
   missingLockFileEntry?: boolean;
+  // Set for a top-level dependency whose locked version does not satisfy the
+  // range declared in package.json. Emitted as the `unsatisfiedDeclaredRange` label.
+  unsatisfiedDeclaredRange?: string;
   inBundle?: boolean;
   key?: string;
   // Raw lockfile metadata, emitted as component-metadata labels when requested.
@@ -69,6 +73,9 @@ export const addPkgNodeToGraph = (
         ...(options.isCyclic && { pruned: 'cyclic' }),
         ...(options.isWorkspacePkg && { pruned: 'true' }),
         ...(node.missingLockFileEntry && { missingLockFileEntry: 'true' }),
+        ...(node.unsatisfiedDeclaredRange && {
+          unsatisfiedDeclaredRange: node.unsatisfiedDeclaredRange,
+        }),
         ...(node.alias && {
           alias: `${node.alias.aliasName}=>${node.alias.aliasTargetDepName}@${node.version}`,
         }),
@@ -372,4 +379,36 @@ export const getChildNode = (
   }
 
   return childNode;
+};
+
+/**
+ * Returns the range declared in package.json when it is a plain semver range
+ * that the locked version demonstrably does not satisfy, otherwise undefined.
+ *
+ * Deliberately conservative: anything that is not a plain semver range
+ * (file:/link:/git/URL/workspace:/npm: specs, dist-tags, `*`/`x`/empty,
+ * unparseable values) or a locked version that is not valid semver yields
+ * undefined, so a flag is only raised when we are sure.
+ */
+export const getUnsatisfiedDeclaredRange = (
+  declaredRange: string | undefined,
+  lockedVersion: string | undefined,
+): string | undefined => {
+  if (!declaredRange || !lockedVersion) {
+    return undefined;
+  }
+  const range = declaredRange.trim();
+  if (/[:/#@\\]/.test(range) || /^(\*|x|X|latest)?$/.test(range)) {
+    return undefined;
+  }
+  const validRange = semver.validRange(range);
+  if (!validRange || !semver.valid(lockedVersion)) {
+    return undefined;
+  }
+  // `*` / `>=0.0.0` style ranges never exclude a release; includePrerelease
+  // avoids flagging prerelease locks that npm itself would have accepted.
+  if (semver.satisfies(lockedVersion, range, { includePrerelease: true })) {
+    return undefined;
+  }
+  return declaredRange;
 };
