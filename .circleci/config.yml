@@ -38,7 +38,7 @@ commands:
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
   install_node_npm:
     description: Install correct Node version
     parameters:
@@ -170,15 +170,14 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - run: sudo npm i -g semantic-release@25 @semantic-release/exec pkg
       - run:
           name: Install NPM packages
-          command: npm i
+          command: npm ci
       - run:
           name: Publish to GitHub
           command: |
             export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-            semantic-release
+            npx --no-install semantic-release
 
 workflows:
   version: 2
