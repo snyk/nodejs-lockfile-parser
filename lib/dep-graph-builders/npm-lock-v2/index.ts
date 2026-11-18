@@ -793,10 +793,16 @@ export const matchOverrideKey = (
   const computedOverrides = overrideKeysNameToVersions[pkg.name];
   if (computedOverrides) {
     for (const versionSpec of computedOverrides) {
-      const isPkgVersionSubsetOfOverrideSpec = semver.subset(
-        pkg.version,
-        semver.validRange(versionSpec) as string,
-      );
+      const range = semver.validRange(versionSpec);
+      // pkg.version is the spec the parent requested, which can be a range
+      // (e.g. ^8.0.0) or a non-semver spec (local path, git URL, alias,
+      // dist-tag). Only a match-all range can apply to a non-semver spec, and
+      // semver.subset throws "Invalid comparator" if given one.
+      const isPkgVersionSubsetOfOverrideSpec =
+        range === '*' ||
+        (range !== null &&
+          semver.validRange(pkg.version) !== null &&
+          semver.subset(pkg.version, range));
       if (isPkgVersionSubsetOfOverrideSpec) {
         return overrides[`${pkg.name}@${versionSpec}`];
       }
