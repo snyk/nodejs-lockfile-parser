@@ -56,4 +56,43 @@ describe('npm-lock-v2 matchOverrideKey', () => {
     const override = matchOverrideKey(overrides, pkg);
     expect(override).toBe(null);
   });
+  it('should match a version range when the requested spec is a range', async () => {
+    const overrides = {
+      'pkg-to-override@^8': '^9.0.0',
+    };
+    const pkg = { name: 'pkg-to-override', version: '^8.0.0' };
+
+    const override = matchOverrideKey(overrides, pkg);
+    expect(override).toBe('^9.0.0');
+  });
+  it('should match a match-all version spec when the version is not semver', async () => {
+    const overrides = {
+      'pkg-to-override@*': '1.0.0',
+    };
+    const pkg = { name: 'pkg-to-override', version: './lib/pkg-to-override' };
+
+    const override = matchOverrideKey(overrides, pkg);
+    expect(override).toBe('1.0.0');
+  });
+  it('should not match a version range when the version is a local path', async () => {
+    const overrides = {
+      'pkg-to-override@^1.0.0': '1.0.0',
+    };
+    const pkg = { name: 'pkg-to-override', version: './lib/pkg-to-override' };
+
+    const override = matchOverrideKey(overrides, pkg);
+    expect(override).toBe(null);
+  });
+  it('should not match a version range when the version is a git url', async () => {
+    const overrides = {
+      'pkg-to-override@^1.0.0': '1.0.0',
+    };
+    const pkg = {
+      name: 'pkg-to-override',
+      version: 'git+https://github.com/org/pkg-to-override.git',
+    };
+
+    const override = matchOverrideKey(overrides, pkg);
+    expect(override).toBe(null);
+  });
 });
