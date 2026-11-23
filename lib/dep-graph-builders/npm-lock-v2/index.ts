@@ -15,6 +15,7 @@ import {
   parsePkgJson,
   PkgNode,
   createNodeInfo,
+  getUnsatisfiedDeclaredRange,
 } from '../util';
 import { OutOfSyncError } from '../../errors';
 import { LockfileType } from '../../parsers';
@@ -142,6 +143,7 @@ export const buildDepGraphNpmLockV2 = async (
   );
 
   const visitedMap: Set<string> = new Set();
+  const addedNodes: Map<string, PkgNode> = new Map();
   await dfsVisit(
     depGraphBuilder,
     rootNode,
@@ -156,6 +158,7 @@ export const buildDepGraphNpmLockV2 = async (
     pruneNpmStrictOutOfSync,
     showNpmScope,
     includeComponentMetadata,
+    addedNodes,
   );
   return depGraphBuilder.build();
 };
@@ -182,6 +185,7 @@ const dfsVisit = async (
   pruneNpmStrictOutOfSync?: boolean,
   showNpmScope?: boolean,
   includeComponentMetadata?: boolean,
+  addedNodes?: Map<string, PkgNode>,
 ): Promise<void> => {
   visitedMap.add(node.id);
 
@@ -219,6 +223,7 @@ const dfsVisit = async (
     }
 
     if (!visitedMap.has(childNode.id)) {
+      addedNodes?.set(childNode.id, childNode);
       addPkgNodeToGraph(depGraphBuilder, childNode, {
         showNpmScope,
         includeComponentMetadata,
@@ -246,7 +251,19 @@ const dfsVisit = async (
         undefined,
         showNpmScope,
         includeComponentMetadata,
+        addedNodes,
       );
+    } else if (childNode.unsatisfiedDeclaredRange) {
+      // The package was first reached transitively; re-add it with its
+      // original node data plus the top-level mismatch label.
+      const original = addedNodes?.get(childNode.id);
+      if (original) {
+        original.unsatisfiedDeclaredRange = childNode.unsatisfiedDeclaredRange;
+        addPkgNodeToGraph(depGraphBuilder, original, {
+          showNpmScope,
+          includeComponentMetadata,
+        });
+      }
     }
 
     depGraphBuilder.connectDep(node.id, childNode.id);
@@ -383,6 +400,18 @@ const getChildNode = (
 
   let depData = pkgs[childNodeKey];
 
+  // Only direct dependencies of the root package are checked, and never when an
+  // override, alias, peer or link/workspace entry is involved: those can
+  // legitimately resolve to something other than the declared range.
+  const unsatisfiedDeclaredRange =
+    ancestry.length === 1 &&
+    !override &&
+    !aliasInfo &&
+    !depInfo.isPeer &&
+    !depData['link']
+      ? getUnsatisfiedDeclaredRange(depInfo.version, depData.version)
+      : undefined;
+
   const resolvedToWorkspace = (): boolean => {
     // Workspaces can be set as an array, or as an object
     // { packages: [] }, this can be checked in
@@ -461,6 +490,7 @@ const getChildNode = (
     integrity: depData.integrity,
     resolved: depData.resolved,
     ...(aliasInfo ? { alias: { ...aliasInfo, version: depData.version } } : {}),
+    ...(unsatisfiedDeclaredRange ? { unsatisfiedDeclaredRange } : {}),
   };
 };
 

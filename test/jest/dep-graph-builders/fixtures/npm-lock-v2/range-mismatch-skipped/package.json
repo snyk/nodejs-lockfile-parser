@@ -1,0 +1,17 @@
+{
+  "name": "range-mismatch-skipped",
+  "version": "1.0.0",
+  "dependencies": {
+    "file-dep": "file:../file-dep",
+    "link-dep": "link:../link-dep",
+    "git-dep": "git+https://example.com/org/git-dep.git#v2.0.0",
+    "gh-dep": "example-org/gh-dep#main",
+    "url-dep": "https://example.com/url-dep-2.0.0.tgz",
+    "ws-dep": "workspace:*",
+    "alias-dep": "npm:real-pkg@^2.0.0",
+    "tag-dep": "latest",
+    "star-dep": "*",
+    "empty-dep": "",
+    "garbage-dep": "not a range!!"
+  }
+}
