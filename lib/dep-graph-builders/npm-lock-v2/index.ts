@@ -12,6 +12,7 @@ import {
   getGraphDependencies,
   getPeerDependencies,
   getTopLevelDeps,
+  getUnsatisfiedDeclaredRange,
   parsePkgJson,
   PkgNode,
   createNodeInfo,
@@ -142,10 +143,14 @@ export const buildDepGraphNpmLockV2 = async (
   );
 
   const visitedMap: Set<string> = new Set();
+  // First-visit node data, used when a top-level dep is re-added after a
+  // transitive-first visit so scope labels stay those of the original node.
+  const addedNodes: Map<string, PkgNode> = new Map();
   await dfsVisit(
     depGraphBuilder,
     rootNode,
     visitedMap,
+    addedNodes,
     npmLockPkgs,
     strictOutOfSync,
     includeDevDeps,
@@ -172,6 +177,7 @@ const dfsVisit = async (
   depGraphBuilder: DepGraphBuilder,
   node: PkgNode,
   visitedMap: Set<string>,
+  addedNodes: Map<string, PkgNode>,
   npmLockPkgs: Record<string, NpmLockPkg>,
   strictOutOfSync: boolean,
   includeDevDeps: boolean,
@@ -223,10 +229,12 @@ const dfsVisit = async (
         showNpmScope,
         includeComponentMetadata,
       });
+      addedNodes.set(childNode.id, childNode);
       await dfsVisit(
         depGraphBuilder,
         childNode,
         visitedMap,
+        addedNodes,
         npmLockPkgs,
         strictOutOfSync,
         includeDevDeps,
@@ -247,6 +255,21 @@ const dfsVisit = async (
         showNpmScope,
         includeComponentMetadata,
       );
+    } else if (childNode.unsatisfiedDeclaredRange) {
+      // Top-level dep first reached transitively: re-add with original data
+      // plus the label so scope (and other first-visit labels) stay unchanged.
+      const original = addedNodes.get(childNode.id);
+      if (original && !original.unsatisfiedDeclaredRange) {
+        const labelled: PkgNode = {
+          ...original,
+          unsatisfiedDeclaredRange: childNode.unsatisfiedDeclaredRange,
+        };
+        addPkgNodeToGraph(depGraphBuilder, labelled, {
+          showNpmScope,
+          includeComponentMetadata,
+        });
+        addedNodes.set(childNode.id, labelled);
+      }
     }
 
     depGraphBuilder.connectDep(node.id, childNode.id);
@@ -382,6 +405,8 @@ const getChildNode = (
   }
 
   let depData = pkgs[childNodeKey];
+  // Capture before workspace rewrite: linked lock entries must not be labelled.
+  const isLinkEntry = Boolean(depData['link']);
 
   const resolvedToWorkspace = (): boolean => {
     // Workspaces can be set as an array, or as an object
@@ -443,6 +468,16 @@ const getChildNode = (
   const actualPackageName =
     depData.name ?? aliasInfo?.aliasTargetDepName ?? name;
 
+  // Only top-level (direct) dependencies may carry unsatisfiedDeclaredRange.
+  // ancestry here always includes the parent; length 1 means the parent is root.
+  // Skip overrides, peers, and link/workspace entries — compare the original
+  // package.json declared range against the locked version.
+  const isTopLevel = ancestry.length === 1;
+  const unsatisfiedDeclaredRange =
+    isTopLevel && !override && !depInfo.isPeer && !isLinkEntry
+      ? getUnsatisfiedDeclaredRange(depInfo.version, depData.version)
+      : undefined;
+
   return {
     id: `${actualPackageName}@${depData.version}`,
     name: actualPackageName,
@@ -460,6 +495,7 @@ const getChildNode = (
     key: childNodeKey,
     integrity: depData.integrity,
     resolved: depData.resolved,
+    ...(unsatisfiedDeclaredRange ? { unsatisfiedDeclaredRange } : {}),
     ...(aliasInfo ? { alias: { ...aliasInfo, version: depData.version } } : {}),
   };
 };

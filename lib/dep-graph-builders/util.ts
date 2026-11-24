@@ -7,6 +7,7 @@ import { parseJsonFile } from '../utils';
 import { LockfileType } from '../parsers';
 import { parseNpmAlias } from '../aliasesPreprocessors/pkgJson';
 import { getComponentMetadataLabels } from '../component-metadata-labels';
+import * as semver from 'semver';
 
 export type Dependencies = Record<
   string,
@@ -20,6 +21,11 @@ export interface PkgNode {
   dependencies: Dependencies;
   isDev: boolean;
   missingLockFileEntry?: boolean;
+  /**
+   * Declared package.json range that the locked version does not satisfy.
+   * Emitted as the `unsatisfiedDeclaredRange` node label when set.
+   */
+  unsatisfiedDeclaredRange?: string;
   inBundle?: boolean;
   key?: string;
   // Raw lockfile metadata, emitted as component-metadata labels when requested.
@@ -32,6 +38,63 @@ export interface PkgNode {
     version: string;
   };
 }
+
+/**
+ * Non-comparable dependency specs and wildcards that must not produce an
+ * `unsatisfiedDeclaredRange` label. Conservative: prefer skipping over a
+ * false positive when the declared value is not a clear semver range.
+ */
+const NON_COMPARABLE_SPEC_PREFIX =
+  /^(file|link|workspace|npm|git\+ssh|git\+http|git\+https|git|github|gitlab|bitbucket|gist|http|https|ssh):/i;
+
+// GitHub shorthand: user/repo or org/repo#ref (no protocol).
+const GITHUB_SHORTHAND = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+(?:#.+)?$/;
+
+const SKIP_DECLARED_RANGES = new Set(['*', 'x', 'X', 'latest']);
+
+/**
+ * Returns the declared range when a locked version does not satisfy it;
+ * otherwise `undefined`. Skips non-semver specs, wildcards, empty values and
+ * unparseable ranges. Prerelease locked versions are compared with
+ * `includePrerelease` so they do not spuriously look unsatisfied.
+ */
+export const getUnsatisfiedDeclaredRange = (
+  declaredRange: string,
+  lockedVersion: string,
+): string | undefined => {
+  if (typeof declaredRange !== 'string' || typeof lockedVersion !== 'string') {
+    return undefined;
+  }
+
+  const range = declaredRange.trim();
+  if (!range || SKIP_DECLARED_RANGES.has(range)) {
+    return undefined;
+  }
+
+  if (NON_COMPARABLE_SPEC_PREFIX.test(range) || GITHUB_SHORTHAND.test(range)) {
+    return undefined;
+  }
+
+  // semver.validRange('') is '*'; reject empties already handled above, and
+  // reject anything that is not a real comparable range.
+  if (semver.validRange(range) === null) {
+    return undefined;
+  }
+
+  if (!semver.valid(lockedVersion)) {
+    return undefined;
+  }
+
+  if (
+    semver.satisfies(lockedVersion, range, {
+      includePrerelease: true,
+    })
+  ) {
+    return undefined;
+  }
+
+  return declaredRange;
+};
 
 export const createNodeInfo = (
   options: DepGraphBuildOptions,
@@ -69,6 +132,9 @@ export const addPkgNodeToGraph = (
         ...(options.isCyclic && { pruned: 'cyclic' }),
         ...(options.isWorkspacePkg && { pruned: 'true' }),
         ...(node.missingLockFileEntry && { missingLockFileEntry: 'true' }),
+        ...(node.unsatisfiedDeclaredRange && {
+          unsatisfiedDeclaredRange: node.unsatisfiedDeclaredRange,
+        }),
         ...(node.alias && {
           alias: `${node.alias.aliasName}=>${node.alias.aliasTargetDepName}@${node.version}`,
         }),
