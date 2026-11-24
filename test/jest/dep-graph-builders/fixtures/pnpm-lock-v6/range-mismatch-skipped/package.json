@@ -1,0 +1,19 @@
+{
+  "name": "range-mismatch-skipped",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "file-dep": "file:./file-dep",
+    "tag-dep": "latest",
+    "star-dep": "*",
+    "x-dep": "x",
+    "tar-dep": "https://example.com/tar-dep/archive/1.9.0.tar.gz",
+    "alias-dep": "npm:alias-target@^5.0.0",
+    "cat-dep": "catalog:",
+    "ws-dep": "workspace:^5.0.0",
+    "bad-dep": "not a range",
+    "lockfile-override-dep": "^1.0.0",
+    "link-dep": "link:../link-dep",
+    "git-dep": "github:example/git-dep#v5.0.0"
+  }
+}
