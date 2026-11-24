@@ -1,0 +1,68 @@
+lockfileVersion: 5.4
+
+overrides:
+  override-o: 0.9.0
+
+specifiers:
+  a-first: ^1.0.0
+  stale-b: ~4.17.20
+  stale-a: ^1.2.0
+  fresh-c: ^2.0.0
+  pre-d: ^1.0.0-beta.1
+  stale-e: ^3.0.0
+  override-o: 0.9.0
+  peer-p: '>=5'
+  stale-dev: ^3.0.0
+
+dependencies:
+  a-first: 1.0.0
+  stale-b: 4.17.15
+  stale-a: 1.1.0
+  fresh-c: 2.3.0
+  pre-d: 1.0.0-beta.3
+  stale-e: 2.0.0_peer-p@4.0.0
+  override-o: 0.9.0
+  peer-p: 4.0.0
+
+devDependencies:
+  stale-dev: 2.9.0
+
+packages:
+
+  /a-first/1.0.0:
+    resolution: {integrity: sha512-AAAA}
+    dependencies:
+      stale-b: 4.17.15
+    dev: false
+
+  /stale-b/4.17.15:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /stale-a/1.1.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /fresh-c/2.3.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /pre-d/1.0.0-beta.3:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /stale-e/2.0.0_peer-p@4.0.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /override-o/0.9.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /peer-p/4.0.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /stale-dev/2.9.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: true

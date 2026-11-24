@@ -1,0 +1,86 @@
+lockfileVersion: 5.4
+
+overrides:
+  lockfile-override-dep: 0.9.0
+
+specifiers:
+  file-dep: 'file:./file-dep'
+  tag-dep: latest
+  star-dep: '*'
+  x-dep: x
+  tar-dep: 'https://example.com/tar-dep/archive/1.9.0.tar.gz'
+  alias-dep: 'npm:alias-target@^5.0.0'
+  cat-dep: 'catalog:'
+  ws-dep: 'workspace:^5.0.0'
+  bad-dep: not a range
+  lockfile-override-dep: 0.9.0
+  link-dep: 'link:../link-dep'
+  git-dep: 'github:example/git-dep#v5.0.0'
+  conflict-dep: ^2.0.0
+
+dependencies:
+  file-dep: 'file:file-dep'
+  tag-dep: 1.0.0
+  star-dep: 1.0.0
+  x-dep: 1.0.0
+  tar-dep: '@example.com/tar-dep/archive/1.9.0.tar.gz'
+  alias-dep: /alias-target/4.17.21
+  cat-dep: 1.0.0
+  ws-dep: 1.0.0
+  bad-dep: 1.0.0
+  lockfile-override-dep: 0.9.0
+  link-dep: 'link:../link-dep'
+  git-dep: '@github.com/example/git-dep/0123456789abcdef0123456789abcdef01234567'
+  conflict-dep: 1.0.0
+
+optionalDependencies:
+  conflict-dep: 1.0.0
+
+
+packages:
+
+  file:file-dep:
+    resolution: {integrity: sha512-AAAA}
+    name: file-dep
+    version: 1.0.0
+    dev: false
+
+  /tag-dep/1.0.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /star-dep/1.0.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /x-dep/1.0.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /tar-dep/1.9.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /alias-target/4.17.21:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /cat-dep/1.0.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /ws-dep/1.0.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /bad-dep/1.0.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /lockfile-override-dep/0.9.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /conflict-dep/1.0.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false

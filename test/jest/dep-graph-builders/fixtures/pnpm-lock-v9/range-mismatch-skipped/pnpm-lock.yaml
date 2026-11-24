@@ -1,0 +1,115 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+overrides:
+  lockfile-override-dep: 0.9.0
+
+importers:
+
+  .:
+    dependencies:
+      file-dep:
+        specifier: 'file:./file-dep'
+        version: 'file:file-dep'
+      tag-dep:
+        specifier: latest
+        version: 1.0.0
+      star-dep:
+        specifier: '*'
+        version: 1.0.0
+      x-dep:
+        specifier: x
+        version: 1.0.0
+      tar-dep:
+        specifier: 'https://example.com/tar-dep/archive/1.9.0.tar.gz'
+        version: 'https://example.com/tar-dep/archive/1.9.0.tar.gz'
+      alias-dep:
+        specifier: 'npm:alias-target@^5.0.0'
+        version: alias-target@4.17.21
+      cat-dep:
+        specifier: 'catalog:'
+        version: 1.0.0
+      ws-dep:
+        specifier: 'workspace:^5.0.0'
+        version: 1.0.0
+      bad-dep:
+        specifier: not a range
+        version: 1.0.0
+      lockfile-override-dep:
+        specifier: 0.9.0
+        version: 0.9.0
+      link-dep:
+        specifier: 'link:../link-dep'
+        version: 'link:../link-dep'
+      git-dep:
+        specifier: 'github:example/git-dep#v5.0.0'
+        version: 'https://codeload.github.com/example/git-dep/tar.gz/0123456789abcdef0123456789abcdef01234567'
+      conflict-dep:
+        specifier: ^2.0.0
+        version: 1.0.0
+    optionalDependencies:
+      conflict-dep:
+        specifier: ^1.0.0
+        version: 1.0.0
+
+packages:
+
+  file-dep@file:file-dep:
+    resolution: {integrity: sha512-AAAA}
+
+  tag-dep@1.0.0:
+    resolution: {integrity: sha512-AAAA}
+
+  star-dep@1.0.0:
+    resolution: {integrity: sha512-AAAA}
+
+  x-dep@1.0.0:
+    resolution: {integrity: sha512-AAAA}
+
+  tar-dep@1.9.0:
+    resolution: {integrity: sha512-AAAA}
+
+  alias-target@4.17.21:
+    resolution: {integrity: sha512-AAAA}
+
+  cat-dep@1.0.0:
+    resolution: {integrity: sha512-AAAA}
+
+  ws-dep@1.0.0:
+    resolution: {integrity: sha512-AAAA}
+
+  bad-dep@1.0.0:
+    resolution: {integrity: sha512-AAAA}
+
+  lockfile-override-dep@0.9.0:
+    resolution: {integrity: sha512-AAAA}
+
+  conflict-dep@1.0.0:
+    resolution: {integrity: sha512-AAAA}
+
+snapshots:
+
+  file-dep@file:file-dep: {}
+
+  tag-dep@1.0.0: {}
+
+  star-dep@1.0.0: {}
+
+  x-dep@1.0.0: {}
+
+  tar-dep@1.9.0: {}
+
+  alias-target@4.17.21: {}
+
+  cat-dep@1.0.0: {}
+
+  ws-dep@1.0.0: {}
+
+  bad-dep@1.0.0: {}
+
+  lockfile-override-dep@0.9.0: {}
+
+  conflict-dep@1.0.0: {}

@@ -1,0 +1,92 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+overrides:
+  override-o: 0.9.0
+
+importers:
+
+  .:
+    dependencies:
+      a-first:
+        specifier: ^1.0.0
+        version: 1.0.0
+      stale-b:
+        specifier: ~4.17.20
+        version: 4.17.15
+      stale-a:
+        specifier: ^1.2.0
+        version: 1.1.0
+      fresh-c:
+        specifier: ^2.0.0
+        version: 2.3.0
+      pre-d:
+        specifier: ^1.0.0-beta.1
+        version: 1.0.0-beta.3
+      stale-e:
+        specifier: ^3.0.0
+        version: 2.0.0(peer-p@4.0.0)
+      override-o:
+        specifier: 0.9.0
+        version: 0.9.0
+      peer-p:
+        specifier: '>=5'
+        version: 4.0.0
+    devDependencies:
+      stale-dev:
+        specifier: ^3.0.0
+        version: 2.9.0
+
+packages:
+
+  a-first@1.0.0:
+    resolution: {integrity: sha512-AAAA}
+
+  stale-b@4.17.15:
+    resolution: {integrity: sha512-AAAA}
+
+  stale-a@1.1.0:
+    resolution: {integrity: sha512-AAAA}
+
+  fresh-c@2.3.0:
+    resolution: {integrity: sha512-AAAA}
+
+  pre-d@1.0.0-beta.3:
+    resolution: {integrity: sha512-AAAA}
+
+  stale-e@2.0.0(peer-p@4.0.0):
+    resolution: {integrity: sha512-AAAA}
+
+  override-o@0.9.0:
+    resolution: {integrity: sha512-AAAA}
+
+  peer-p@4.0.0:
+    resolution: {integrity: sha512-AAAA}
+
+  stale-dev@2.9.0:
+    resolution: {integrity: sha512-AAAA}
+
+snapshots:
+
+  a-first@1.0.0:
+    dependencies:
+      stale-b: 4.17.15
+
+  stale-b@4.17.15: {}
+
+  stale-a@1.1.0: {}
+
+  fresh-c@2.3.0: {}
+
+  pre-d@1.0.0-beta.3: {}
+
+  stale-e@2.0.0(peer-p@4.0.0): {}
+
+  override-o@0.9.0: {}
+
+  peer-p@4.0.0: {}
+
+  stale-dev@2.9.0: {}
