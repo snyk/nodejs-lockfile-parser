@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
-    "a-first": "^1.0.0",
     "stale-b": "~4.17.20",
+    "a-first": "^1.0.0",
     "stale-a": "^1.2.0",
     "fresh-c": "^2.0.0",
     "pre-d": "^1.0.0-beta.1",

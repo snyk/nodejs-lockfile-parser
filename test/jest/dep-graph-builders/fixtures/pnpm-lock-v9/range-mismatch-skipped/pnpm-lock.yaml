@@ -47,6 +47,13 @@ importers:
       git-dep:
         specifier: 'github:example/git-dep#v5.0.0'
         version: 'https://codeload.github.com/example/git-dep/tar.gz/0123456789abcdef0123456789abcdef01234567'
+      conflict-dep:
+        specifier: ^2.0.0
+        version: 1.0.0
+    optionalDependencies:
+      conflict-dep:
+        specifier: ^1.0.0
+        version: 1.0.0
 
 packages:
 
@@ -80,6 +87,9 @@ packages:
   lockfile-override-dep@0.9.0:
     resolution: {integrity: sha512-AAAA}
 
+  conflict-dep@1.0.0:
+    resolution: {integrity: sha512-AAAA}
+
 snapshots:
 
   file-dep@file:file-dep: {}
@@ -101,3 +111,5 @@ snapshots:
   bad-dep@1.0.0: {}
 
   lockfile-override-dep@0.9.0: {}
+
+  conflict-dep@1.0.0: {}

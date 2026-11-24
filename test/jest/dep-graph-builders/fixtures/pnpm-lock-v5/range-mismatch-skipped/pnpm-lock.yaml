@@ -16,6 +16,7 @@ specifiers:
   lockfile-override-dep: 0.9.0
   link-dep: 'link:../link-dep'
   git-dep: 'github:example/git-dep#v5.0.0'
+  conflict-dep: ^2.0.0
 
 dependencies:
   file-dep: 'file:file-dep'
@@ -30,6 +31,10 @@ dependencies:
   lockfile-override-dep: 0.9.0
   link-dep: 'link:../link-dep'
   git-dep: '@github.com/example/git-dep/0123456789abcdef0123456789abcdef01234567'
+  conflict-dep: 1.0.0
+
+optionalDependencies:
+  conflict-dep: 1.0.0
 
 
 packages:
@@ -73,5 +78,9 @@ packages:
     dev: false
 
   /lockfile-override-dep/0.9.0:
+    resolution: {integrity: sha512-AAAA}
+    dev: false
+
+  /conflict-dep/1.0.0:
     resolution: {integrity: sha512-AAAA}
     dev: false

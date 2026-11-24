@@ -14,6 +14,10 @@
     "bad-dep": "not a range",
     "lockfile-override-dep": "^1.0.0",
     "link-dep": "link:../link-dep",
-    "git-dep": "github:example/git-dep#v5.0.0"
+    "git-dep": "github:example/git-dep#v5.0.0",
+    "conflict-dep": "^2.0.0"
+  },
+  "optionalDependencies": {
+    "conflict-dep": "^1.0.0"
   }
 }

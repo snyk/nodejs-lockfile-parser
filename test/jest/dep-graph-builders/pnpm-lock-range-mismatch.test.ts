@@ -115,7 +115,7 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
       expect(stripped.pkgs).toEqual(lax.toJSON().pkgs);
     });
 
-    it('skips file:, link:, url, git, workspace:, catalog:, npm: alias, dist-tag, *, x, unparseable specs and lockfile-level overrides', async () => {
+    it('skips file:, link:, url, git, workspace:, catalog:, npm: alias, dist-tag, *, x, unparseable specs, lockfile-level overrides and multi-section conflicting ranges', async () => {
       const depGraph = await parseFixture(lockDir, 'range-mismatch-skipped');
       expect(labelsByNode(depGraph)).toEqual({});
       // sanity: the deps are actually in the graph, i.e. we are not passing vacuously
@@ -126,6 +126,7 @@ describe.each(['pnpm-lock-v5', 'pnpm-lock-v6', 'pnpm-lock-v9'])(
           'x-dep',
           'cat-dep',
           'lockfile-override-dep',
+          'conflict-dep',
         ]),
       );
     });
