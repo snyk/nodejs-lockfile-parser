@@ -2,7 +2,7 @@ import { DepGraphBuilder } from '@snyk/dep-graph';
 import { createNodeInfo, getTopLevelDeps, isDevPreferringProd } from '../util';
 import type { Overrides, PnpmProjectParseOptions } from '../types';
 import type { PackageJsonBase } from '../types';
-import { getPnpmChildNode } from './utils';
+import { getPnpmChildNode, getPnpmUnsatisfiedDeclaredRange } from './utils';
 import { eventLoopSpinner } from 'event-loop-spinner';
 import { PnpmLockfileParser } from './lockfile-parser/lockfile-parser';
 import { NormalisedPnpmPkgs, PnpmNode } from './types';
@@ -65,6 +65,41 @@ export const buildDepGraphPnpm = async (
     topLevelDeps[name].version = extractedTopLevelDeps[name].version;
   }
 
+  // Nodes of direct dependencies whose locked version violates the declared
+  // range. Keyed by node id up front so the label survives a package first
+  // being reached transitively (addPkgNode replaces the node's labels).
+  const unsatisfiedRanges = new Map<string, string>();
+  for (const name of Object.keys(topLevelDeps)) {
+    if (!extractedTopLevelDeps[name]) {
+      continue;
+    }
+    const range = getPnpmUnsatisfiedDeclaredRange(
+      name,
+      pkgJson,
+      lockFileParser.rawPnpmLock,
+      importer,
+    );
+    if (!range) {
+      continue;
+    }
+    try {
+      const node = getPnpmChildNode(
+        name,
+        topLevelDeps[name],
+        extractedPnpmPkgs,
+        false,
+        includeOptionalDeps,
+        includeDevDeps,
+        lockFileParser,
+      );
+      if (!node.missingLockFileEntry) {
+        unsatisfiedRanges.set(node.id, range);
+      }
+    } catch (e) {
+      debug(`Skipping range mismatch check for ${name}: ${e}`);
+    }
+  }
+
   const rootNode: PnpmNode = {
     id: 'root-node',
     name: pkgJson.name,
@@ -89,6 +124,7 @@ export const buildDepGraphPnpm = async (
     undefined,
     showNpmScope,
     new Set<string>(),
+    unsatisfiedRanges,
   );
 
   return depGraphBuilder.build();
@@ -114,6 +150,7 @@ const dfsVisit = async (
   visited?: Set<string>,
   showNpmScope?: boolean,
   prodNodeIds: Set<string> = new Set<string>(),
+  unsatisfiedRanges?: Map<string, string>,
 ): Promise<void> => {
   for (const [name, depInfo] of Object.entries(node.dependencies || {})) {
     if (eventLoopSpinner.isStarving()) {
@@ -186,6 +223,9 @@ const dfsVisit = async (
           ...(childNode.missingLockFileEntry && {
             missingLockFileEntry: 'true',
           }),
+          ...(unsatisfiedRanges?.has(childNode.id) && {
+            unsatisfiedDeclaredRange: unsatisfiedRanges.get(childNode.id),
+          }),
         },
       },
     );
@@ -205,6 +245,7 @@ const dfsVisit = async (
       localVisited,
       showNpmScope,
       prodNodeIds,
+      unsatisfiedRanges,
     );
   }
 };
