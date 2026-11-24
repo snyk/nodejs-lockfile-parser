@@ -1,0 +1,10 @@
+{
+  "name": "transitive-first-unsatisfied",
+  "version": "1.0.0",
+  "dependencies": {
+    "parent-pkg": "1.0.0"
+  },
+  "devDependencies": {
+    "lodash": "^4.17.21"
+  }
+}

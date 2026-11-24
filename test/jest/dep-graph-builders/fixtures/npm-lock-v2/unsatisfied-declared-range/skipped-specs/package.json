@@ -1,0 +1,10 @@
+{
+  "name": "skipped-specs",
+  "version": "1.0.0",
+  "dependencies": {
+    "left-pad": "file:../left-pad",
+    "ms": "npm:ms@^3.0.0",
+    "debug": "*",
+    "semver": "latest"
+  }
+}
